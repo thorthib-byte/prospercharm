@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ProsperCharm — ดูดวงมงคล</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Thai:wght@400;600;700;900&family=Noto+Sans+Thai:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --red: #C0392B; --red-dark: #922B21; --red-deep: #6E1A12;
+    --gold: #D4AF37; --gold-light: #F5E6A3; --cream: #FDF3E3;
+    --text-dark: #2C1810; --text-mid: #5C3317;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'Noto Sans Thai',sans-serif; background:var(--red-deep); min-height:100vh; overflow-x:hidden; }
+  body::before { content:''; position:fixed; inset:0; background-image:radial-gradient(circle at 20% 20%,rgba(212,175,55,0.08) 0%,transparent 50%),radial-gradient(circle at 80% 80%,rgba(212,175,55,0.08) 0%,transparent 50%); pointer-events:none; z-index:0; }
+  .app { max-width:430px; margin:0 auto; min-height:100vh; position:relative; z-index:1; }
+
+  /* Header */
+  .header { background:linear-gradient(180deg,#8B0000 0%,var(--red) 100%); padding:20px 20px 28px; text-align:center; border-bottom:3px solid var(--gold); }
+  .logo-icon { font-size:48px; margin-bottom:6px; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.4)); }
+  .logo-title { font-family:'Noto Serif Thai',serif; font-size:26px; font-weight:900; color:var(--gold-light); text-shadow:0 2px 8px rgba(0,0,0,0.5); letter-spacing:2px; }
+  .logo-sub { font-size:12px; color:rgba(245,230,163,0.7); margin-top:3px; letter-spacing:3px; }
+
+  /* Status bar */
+  .status-bar { background:rgba(0,0,0,0.3); padding:10px 20px; display:flex; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(212,175,55,0.2); }
+  .status-plan { font-size:12px; color:var(--gold-light); display:flex; align-items:center; gap:6px; }
+  .status-credits { font-size:12px; color:rgba(245,230,163,0.7); }
+  .upgrade-link { font-size:11px; color:var(--gold); text-decoration:underline; cursor:pointer; background:none; border:none; font-family:'Noto Sans Thai',sans-serif; }
+
+  /* Pages */
+  .page { display:none; }
+  .page.active { display:block; }
+
+  /* Inner header */
+  .inner-header { background:linear-gradient(180deg,#8B0000 0%,var(--red) 100%); padding:16px 20px; display:flex; align-items:center; gap:14px; border-bottom:2px solid var(--gold); }
+  .back-btn { background:rgba(212,175,55,0.2); border:1px solid rgba(212,175,55,0.5); color:var(--gold-light); width:36px; height:36px; border-radius:50%; cursor:pointer; font-size:18px; display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:all 0.2s; }
+  .inner-title { font-family:'Noto Serif Thai',serif; font-size:20px; font-weight:700; color:var(--gold-light); }
+
+  /* Home */
+  .home-greeting { padding:24px 20px 12px; text-align:center; }
+  .home-greeting p { color:var(--gold-light); font-size:14px; opacity:0.85; }
+  .home-greeting h2 { font-family:'Noto Serif Thai',serif; color:var(--gold-light); font-size:20px; font-weight:700; margin-top:4px; }
+  .divider { display:flex; align-items:center; gap:10px; padding:0 20px; margin:20px 0 10px; }
+  .divider-line { flex:1; height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); }
+  .divider-icon { color:var(--gold); font-size:16px; }
+
+  .menu-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:10px 20px 20px; }
+  .menu-card { background:linear-gradient(145deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02)); border:1px solid rgba(212,175,55,0.35); border-radius:16px; padding:22px 16px; text-align:center; cursor:pointer; transition:all 0.25s; }
+  .menu-card:active { transform:scale(0.96); }
+  .menu-icon { width:90px; height:90px; object-fit:contain; margin:0 auto 10px; display:block; }
+  .menu-title { font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:700; color:var(--gold-light); display:block; }
+  .menu-desc { font-size:11px; color:rgba(245,230,163,0.55); margin-top:4px; display:block; }
+  .menu-price { font-size:11px; color:var(--gold); margin-top:6px; display:block; font-weight:600; }
+
+  /* Promo banner */
+  .promo-banner { margin:0 16px 24px; background:linear-gradient(135deg,rgba(212,175,55,0.15),rgba(212,175,55,0.05)); border:1px solid rgba(212,175,55,0.4); border-radius:16px; padding:18px; text-align:center; cursor:pointer; }
+  .promo-title { font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:700; color:var(--gold-light); margin-bottom:6px; }
+  .promo-desc { font-size:13px; color:rgba(245,230,163,0.6); }
+  .promo-cta { margin-top:12px; display:inline-block; background:linear-gradient(135deg,var(--gold),#B8960C); color:var(--red-deep); font-size:13px; font-weight:700; padding:8px 20px; border-radius:20px; }
+
+  /* Form */
+  .form-section { padding:24px 20px; }
+  .form-label { display:block; color:var(--gold-light); font-size:13px; margin-bottom:8px; }
+  .form-input { width:100%; padding:13px 16px; background:rgba(255,255,255,0.06); border:1px solid rgba(212,175,55,0.4); border-radius:12px; color:var(--gold-light); font-size:15px; font-family:'Noto Sans Thai',sans-serif; outline:none; margin-bottom:16px; }
+  .form-input:focus { border-color:var(--gold); }
+
+  .topic-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
+  .topic-btn { padding:14px 10px; background:rgba(255,255,255,0.04); border:1px solid rgba(212,175,55,0.3); border-radius:12px; color:rgba(245,230,163,0.7); font-family:'Noto Sans Thai',sans-serif; font-size:14px; cursor:pointer; transition:all 0.2s; text-align:center; }
+  .topic-btn.selected { background:rgba(212,175,55,0.2); border-color:var(--gold); color:var(--gold-light); font-weight:600; }
+  .topic-icon { font-size:20px; display:block; margin-bottom:4px; }
+
+  .cta-btn { width:100%; padding:16px; background:linear-gradient(135deg,var(--gold) 0%,#B8960C 100%); border:none; border-radius:14px; color:var(--red-deep); font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:700; cursor:pointer; transition:all 0.25s; box-shadow:0 4px 20px rgba(212,175,55,0.3); letter-spacing:1px; }
+  .cta-btn:active { transform:scale(0.97); }
+  .cta-btn:disabled { opacity:0.4; cursor:not-allowed; transform:none; }
+
+  /* Credits bar */
+  .credits-bar { margin:0 20px 16px; padding:12px 16px; background:rgba(212,175,55,0.1); border:1px solid rgba(212,175,55,0.3); border-radius:12px; display:none; justify-content:space-between; align-items:center; }
+  .credits-bar.show { display:flex; }
+  .credits-bar-text { font-size:13px; color:var(--gold-light); }
+  .credits-bar-num { font-family:'Noto Serif Thai',serif; font-size:20px; font-weight:700; color:var(--gold); }
+
+  /* Loading */
+  .loading { text-align:center; padding:30px; display:none; }
+  .loading.show { display:block; }
+  .loading-spinner { font-size:40px; animation:spin 1.2s linear infinite; display:block; margin-bottom:12px; }
+  @keyframes spin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+  .loading-text { color:var(--gold-light); font-size:14px; opacity:0.8; }
+
+  /* Lock wall */
+  .lock-wall { margin:0 20px 20px; background:linear-gradient(145deg,rgba(0,0,0,0.4),rgba(0,0,0,0.2)); border:1px solid rgba(212,175,55,0.3); border-radius:16px; padding:28px 20px; text-align:center; display:none; }
+  .lock-wall.show { display:block; animation:fadeUp 0.4s ease; }
+  .lock-icon { font-size:48px; margin-bottom:12px; display:block; }
+  .lock-title { font-family:'Noto Serif Thai',serif; font-size:20px; font-weight:700; color:var(--gold-light); margin-bottom:8px; }
+  .lock-desc { font-size:14px; color:rgba(245,230,163,0.6); line-height:1.7; margin-bottom:20px; }
+  .lock-btn-gold { width:100%; padding:14px; background:linear-gradient(135deg,var(--gold),#B8960C); border:none; border-radius:12px; color:var(--red-deep); font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:700; cursor:pointer; margin-bottom:10px; }
+  .lock-btn-single { width:100%; padding:13px; background:transparent; border:1px solid rgba(212,175,55,0.5); border-radius:12px; color:var(--gold-light); font-family:'Noto Sans Thai',sans-serif; font-size:14px; cursor:pointer; }
+
+  /* Result */
+  .result-card { margin:0 20px 30px; background:linear-gradient(145deg,var(--cream) 0%,#FAE8C8 100%); border-radius:20px; padding:28px 24px; border:2px solid var(--gold); box-shadow:0 8px 40px rgba(0,0,0,0.4); display:none; animation:fadeUp 0.5s ease; }
+  .result-card.show { display:block; }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+  .result-badge { text-align:center; margin-bottom:16px; }
+  .result-number { font-family:'Noto Serif Thai',serif; font-size:52px; font-weight:900; color:var(--red); line-height:1; }
+  .result-number-label { font-size:11px; color:var(--text-mid); letter-spacing:2px; margin-top:2px; }
+  .result-card-name { font-family:'Noto Serif Thai',serif; font-size:22px; font-weight:700; color:var(--red-dark); text-align:center; margin-bottom:12px; }
+  .result-divider { height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent); margin:14px 0; }
+  .result-text { font-size:15px; line-height:1.9; color:var(--text-dark); text-align:center; }
+  .result-luck { margin-top:16px; padding:12px 16px; background:rgba(192,57,43,0.08); border-radius:10px; border-left:3px solid var(--red); }
+  .result-luck-label { font-size:11px; color:var(--red); font-weight:600; letter-spacing:1px; margin-bottom:4px; }
+  .result-luck-text { font-size:14px; color:var(--text-dark); line-height:1.6; }
+  .reset-btn { width:100%; padding:13px; background:transparent; border:1px solid rgba(212,175,55,0.4); border-radius:12px; color:rgba(245,230,163,0.7); font-family:'Noto Sans Thai',sans-serif; font-size:14px; cursor:pointer; margin-top:12px; }
+
+  /* Energy */
+  .energy-row { display:flex; gap:10px; justify-content:center; margin-bottom:16px; }
+  .energy-bubble { width:72px; height:72px; border-radius:50%; background:linear-gradient(135deg,var(--red) 0%,var(--red-dark) 100%); display:flex; align-items:center; justify-content:center; font-family:'Noto Serif Thai',serif; font-size:28px; font-weight:900; color:var(--gold-light); border:2px solid var(--gold); box-shadow:0 4px 16px rgba(0,0,0,0.3); }
+  .energy-meanings { display:flex; flex-direction:column; gap:10px; }
+  .energy-item { display:flex; gap:12px; align-items:flex-start; padding:12px; background:rgba(192,57,43,0.06); border-radius:10px; }
+  .energy-num-small { font-family:'Noto Serif Thai',serif; font-size:20px; font-weight:900; color:var(--red); min-width:28px; text-align:center; }
+  .energy-desc { font-size:13px; color:var(--text-dark); line-height:1.7; }
+
+  /* Pricing */
+  .pricing-header { padding:24px 20px 16px; text-align:center; }
+  .pricing-header h2 { font-family:'Noto Serif Thai',serif; color:var(--gold-light); font-size:22px; font-weight:700; }
+  .pricing-header p { color:rgba(245,230,163,0.6); font-size:13px; margin-top:6px; }
+  .pricing-cards { padding:0 16px 30px; display:flex; flex-direction:column; gap:12px; }
+  .pricing-card { background:linear-gradient(145deg,rgba(255,255,255,0.05),rgba(255,255,255,0.02)); border:1px solid rgba(212,175,55,0.3); border-radius:16px; padding:20px; position:relative; }
+  .pricing-card.featured { border-color:var(--gold); background:linear-gradient(145deg,rgba(212,175,55,0.12),rgba(212,175,55,0.04)); }
+  .pricing-badge { position:absolute; top:12px; right:12px; background:var(--gold); color:var(--red-deep); font-size:10px; font-weight:700; padding:3px 8px; border-radius:20px; }
+  .pricing-name { font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:700; color:var(--gold-light); margin-bottom:4px; }
+  .pricing-price { font-family:'Noto Serif Thai',serif; font-size:28px; font-weight:900; color:var(--gold); }
+  .pricing-price span { font-size:14px; font-weight:400; color:rgba(245,230,163,0.6); }
+  .pricing-desc { font-size:13px; color:rgba(245,230,163,0.6); margin:8px 0 14px; }
+  .pricing-features { list-style:none; margin-bottom:16px; }
+  .pricing-features li { font-size:13px; color:rgba(245,230,163,0.8); padding:4px 0; display:flex; align-items:center; gap:8px; }
+  .pricing-features li::before { content:'✦'; color:var(--gold); font-size:10px; flex-shrink:0; }
+  .pricing-btn { width:100%; padding:13px; border-radius:12px; font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:700; cursor:pointer; border:none; transition:all 0.2s; }
+  .pricing-btn-gold { background:linear-gradient(135deg,var(--gold),#B8960C); color:var(--red-deep); }
+  .pricing-btn-outline { background:transparent; border:1px solid rgba(212,175,55,0.5); color:var(--gold-light); }
+  .pricing-btn:active { transform:scale(0.97); }
+
+  /* Payment modal */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,0.8); z-index:100; display:none; align-items:flex-end; justify-content:center; }
+  .modal-overlay.show { display:flex; }
+  .modal { background:linear-gradient(180deg,#3D0A05 0%,#1A0503 100%); border-radius:24px 24px 0 0; padding:28px 24px 40px; width:100%; max-width:430px; border-top:2px solid var(--gold); animation:slideUp 0.3s ease; }
+  @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
+  .modal-title { font-family:'Noto Serif Thai',serif; font-size:20px; font-weight:700; color:var(--gold-light); margin-bottom:4px; }
+  .modal-subtitle { font-size:13px; color:rgba(245,230,163,0.5); margin-bottom:6px; }
+  .modal-price { font-family:'Noto Serif Thai',serif; font-size:36px; font-weight:900; color:var(--gold); margin-bottom:20px; }
+  .modal-methods { display:flex; flex-direction:column; gap:10px; margin-bottom:16px; }
+  .method-btn { padding:14px 18px; background:rgba(255,255,255,0.05); border:1px solid rgba(212,175,55,0.3); border-radius:12px; color:var(--gold-light); font-family:'Noto Sans Thai',sans-serif; font-size:15px; cursor:pointer; display:flex; align-items:center; gap:12px; transition:all 0.2s; }
+  .method-btn:active { background:rgba(212,175,55,0.15); border-color:var(--gold); }
+  .method-icon { font-size:24px; }
+  .modal-note { font-size:11px; color:rgba(245,230,163,0.35); text-align:center; margin-bottom:14px; }
+  .modal-close { width:100%; padding:13px; background:transparent; border:1px solid rgba(255,255,255,0.1); border-radius:12px; color:rgba(245,230,163,0.5); font-family:'Noto Sans Thai',sans-serif; font-size:14px; cursor:pointer; }
+
+  /* Toast */
+  .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-80px); background:linear-gradient(135deg,#1a5c1a,#2d8a2d); color:white; padding:12px 24px; border-radius:30px; font-size:14px; z-index:200; transition:transform 0.4s ease; white-space:nowrap; box-shadow:0 4px 20px rgba(0,0,0,0.4); }
+  .toast.show { transform:translateX(-50%) translateY(0); }
+
+  .footer { text-align:center; padding:16px; color:rgba(245,230,163,0.3); font-size:11px; border-top:1px solid rgba(212,175,55,0.15); margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="toast" id="toast"></div>
+
+  <!-- HOME -->
+  <div class="page active" id="page-home">
+    <div class="header">
+      <div class="logo-icon">🏮</div>
+      <div class="logo-title">PROSPER CHARM</div>
+      <div class="logo-sub">✦ ดูดวงมงคล ✦</div>
+    </div>
+    <div class="status-bar">
+      <div class="status-plan"><span id="plan-icon">🌙</span><span id="plan-name">ยังไม่ได้สมัคร</span></div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span class="status-credits" id="credits-display"></span>
+        <button class="upgrade-link" onclick="goTo('page-pricing')">สมัครแพ็กเกจ →</button>
+      </div>
+    </div>
+    <div class="home-greeting"><p>ยินดีต้อนรับสู่</p><h2>ศูนย์รวมดวงชะตา & พลังงาน</h2></div>
+    <div class="divider"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
+    <div class="menu-grid">
+      <div class="menu-card" onclick="goTo('page-siam')"><img class="menu-icon" src="siemsi.png"><span class="menu-title">เซียมซี</span><span class="menu-desc">จากวัดดังฮ่องกง</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" onclick="goTo('page-tarot')"><img class="menu-icon" src="tarot.png"><span class="menu-title">ไพ่ทาโร่</span><span class="menu-desc">เปิดไพ่แห่งชะตา</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" onclick="goTo('page-energy')"><img class="menu-icon" src="energy.png"><span class="menu-title">เลขพลังงาน</span><span class="menu-desc">พลังงานประจำวัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" style="opacity:0.5;cursor:default;"><img class="menu-icon" src="oracle.png"><span class="menu-title">ไพ่ออราเคิล</span><span class="menu-desc">เร็วๆ นี้</span><span class="menu-price"> </span></div>
+    </div>
+    <div class="promo-banner" onclick="goTo('page-pricing')">
+      <div class="promo-title">✦ สมัครแพ็กเกจรายเดือน ✦</div>
+      <div class="promo-desc">เริ่มต้น 99 บาท/เดือน ประหยัดกว่าจ่ายรายครั้ง</div>
+      <div class="promo-cta">ดูแพ็กเกจทั้งหมด →</div>
+    </div>
+    <div class="footer">prospercharmth.com © 2025</div>
+  </div>
+
+  <!-- PRICING -->
+  <div class="page" id="page-pricing">
+    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">💎 เลือกแพ็กเกจ</div></div>
+    <div class="pricing-header"><h2>ดูดวงไม่จำกัด ราคาคุ้มค่า</h2><p>เลือกแพ็กเกจที่เหมาะกับคุณ</p></div>
+    <div class="pricing-cards">
+      <div class="pricing-card">
+        <div class="pricing-name">💫 รายครั้ง</div>
+        <div class="pricing-price">29 <span>บาท/ครั้ง</span></div>
+        <div class="pricing-desc">ไม่ต้องสมัครสมาชิก จ่ายแล้วใช้ได้เลย</div>
+        <ul class="pricing-features"><li>เลือกได้ทุกหมวด</li><li>ใช้งานได้ทันที</li></ul>
+        <button class="pricing-btn pricing-btn-outline" onclick="openPayment('single',29,1)">จ่ายรายครั้ง 29 บาท</button>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-name">🌙 Basic</div>
+        <div class="pricing-price">99 <span>บาท/เดือน</span></div>
+        <div class="pricing-desc">ดูได้ 5 ครั้ง ทุกหมวด</div>
+        <ul class="pricing-features"><li>5 ครั้ง/เดือน ใช้ได้ทุกหมวด</li><li>ประหยัดกว่ารายครั้ง 32%</li></ul>
+        <button class="pricing-btn pricing-btn-outline" onclick="openPayment('basic',99,5)">สมัคร Basic 99 บาท</button>
+      </div>
+      <div class="pricing-card featured">
+        <div class="pricing-badge">ยอดนิยม</div>
+        <div class="pricing-name">⭐ Pro</div>
+        <div class="pricing-price">199 <span>บาท/เดือน</span></div>
+        <div class="pricing-desc">ดูได้ 12 ครั้ง ทุกหมวด</div>
+        <ul class="pricing-features"><li>12 ครั้ง/เดือน ใช้ได้ทุกหมวด</li><li>ประหยัดกว่ารายครั้ง 43%</li></ul>
+        <button class="pricing-btn pricing-btn-gold" onclick="openPayment('pro',199,12)">สมัคร Pro 199 บาท</button>
+      </div>
+      <div class="pricing-card">
+        <div class="pricing-name">👑 Unlimited</div>
+        <div class="pricing-price">299 <span>บาท/เดือน</span></div>
+        <div class="pricing-desc">ดูได้ไม่จำกัด ทุกหมวด</div>
+        <ul class="pricing-features"><li>ไม่จำกัดครั้ง ทุกหมวด</li><li>ไพ่ออราเคิล (เร็วๆ นี้)</li><li>คุ้มสุดสำหรับสายมูตัวจริง</li></ul>
+        <button class="pricing-btn pricing-btn-outline" onclick="openPayment('unlimited',299,999)">สมัคร Unlimited 299 บาท</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SIAM SI -->
+  <div class="page" id="page-siam">
+    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">🎋 เซียมซีจากวัดดังฮ่องกง</div></div>
+    <div class="credits-bar" id="siam-credits-bar"><span class="credits-bar-text">เครดิตคงเหลือ</span><span class="credits-bar-num" id="siam-credits-num"></span></div>
+    <div class="form-section">
+      <label class="form-label">วันเกิดของคุณ</label>
+      <input type="date" class="form-input" id="siam-dob">
+      <button class="cta-btn" onclick="checkAndDraw('siam')">🎋 เขย่าเซียมซี</button>
+    </div>
+    <div class="loading" id="siam-loading"><span class="loading-spinner">🎋</span><div class="loading-text">กำลังเขย่าเซียมซี...</div></div>
+    <div class="lock-wall" id="siam-lock">
+      <span class="lock-icon">🔒</span><div class="lock-title">ต้องสมัครก่อนนะคะ</div>
+      <div class="lock-desc">สมัครแพ็กเกจเพื่อดูดวง<br>หรือจ่ายรายครั้ง 29 บาท</div>
+      <button class="lock-btn-gold" onclick="goTo('page-pricing')">✦ ดูแพ็กเกจทั้งหมด</button>
+      <button class="lock-btn-single" onclick="openPayment('single',29,1)">จ่ายครั้งนี้ 29 บาท</button>
+    </div>
+    <div class="result-card" id="siam-result">
+      <div class="result-badge"><div class="result-number" id="siam-number"></div><div class="result-number-label">ซีกที่</div></div>
+      <div class="result-divider"></div>
+      <div class="result-card-name" id="siam-title"></div>
+      <div class="result-text" id="siam-text"></div>
+      <div class="result-luck"><div class="result-luck-label">✦ คำแนะนำ</div><div class="result-luck-text" id="siam-advice"></div></div>
+      <button class="reset-btn" onclick="resetPage('siam')">🔄 เขย่าใหม่</button>
+    </div>
+  </div>
+
+  <!-- TAROT -->
+  <div class="page" id="page-tarot">
+    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">🃏 ไพ่ทาโร่แห่งชะตา</div></div>
+    <div class="credits-bar" id="tarot-credits-bar"><span class="credits-bar-text">เครดิตคงเหลือ</span><span class="credits-bar-num" id="tarot-credits-num"></span></div>
+    <div class="form-section">
+      <label class="form-label">วันเกิดของคุณ</label>
+      <input type="date" class="form-input" id="tarot-dob">
+      <label class="form-label">เลือกหัวข้อที่ต้องการรู้</label>
+      <div class="topic-grid">
+        <button class="topic-btn" onclick="selectTopic(this,'love')"><span class="topic-icon">💕</span>ความรัก</button>
+        <button class="topic-btn" onclick="selectTopic(this,'work')"><span class="topic-icon">💼</span>การงาน</button>
+        <button class="topic-btn" onclick="selectTopic(this,'money')"><span class="topic-icon">💰</span>การเงิน</button>
+        <button class="topic-btn" onclick="selectTopic(this,'health')"><span class="topic-icon">🌿</span>สุขภาพ</button>
+      </div>
+      <button class="cta-btn" id="tarot-btn" onclick="checkAndDraw('tarot')" disabled>🃏 เปิดไพ่</button>
+    </div>
+    <div class="loading" id="tarot-loading"><span class="loading-spinner">🃏</span><div class="loading-text">กำลังเปิดไพ่แห่งชะตา...</div></div>
+    <div class="lock-wall" id="tarot-lock">
+      <span class="lock-icon">🔒</span><div class="lock-title">ต้องสมัครก่อนนะคะ</div>
+      <div class="lock-desc">สมัครแพ็กเกจเพื่อดูดวง<br>หรือจ่ายรายครั้ง 29 บาท</div>
+      <button class="lock-btn-gold" onclick="goTo('page-pricing')">✦ ดูแพ็กเกจทั้งหมด</button>
+      <button class="lock-btn-single" onclick="openPayment('single',29,1)">จ่ายครั้งนี้ 29 บาท</button>
+    </div>
+    <div class="result-card" id="tarot-result">
+      <div class="result-badge"><div style="font-size:52px;" id="tarot-emoji"></div></div>
+      <div class="result-card-name" id="tarot-title"></div>
+      <div class="result-divider"></div>
+      <div class="result-text" id="tarot-text"></div>
+      <div class="result-luck"><div class="result-luck-label" id="tarot-luck-label">✦ คำแนะนำ</div><div class="result-luck-text" id="tarot-advice"></div></div>
+      <button class="reset-btn" onclick="resetPage('tarot')">🔄 เปิดไพ่ใหม่</button>
+    </div>
+  </div>
+
+  <!-- ENERGY -->
+  <div class="page" id="page-energy">
+    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">🔢 เลขพลังงานประจำวัน</div></div>
+    <div class="credits-bar" id="energy-credits-bar"><span class="credits-bar-text">เครดิตคงเหลือ</span><span class="credits-bar-num" id="energy-credits-num"></span></div>
+    <div class="form-section">
+      <label class="form-label">วันเกิดของคุณ</label>
+      <input type="date" class="form-input" id="energy-dob">
+      <button class="cta-btn" onclick="checkAndDraw('energy')">✨ คำนวณพลังงาน</button>
+    </div>
+    <div class="loading" id="energy-loading"><span class="loading-spinner">✨</span><div class="loading-text">กำลังคำนวณพลังงาน...</div></div>
+    <div class="lock-wall" id="energy-lock">
+      <span class="lock-icon">🔒</span><div class="lock-title">ต้องสมัครก่อนนะคะ</div>
+      <div class="lock-desc">สมัครแพ็กเกจเพื่อดูดวง<br>หรือจ่ายรายครั้ง 29 บาท</div>
+      <button class="lock-btn-gold" onclick="goTo('page-pricing')">✦ ดูแพ็กเกจทั้งหมด</button>
+      <button class="lock-btn-single" onclick="openPayment('single',29,1)">จ่ายครั้งนี้ 29 บาท</button>
+    </div>
+    <div class="result-card" id="energy-result">
+      <div class="result-card-name">เลขพลังงานเด่นวันนี้</div>
+      <div class="result-divider"></div>
+      <div class="energy-row" id="energy-bubbles"></div>
+      <div class="energy-meanings" id="energy-meanings"></div>
+      <button class="reset-btn" onclick="resetPage('energy')">🔄 คำนวณใหม่</button>
+    </div>
+  </div>
+
+  <!-- PAYMENT MODAL -->
+  <div class="modal-overlay" id="payment-modal">
+    <div class="modal">
+      <div class="modal-title" id="modal-title">ชำระเงิน</div>
+      <div class="modal-subtitle" id="modal-subtitle"></div>
+      <div class="modal-price" id="modal-price">29 บาท</div>
+      <div class="modal-methods">
+        <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">📱</span> พร้อมเพย์</button>
+        <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">💳</span> บัตรเครดิต/เดบิต</button>
+        <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">🐰</span> Rabbit LINE Pay</button>
+        <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">💚</span> TrueMoney Wallet</button>
+      </div>
+      <div class="modal-note">* ระบบชำระเงินจริงจะเชื่อมต่อเร็วๆ นี้</div>
+      <button class="modal-close" onclick="closePayment()">ยกเลิก</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// STATE
+let userState = { plan:'free', credits:0, planExpiry:null };
+
+function loadState() {
+  try {
+    const s = localStorage.getItem('pc_state');
+    if (s) {
+      userState = JSON.parse(s);
+      if (userState.planExpiry && new Date() > new Date(userState.planExpiry)) {
+        userState = { plan:'free', credits:0, planExpiry:null };
+        saveState();
+      }
+    }
+  } catch(e) {}
+  updateStatusBar();
+}
+
+function saveState() {
+  localStorage.setItem('pc_state', JSON.stringify(userState));
+}
+
+function updateStatusBar() {
+  const icons = { free:'🌙', single:'💫', basic:'🌙', pro:'⭐', unlimited:'👑' };
+  const names = { free:'ยังไม่ได้สมัคร', single:'รายครั้ง', basic:'Basic', pro:'Pro', unlimited:'Unlimited' };
+  document.getElementById('plan-icon').textContent = icons[userState.plan];
+  document.getElementById('plan-name').textContent = names[userState.plan];
+  document.getElementById('credits-display').textContent = userState.plan !== 'free' ? (userState.credits >= 999 ? 'ไม่จำกัด' : userState.credits + ' ครั้ง') : '';
+}
+
+// NAV
+function goTo(pageId) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  window.scrollTo(0,0);
+  const type = pageId.replace('page-','');
+  if (['siam','tarot','energy'].includes(type)) showCreditsBar(type);
+}
+
+function showCreditsBar(type) {
+  const bar = document.getElementById(type+'-credits-bar');
+  const num = document.getElementById(type+'-credits-num');
+  if (userState.plan !== 'free') {
+    bar.classList.add('show');
+    num.textContent = userState.credits >= 999 ? '∞' : userState.credits;
+  } else {
+    bar.classList.remove('show');
+  }
+}
+
+// CHECK & DRAW
+function checkAndDraw(type) {
+  document.getElementById(type+'-lock').classList.remove('show');
+  if (userState.plan === 'free' || userState.credits <= 0) {
+    document.getElementById(type+'-lock').classList.add('show');
+    document.getElementById(type+'-result').classList.remove('show');
+    return;
+  }
+  if (type==='siam') drawSiam();
+  else if (type==='tarot') drawTarot();
+  else drawEnergy();
+}
+
+function useCredit() {
+  if (userState.credits < 999) { userState.credits--; saveState(); updateStatusBar(); }
+}
+
+function resetPage(type) {
+  document.getElementById(type+'-result').classList.remove('show');
+  document.getElementById(type+'-lock').classList.remove('show');
+  if (type==='tarot') { selectedTopic=null; document.querySelectorAll('.topic-btn').forEach(b=>b.classList.remove('selected')); document.getElementById('tarot-btn').disabled=true; }
+  showCreditsBar(type);
+}
+
+// PAYMENT
+let pendingPayment = {};
+function openPayment(type, price, credits) {
+  pendingPayment = { type, price, credits };
+  const titles = { single:'จ่ายรายครั้ง', basic:'แพ็กเกจ Basic', pro:'แพ็กเกจ Pro', unlimited:'แพ็กเกจ Unlimited' };
+  const subs = { single:'ใช้ได้ 1 ครั้ง', basic:'5 ครั้ง/เดือน', pro:'12 ครั้ง/เดือน', unlimited:'ไม่จำกัด/เดือน' };
+  document.getElementById('modal-title').textContent = titles[type];
+  document.getElementById('modal-subtitle').textContent = subs[type];
+  document.getElementById('modal-price').textContent = price + ' บาท';
+  document.getElementById('payment-modal').classList.add('show');
+}
+
+function closePayment() { document.getElementById('payment-modal').classList.remove('show'); }
+
+function simulatePayment() {
+  closePayment();
+  const { type, credits } = pendingPayment;
+  const expiry = new Date(); expiry.setMonth(expiry.getMonth()+1);
+  if (type==='single') { userState.plan='single'; userState.credits=(userState.credits||0)+1; }
+  else { userState.plan=type; userState.credits=credits; userState.planExpiry=expiry.toISOString(); }
+  saveState(); updateStatusBar();
+  document.querySelectorAll('.lock-wall').forEach(l=>l.classList.remove('show'));
+  showToast('✅ ชำระเงินสำเร็จ! ขอบคุณค่ะ');
+  goTo('page-home');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 3000);
+}
+
+// TOPIC
+let selectedTopic = null;
+function selectTopic(btn, topic) {
+  document.querySelectorAll('.topic-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected'); selectedTopic = topic;
+  document.getElementById('tarot-btn').disabled = false;
+}
+
+// SIAM SI
+const siamData = {
+  1:{title:"ซีกมงคลที่หนึ่ง — มังกรทองพุ่งฟ้า",text:"ดวงชะตากำลังพุ่งสูงดั่งมังกรทอง สิ่งที่หวังจะสำเร็จได้ไม่ยาก โชคลาภกำลังเข้ามา",advice:"เหมาะแก่การเริ่มต้นสิ่งใหม่ ลงมือทำได้เลย ผลจะดีกว่าที่คาด"},
+  2:{title:"ซีกมงคลที่สอง — ดอกบัวบานในบึง",text:"แม้อยู่ในสถานการณ์ท้าทาย แต่จะผ่านพ้นไปได้อย่างงดงาม",advice:"อย่าหยุดนิ่งแม้อุปสรรคจะมากมาย ความพยายามจะส่งผลในระยะยาว"},
+  3:{title:"ซีกมงคลที่สาม — ดาวสามดวงส่องสว่าง",text:"มีผู้คนคอยช่วยเหลือสนับสนุนอยู่เสมอ มิตรภาพเป็นพลังสำคัญ",advice:"เปิดใจรับความช่วยเหลือ อย่าลืมตอบแทนน้ำใจด้วยความจริงใจ"},
+  4:{title:"ซีกมงคลที่สี่ — ลมอ่อนพัดใบไม้",text:"เป็นเวลาแห่งการพักผ่อนสะสมพลัง ไม่จำเป็นต้องเร่งรีบ",advice:"ทบทวนตัวเอง วางแผนให้รอบคอบก่อนลงมือ ผลจะดีกว่าการรีบร้อน"},
+  5:{title:"ซีกมงคลที่ห้า — เมฆหมอกกลายเป็นรุ้ง",text:"หลังช่วงยากลำบาก แสงสว่างกำลังจะมาถึง สิ่งที่รอคอยใกล้จะเป็นจริง",advice:"อดทนอีกเพียงเล็กน้อย ความสำเร็จอยู่แค่เอื้อม อย่าถอดใจ"},
+  6:{title:"ซีกมงคลที่หก — น้ำใสไหลรินไม่หยุด",text:"โชคลาภและรายได้จะไหลเข้ามาอย่างต่อเนื่อง การงานราบรื่น",advice:"ช่วงดีสำหรับลงทุนหรือเริ่มโครงการใหม่ บริหารจัดการให้รอบคอบ"},
+  7:{title:"ซีกมงคลที่เจ็ด — เจ็ดดาวมงคลนำทาง",text:"สติปัญญาและการตัดสินใจจะคมชัดเป็นพิเศษในช่วงนี้",advice:"เชื่อใจสัญชาตญาณ การตัดสินใจสำคัญในช่วงนี้มักถูกต้อง"},
+  8:{title:"ซีกมงคลที่แปด — แปดทิศแห่งความเจริญ",text:"แปดคือเลขมงคลแห่งความเจริญรุ่งเรือง ดวงส่งสัญญาณแห่งความมั่งคั่ง",advice:"เหมาะแก่การทำธุรกิจ เจรจาต่อรอง โอกาสอยู่ตรงหน้า"},
+  9:{title:"ซีกมงคลที่เก้า — มังกรเก้าองค์คุ้มครอง",text:"ได้รับการคุ้มครองจากสิ่งศักดิ์สิทธิ์ ภัยพิบัติจะเบี่ยงหลีก ชีวิตราบรื่น",advice:"ทำบุญกุศลเพื่อเสริมดวง พลังงานดีๆ จะตอบแทนกลับมาหลายเท่า"},
+  10:{title:"ซีกมงคลที่สิบ — ครบบริบูรณ์",text:"สิบคือความสมบูรณ์ ชีวิตในทุกด้านกำลังเข้าสู่ความสมดุลที่ดี",advice:"ขอบคุณในสิ่งที่มี และแบ่งปันความดีให้ผู้อื่น"},
+};
+
+function getSiamNumber(dob) {
+  const today = new Date();
+  const seed = dob.replace(/-/g,'')+today.toISOString().slice(0,10).replace(/-/g,'');
+  let h=0; for(let c of seed) h=((h<<5)-h)+c.charCodeAt(0);
+  return Math.abs(h%10)+1;
+}
+
+function drawSiam() {
+  const dob = document.getElementById('siam-dob').value;
+  if (!dob) { alert('กรุณากรอกวันเกิดก่อนนะคะ'); return; }
+  document.getElementById('siam-result').classList.remove('show');
+  document.getElementById('siam-loading').classList.add('show');
+  setTimeout(()=>{
+    useCredit();
+    const n = getSiamNumber(dob); const d = siamData[n];
+    document.getElementById('siam-number').textContent = n;
+    document.getElementById('siam-title').textContent = d.title;
+    document.getElementById('siam-text').textContent = d.text;
+    document.getElementById('siam-advice').textContent = d.advice;
+    document.getElementById('siam-loading').classList.remove('show');
+    document.getElementById('siam-result').classList.add('show');
+    showCreditsBar('siam');
+    document.getElementById('siam-result').scrollIntoView({behavior:'smooth',block:'start'});
+  },1800);
+}
+
+// TAROT
+const tarotData = {
+  love:[
+    {emoji:'🌹',title:'The Lovers — คู่รักแห่งดวงดาว',text:'ความรักกำลังเบ่งบาน ถ้ามีคู่แล้วความสัมพันธ์จะแข็งแกร่งขึ้น ถ้าโสดอาจพบคนที่ใช่',advice:'เปิดใจรับความรักอย่างกล้าหาญ อย่ากลัวแสดงความรู้สึกที่แท้จริง'},
+    {emoji:'🌙',title:'The Moon — แสงจันทร์แห่งความลึก',text:'มีบางเรื่องในความสัมพันธ์ที่ยังคลุมเครือ ควรสื่อสารให้ชัดเจนขึ้น',advice:'พูดคุยกันด้วยใจเปิดกว้าง ความเข้าใจแท้จริงจะทำให้ความสัมพันธ์มั่นคง'},
+    {emoji:'⭐',title:'The Star — ดาวนำทางแห่งความหวัง',text:'ความรักที่แท้จริงกำลังรอท่านอยู่ ไม่ว่าผ่านอะไรมา ความหวังยังสว่างไสว',advice:'วางใจในจังหวะของชีวิต สิ่งดีๆ กำลังเดินทางมาหาท่าน'},
+  ],
+  work:[
+    {emoji:'⚡',title:'The Emperor — จักรพรรดิแห่งความสำเร็จ',text:'มีความสามารถในการนำและตัดสินใจที่แข็งแกร่ง เหมาะแก่การแสดงศักยภาพ',advice:'ก้าวออกมานำหน้า แสดงความสามารถให้ผู้ใหญ่มองเห็น'},
+    {emoji:'🏆',title:'The Chariot — รถศึกแห่งชัยชนะ',text:'ชัยชนะอยู่ตรงหน้า แม้มีอุปสรรค ถ้าไม่ยอมแพ้จะประสบความสำเร็จ',advice:'มุ่งหน้าต่อด้วยความมั่นใจ อย่าให้สิ่งรอบข้างมาเบี่ยงความสนใจ'},
+    {emoji:'🌿',title:'The Hermit — ฤๅษีผู้รอบรู้',text:'เป็นเวลาของการเรียนรู้และพัฒนาตัวเอง ความรู้ที่สะสมจะกลายเป็นอาวุธ',advice:'ลงทุนกับการพัฒนาทักษะ เรียนรู้สิ่งใหม่ ผลจะปรากฏในอนาคตอันใกล้'},
+  ],
+  money:[
+    {emoji:'💰',title:'Ace of Pentacles — เหรียญแห่งโชคลาภ',text:'โอกาสทางการเงินกำลังเปิดออก อาจมีรายได้ใหม่หรือโอกาสลงทุนที่ดีเข้ามา',advice:'ตรวจสอบโอกาสด้วยสติ ศึกษาให้ถ่องแท้ก่อนตัดสินใจ'},
+    {emoji:'🌊',title:'The Wheel — วงล้อแห่งชะตา',text:'การเงินอยู่ในช่วงเปลี่ยนแปลง มีทั้งขึ้นและลง แต่แนวโน้มโดยรวมดีขึ้น',advice:'สำรองเงินไว้บ้าง แต่อย่ากลัวจนเกินไป โอกาสที่ดีกำลังใกล้เข้ามา'},
+    {emoji:'✨',title:'The Sun — ดวงอาทิตย์แห่งความรุ่งโรจน์',text:'การเงินสว่างไสว รายได้มั่นคง อาจมีโบนัสหรือรายได้พิเศษเข้ามา',advice:'ใช้ช่วงเวลาดีนี้วางรากฐานทางการเงินระยะยาว ออมและลงทุนอย่างชาญฉลาด'},
+  ],
+  health:[
+    {emoji:'🌸',title:'Temperance — ความสมดุลแห่งชีวิต',text:'ร่างกายและจิตใจต้องการความสมดุล ดูแลตัวเองทั้งสองด้านให้ดี',advice:'นอนหลับพักผ่อนให้เพียงพอ รับประทานอาหารดี หาเวลาผ่อนคลาย'},
+    {emoji:'💪',title:'Strength — พลังแห่งจิตใจ',text:'มีพลังและความแข็งแกร่งมากกว่าที่คิด สุขภาพกายดี แต่ต้องดูแลสุขภาพจิตด้วย',advice:'ออกกำลังกายสม่ำเสมอ หาวิธีจัดการความเครียดที่เหมาะกับตัวเอง'},
+    {emoji:'🌿',title:'The World — โลกแห่งความสมบูรณ์',text:'สุขภาพโดยรวมอยู่ในเกณฑ์ดี ร่างกายกำลังฟื้นฟูและแข็งแรงขึ้น',advice:'รักษาสมดุลชีวิต อย่าทำงานหักโหมเกินไป จิตใจผ่อนคลายสร้างสุขภาพดี'},
+  ],
+};
+
+function getTarotIndex(dob, topic) {
+  const today = new Date();
+  const seed = dob+topic+today.toISOString().slice(0,10);
+  let h=0; for(let c of seed) h=((h<<5)-h)+c.charCodeAt(0);
+  return Math.abs(h)%3;
+}
+
+function drawTarot() {
+  const dob = document.getElementById('tarot-dob').value;
+  if (!dob) { alert('กรุณากรอกวันเกิดก่อนนะคะ'); return; }
+  if (!selectedTopic) { alert('กรุณาเลือกหัวข้อก่อนนะคะ'); return; }
+  document.getElementById('tarot-result').classList.remove('show');
+  document.getElementById('tarot-loading').classList.add('show');
+  setTimeout(()=>{
+    useCredit();
+    const card = tarotData[selectedTopic][getTarotIndex(dob,selectedTopic)];
+    const topicNames = {love:'💕 ความรัก',work:'💼 การงาน',money:'💰 การเงิน',health:'🌿 สุขภาพ'};
+    document.getElementById('tarot-emoji').textContent = card.emoji;
+    document.getElementById('tarot-title').textContent = card.title;
+    document.getElementById('tarot-text').textContent = card.text;
+    document.getElementById('tarot-luck-label').textContent = '✦ '+topicNames[selectedTopic]+' — คำแนะนำ';
+    document.getElementById('tarot-advice').textContent = card.advice;
+    document.getElementById('tarot-loading').classList.remove('show');
+    document.getElementById('tarot-result').classList.add('show');
+    showCreditsBar('tarot');
+    document.getElementById('tarot-result').scrollIntoView({behavior:'smooth',block:'start'});
+  },1800);
+}
+
+// ENERGY
+const energyMeanings = {
+  1:'เลขแห่งความเป็นผู้นำ วันนี้เหมาะแก่การริเริ่มและตัดสินใจด้วยตัวเอง',
+  2:'เลขแห่งความสมดุล วันนี้เหมาะแก่การทำงานร่วมกับผู้อื่นและการเจรจา',
+  3:'เลขแห่งความสร้างสรรค์ พลังงานแห่งการแสดงออกและความสนุกสนาน',
+  4:'เลขแห่งความมั่นคง วันนี้เหมาะแก่การวางรากฐานและทำงานอย่างตั้งใจ',
+  5:'เลขแห่งการเปลี่ยนแปลง วันนี้อาจมีเรื่องใหม่หรือความเปลี่ยนแปลงเกิดขึ้น',
+  6:'เลขแห่งความรักและครอบครัว วันนี้เหมาะแก่การดูแลคนที่รักและตัวเอง',
+  7:'เลขแห่งปัญญาและจิตวิญญาณ วันนี้เหมาะแก่การทบทวนและค้นหาความหมาย',
+  8:'เลขแห่งความอุดมสมบูรณ์ พลังงานด้านการเงินและความสำเร็จแรงมากวันนี้',
+  9:'เลขแห่งการให้และความเมตตา วันนี้เหมาะแก่การทำบุญและช่วยเหลือผู้อื่น',
+};
+
+function calcEnergyNumbers(dob) {
+  const t=new Date(), p=dob.split('-');
+  const d=parseInt(p[2]),m=parseInt(p[1]);
+  return [((d+t.getDate())%9)+1,((m+t.getMonth()+1)%9)+1,((d+m+t.getFullYear()%100)%9)+1];
+}
+
+function drawEnergy() {
+  const dob = document.getElementById('energy-dob').value;
+  if (!dob) { alert('กรุณากรอกวันเกิดก่อนนะคะ'); return; }
+  document.getElementById('energy-result').classList.remove('show');
+  document.getElementById('energy-loading').classList.add('show');
+  setTimeout(()=>{
+    useCredit();
+    const nums = calcEnergyNumbers(dob);
+    document.getElementById('energy-bubbles').innerHTML = nums.map(n=>`<div class="energy-bubble">${n}</div>`).join('');
+    document.getElementById('energy-meanings').innerHTML = nums.map(n=>`<div class="energy-item"><div class="energy-num-small">${n}</div><div class="energy-desc">${energyMeanings[n]}</div></div>`).join('');
+    document.getElementById('energy-loading').classList.remove('show');
+    document.getElementById('energy-result').classList.add('show');
+    showCreditsBar('energy');
+    document.getElementById('energy-result').scrollIntoView({behavior:'smooth',block:'start'});
+  },1800);
+}
+
+loadState();
+</script>
+</body>
+</html>
