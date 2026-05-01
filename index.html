@@ -48,7 +48,7 @@
   .menu-grid { display:grid; grid-template-columns:1fr 1fr; gap:14px; padding:10px 20px 20px; }
   .menu-card { background:linear-gradient(145deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02)); border:1px solid rgba(212,175,55,0.35); border-radius:16px; padding:22px 16px; text-align:center; cursor:pointer; transition:all 0.25s; }
   .menu-card:active { transform:scale(0.96); }
-  .menu-icon { width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; display:block; margin-bottom:10px; }
+  .menu-icon { width:90px; height:90px; object-fit:contain; margin:0 auto 10px; display:block; }
   .menu-title { font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:700; color:var(--gold-light); display:block; }
   .menu-desc { font-size:11px; color:rgba(245,230,163,0.55); margin-top:4px; display:block; }
   .menu-price { font-size:11px; color:var(--gold); margin-top:6px; display:block; font-weight:600; }
@@ -182,10 +182,10 @@
     <div class="home-greeting"><p>ยินดีต้อนรับสู่</p><h2>ศูนย์รวมดวงชะตา & พลังงาน</h2></div>
     <div class="divider"><div class="divider-line"></div><div class="divider-icon">✦</div><div class="divider-line"></div></div>
     <div class="menu-grid">
-      <div class="menu-card" onclick="goTo('page-siam')"><img class="menu-icon" src="siemsi.png" style="width:60px;height:60px;"><span class="menu-title">เซียมซี</span><span class="menu-desc">จากวัดดังฮ่องกง</span><span class="menu-price">29 บาท/ครั้ง</span></div>
-      <div class="menu-card" onclick="goTo('page-tarot')"><span class="menu-icon">🃏</span><span class="menu-title">ไพ่ทาโร่</span><span class="menu-desc">เปิดไพ่แห่งชะตา</span><span class="menu-price">29 บาท/ครั้ง</span></div>
-      <div class="menu-card" onclick="goTo('page-energy')"><span class="menu-icon">🔢</span><span class="menu-title">เลขพลังงาน</span><span class="menu-desc">พลังงานประจำวัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
-      <div class="menu-card" style="opacity:0.5;cursor:default;"><span class="menu-icon">✨</span><span class="menu-title">ไพ่ออราเคิล</span><span class="menu-desc">เร็วๆ นี้</span><span class="menu-price"> </span></div>
+      <div class="menu-card" onclick="goTo('page-siam')"><img class="menu-icon" src="siemsi.png"><span class="menu-title">เซียมซี</span><span class="menu-desc">จากวัดดังฮ่องกง</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" onclick="goTo('page-tarot')"><img class="menu-icon" src="tarot.png"><span class="menu-title">ไพ่ทาโร่</span><span class="menu-desc">เปิดไพ่แห่งชะตา</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" onclick="goTo('page-energy')"><img class="menu-icon" src="energy.png"><span class="menu-title">เลขพลังงาน</span><span class="menu-desc">พลังงานประจำวัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" style="opacity:0.5;cursor:default;"><img class="menu-icon" src="oracle.png"><span class="menu-title">ไพ่ออราเคิล</span><span class="menu-desc">เร็วๆ นี้</span><span class="menu-price"> </span></div>
     </div>
     <div class="promo-banner" onclick="goTo('page-pricing')">
       <div class="promo-title">✦ สมัครแพ็กเกจรายเดือน ✦</div>
