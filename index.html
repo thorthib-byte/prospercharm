@@ -104,7 +104,7 @@
   .result-card.show { display:block; }
   @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
   .result-badge { text-align:center; margin-bottom:16px; }
-  .result-number { font-family:'Cormorant Garamond',serif; font-size:64px; font-weight:600; color:var(--brown-dark); line-height:1; }
+  .result-number { font-family:'Playfair Display',serif; font-size:64px; font-weight:600; color:var(--brown-dark); line-height:1; }
   .result-number-label { font-size:11px; color:var(--text-light); letter-spacing:2px; margin-top:2px; }
   .result-card-name { font-family:'Noto Serif Thai',serif; font-size:20px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:12px; }
   .result-divider { height:1px; background:linear-gradient(90deg,transparent,var(--beige),transparent); margin:14px 0; }
@@ -116,10 +116,10 @@
 
   /* ENERGY */
   .energy-row { display:flex; gap:12px; justify-content:center; margin-bottom:20px; }
-  .energy-bubble { width:72px; height:72px; border-radius:50%; background:var(--brown-dark); display:flex; align-items:center; justify-content:center; font-family:'Cormorant Garamond',serif; font-size:30px; font-weight:600; color:var(--cream); border:2px solid var(--gold); box-shadow:0 4px 16px rgba(74,63,48,0.2); }
+  .energy-bubble { width:72px; height:72px; border-radius:50%; background:var(--brown-dark); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:30px; font-weight:600; color:var(--cream); border:2px solid var(--gold); box-shadow:0 4px 16px rgba(74,63,48,0.2); }
   .energy-meanings { display:flex; flex-direction:column; gap:10px; }
   .energy-item { display:flex; gap:12px; align-items:flex-start; padding:12px; background:var(--cream-dark); border-radius:10px; }
-  .energy-num-small { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:600; color:var(--brown-dark); min-width:28px; text-align:center; }
+  .energy-num-small { font-family:'Playfair Display',serif; font-size:22px; font-weight:600; color:var(--brown-dark); min-width:28px; text-align:center; }
   .energy-desc { font-size:13px; color:var(--text-mid); line-height:1.7; }
 
   /* PRICING */
@@ -131,7 +131,7 @@
   .pricing-card.featured { border-color:var(--gold); background:linear-gradient(145deg,rgba(201,168,76,0.06),var(--white)); }
   .pricing-badge { position:absolute; top:12px; right:12px; background:var(--brown-dark); color:var(--cream); font-size:10px; font-weight:600; padding:3px 10px; border-radius:20px; }
   .pricing-name { font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:600; color:var(--brown-dark); margin-bottom:4px; }
-  .pricing-price { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:600; color:var(--brown-dark); }
+  .pricing-price { font-family:'Playfair Display',serif; font-size:32px; font-weight:600; color:var(--brown-dark); }
   .pricing-price span { font-size:14px; font-weight:400; color:var(--text-light); font-family:'Noto Sans Thai',sans-serif; }
   .pricing-desc { font-size:13px; color:var(--text-light); margin:8px 0 14px; }
   .pricing-features { list-style:none; margin-bottom:16px; }
@@ -149,7 +149,7 @@
   @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
   .modal-title { font-family:'Noto Serif Thai',serif; font-size:20px; font-weight:600; color:var(--brown-dark); margin-bottom:4px; }
   .modal-subtitle { font-size:13px; color:var(--text-light); margin-bottom:6px; }
-  .modal-price { font-family:'Cormorant Garamond',serif; font-size:40px; font-weight:600; color:var(--brown-dark); margin-bottom:20px; }
+  .modal-price { font-family:'Playfair Display',serif; font-size:40px; font-weight:600; color:var(--brown-dark); margin-bottom:20px; }
   .modal-methods { display:flex; flex-direction:column; gap:10px; margin-bottom:16px; }
   .method-btn { padding:14px 18px; background:var(--cream); border:1px solid rgba(180,160,130,0.3); border-radius:12px; color:var(--text); font-family:'Noto Sans Thai',sans-serif; font-size:15px; cursor:pointer; display:flex; align-items:center; gap:12px; transition:all 0.2s; }
   .method-btn:active { background:var(--cream-dark); border-color:var(--gold); }
@@ -237,25 +237,48 @@
   <div class="page" id="page-siam">
     <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">🎋 เซียมซีจากวัดดังฮ่องกง</div></div>
     <div class="credits-bar" id="siam-credits-bar"><span class="credits-bar-text">เครดิตคงเหลือ</span><span class="credits-bar-num" id="siam-credits-num"></span></div>
-    <div class="form-section">
+
+    <!-- STEP 1: กรอกวันเกิด -->
+    <div id="siam-step1" class="form-section">
       <label class="form-label">วันเกิดของคุณ</label>
       <input type="date" class="form-input" id="siam-dob">
-      <button class="cta-btn" onclick="checkAndDraw('siam')">🎋 เขย่าเซียมซี</button>
+      <button class="cta-btn" onclick="siamNext()">ถัดไป →</button>
     </div>
-    <div class="loading" id="siam-loading"><span class="loading-spinner">🎋</span><div class="loading-text">กำลังเขย่าเซียมซี...</div></div>
+
+    <!-- STEP 2: เขย่า -->
+    <div id="siam-step2" style="display:none; text-align:center; padding:24px 20px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; color:var(--text-mid); margin-bottom:6px;">ตั้งจิตอธิษฐาน แล้วเขย่ามือถือ</div>
+      <div style="font-size:13px; color:var(--text-light); margin-bottom:20px;">เขย่า 5 ครั้ง คำทำนายจะปรากฏ</div>
+      <div style="position:relative; margin:0 auto 20px; max-width:280px;">
+        <img src="shakesiemsi.png" id="siam-shake-img" style="width:100%; border-radius:16px; transition:transform 0.1s ease;">
+      </div>
+      <div style="margin:0 auto 16px; max-width:280px;">
+        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
+          <span style="font-size:13px; color:var(--text-mid);">จำนวนครั้งที่เขย่า</span>
+          <span style="font-size:13px; color:var(--gold); font-weight:700;" id="shake-count">0 / 5</span>
+        </div>
+        <div style="background:var(--cream-dark); border-radius:20px; height:8px; overflow:hidden;">
+          <div id="shake-bar" style="background:var(--gold); height:100%; width:0%; border-radius:20px; transition:width 0.3s ease;"></div>
+        </div>
+      </div>
+      <div style="font-size:12px; color:var(--text-light);" id="shake-hint">📱 เขย่ามือถือได้เลยค่ะ</div>
+      <button class="reset-btn" style="margin-top:16px; max-width:280px;" onclick="siamBack()">← กลับแก้วันเกิด</button>
+    </div>
+
     <div class="lock-wall" id="siam-lock">
       <span class="lock-icon">🔒</span><div class="lock-title">ต้องสมัครก่อนนะคะ</div>
       <div class="lock-desc">สมัครแพ็กเกจเพื่อดูดวง<br>หรือจ่ายรายครั้ง 29 บาท</div>
       <button class="lock-btn-gold" onclick="goTo('page-pricing')">✦ ดูแพ็กเกจทั้งหมด</button>
       <button class="lock-btn-single" onclick="openPayment('single',29,1)">จ่ายครั้งนี้ 29 บาท</button>
     </div>
+
     <div class="result-card" id="siam-result">
       <div class="result-badge"><div class="result-number" id="siam-number"></div><div class="result-number-label">ซีกที่</div></div>
       <div class="result-divider"></div>
       <div class="result-card-name" id="siam-title"></div>
       <div class="result-text" id="siam-text"></div>
       <div class="result-luck"><div class="result-luck-label">✦ คำแนะนำ</div><div class="result-luck-text" id="siam-advice"></div></div>
-      <button class="reset-btn" onclick="resetPage('siam')">🔄 เขย่าใหม่</button>
+      <button class="reset-btn" onclick="resetSiam()">🔄 เขย่าใหม่</button>
     </div>
   </div>
 
@@ -437,6 +460,105 @@ function resetSoulmate() {
   document.getElementById('soulmate-dob1').value = '';
   document.getElementById('soulmate-dob2').value = '';
   showCreditsBar('soulmate');
+}
+
+// ===== SIAM SHAKE SYSTEM =====
+let shakeCount = 0;
+let lastShakeTime = 0;
+let shakeListener = null;
+
+function siamNext() {
+  const dob = document.getElementById('siam-dob').value;
+  if (!dob) { alert('กรุณากรอกวันเกิดก่อนนะคะ'); return; }
+  if (userState.plan === 'free' || userState.credits <= 0) {
+    showPaymentPrompt('siam'); return;
+  }
+  document.getElementById('siam-step1').style.display = 'none';
+  document.getElementById('siam-step2').style.display = 'block';
+  shakeCount = 0;
+  updateShakeUI();
+  startShakeDetection();
+}
+
+function siamBack() {
+  document.getElementById('siam-step2').style.display = 'none';
+  document.getElementById('siam-step1').style.display = 'block';
+  stopShakeDetection();
+  shakeCount = 0;
+}
+
+function startShakeDetection() {
+  if (typeof DeviceMotionEvent !== 'undefined' && typeof DeviceMotionEvent.requestPermission === 'function') {
+    DeviceMotionEvent.requestPermission().then(state => {
+      if (state === 'granted') listenShake();
+    }).catch(() => fallbackManualShake());
+  } else if (window.DeviceMotionEvent) {
+    listenShake();
+  } else {
+    fallbackManualShake();
+  }
+}
+
+function listenShake() {
+  shakeListener = function(e) {
+    const acc = e.accelerationIncludingGravity;
+    if (!acc) return;
+    const total = Math.abs(acc.x) + Math.abs(acc.y) + Math.abs(acc.z);
+    const now = Date.now();
+    if (total > 25 && now - lastShakeTime > 600) {
+      lastShakeTime = now;
+      onShake();
+    }
+  };
+  window.addEventListener('devicemotion', shakeListener);
+}
+
+function fallbackManualShake() {
+  document.getElementById('shake-hint').innerHTML = '👇 แตะรูปเพื่อเขย่าค่ะ';
+  document.getElementById('siam-shake-img').style.cursor = 'pointer';
+  document.getElementById('siam-shake-img').onclick = function() {
+    const now = Date.now();
+    if (now - lastShakeTime > 400) { lastShakeTime = now; onShake(); }
+  };
+}
+
+function stopShakeDetection() {
+  if (shakeListener) { window.removeEventListener('devicemotion', shakeListener); shakeListener = null; }
+  const img = document.getElementById('siam-shake-img');
+  if (img) img.onclick = null;
+}
+
+function onShake() {
+  if (shakeCount >= 5) return;
+  shakeCount++;
+  // Animate image
+  const img = document.getElementById('siam-shake-img');
+  img.style.transform = 'rotate(10deg) scale(1.05)';
+  setTimeout(() => { img.style.transform = 'rotate(-8deg)'; }, 100);
+  setTimeout(() => { img.style.transform = 'rotate(0deg) scale(1)'; }, 200);
+  updateShakeUI();
+  if (shakeCount >= 5) {
+    setTimeout(() => {
+      stopShakeDetection();
+      document.getElementById('siam-step2').style.display = 'none';
+      drawSiam();
+    }, 400);
+  }
+}
+
+function updateShakeUI() {
+  document.getElementById('shake-count').textContent = shakeCount + ' / 5';
+  document.getElementById('shake-bar').style.width = (shakeCount * 20) + '%';
+  const hints = ['📱 เขย่ามือถือได้เลยค่ะ','✨ ดีมาก! เขย่าต่อเลยค่ะ','🎋 กำลังดี! อีกนิดเดียว','🌟 เกือบถึงแล้วค่ะ','💫 อีกครั้งเดียว!',''];
+  document.getElementById('shake-hint').textContent = hints[shakeCount] || '';
+}
+
+function resetSiam() {
+  document.getElementById('siam-result').classList.remove('show');
+  document.getElementById('siam-step1').style.display = 'block';
+  document.getElementById('siam-step2').style.display = 'none';
+  shakeCount = 0;
+  showCreditsBar('siam');
 }
 
 loadState();
