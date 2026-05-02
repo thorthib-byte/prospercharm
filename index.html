@@ -317,6 +317,32 @@
     </div>
   </div>
 
+  <!-- SOULMATE -->
+  <div class="page" id="page-soulmate">
+    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">💑 ดูดวงสมพงศ์</div></div>
+    <div class="credits-bar" id="soulmate-credits-bar"><span class="credits-bar-text">เครดิตคงเหลือ</span><span class="credits-bar-num" id="soulmate-credits-num"></span></div>
+    <div class="form-section">
+      <label class="form-label">วันเกิดของคุณ</label>
+      <input type="date" class="form-input" id="soulmate-dob1">
+      <label class="form-label">วันเกิดของอีกฝ่าย</label>
+      <input type="date" class="form-input" id="soulmate-dob2">
+      <button class="cta-btn" onclick="checkAndDrawSoulmate()">💑 ดูความเข้ากัน</button>
+    </div>
+    <div class="loading" id="soulmate-loading"><span class="loading-spinner">💑</span><div class="loading-text">กำลังวิเคราะห์ดวงสมพงศ์...</div></div>
+    <div class="result-card" id="soulmate-result">
+      <div class="result-badge">
+        <div style="font-size:52px;" id="soulmate-emoji"></div>
+        <div class="result-number" id="soulmate-score"></div>
+        <div class="result-number-label">คะแนนความเข้ากัน</div>
+      </div>
+      <div class="result-divider"></div>
+      <div class="result-card-name" id="soulmate-title"></div>
+      <div class="result-text" id="soulmate-text"></div>
+      <div class="result-luck"><div class="result-luck-label">✦ คำแนะนำ</div><div class="result-luck-text" id="soulmate-advice"></div></div>
+      <button class="reset-btn" onclick="resetSoulmate()">🔄 ดูใหม่อีกครั้ง</button>
+    </div>
+  </div>
+
   <!-- PAYMENT MODAL -->
   <div class="modal-overlay" id="payment-modal">
     <div class="modal">
@@ -340,7 +366,7 @@ let userState={plan:'free',credits:0,planExpiry:null};
 function loadState(){try{const s=localStorage.getItem('pc_state');if(s){userState=JSON.parse(s);if(userState.planExpiry&&new Date()>new Date(userState.planExpiry)){userState={plan:'free',credits:0,planExpiry:null};saveState();}}}catch(e){}updateStatusBar();}
 function saveState(){localStorage.setItem('pc_state',JSON.stringify(userState));}
 function updateStatusBar(){const icons={free:'🌙',single:'💫',basic:'🌙',pro:'⭐',unlimited:'👑'};const names={free:'ยังไม่ได้สมัคร',single:'รายครั้ง',basic:'Basic',pro:'Pro',unlimited:'Unlimited'};document.getElementById('plan-icon').textContent=icons[userState.plan];document.getElementById('plan-name').textContent=names[userState.plan];document.getElementById('credits-display').textContent=userState.plan!=='free'?(userState.credits>=999?'ไม่จำกัด':userState.credits+' ครั้ง'):'';}
-function goTo(pageId){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(pageId).classList.add('active');window.scrollTo(0,0);const type=pageId.replace('page-','');if(['siam','tarot','energy'].includes(type))showCreditsBar(type);}
+function goTo(pageId){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(pageId).classList.add('active');window.scrollTo(0,0);const type=pageId.replace('page-','');if(['siam','tarot','energy','soulmate'].includes(type))showCreditsBar(type);}
 function showCreditsBar(type){const bar=document.getElementById(type+'-credits-bar');const num=document.getElementById(type+'-credits-num');if(userState.plan!=='free'){bar.classList.add('show');num.textContent=userState.credits>=999?'∞':userState.credits;}else{bar.classList.remove('show');}}
 function checkAndDraw(type){if(userState.plan==='free'||userState.credits<=0){showPaymentPrompt(type);return;}if(type==='siam')drawSiam();else if(type==='tarot')drawTarot();else drawEnergy();}
 function showPaymentPrompt(type){openPayment('single',29,1);showToast('กรุณาชำระเงินก่อนใช้บริการค่ะ 🙏');}
@@ -362,6 +388,57 @@ function drawTarot(){const dob=document.getElementById('tarot-dob').value;if(!do
 const energyMeanings={1:'เลขแห่งความเป็นผู้นำ วันนี้เหมาะแก่การริเริ่มและตัดสินใจด้วยตัวเอง',2:'เลขแห่งความสมดุล วันนี้เหมาะแก่การทำงานร่วมกับผู้อื่นและการเจรจา',3:'เลขแห่งความสร้างสรรค์ พลังงานแห่งการแสดงออกและความสนุกสนาน',4:'เลขแห่งความมั่นคง วันนี้เหมาะแก่การวางรากฐานและทำงานอย่างตั้งใจ',5:'เลขแห่งการเปลี่ยนแปลง วันนี้อาจมีเรื่องใหม่หรือความเปลี่ยนแปลงเกิดขึ้น',6:'เลขแห่งความรักและครอบครัว วันนี้เหมาะแก่การดูแลคนที่รักและตัวเอง',7:'เลขแห่งปัญญาและจิตวิญญาณ วันนี้เหมาะแก่การทบทวนและค้นหาความหมาย',8:'เลขแห่งความอุดมสมบูรณ์ พลังงานด้านการเงินและความสำเร็จแรงมากวันนี้',9:'เลขแห่งการให้และความเมตตา วันนี้เหมาะแก่การทำบุญและช่วยเหลือผู้อื่น'};
 function calcEnergyNumbers(dob){const t=new Date(),p=dob.split('-');const d=parseInt(p[2]),m=parseInt(p[1]);return[((d+t.getDate())%9)+1,((m+t.getMonth()+1)%9)+1,((d+m+t.getFullYear()%100)%9)+1];}
 function drawEnergy(){const dob=document.getElementById('energy-dob').value;if(!dob){alert('กรุณากรอกวันเกิดก่อนนะคะ');return;}document.getElementById('energy-result').classList.remove('show');document.getElementById('energy-loading').classList.add('show');setTimeout(()=>{useCredit();const nums=calcEnergyNumbers(dob);document.getElementById('energy-bubbles').innerHTML=nums.map(n=>`<div class="energy-bubble">${n}</div>`).join('');document.getElementById('energy-meanings').innerHTML=nums.map(n=>`<div class="energy-item"><div class="energy-num-small">${n}</div><div class="energy-desc">${energyMeanings[n]}</div></div>`).join('');document.getElementById('energy-loading').classList.remove('show');document.getElementById('energy-result').classList.add('show');showCreditsBar('energy');document.getElementById('energy-result').scrollIntoView({behavior:'smooth',block:'start'});},1800);}
+const soulmateData = [
+  {score:95, emoji:'💞', title:'คู่แท้แห่งจักรวาล', text:'ดวงของทั้งสองโคจรมาบรรจบกันอย่างสมบูรณ์แบบ ความสัมพันธ์นี้หายากและพิเศษมาก', advice:'รักษาความสัมพันธ์นี้ไว้ด้วยความจริงใจและการสื่อสารที่ดี'},
+  {score:85, emoji:'💕', title:'ดวงเสริมกันอย่างลงตัว', text:'ทั้งสองมีพลังงานที่เสริมซึ่งกันและกัน ฝ่ายหนึ่งแข็งแกร่งในจุดที่อีกฝ่ายอ่อน', advice:'เปิดใจรับฟังกันและช่วยเหลือซึ่งกันและกัน ความสัมพันธ์จะยิ่งแน่นแฟ้น'},
+  {score:75, emoji:'🌸', title:'ดวงเข้ากันได้ดี', text:'มีความเข้ากันในระดับดี ทั้งสองมีค่านิยมและเป้าหมายที่ใกล้เคียงกัน', advice:'ใช้เวลาทำกิจกรรมร่วมกัน จะช่วยให้ความสัมพันธ์แน่นแฟ้นยิ่งขึ้น'},
+  {score:65, emoji:'🌟', title:'ดวงต้องปรับความเข้าใจ', text:'มีทั้งจุดที่เข้ากันและขัดแย้ง การปรับความเข้าใจเป็นกุญแจสำคัญ', advice:'อดทนและเข้าใจความแตกต่าง ความสัมพันธ์ที่ดีต้องใช้ความพยายามจากทั้งสองฝ่าย'},
+  {score:50, emoji:'🌙', title:'ดวงท้าทายแต่เป็นไปได้', text:'ดวงทั้งสองมีความแตกต่างกันสูง แต่ความแตกต่างนี้สามารถเป็นพลังได้หากจัดการถูกวิธี', advice:'เคารพความแตกต่างของกันและกัน และหาจุดร่วมที่ทั้งสองยอมรับได้'},
+];
+
+function getSoulmateScore(dob1, dob2) {
+  const seed = dob1.replace(/-/g,'') + dob2.replace(/-/g,'');
+  let h = 0;
+  for (let c of seed) h = ((h << 5) - h) + c.charCodeAt(0);
+  return Math.abs(h) % 5;
+}
+
+function checkAndDrawSoulmate() {
+  if (userState.plan === 'free' || userState.credits <= 0) {
+    showPaymentPrompt('soulmate'); return;
+  }
+  drawSoulmate();
+}
+
+function drawSoulmate() {
+  const dob1 = document.getElementById('soulmate-dob1').value;
+  const dob2 = document.getElementById('soulmate-dob2').value;
+  if (!dob1 || !dob2) { alert('กรุณากรอกวันเกิดทั้งสองคนก่อนนะคะ'); return; }
+  document.getElementById('soulmate-result').classList.remove('show');
+  document.getElementById('soulmate-loading').classList.add('show');
+  setTimeout(() => {
+    useCredit();
+    const idx = getSoulmateScore(dob1, dob2);
+    const d = soulmateData[idx];
+    document.getElementById('soulmate-emoji').textContent = d.emoji;
+    document.getElementById('soulmate-score').textContent = d.score + '%';
+    document.getElementById('soulmate-title').textContent = d.title;
+    document.getElementById('soulmate-text').textContent = d.text;
+    document.getElementById('soulmate-advice').textContent = d.advice;
+    document.getElementById('soulmate-loading').classList.remove('show');
+    document.getElementById('soulmate-result').classList.add('show');
+    showCreditsBar('soulmate');
+    document.getElementById('soulmate-result').scrollIntoView({behavior:'smooth',block:'start'});
+  }, 1800);
+}
+
+function resetSoulmate() {
+  document.getElementById('soulmate-result').classList.remove('show');
+  document.getElementById('soulmate-dob1').value = '';
+  document.getElementById('soulmate-dob2').value = '';
+  showCreditsBar('soulmate');
+}
+
 loadState();
 
 // Read URL parameter and go to correct page
@@ -372,6 +449,7 @@ if (goTo_param) {
   else if (goTo_param === 'tarot') goTo('page-tarot');
   else if (goTo_param === 'energy') goTo('page-energy');
   else if (goTo_param === 'pricing') goTo('page-pricing');
+  else if (goTo_param === 'soulmate') goTo('page-soulmate');
 }
 </script>
 </body>
