@@ -246,19 +246,19 @@
     </div>
 
     <!-- STEP 2: เขย่า -->
-    <div id="siam-step2" style="display:none; position:relative; overflow:hidden;">
-      <!-- UI overlay ด้านบน -->
-      <div style="padding:16px 20px 12px; background:var(--white); border-bottom:1px solid rgba(180,160,130,0.2);">
-        <div style="font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:600; color:var(--brown-dark); margin-bottom:4px;">ตั้งจิตอธิษฐาน แล้วเขย่ามือถือ</div>
-        <div style="font-size:12px; color:var(--text-light); margin-bottom:10px;" id="shake-hint">📱 เขย่ามือถือได้เลยค่ะ</div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:6px;">
-          <span style="font-size:12px; color:var(--text-mid);">จำนวนครั้งที่เขย่า</span>
-          <span style="font-size:12px; color:var(--gold); font-weight:700;" id="shake-count">0 / 5</span>
+    <div id="siam-step2" style="display:none; min-height:calc(100vh - 120px); background:var(--cream); position:relative; overflow:hidden;">
+      <!-- ข้อความกลางจอ -->
+      <div style="text-align:center; padding:40px 24px 24px;">
+        <div style="font-family:'Noto Serif Thai',serif; font-size:20px; font-weight:600; color:var(--brown-dark); margin-bottom:10px;">ตั้งจิตอธิษฐาน แล้วเขย่ามือถือ</div>
+        <div style="font-size:14px; color:var(--text-mid); margin-bottom:28px;">เขย่า 5 ครั้ง คำทำนายจะปรากฏ</div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px; max-width:320px; margin-left:auto; margin-right:auto;">
+          <span style="font-size:13px; color:var(--text-mid);">จำนวนครั้งที่เขย่า</span>
+          <span style="font-size:13px; color:var(--gold); font-weight:700;" id="shake-count">0 / 5</span>
         </div>
-        <div style="background:var(--cream-dark); border-radius:20px; height:6px; overflow:hidden; margin-bottom:10px;">
+        <div style="background:var(--cream-dark); border-radius:20px; height:7px; overflow:hidden; max-width:320px; margin:0 auto 16px;">
           <div id="shake-bar" style="background:var(--gold); height:100%; width:0%; border-radius:20px; transition:width 0.3s ease;"></div>
         </div>
-        <button class="reset-btn" style="margin-top:4px;" onclick="siamBack()">← กลับแก้วันเกิด</button>
+        <div style="font-size:13px; color:var(--text-light);" id="shake-hint">📱 เขย่ามือถือได้เลยค่ะ</div>
       </div>
       <!-- รูปเต็มความกว้าง -->
       <img src="shakesiemsi.png" id="siam-shake-img" style="width:100%; display:block; transition:transform 0.1s ease;">
