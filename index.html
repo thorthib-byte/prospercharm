@@ -238,11 +238,31 @@
     <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">🎋 เซียมซีจากวัดดังฮ่องกง</div></div>
     <div class="credits-bar" id="siam-credits-bar"><span class="credits-bar-text">เครดิตคงเหลือ</span><span class="credits-bar-num" id="siam-credits-num"></span></div>
 
+    <!-- STEP 0: เลือกวัด -->
+    <div id="siam-step0" style="padding:24px 20px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:6px;">เลือกวัดที่ต้องการ</div>
+      <div style="font-size:13px; color:var(--text-light); text-align:center; margin-bottom:24px;">เลือกสายดวงที่คุณศรัทธา</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+        <div onclick="selectTemple('chinese')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; text-align:center; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); transition:all 0.2s;">
+          <img src="chinesetemple.png" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; margin-bottom:10px; display:block;">
+          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">วัดจีน</div>
+          <div style="font-size:11px; color:var(--text-light); margin-top:4px;">ฮ่องกง มาเก๊า</div>
+        </div>
+        <div onclick="selectTemple('thai')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; text-align:center; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); transition:all 0.2s;">
+          <img src="thaitemple.png" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; margin-bottom:10px; display:block;">
+          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">วัดไทย</div>
+          <div style="font-size:11px; color:var(--text-light); margin-top:4px;">สายมูไทย</div>
+        </div>
+      </div>
+    </div>
+
     <!-- STEP 1: กรอกวันเกิด -->
-    <div id="siam-step1" class="form-section">
+    <div id="siam-step1" class="form-section" style="display:none;">
+      <div id="siam-temple-label" style="font-family:'Noto Serif Thai',serif; font-size:14px; color:var(--text-mid); margin-bottom:12px; text-align:center;"></div>
       <label class="form-label">วันเกิดของคุณ</label>
       <input type="date" class="form-input" id="siam-dob">
       <button class="cta-btn" onclick="siamNext()">ถัดไป →</button>
+      <button class="reset-btn" style="margin-top:10px;" onclick="siamBackToTemple()">← เปลี่ยนวัด</button>
     </div>
 
     <!-- STEP 2: เขย่า -->
@@ -465,6 +485,20 @@ function resetSoulmate() {
 let shakeCount = 0;
 let lastShakeTime = 0;
 let shakeListener = null;
+let selectedTemple = 'chinese';
+
+function selectTemple(temple) {
+  selectedTemple = temple;
+  document.getElementById('siam-step0').style.display = 'none';
+  document.getElementById('siam-step1').style.display = 'block';
+  const label = temple === 'chinese' ? '🏮 วัดจีน — ฮ่องกง มาเก๊า' : '🛕 วัดไทย — สายมูไทย';
+  document.getElementById('siam-temple-label').textContent = label;
+}
+
+function siamBackToTemple() {
+  document.getElementById('siam-step1').style.display = 'none';
+  document.getElementById('siam-step0').style.display = 'block';
+}
 
 function siamNext() {
   const dob = document.getElementById('siam-dob').value;
@@ -474,6 +508,9 @@ function siamNext() {
   }
   document.getElementById('siam-step1').style.display = 'none';
   document.getElementById('siam-step2').style.display = 'block';
+  // เปลี่ยนรูปตามวัดที่เลือก
+  const img = document.getElementById('siam-shake-img');
+  img.src = selectedTemple === 'chinese' ? 'shakesiemsi.png' : 'siemsithai14.png';
   shakeCount = 0;
   updateShakeUI();
   startShakeDetection();
@@ -554,7 +591,8 @@ function updateShakeUI() {
 
 function resetSiam() {
   document.getElementById('siam-result').classList.remove('show');
-  document.getElementById('siam-step1').style.display = 'block';
+  document.getElementById('siam-step0').style.display = 'block';
+  document.getElementById('siam-step1').style.display = 'none';
   document.getElementById('siam-step2').style.display = 'none';
   shakeCount = 0;
   showCreditsBar('siam');
