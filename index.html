@@ -487,6 +487,31 @@ const tarotQuestions = {
   health: [],
 };
 
+const tarotCardData = {
+  '2.png':  { name:'The Fool',          situation:'มีการเริ่มต้นบางอย่าง',        feeling:'เขาสนใจแต่ยังไม่แสดงออก',        outcome:'มีจังหวะดีเข้ามา',              advice:'เชื่อในสัญชาตญาณของตัวเอง' },
+  '3.png':  { name:'The Magician',      situation:'กำลังพัฒนาไปทีละนิด',          feeling:'เขายังไม่ลืมคุณ',                outcome:'ยังต้องใช้เวลา',               advice:'โฟกัสตัวเองมากขึ้น' },
+  '4.png':  { name:'The High Priestess',situation:'มีอุปสรรคแทรก',               feeling:'เขากำลังปิดใจบางส่วน',           outcome:'มีโอกาสพัฒนาได้',              advice:'เปิดใจแต่ยังมีขอบเขต' },
+  '5.png':  { name:'The Empress',       situation:'ความสัมพันธ์ยังไม่ชัดเจน',     feeling:'เขาโฟกัสเรื่องอื่นมากกว่า',      outcome:'อาจค่อยๆ ห่างออก',            advice:'เชื่อในสัญชาตญาณของตัวเอง' },
+  '6.png':  { name:'The Emperor',       situation:'มีระยะห่างเกิดขึ้น',           feeling:'เขากำลังปิดใจบางส่วน',           outcome:'มีโอกาสกลับมา',               advice:'ถอยออกมามองภาพรวม' },
+  '7.png':  { name:'The Hierophant',    situation:'กำลังพัฒนาไปทีละนิด',          feeling:'เขาโฟกัสเรื่องอื่นมากกว่า',      outcome:'ต้องผ่านบททดสอบก่อน',          advice:'ให้เวลากับสถานการณ์' },
+  '8.png':  { name:'The Lovers',        situation:'มีอุปสรรคแทรก',               feeling:'เขาสนใจแต่ยังไม่แสดงออก',        outcome:'ต้องผ่านบททดสอบก่อน',          advice:'อย่ารีบร้อนเกินไป' },
+  '9.png':  { name:'The Chariot',       situation:'อยู่ในช่วงลังเล',              feeling:'เขาคิดถึงคุณเป็นระยะ',           outcome:'มีโอกาสพัฒนาได้',              advice:'สังเกตการกระทำมากกว่าคำพูด' },
+  '10.png': { name:'Strength',          situation:'มีการเริ่มต้นบางอย่าง',        feeling:'เขาสนใจแต่ยังไม่แสดงออก',        outcome:'อาจค่อยๆ ห่างออก',            advice:'ให้เวลากับสถานการณ์' },
+  '11.png': { name:'The Hermit',        situation:'มีการเปลี่ยนแปลงเกิดขึ้น',     feeling:'เขาสนใจแต่ยังไม่แสดงออก',        outcome:'มีโอกาสพัฒนาได้',              advice:'ลดการคาดหวังลง' },
+  '12.png': { name:'Wheel of Fortune',  situation:'ความสัมพันธ์ยังไม่ชัดเจน',     feeling:'เขาสนใจแต่ยังไม่แสดงออก',        outcome:'ต้องผ่านบททดสอบก่อน',          advice:'สังเกตการกระทำมากกว่าคำพูด' },
+  '13.png': { name:'Justice',           situation:'กำลังพัฒนาไปทีละนิด',          feeling:'เขายังมีความรู้สึกอยู่',          outcome:'แนวโน้มยังไม่แน่นอน',           advice:'อย่ารีบร้อนเกินไป' },
+  '14.png': { name:'The Hanged Man',    situation:'อยู่ในช่วงลังเล',              feeling:'เขากำลังปิดใจบางส่วน',           outcome:'มีจังหวะดีเข้ามา',              advice:'ถอยออกมามองภาพรวม' },
+  '15.png': { name:'Death',             situation:'มีการเปลี่ยนแปลงเกิดขึ้น',     feeling:'เขายังมีความรู้สึกอยู่',          outcome:'ต้องผ่านบททดสอบก่อน',          advice:'สังเกตการกระทำมากกว่าคำพูด' },
+  '16.png': { name:'Temperance',        situation:'ความสัมพันธ์เริ่มนิ่ง',         feeling:'เขายังมีความรู้สึกอยู่',          outcome:'มีโอกาสจบเพื่อเริ่มใหม่',       advice:'โฟกัสตัวเองมากขึ้น' },
+  '17.png': { name:'The Devil',         situation:'มีการเริ่มต้นบางอย่าง',        feeling:'เขาโฟกัสเรื่องอื่นมากกว่า',      outcome:'แนวโน้มยังไม่แน่นอน',           advice:'อย่ารีบร้อนเกินไป' },
+  '18.png': { name:'The Tower',         situation:'มีอุปสรรคแทรก',               feeling:'เขารู้สึกผูกพัน',                outcome:'ยังต้องใช้เวลา',               advice:'อย่ารีบร้อนเกินไป' },
+  '19.png': { name:'The Star',          situation:'มีอุปสรรคแทรก',               feeling:'เขากำลังปิดใจบางส่วน',           outcome:'แนวโน้มยังไม่แน่นอน',           advice:'ลดการคาดหวังลง' },
+  '20.png': { name:'The Moon',          situation:'มีการเปลี่ยนแปลงเกิดขึ้น',     feeling:'เขายังมีความรู้สึกอยู่',          outcome:'มีจังหวะดีเข้ามา',              advice:'อย่ารีบร้อนเกินไป' },
+  '21.png': { name:'The Sun',           situation:'อยู่ในช่วงลังเล',              feeling:'เขาลังเลและไม่มั่นใจ',            outcome:'มีโอกาสพัฒนาได้',              advice:'โฟกัสตัวเองมากขึ้น' },
+  '22.png': { name:'Judgement',         situation:'มีระยะห่างเกิดขึ้น',           feeling:'เขายังไม่ลืมคุณ',                outcome:'อาจค่อยๆ ห่างออก',            advice:'เชื่อในสัญชาตญาณของตัวเอง' },
+  '23.png': { name:'The World',         situation:'มีอุปสรรคแทรก',               feeling:'เขากำลังปิดใจบางส่วน',           outcome:'ยังต้องใช้เวลา',               advice:'โฟกัสตัวเองมากขึ้น' },
+};
+
 const tarotCards = [
   { num:2,  name:'The Fool',         meaning:'เริ่มต้นใหม่ การเดินทาง ความไร้เดียงสา',     img:'2.png' },
   { num:3,  name:'The Magician',     meaning:'ความสามารถ สติปัญญา ความพร้อม',              img:'3.png' },
@@ -636,68 +661,45 @@ function getSiamNumber(dob){const today=new Date();const seed=dob.replace(/-/g,'
 function drawSiam(){const dob=document.getElementById('siam-dob').value;if(!dob){alert('กรุณากรอกวันเกิดก่อนนะคะ');return;}document.getElementById('siam-result').classList.remove('show');setTimeout(()=>{useCredit();const n=getSiamNumber(dob);const d=siamData[n];document.getElementById('siam-number').textContent=n;document.getElementById('siam-title').textContent=d.title;document.getElementById('siam-text').textContent=d.text;document.getElementById('siam-advice').textContent=d.advice;document.getElementById('siam-result').classList.add('show');showCreditsBar('siam');document.getElementById('siam-result').scrollIntoView({behavior:'smooth',block:'start'});},500);}
 const tarotData={love:[{emoji:'🌹',title:'The Lovers — คู่รักแห่งดวงดาว',text:'ความรักกำลังเบ่งบาน ถ้ามีคู่แล้วความสัมพันธ์จะแข็งแกร่งขึ้น ถ้าโสดอาจพบคนที่ใช่',advice:'เปิดใจรับความรักอย่างกล้าหาญ อย่ากลัวแสดงความรู้สึกที่แท้จริง'},{emoji:'🌙',title:'The Moon — แสงจันทร์แห่งความลึก',text:'มีบางเรื่องในความสัมพันธ์ที่ยังคลุมเครือ ควรสื่อสารให้ชัดเจนขึ้น',advice:'พูดคุยกันด้วยใจเปิดกว้าง ความเข้าใจแท้จริงจะทำให้ความสัมพันธ์มั่นคง'},{emoji:'⭐',title:'The Star — ดาวนำทางแห่งความหวัง',text:'ความรักที่แท้จริงกำลังรอท่านอยู่ ไม่ว่าผ่านอะไรมา ความหวังยังสว่างไสว',advice:'วางใจในจังหวะของชีวิต สิ่งดีๆ กำลังเดินทางมาหาท่าน'}],work:[{emoji:'⚡',title:'The Emperor — จักรพรรดิแห่งความสำเร็จ',text:'มีความสามารถในการนำและตัดสินใจที่แข็งแกร่ง เหมาะแก่การแสดงศักยภาพ',advice:'ก้าวออกมานำหน้า แสดงความสามารถให้ผู้ใหญ่มองเห็น'},{emoji:'🏆',title:'The Chariot — รถศึกแห่งชัยชนะ',text:'ชัยชนะอยู่ตรงหน้า แม้มีอุปสรรค ถ้าไม่ยอมแพ้จะประสบความสำเร็จ',advice:'มุ่งหน้าต่อด้วยความมั่นใจ อย่าให้สิ่งรอบข้างมาเบี่ยงความสนใจ'},{emoji:'🌿',title:'The Hermit — ฤๅษีผู้รอบรู้',text:'เป็นเวลาของการเรียนรู้และพัฒนาตัวเอง ความรู้ที่สะสมจะกลายเป็นอาวุธ',advice:'ลงทุนกับการพัฒนาทักษะ เรียนรู้สิ่งใหม่ ผลจะปรากฏในอนาคตอันใกล้'}],money:[{emoji:'💰',title:'Ace of Pentacles — เหรียญแห่งโชคลาภ',text:'โอกาสทางการเงินกำลังเปิดออก อาจมีรายได้ใหม่หรือโอกาสลงทุนที่ดีเข้ามา',advice:'ตรวจสอบโอกาสด้วยสติ ศึกษาให้ถ่องแท้ก่อนตัดสินใจ'},{emoji:'🌊',title:'The Wheel — วงล้อแห่งชะตา',text:'การเงินอยู่ในช่วงเปลี่ยนแปลง มีทั้งขึ้นและลง แต่แนวโน้มโดยรวมดีขึ้น',advice:'สำรองเงินไว้บ้าง แต่อย่ากลัวจนเกินไป โอกาสที่ดีกำลังใกล้เข้ามา'},{emoji:'✨',title:'The Sun — ดวงอาทิตย์แห่งความรุ่งโรจน์',text:'การเงินสว่างไสว รายได้มั่นคง อาจมีโบนัสหรือรายได้พิเศษเข้ามา',advice:'ใช้ช่วงเวลาดีนี้วางรากฐานทางการเงินระยะยาว ออมและลงทุนอย่างชาญฉลาด'}],health:[{emoji:'🌸',title:'Temperance — ความสมดุลแห่งชีวิต',text:'ร่างกายและจิตใจต้องการความสมดุล ดูแลตัวเองทั้งสองด้านให้ดี',advice:'นอนหลับพักผ่อนให้เพียงพอ รับประทานอาหารดี หาเวลาผ่อนคลาย'},{emoji:'💪',title:'Strength — พลังแห่งจิตใจ',text:'มีพลังและความแข็งแกร่งมากกว่าที่คิด สุขภาพกายดี แต่ต้องดูแลสุขภาพจิตด้วย',advice:'ออกกำลังกายสม่ำเสมอ หาวิธีจัดการความเครียดที่เหมาะกับตัวเอง'},{emoji:'🌿',title:'The World — โลกแห่งความสมบูรณ์',text:'สุขภาพโดยรวมอยู่ในเกณฑ์ดี ร่างกายกำลังฟื้นฟูและแข็งแรงขึ้น',advice:'รักษาสมดุลชีวิต อย่าทำงานหักโหมเกินไป จิตใจผ่อนคลายสร้างสุขภาพดี'}]};
 function getTarotIndex(dob,topic){const today=new Date();const seed=dob+topic+today.toISOString().slice(0,10);let h=0;for(let c of seed)h=((h<<5)-h)+c.charCodeAt(0);return Math.abs(h)%3;}
-async function drawTarot(){
+function drawTarot(){
   if(userState.plan==='free'||userState.credits<=0){showPaymentPrompt('tarot');return;}
   if(pickedCards.length < 3){alert('กรุณาเลือกไพ่ให้ครบ 3 ใบก่อนนะคะ');return;}
-
-  document.getElementById('tarot-step3').style.display='none';
-  document.getElementById('tarot-result').classList.remove('show');
-  document.getElementById('tarot-result').classList.add('show');
-  document.getElementById('tarot-emoji').textContent='🔮';
-  document.getElementById('tarot-emoji').style.fontSize='48px';
-  document.getElementById('tarot-title').textContent='กำลังอ่านพลังงานของไพ่...';
-  document.getElementById('tarot-text').textContent='';
-  document.getElementById('tarot-advice').textContent='';
-  document.getElementById('tarot-result').scrollIntoView({behavior:'smooth',block:'start'});
 
   const card1 = tarotCards[pickedCards[0]];
   const card2 = tarotCards[pickedCards[1]];
   const card3 = tarotCards[pickedCards[2]];
-  const topicNames = {love:'ความรัก', work:'การงาน', money:'การเงิน', health:'สุขภาพ'};
 
-  try {
-    const response = await fetch('/api/tarot', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        question: selectedQuestion,
-        topic: topicNames[selectedTopic],
-        cards: [
-          { name: card1.name, meaning: card1.meaning },
-          { name: card2.name, meaning: card2.meaning },
-          { name: card3.name, meaning: card3.meaning }
-        ]
-      })
-    });
+  const d1 = tarotCardData[card1.img] || {};
+  const d2 = tarotCardData[card2.img] || {};
+  const d3 = tarotCardData[card3.img] || {};
 
-    const data = await response.json();
-    const prediction = data.prediction;
-    const advice = data.advice;
+  // สูตร: สถานการณ์ + ความรู้สึก + แนวโน้ม + คำแนะนำ
+  const prediction = `${d1.situation || ''} ${d2.feeling || ''} ${d3.outcome || ''}`.trim();
+  const advice = d3.advice || '';
 
-    useCredit();
+  useCredit();
 
-    // Show 3 card faces like reference image
+  document.getElementById('tarot-step3').style.display='none';
+  document.getElementById('tarot-result').classList.remove('show');
+
+  setTimeout(() => {
     document.getElementById('tarot-emoji').style.fontSize = '0';
     document.getElementById('tarot-emoji').innerHTML = `
       <div style="display:flex;gap:12px;justify-content:center;margin-bottom:12px;">
         ${[card1,card2,card3].map((c,i)=>`
           <div style="text-align:center;">
             <img src="${c.img}" style="width:80px;height:120px;object-fit:cover;border-radius:8px;border:1px solid rgba(201,168,76,0.4);box-shadow:0 4px 12px rgba(0,0,0,0.15);">
-            <div style="font-size:10px;color:var(--text-light);margin-top:4px;font-family:'Noto Serif Thai',serif;">${['อดีต','ปัจจุบัน','อนาคต'][i]}</div>
+            <div style="font-size:10px;color:var(--text-light);margin-top:4px;font-family:'Noto Serif Thai',serif;">${['สถานการณ์','ความรู้สึก','แนวโน้ม'][i]}</div>
           </div>`).join('')}
       </div>`;
     document.getElementById('tarot-title').textContent = selectedQuestion;
     document.getElementById('tarot-text').textContent = prediction;
     document.getElementById('tarot-luck-label').textContent = '✦ คำแนะนำ';
     document.getElementById('tarot-advice').textContent = advice;
+    document.getElementById('tarot-result').classList.add('show');
     showCreditsBar('tarot');
-
-  } catch(e) {
-    document.getElementById('tarot-emoji').textContent = '🔮';
-    document.getElementById('tarot-title').textContent = 'เกิดข้อผิดพลาด';
-    document.getElementById('tarot-text').textContent = 'กรุณาลองใหม่อีกครั้งนะคะ';
-    console.error(e);
-  }
+    document.getElementById('tarot-result').scrollIntoView({behavior:'smooth',block:'start'});
+  }, 800);
 }
 const energyMeanings={1:'เลขแห่งความเป็นผู้นำ วันนี้เหมาะแก่การริเริ่มและตัดสินใจด้วยตัวเอง',2:'เลขแห่งความสมดุล วันนี้เหมาะแก่การทำงานร่วมกับผู้อื่นและการเจรจา',3:'เลขแห่งความสร้างสรรค์ พลังงานแห่งการแสดงออกและความสนุกสนาน',4:'เลขแห่งความมั่นคง วันนี้เหมาะแก่การวางรากฐานและทำงานอย่างตั้งใจ',5:'เลขแห่งการเปลี่ยนแปลง วันนี้อาจมีเรื่องใหม่หรือความเปลี่ยนแปลงเกิดขึ้น',6:'เลขแห่งความรักและครอบครัว วันนี้เหมาะแก่การดูแลคนที่รักและตัวเอง',7:'เลขแห่งปัญญาและจิตวิญญาณ วันนี้เหมาะแก่การทบทวนและค้นหาความหมาย',8:'เลขแห่งความอุดมสมบูรณ์ พลังงานด้านการเงินและความสำเร็จแรงมากวันนี้',9:'เลขแห่งการให้และความเมตตา วันนี้เหมาะแก่การทำบุญและช่วยเหลือผู้อื่น'};
 function calcEnergyNumbers(dob){const t=new Date(),p=dob.split('-');const d=parseInt(p[2]),m=parseInt(p[1]);return[((d+t.getDate())%9)+1,((m+t.getMonth()+1)%9)+1,((d+m+t.getFullYear()%100)%9)+1];}
