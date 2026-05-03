@@ -335,8 +335,36 @@
       <div id="tarot-topic-label" style="font-family:'Noto Serif Thai',serif; font-size:14px; color:var(--text-mid); margin-bottom:12px; text-align:center;"></div>
       <label class="form-label">วันเกิดของคุณ</label>
       <input type="date" class="form-input" id="tarot-dob">
-      <button class="cta-btn" onclick="checkAndDraw('tarot')">🃏 เปิดไพ่</button>
+      <button class="cta-btn" onclick="tarotNextToQuestion()">ถัดไป →</button>
       <button class="reset-btn" style="margin-top:10px;" onclick="tarotBackToTopic()">← เปลี่ยนหัวข้อ</button>
+    </div>
+
+    <!-- STEP 2: เลือกคำถาม -->
+    <div id="tarot-step2" style="display:none; padding:20px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:6px;">เลือกคำถามของคุณ</div>
+      <div style="font-size:13px; color:var(--text-light); text-align:center; margin-bottom:20px;">ไพ่จะตอบคำถามที่คุณเลือก</div>
+      <div id="tarot-questions" style="display:flex; flex-direction:column; gap:10px;"></div>
+      <button class="reset-btn" style="margin-top:14px;" onclick="tarotBackToDob()">← แก้วันเกิด</button>
+    </div>
+
+    <!-- STEP 3: เลือกไพ่ -->
+    <div id="tarot-step3" style="display:none; padding:20px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:4px;">เลือกไพ่ 3 ใบ</div>
+      <div id="tarot-selected-question" style="font-size:12px; color:var(--gold); text-align:center; margin-bottom:6px;"></div>
+      <div style="font-size:12px; color:var(--text-light); text-align:center; margin-bottom:20px;">กดเลือกไพ่ที่ใจดึงดูด 3 ใบ แล้วกดทำนาย</div>
+
+      <!-- สำรับไพ่ -->
+      <div id="tarot-deck" style="display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-bottom:20px;"></div>
+
+      <!-- ไพ่ที่เลือก -->
+      <div style="display:flex; gap:10px; justify-content:center; margin-bottom:20px;">
+        <div id="tarot-picked-1" style="width:80px; height:120px; border-radius:8px; border:2px dashed rgba(180,160,130,0.4); display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--text-light); background:var(--cream-dark);">ใบที่ 1</div>
+        <div id="tarot-picked-2" style="width:80px; height:120px; border-radius:8px; border:2px dashed rgba(180,160,130,0.4); display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--text-light); background:var(--cream-dark);">ใบที่ 2</div>
+        <div id="tarot-picked-3" style="width:80px; height:120px; border-radius:8px; border:2px dashed rgba(180,160,130,0.4); display:flex; align-items:center; justify-content:center; font-size:11px; color:var(--text-light); background:var(--cream-dark);">ใบที่ 3</div>
+      </div>
+
+      <button class="cta-btn" id="tarot-predict-btn" onclick="checkAndDraw('tarot')" disabled>🃏 ทำนาย</button>
+      <button class="reset-btn" style="margin-top:10px;" onclick="tarotBackToQuestion()">← เปลี่ยนคำถาม</button>
     </div>
 
     <div class="lock-wall" id="tarot-lock">
@@ -441,6 +469,116 @@ function closePayment(){document.getElementById('payment-modal').classList.remov
 function simulatePayment(){closePayment();const{type,credits}=pendingPayment;const expiry=new Date();expiry.setMonth(expiry.getMonth()+1);if(type==='single'){userState.plan='single';userState.credits=(userState.credits||0)+1;}else{userState.plan=type;userState.credits=credits;userState.planExpiry=expiry.toISOString();}saveState();updateStatusBar();document.querySelectorAll('.lock-wall').forEach(l=>l.classList.remove('show'));showToast('✅ ชำระเงินสำเร็จ! ขอบคุณค่ะ');goTo('page-home');}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 let selectedTopic=null;
+const tarotQuestions = {
+  love: [
+    'เขาคิดยังไงกับเรา?',
+    'ความสัมพันธ์นี้จะไปต่อได้ไหม?',
+    'เขาจริงจังหรือแค่เล่นๆ?',
+    'มีโอกาสจะได้คบกันไหม?',
+    'ควรรอเขาหรือพอแค่นี้?',
+    'เขามีคนอื่นรึเปล่า?',
+    'เขาจะทักมาไหม?',
+    'เขายังคิดถึงเราอยู่ไหม?',
+    'มีโอกาสได้รีเทิร์นกันไหม?',
+    'ถ้ากลับไปคบกัน จะดีขึ้นจริงไหม?',
+  ],
+  work: [],
+  money: [],
+  health: [],
+};
+
+const tarotCards = [
+  { name:'The Fool', img:'01_thefool.png' },
+  { name:'The Fool II', img:'01_thefool.png' },
+  { name:'The Fool III', img:'01_thefool.png' },
+  { name:'The Fool IV', img:'01_thefool.png' },
+  { name:'The Fool V', img:'01_thefool.png' },
+  { name:'The Fool VI', img:'01_thefool.png' },
+  { name:'The Fool VII', img:'01_thefool.png' },
+  { name:'The Fool VIII', img:'01_thefool.png' },
+  { name:'The Fool IX', img:'01_thefool.png' },
+  { name:'The Fool X', img:'01_thefool.png' },
+  { name:'The Fool XI', img:'01_thefool.png' },
+  { name:'The Fool XII', img:'01_thefool.png' },
+];
+
+let selectedQuestion = '';
+let pickedCards = [];
+
+function tarotNextToQuestion() {
+  const dob = document.getElementById('tarot-dob').value;
+  if (!dob) { alert('กรุณากรอกวันเกิดก่อนนะคะ'); return; }
+  document.getElementById('tarot-step1').style.display = 'none';
+  document.getElementById('tarot-step2').style.display = 'block';
+  renderQuestions();
+}
+
+function renderQuestions() {
+  const qs = tarotQuestions[selectedTopic] || [];
+  const el = document.getElementById('tarot-questions');
+  el.innerHTML = qs.map((q, i) => `
+    <div onclick="selectQuestion('${q}')" style="padding:14px 16px; background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:12px; font-size:14px; color:var(--text); cursor:pointer; transition:all 0.2s; font-family:'Noto Serif Thai',sans-serif;">
+      ${i+1}. ${q}
+    </div>`).join('');
+}
+
+function selectQuestion(q) {
+  selectedQuestion = q;
+  document.getElementById('tarot-step2').style.display = 'none';
+  document.getElementById('tarot-step3').style.display = 'block';
+  document.getElementById('tarot-selected-question').textContent = '❝ ' + q + ' ❞';
+  pickedCards = [];
+  renderDeck();
+  updatePickedUI();
+  document.getElementById('tarot-predict-btn').disabled = true;
+}
+
+function renderDeck() {
+  const deck = document.getElementById('tarot-deck');
+  deck.innerHTML = tarotCards.map((c, i) => `
+    <div id="card-${i}" onclick="pickCard(${i})" style="width:56px; height:84px; border-radius:6px; overflow:hidden; cursor:pointer; transition:all 0.2s; box-shadow:0 2px 8px rgba(0,0,0,0.12);">
+      <img src="tarotdeck.png" style="width:100%; height:100%; object-fit:cover;">
+    </div>`).join('');
+}
+
+function pickCard(i) {
+  if (pickedCards.includes(i)) {
+    pickedCards = pickedCards.filter(c => c !== i);
+    document.getElementById('card-'+i).style.transform = 'translateY(0)';
+    document.getElementById('card-'+i).style.boxShadow = '0 2px 8px rgba(0,0,0,0.12)';
+  } else {
+    if (pickedCards.length >= 3) return;
+    pickedCards.push(i);
+    document.getElementById('card-'+i).style.transform = 'translateY(-12px)';
+    document.getElementById('card-'+i).style.boxShadow = '0 8px 20px rgba(201,168,76,0.4)';
+  }
+  updatePickedUI();
+  document.getElementById('tarot-predict-btn').disabled = pickedCards.length < 3;
+}
+
+function updatePickedUI() {
+  [1,2,3].forEach((n, idx) => {
+    const el = document.getElementById('tarot-picked-'+n);
+    if (pickedCards[idx] !== undefined) {
+      el.innerHTML = `<img src="tarotdeck.png" style="width:100%;height:100%;object-fit:cover;border-radius:6px;">`;
+      el.style.border = '2px solid var(--gold)';
+    } else {
+      el.innerHTML = 'ใบที่ ' + n;
+      el.style.border = '2px dashed rgba(180,160,130,0.4)';
+    }
+  });
+}
+
+function tarotBackToQuestion() {
+  document.getElementById('tarot-step3').style.display = 'none';
+  document.getElementById('tarot-step2').style.display = 'block';
+}
+
+function tarotBackToDob() {
+  document.getElementById('tarot-step2').style.display = 'none';
+  document.getElementById('tarot-step1').style.display = 'block';
+}
+
 function selectTarotTopic(topic) {
   selectedTopic = topic;
   const labels = {love:'💕 ความรัก', work:'💼 การงาน', money:'💰 การเงิน', health:'🌿 สุขภาพ'};
@@ -459,7 +597,11 @@ function resetTarot() {
   document.getElementById('tarot-result').classList.remove('show');
   document.getElementById('tarot-step0').style.display = 'block';
   document.getElementById('tarot-step1').style.display = 'none';
+  document.getElementById('tarot-step2').style.display = 'none';
+  document.getElementById('tarot-step3').style.display = 'none';
   selectedTopic = null;
+  selectedQuestion = '';
+  pickedCards = [];
   showCreditsBar('tarot');
 }
 const siamData={1:{title:"ซีกมงคลที่หนึ่ง — มังกรทองพุ่งฟ้า",text:"ดวงชะตากำลังพุ่งสูงดั่งมังกรทอง สิ่งที่หวังจะสำเร็จได้ไม่ยาก โชคลาภกำลังเข้ามา",advice:"เหมาะแก่การเริ่มต้นสิ่งใหม่ ลงมือทำได้เลย ผลจะดีกว่าที่คาด"},2:{title:"ซีกมงคลที่สอง — ดอกบัวบานในบึง",text:"แม้อยู่ในสถานการณ์ท้าทาย แต่จะผ่านพ้นไปได้อย่างงดงาม",advice:"อย่าหยุดนิ่งแม้อุปสรรคจะมากมาย ความพยายามจะส่งผลในระยะยาว"},3:{title:"ซีกมงคลที่สาม — ดาวสามดวงส่องสว่าง",text:"มีผู้คนคอยช่วยเหลือสนับสนุนอยู่เสมอ มิตรภาพเป็นพลังสำคัญ",advice:"เปิดใจรับความช่วยเหลือ อย่าลืมตอบแทนน้ำใจด้วยความจริงใจ"},4:{title:"ซีกมงคลที่สี่ — ลมอ่อนพัดใบไม้",text:"เป็นเวลาแห่งการพักผ่อนสะสมพลัง ไม่จำเป็นต้องเร่งรีบ",advice:"ทบทวนตัวเอง วางแผนให้รอบคอบก่อนลงมือ ผลจะดีกว่าการรีบร้อน"},5:{title:"ซีกมงคลที่ห้า — เมฆหมอกกลายเป็นรุ้ง",text:"หลังช่วงยากลำบาก แสงสว่างกำลังจะมาถึง สิ่งที่รอคอยใกล้จะเป็นจริง",advice:"อดทนอีกเพียงเล็กน้อย ความสำเร็จอยู่แค่เอื้อม อย่าถอดใจ"},6:{title:"ซีกมงคลที่หก — น้ำใสไหลรินไม่หยุด",text:"โชคลาภและรายได้จะไหลเข้ามาอย่างต่อเนื่อง การงานราบรื่น",advice:"ช่วงดีสำหรับลงทุนหรือเริ่มโครงการใหม่ บริหารจัดการให้รอบคอบ"},7:{title:"ซีกมงคลที่เจ็ด — เจ็ดดาวมงคลนำทาง",text:"สติปัญญาและการตัดสินใจจะคมชัดเป็นพิเศษในช่วงนี้",advice:"เชื่อใจสัญชาตญาณ การตัดสินใจสำคัญในช่วงนี้มักถูกต้อง"},8:{title:"ซีกมงคลที่แปด — แปดทิศแห่งความเจริญ",text:"แปดคือเลขมงคลแห่งความเจริญรุ่งเรือง ดวงส่งสัญญาณแห่งความมั่งคั่ง",advice:"เหมาะแก่การทำธุรกิจ เจรจาต่อรอง โอกาสอยู่ตรงหน้า"},9:{title:"ซีกมงคลที่เก้า — มังกรเก้าองค์คุ้มครอง",text:"ได้รับการคุ้มครองจากสิ่งศักดิ์สิทธิ์ ภัยพิบัติจะเบี่ยงหลีก ชีวิตราบรื่น",advice:"ทำบุญกุศลเพื่อเสริมดวง พลังงานดีๆ จะตอบแทนกลับมาหลายเท่า"},10:{title:"ซีกมงคลที่สิบ — ครบบริบูรณ์",text:"สิบคือความสมบูรณ์ ชีวิตในทุกด้านกำลังเข้าสู่ความสมดุลที่ดี",advice:"ขอบคุณในสิ่งที่มี และแบ่งปันความดีให้ผู้อื่น"}};
@@ -467,7 +609,26 @@ function getSiamNumber(dob){const today=new Date();const seed=dob.replace(/-/g,'
 function drawSiam(){const dob=document.getElementById('siam-dob').value;if(!dob){alert('กรุณากรอกวันเกิดก่อนนะคะ');return;}document.getElementById('siam-result').classList.remove('show');setTimeout(()=>{useCredit();const n=getSiamNumber(dob);const d=siamData[n];document.getElementById('siam-number').textContent=n;document.getElementById('siam-title').textContent=d.title;document.getElementById('siam-text').textContent=d.text;document.getElementById('siam-advice').textContent=d.advice;document.getElementById('siam-result').classList.add('show');showCreditsBar('siam');document.getElementById('siam-result').scrollIntoView({behavior:'smooth',block:'start'});},500);}
 const tarotData={love:[{emoji:'🌹',title:'The Lovers — คู่รักแห่งดวงดาว',text:'ความรักกำลังเบ่งบาน ถ้ามีคู่แล้วความสัมพันธ์จะแข็งแกร่งขึ้น ถ้าโสดอาจพบคนที่ใช่',advice:'เปิดใจรับความรักอย่างกล้าหาญ อย่ากลัวแสดงความรู้สึกที่แท้จริง'},{emoji:'🌙',title:'The Moon — แสงจันทร์แห่งความลึก',text:'มีบางเรื่องในความสัมพันธ์ที่ยังคลุมเครือ ควรสื่อสารให้ชัดเจนขึ้น',advice:'พูดคุยกันด้วยใจเปิดกว้าง ความเข้าใจแท้จริงจะทำให้ความสัมพันธ์มั่นคง'},{emoji:'⭐',title:'The Star — ดาวนำทางแห่งความหวัง',text:'ความรักที่แท้จริงกำลังรอท่านอยู่ ไม่ว่าผ่านอะไรมา ความหวังยังสว่างไสว',advice:'วางใจในจังหวะของชีวิต สิ่งดีๆ กำลังเดินทางมาหาท่าน'}],work:[{emoji:'⚡',title:'The Emperor — จักรพรรดิแห่งความสำเร็จ',text:'มีความสามารถในการนำและตัดสินใจที่แข็งแกร่ง เหมาะแก่การแสดงศักยภาพ',advice:'ก้าวออกมานำหน้า แสดงความสามารถให้ผู้ใหญ่มองเห็น'},{emoji:'🏆',title:'The Chariot — รถศึกแห่งชัยชนะ',text:'ชัยชนะอยู่ตรงหน้า แม้มีอุปสรรค ถ้าไม่ยอมแพ้จะประสบความสำเร็จ',advice:'มุ่งหน้าต่อด้วยความมั่นใจ อย่าให้สิ่งรอบข้างมาเบี่ยงความสนใจ'},{emoji:'🌿',title:'The Hermit — ฤๅษีผู้รอบรู้',text:'เป็นเวลาของการเรียนรู้และพัฒนาตัวเอง ความรู้ที่สะสมจะกลายเป็นอาวุธ',advice:'ลงทุนกับการพัฒนาทักษะ เรียนรู้สิ่งใหม่ ผลจะปรากฏในอนาคตอันใกล้'}],money:[{emoji:'💰',title:'Ace of Pentacles — เหรียญแห่งโชคลาภ',text:'โอกาสทางการเงินกำลังเปิดออก อาจมีรายได้ใหม่หรือโอกาสลงทุนที่ดีเข้ามา',advice:'ตรวจสอบโอกาสด้วยสติ ศึกษาให้ถ่องแท้ก่อนตัดสินใจ'},{emoji:'🌊',title:'The Wheel — วงล้อแห่งชะตา',text:'การเงินอยู่ในช่วงเปลี่ยนแปลง มีทั้งขึ้นและลง แต่แนวโน้มโดยรวมดีขึ้น',advice:'สำรองเงินไว้บ้าง แต่อย่ากลัวจนเกินไป โอกาสที่ดีกำลังใกล้เข้ามา'},{emoji:'✨',title:'The Sun — ดวงอาทิตย์แห่งความรุ่งโรจน์',text:'การเงินสว่างไสว รายได้มั่นคง อาจมีโบนัสหรือรายได้พิเศษเข้ามา',advice:'ใช้ช่วงเวลาดีนี้วางรากฐานทางการเงินระยะยาว ออมและลงทุนอย่างชาญฉลาด'}],health:[{emoji:'🌸',title:'Temperance — ความสมดุลแห่งชีวิต',text:'ร่างกายและจิตใจต้องการความสมดุล ดูแลตัวเองทั้งสองด้านให้ดี',advice:'นอนหลับพักผ่อนให้เพียงพอ รับประทานอาหารดี หาเวลาผ่อนคลาย'},{emoji:'💪',title:'Strength — พลังแห่งจิตใจ',text:'มีพลังและความแข็งแกร่งมากกว่าที่คิด สุขภาพกายดี แต่ต้องดูแลสุขภาพจิตด้วย',advice:'ออกกำลังกายสม่ำเสมอ หาวิธีจัดการความเครียดที่เหมาะกับตัวเอง'},{emoji:'🌿',title:'The World — โลกแห่งความสมบูรณ์',text:'สุขภาพโดยรวมอยู่ในเกณฑ์ดี ร่างกายกำลังฟื้นฟูและแข็งแรงขึ้น',advice:'รักษาสมดุลชีวิต อย่าทำงานหักโหมเกินไป จิตใจผ่อนคลายสร้างสุขภาพดี'}]};
 function getTarotIndex(dob,topic){const today=new Date();const seed=dob+topic+today.toISOString().slice(0,10);let h=0;for(let c of seed)h=((h<<5)-h)+c.charCodeAt(0);return Math.abs(h)%3;}
-function drawTarot(){const dob=document.getElementById('tarot-dob').value;if(!dob){alert('กรุณากรอกวันเกิดก่อนนะคะ');return;}if(!selectedTopic){alert('กรุณาเลือกหัวข้อก่อนนะคะ');return;}document.getElementById('tarot-result').classList.remove('show');document.getElementById('tarot-step1').style.display='none';setTimeout(()=>{useCredit();const card=tarotData[selectedTopic][getTarotIndex(dob,selectedTopic)];const topicNames={love:'💕 ความรัก',work:'💼 การงาน',money:'💰 การเงิน',health:'🌿 สุขภาพ'};document.getElementById('tarot-emoji').textContent=card.emoji;document.getElementById('tarot-title').textContent=card.title;document.getElementById('tarot-text').textContent=card.text;document.getElementById('tarot-luck-label').textContent='✦ '+topicNames[selectedTopic]+' — คำแนะนำ';document.getElementById('tarot-advice').textContent=card.advice;document.getElementById('tarot-result').classList.add('show');showCreditsBar('tarot');document.getElementById('tarot-result').scrollIntoView({behavior:'smooth',block:'start'});},1800);}
+function drawTarot(){
+  const dob=document.getElementById('tarot-dob').value;
+  if(!dob||!selectedTopic){return;}
+  if(userState.plan==='free'||userState.credits<=0){showPaymentPrompt('tarot');return;}
+  document.getElementById('tarot-step3').style.display='none';
+  document.getElementById('tarot-result').classList.remove('show');
+  setTimeout(()=>{
+    useCredit();
+    const card=tarotData[selectedTopic][getTarotIndex(dob,selectedTopic)];
+    const topicNames={love:'💕 ความรัก',work:'💼 การงาน',money:'💰 การเงิน',health:'🌿 สุขภาพ'};
+    document.getElementById('tarot-emoji').textContent=card.emoji;
+    document.getElementById('tarot-title').textContent=card.title;
+    document.getElementById('tarot-text').textContent=card.text;
+    document.getElementById('tarot-luck-label').textContent='✦ '+topicNames[selectedTopic]+' — คำแนะนำ';
+    document.getElementById('tarot-advice').textContent=card.advice;
+    document.getElementById('tarot-result').classList.add('show');
+    showCreditsBar('tarot');
+    document.getElementById('tarot-result').scrollIntoView({behavior:'smooth',block:'start'});
+  },1000);
+}
 const energyMeanings={1:'เลขแห่งความเป็นผู้นำ วันนี้เหมาะแก่การริเริ่มและตัดสินใจด้วยตัวเอง',2:'เลขแห่งความสมดุล วันนี้เหมาะแก่การทำงานร่วมกับผู้อื่นและการเจรจา',3:'เลขแห่งความสร้างสรรค์ พลังงานแห่งการแสดงออกและความสนุกสนาน',4:'เลขแห่งความมั่นคง วันนี้เหมาะแก่การวางรากฐานและทำงานอย่างตั้งใจ',5:'เลขแห่งการเปลี่ยนแปลง วันนี้อาจมีเรื่องใหม่หรือความเปลี่ยนแปลงเกิดขึ้น',6:'เลขแห่งความรักและครอบครัว วันนี้เหมาะแก่การดูแลคนที่รักและตัวเอง',7:'เลขแห่งปัญญาและจิตวิญญาณ วันนี้เหมาะแก่การทบทวนและค้นหาความหมาย',8:'เลขแห่งความอุดมสมบูรณ์ พลังงานด้านการเงินและความสำเร็จแรงมากวันนี้',9:'เลขแห่งการให้และความเมตตา วันนี้เหมาะแก่การทำบุญและช่วยเหลือผู้อื่น'};
 function calcEnergyNumbers(dob){const t=new Date(),p=dob.split('-');const d=parseInt(p[2]),m=parseInt(p[1]);return[((d+t.getDate())%9)+1,((m+t.getMonth()+1)%9)+1,((d+m+t.getFullYear()%100)%9)+1];}
 function drawEnergy(){const dob=document.getElementById('energy-dob').value;if(!dob){alert('กรุณากรอกวันเกิดก่อนนะคะ');return;}document.getElementById('energy-result').classList.remove('show');document.getElementById('energy-loading').classList.add('show');setTimeout(()=>{useCredit();const nums=calcEnergyNumbers(dob);document.getElementById('energy-bubbles').innerHTML=nums.map(n=>`<div class="energy-bubble">${n}</div>`).join('');document.getElementById('energy-meanings').innerHTML=nums.map(n=>`<div class="energy-item"><div class="energy-num-small">${n}</div><div class="energy-desc">${energyMeanings[n]}</div></div>`).join('');document.getElementById('energy-loading').classList.remove('show');document.getElementById('energy-result').classList.add('show');showCreditsBar('energy');document.getElementById('energy-result').scrollIntoView({behavior:'smooth',block:'start'});},1800);}
