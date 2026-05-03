@@ -570,7 +570,9 @@ function selectQuestion(q) {
 
 function renderDeck() {
   const deck = document.getElementById('tarot-deck');
-  const total = tarotCards.length; // 22
+  // Shuffle cards every time
+  const shuffled = [...tarotCards].sort(() => Math.random() - 0.5);
+  const total = shuffled.length;
   const cardW = 54;
   const deckW = deck.offsetWidth || 320;
   const row1 = Math.ceil(total / 2);
@@ -580,7 +582,7 @@ function renderDeck() {
   const offsetX1 = (deckW - (cardW + spacing1 * (row1-1))) / 2;
   const offsetX2 = (deckW - (cardW + spacing2 * (row2-1))) / 2;
 
-  deck.innerHTML = tarotCards.map((c, i) => {
+  deck.innerHTML = shuffled.map((c, i) => {
     const isRow1 = i < row1;
     const pos = isRow1 ? i : i - row1;
     const spacing = isRow1 ? spacing1 : spacing2;
