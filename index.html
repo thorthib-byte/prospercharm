@@ -303,7 +303,7 @@
 
   <!-- TAROT -->
   <div class="page" id="page-tarot">
-    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">🃏 ไพ่ทาโร่แห่งชะตา</div></div>
+    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">🃏 ไพ่ทาโรต์แห่งชะตา</div></div>
     <div class="credits-bar" id="tarot-credits-bar"><span class="credits-bar-text">เครดิตคงเหลือ</span><span class="credits-bar-num" id="tarot-credits-num"></span></div>
 
     <!-- STEP 0: เลือกหัวข้อ -->
@@ -568,11 +568,12 @@ function selectQuestion(q) {
   document.getElementById('tarot-predict-btn').disabled = true;
 }
 
+let shuffledDeck = [];
+
 function renderDeck() {
   const deck = document.getElementById('tarot-deck');
-  // Shuffle cards every time
-  const shuffled = [...tarotCards].sort(() => Math.random() - 0.5);
-  const total = shuffled.length;
+  shuffledDeck = [...tarotCards].sort(() => Math.random() - 0.5);
+  const total = shuffledDeck.length;
   const cardW = 54;
   const deckW = deck.offsetWidth || 320;
   const row1 = Math.ceil(total / 2);
@@ -582,7 +583,7 @@ function renderDeck() {
   const offsetX1 = (deckW - (cardW + spacing1 * (row1-1))) / 2;
   const offsetX2 = (deckW - (cardW + spacing2 * (row2-1))) / 2;
 
-  deck.innerHTML = shuffled.map((c, i) => {
+  deck.innerHTML = shuffledDeck.map((c, i) => {
     const isRow1 = i < row1;
     const pos = isRow1 ? i : i - row1;
     const spacing = isRow1 ? spacing1 : spacing2;
@@ -667,9 +668,9 @@ function drawTarot(){
   if(userState.plan==='free'||userState.credits<=0){showPaymentPrompt('tarot');return;}
   if(pickedCards.length < 3){alert('กรุณาเลือกไพ่ให้ครบ 3 ใบก่อนนะคะ');return;}
 
-  const card1 = tarotCards[pickedCards[0]];
-  const card2 = tarotCards[pickedCards[1]];
-  const card3 = tarotCards[pickedCards[2]];
+  const card1 = shuffledDeck[pickedCards[0]];
+  const card2 = shuffledDeck[pickedCards[1]];
+  const card3 = shuffledDeck[pickedCards[2]];
 
   const d1 = tarotCardData[card1.img] || {};
   const d2 = tarotCardData[card2.img] || {};
