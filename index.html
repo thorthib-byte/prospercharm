@@ -161,7 +161,17 @@
   .toast { position:fixed; top:20px; left:50%; transform:translateX(-50%) translateY(-80px); background:var(--brown-dark); color:var(--cream); padding:12px 24px; border-radius:30px; font-size:14px; z-index:200; transition:transform 0.4s ease; white-space:nowrap; box-shadow:0 4px 20px rgba(0,0,0,0.2); }
   .toast.show { transform:translateX(-50%) translateY(0); }
 
-  .footer { text-align:center; padding:16px; color:var(--text-light); font-size:11px; border-top:1px solid rgba(180,160,130,0.2); margin-top:10px; }
+  /* SOULMATE */
+  .energy-select-btn { background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:14px; padding:16px 10px; text-align:center; cursor:pointer; font-family:'Noto Serif Thai',serif; font-size:14px; color:var(--brown-dark); transition:all 0.2s; line-height:1.6; }
+  .energy-select-btn.selected { border-color:var(--gold); background:rgba(201,168,76,0.1); font-weight:600; }
+  .candle-btn { background:var(--white); border:2px solid rgba(180,160,130,0.25); border-radius:16px; padding:14px; cursor:pointer; transition:all 0.2s; }
+  .candle-btn.selected { border-color:var(--gold); background:rgba(201,168,76,0.08); }
+  .soulmate-answer-btn { padding:16px 20px; background:var(--white); border:1px solid rgba(180,160,130,0.3); border-radius:14px; font-family:'Noto Serif Thai',serif; font-size:15px; color:var(--brown-dark); cursor:pointer; transition:all 0.2s; text-align:center; }
+  .soulmate-answer-btn:active { background:rgba(201,168,76,0.1); border-color:var(--gold); }
+  @keyframes twinkle { 0%,100%{opacity:0.3} 50%{opacity:1} }
+  @keyframes floatUp { from{transform:translateY(0)} to{transform:translateY(-4px)} }
+
+    .footer { text-align:center; padding:16px; color:var(--text-light); font-size:11px; border-top:1px solid rgba(180,160,130,0.2); margin-top:10px; }
 </style>
 </head>
 <body>
@@ -448,8 +458,124 @@
       <input type="date" class="form-input" id="soulmate-dob1">
       <label class="form-label">วันเกิดของอีกฝ่าย</label>
       <input type="date" class="form-input" id="soulmate-dob2">
-      <button class="cta-btn" onclick="checkAndDrawSoulmate()">💑 ดูความเข้ากัน</button>
+      <button class="cta-btn" onclick="soulmateNextToEnergy()">ดูความเข้ากัน 💞</button>
       <button class="reset-btn" style="margin-top:10px;" onclick="soulmateBackToScience()">← เปลี่ยนศาสตร์</button>
+    </div>
+
+    <!-- STEP 2: เลือกพลังงานความสัมพันธ์ -->
+    <div id="soulmate-step2" style="display:none; padding:20px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:6px;">พลังงานความสัมพันธ์ตอนนี้</div>
+      <div style="font-size:13px; color:var(--text-light); text-align:center; margin-bottom:20px;">เลือกที่ตรงกับความรู้สึกมากที่สุด</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+        <div onclick="selectRelationEnergy(this,'start')" class="energy-select-btn">🌸<br><span>เริ่มต้น</span></div>
+        <div onclick="selectRelationEnergy(this,'hot')" class="energy-select-btn">🔥<br><span>แรงดึงดูดสูง</span></div>
+        <div onclick="selectRelationEnergy(this,'unclear')" class="energy-select-btn">🌊<br><span>ไม่ชัดเจน</span></div>
+        <div onclick="selectRelationEnergy(this,'distant')" class="energy-select-btn">🌙<br><span>ห่างเหิน</span></div>
+        <div onclick="selectRelationEnergy(this,'cycle')" class="energy-select-btn">💫<br><span>วนกลับมาเรื่อยๆ</span></div>
+        <div onclick="selectRelationEnergy(this,'serious')" class="energy-select-btn">💍<br><span>จริงจัง</span></div>
+      </div>
+    </div>
+
+    <!-- STEP 3: 10 คำถามพลังงาน -->
+    <div id="soulmate-step3" style="display:none; padding:20px;">
+      <div style="background:var(--cream-dark); border-radius:20px; height:6px; overflow:hidden; margin-bottom:20px;">
+        <div id="soulmate-progress-bar" style="background:var(--gold); height:100%; width:10%; border-radius:20px; transition:width 0.3s ease;"></div>
+      </div>
+      <div id="soulmate-question-num" style="font-size:12px; color:var(--text-light); text-align:center; margin-bottom:8px;"></div>
+      <div id="soulmate-question-text" style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:28px; line-height:1.5;"></div>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <button id="soulmate-ans-a" onclick="answerQuestion(0)" class="soulmate-answer-btn"></button>
+        <button id="soulmate-ans-b" onclick="answerQuestion(1)" class="soulmate-answer-btn"></button>
+      </div>
+    </div>
+
+    <!-- STEP 3 RESULT: ผลพลังงาน -->
+    <div id="soulmate-step3result" style="display:none; padding:20px; text-align:center;">
+      <div style="font-size:64px; margin-bottom:16px;" id="s3r-icon"></div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:20px; font-weight:700; color:var(--brown-dark); margin-bottom:8px;" id="s3r-title"></div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.8; margin-bottom:28px;" id="s3r-desc"></div>
+      <button class="cta-btn" onclick="showSoulmateStep('soulmate-step4a')">ถัดไป →</button>
+    </div>
+
+    <!-- STEP 4A: เลือกธาตุเจ้าเรือน -->
+    <div id="soulmate-step4a" style="display:none; padding:20px;">
+      <div id="element-person-label" style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:4px;">เลือกธาตุเจ้าเรือนของคุณ</div>
+      <div style="font-size:12px; color:var(--text-light); text-align:center; margin-bottom:6px;" id="element-person-sub">เดือนเกิดของคุณ</div>
+
+      <!-- คำแนะนำธาตุ -->
+      <div style="background:var(--cream-dark); border-radius:12px; padding:12px 14px; margin-bottom:16px; font-size:12px; color:var(--text-mid); line-height:1.9;">
+        🔴 <b>ธาตุไฟ</b> — มกราคม / กุมภาพันธ์ / มีนาคม<br>
+        🌬️ <b>ธาตุลม</b> — เมษายน / พฤษภาคม / มิถุนายน<br>
+        🔵 <b>ธาตุน้ำ</b> — กรกฎาคม / สิงหาคม / กันยายน<br>
+        🟤 <b>ธาตุดิน</b> — ตุลาคม / พฤศจิกายน / ธันวาคม
+      </div>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
+        <div onclick="selectElement(this,'fire')" class="candle-btn" style="text-align:center; padding:16px 10px;">
+          <img src="images/soulmate/candlered.png" style="width:100%; height:110px; object-fit:contain;">
+          <div style="font-size:13px; color:var(--brown-dark); margin-top:6px; font-family:'Noto Serif Thai',serif; font-weight:600;">🔴 ธาตุไฟ</div>
+        </div>
+        <div onclick="selectElement(this,'wind')" class="candle-btn" style="text-align:center; padding:16px 10px;">
+          <img src="images/soulmate/candlewhite.png" style="width:100%; height:110px; object-fit:contain;">
+          <div style="font-size:13px; color:var(--brown-dark); margin-top:6px; font-family:'Noto Serif Thai',serif; font-weight:600;">🌬️ ธาตุลม</div>
+        </div>
+        <div onclick="selectElement(this,'water')" class="candle-btn" style="text-align:center; padding:16px 10px;">
+          <img src="images/soulmate/candleblue.png" style="width:100%; height:110px; object-fit:contain;">
+          <div style="font-size:13px; color:var(--brown-dark); margin-top:6px; font-family:'Noto Serif Thai',serif; font-weight:600;">🔵 ธาตุน้ำ</div>
+        </div>
+        <div onclick="selectElement(this,'earth')" class="candle-btn" style="text-align:center; padding:16px 10px;">
+          <img src="images/soulmate/candlegren.png" style="width:100%; height:110px; object-fit:contain;">
+          <div style="font-size:13px; color:var(--brown-dark); margin-top:6px; font-family:'Noto Serif Thai',serif; font-weight:600;">🟤 ธาตุดิน</div>
+        </div>
+      </div>
+      <div id="element-selected-msg" style="font-size:13px; color:var(--gold); text-align:center; min-height:20px; margin-bottom:12px;"></div>
+      <button class="cta-btn" id="element-next-btn" onclick="elementNextStep()" disabled>ถัดไป →</button>
+    </div>
+
+    <!-- STEP 4B: กลางวัน/กลางคืน -->
+    <div id="soulmate-step4b" style="display:none; padding:20px; text-align:center;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">พลังของความสัมพันธ์นี้เป็น…</div>
+      <div style="font-size:13px; color:var(--text-light); margin-bottom:32px;">เลือกสิ่งที่รู้สึกว่าใช่</div>
+      <div style="display:flex; gap:20px; justify-content:center;">
+        <div onclick="selectDayNight(this,'day')" style="flex:1; max-width:140px; padding:24px 16px; background:var(--white); border:2px solid rgba(180,160,130,0.3); border-radius:20px; cursor:pointer; transition:all 0.2s; text-align:center;">
+          <div style="font-size:52px; margin-bottom:10px;">☀️</div>
+          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">พลังกลางวัน</div>
+          <div style="font-size:11px; color:var(--text-light); margin-top:4px;">ชัดเจน อบอุ่น มีพลัง</div>
+        </div>
+        <div onclick="selectDayNight(this,'night')" style="flex:1; max-width:140px; padding:24px 16px; background:var(--white); border:2px solid rgba(180,160,130,0.3); border-radius:20px; cursor:pointer; transition:all 0.2s; text-align:center;">
+          <div style="font-size:52px; margin-bottom:10px;">🌙</div>
+          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">พลังกลางคืน</div>
+          <div style="font-size:11px; color:var(--text-light); margin-top:4px;">ลึกซึ้ง ลึกลับ เงียบงาม</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4C: ลอยขันน้ำมนต์ -->
+    <div id="soulmate-step4c" style="display:none; padding:20px; text-align:center;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark); margin-bottom:6px;">ลอยขันน้ำมนต์</div>
+      <div style="font-size:13px; color:var(--text-light); margin-bottom:20px;">ใช้นิ้วลากบนขันเพื่อส่งพลังงาน</div>
+      <div style="position:relative; width:280px; height:280px; margin:0 auto 20px; border-radius:50%; overflow:hidden; cursor:pointer;" id="khan-container">
+        <img src="images/soulmate/khan.png" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
+        <canvas id="khan-canvas" width="280" height="280" style="position:absolute; top:0; left:0; border-radius:50%; opacity:0.6;"></canvas>
+      </div>
+      <div id="khan-msg" style="font-size:13px; color:var(--gold); margin-bottom:16px; min-height:20px;"></div>
+      <button class="cta-btn" id="khan-next-btn" onclick="soulmateGoLoading()" disabled>กำลังส่งพลังงาน… ✨</button>
+    </div>
+
+    <!-- STEP 5: Loading -->
+    <div id="soulmate-step5" style="display:none; min-height:60vh; background:linear-gradient(180deg, #1a0a2e 0%, #2d1b4e 100%); padding:40px 20px; text-align:center; position:relative; overflow:hidden;">
+      <div style="position:absolute; inset:0;" id="stars-bg"></div>
+      <div style="position:relative; z-index:2; padding-top:40px;">
+        <div style="position:relative; width:160px; height:160px; margin:0 auto 30px;">
+          <div id="orbit-ring" style="width:160px; height:160px; border-radius:50%; border:2px solid rgba(212,175,55,0.3); position:absolute; animation:spin 4s linear infinite;"></div>
+          <div id="orbit-dot1" style="position:absolute; top:-8px; left:50%; transform:translateX(-50%); width:16px; height:16px; background:var(--gold); border-radius:50; font-size:10px; display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--brown-dark);">A</div>
+          <div id="orbit-dot2" style="position:absolute; bottom:-8px; left:50%; transform:translateX(-50%); width:16px; height:16px; background:#e8a0c0; border-radius:50%; font-size:10px; display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--brown-dark);">B</div>
+          <div style="position:absolute; inset:20px; border-radius:50%; background:rgba(212,175,55,0.1); display:flex; align-items:center; justify-content:center;">
+            <div style="font-size:36px;">💞</div>
+          </div>
+        </div>
+        <div id="loading-msg" style="font-family:'Noto Serif Thai',serif; font-size:16px; color:rgba(245,230,163,0.9); min-height:28px; transition:opacity 0.5s;"></div>
+      </div>
     </div>
     <div class="loading" id="soulmate-loading"><span class="loading-spinner">💑</span><div class="loading-text">กำลังวิเคราะห์ดวงสมพงศ์...</div></div>
     <div class="result-card" id="soulmate-result">
@@ -464,6 +590,64 @@
       <div class="result-luck"><div class="result-luck-label">✦ คำแนะนำ</div><div class="result-luck-text" id="soulmate-advice"></div></div>
       <button class="reset-btn" onclick="resetSoulmate()">🔄 ดูใหม่อีกครั้ง</button>
     </div>
+  </div>
+
+  <!-- SOULMATE RESULT -->
+  <div id="soulmate-step6" style="display:none; padding:20px 16px 40px;">
+    <div style="text-align:center; margin-bottom:24px;">
+      <div style="font-size:32px; margin-bottom:8px;">💞</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:22px; font-weight:700; color:var(--brown-dark);" id="s6-score-label"></div>
+    </div>
+
+    <!-- Score bar -->
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
+        <span style="font-size:13px; color:var(--text-mid);">ระดับความสมพงศ์</span>
+        <span style="font-family:'Noto Serif Thai',serif; font-size:20px; font-weight:700; color:var(--gold);" id="s6-score-pct"></span>
+      </div>
+      <div style="background:var(--cream-dark); border-radius:20px; height:10px; overflow:hidden;">
+        <div id="s6-score-bar" style="background:linear-gradient(90deg,var(--gold),#e8a060); height:100%; border-radius:20px; transition:width 1s ease;"></div>
+      </div>
+      <div style="font-size:12px; color:var(--text-light); margin-top:8px; text-align:center;" id="s6-score-desc"></div>
+    </div>
+
+    <!-- Sections -->
+    <div id="s6-element" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">☯️ พลังธาตุของคู่นี้</div>
+      <div id="s6-element-text" style="font-size:14px; color:var(--text-mid); line-height:1.8;"></div>
+    </div>
+
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🌙 นิสัยเวลาอยู่ด้วยกัน</div>
+      <div id="s6-habit" style="font-size:14px; color:var(--text-mid); line-height:1.8;"></div>
+    </div>
+
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🔥 จุดดึงดูดกัน</div>
+      <div id="s6-attract" style="font-size:14px; color:var(--text-mid); line-height:1.8;"></div>
+    </div>
+
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">⚠️ จุดที่ต้องระวัง</div>
+      <div id="s6-warning" style="font-size:14px; color:var(--text-mid); line-height:1.8;"></div>
+    </div>
+
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">💍 แนวโน้มระยะยาว</div>
+      <div id="s6-longterm" style="font-size:14px; color:var(--text-mid); line-height:1.8;"></div>
+    </div>
+
+    <div style="background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(201,168,76,0.05)); border:1px solid rgba(201,168,76,0.4); border-radius:16px; padding:20px; margin-bottom:14px; text-align:center;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🧿 พลังงานของความสัมพันธ์นี้คือ</div>
+      <div id="s6-type" style="font-family:'Noto Serif Thai',serif; font-size:22px; font-weight:700; color:var(--gold);"></div>
+    </div>
+
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:20px; text-align:center;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">✨ คำแนะนำจากดวงคู่</div>
+      <div id="s6-advice" style="font-size:15px; color:var(--text-mid); line-height:1.9; font-style:italic;"></div>
+    </div>
+
+    <button class="reset-btn" onclick="resetSoulmate()">🔄 ดูใหม่อีกครั้ง</button>
   </div>
 
   <!-- PAYMENT MODAL -->
@@ -1089,10 +1273,307 @@ function drawTarot(){
 const energyMeanings={1:'เลขแห่งความเป็นผู้นำ วันนี้เหมาะแก่การริเริ่มและตัดสินใจด้วยตัวเอง',2:'เลขแห่งความสมดุล วันนี้เหมาะแก่การทำงานร่วมกับผู้อื่นและการเจรจา',3:'เลขแห่งความสร้างสรรค์ พลังงานแห่งการแสดงออกและความสนุกสนาน',4:'เลขแห่งความมั่นคง วันนี้เหมาะแก่การวางรากฐานและทำงานอย่างตั้งใจ',5:'เลขแห่งการเปลี่ยนแปลง วันนี้อาจมีเรื่องใหม่หรือความเปลี่ยนแปลงเกิดขึ้น',6:'เลขแห่งความรักและครอบครัว วันนี้เหมาะแก่การดูแลคนที่รักและตัวเอง',7:'เลขแห่งปัญญาและจิตวิญญาณ วันนี้เหมาะแก่การทบทวนและค้นหาความหมาย',8:'เลขแห่งความอุดมสมบูรณ์ พลังงานด้านการเงินและความสำเร็จแรงมากวันนี้',9:'เลขแห่งการให้และความเมตตา วันนี้เหมาะแก่การทำบุญและช่วยเหลือผู้อื่น'};
 function calcEnergyNumbers(dob){const t=new Date(),p=dob.split('-');const d=parseInt(p[2]),m=parseInt(p[1]);return[((d+t.getDate())%9)+1,((m+t.getMonth()+1)%9)+1,((d+m+t.getFullYear()%100)%9)+1];}
 function drawEnergy(){const dob=document.getElementById('energy-dob').value;if(!dob){alert('กรุณากรอกวันเกิดก่อนนะคะ');return;}document.getElementById('energy-result').classList.remove('show');document.getElementById('energy-loading').classList.add('show');setTimeout(()=>{useCredit();const nums=calcEnergyNumbers(dob);document.getElementById('energy-bubbles').innerHTML=nums.map(n=>`<div class="energy-bubble">${n}</div>`).join('');document.getElementById('energy-meanings').innerHTML=nums.map(n=>`<div class="energy-item"><div class="energy-num-small">${n}</div><div class="energy-desc">${energyMeanings[n]}</div></div>`).join('');document.getElementById('energy-loading').classList.remove('show');document.getElementById('energy-result').classList.add('show');showCreditsBar('energy');document.getElementById('energy-result').scrollIntoView({behavior:'smooth',block:'start'});},1800);}
-let selectedSoulmateScience = '';
+// ===== SOULMATE FULL FLOW =====
+let soulmateState = {
+  dob1: '', dob2: '', science: '',
+  relationEnergy: '', questionAnswers: [],
+  candle: '', dayNight: '', candleLabel: ''
+};
+
+const soulmateQuestions = [
+  { q:'ตอนอยู่กับเขา/เธอ รู้สึกแบบไหนมากกว่า?', a:['มีพลัง','สงบ'], keys:['day','night'] },
+  { q:'ความสัมพันธ์นี้เริ่มต้นในช่วงเวลาไหน?', a:['กลางวัน','กลางคืน'], keys:['day','night'] },
+  { q:'เวลาทะเลาะกัน มักจบยังไง?', a:['คืนดีเร็ว','ใช้เวลานาน'], keys:['day','night'] },
+  { q:'คุณรู้สึกว่าตัวเองเป็นใครในความสัมพันธ์นี้?', a:['คนให้','คนรับ'], keys:['day','night'] },
+  { q:'เขา/เธอทำให้คุณรู้สึกแบบไหนบ่อยกว่า?', a:['อบอุ่น','ตื่นเต้น'], keys:['day','night'] },
+  { q:'ความสัมพันธ์นี้ให้พลังหรือดึงพลัง?', a:['ให้พลัง','เหนื่อย'], keys:['day','night'] },
+  { q:'คุณสองคนคุยกันมากที่สุดช่วงไหน?', a:['กลางวัน','กลางคืน'], keys:['day','night'] },
+  { q:'ถ้าให้เปรียบความสัมพันธ์นี้เป็นธรรมชาติ?', a:['แสงแดด','แสงจันทร์'], keys:['day','night'] },
+  { q:'คุณฝันถึงเขา/เธอบ้างไหม?', a:['บ่อย','แทบไม่เลย'], keys:['night','day'] },
+  { q:'ความสัมพันธ์นี้รู้สึกเหมือน?', a:['ชัดเจน','ลึกลับ'], keys:['day','night'] },
+];
+
+let currentQuestion = 0;
+let dayScore = 0;
+let khanStrokes = 0;
+
+function soulmateNextToEnergy() {
+  const dob1 = document.getElementById('soulmate-dob1').value;
+  const dob2 = document.getElementById('soulmate-dob2').value;
+  if (!dob1 || !dob2) { alert('กรุณากรอกวันเกิดทั้งสองคนก่อนนะคะ'); return; }
+  if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('soulmate'); return; }
+  soulmateState.dob1 = dob1; soulmateState.dob2 = dob2;
+  showSoulmateStep('soulmate-step2');
+}
+
+function selectRelationEnergy(el, energy) {
+  document.querySelectorAll('.energy-select-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  soulmateState.relationEnergy = energy;
+  setTimeout(() => {
+    currentQuestion = 0; dayScore = 0;
+    soulmateState.questionAnswers = [];
+    showSoulmateStep('soulmate-step3');
+    renderSoulmateQuestion();
+  }, 400);
+}
+
+function renderSoulmateQuestion() {
+  const q = soulmateQuestions[currentQuestion];
+  const pct = ((currentQuestion + 1) / soulmateQuestions.length * 100) + '%';
+  document.getElementById('soulmate-progress-bar').style.width = pct;
+  document.getElementById('soulmate-question-num').textContent = `คำถาม ${currentQuestion + 1} / ${soulmateQuestions.length}`;
+  document.getElementById('soulmate-question-text').textContent = q.q;
+  document.getElementById('soulmate-ans-a').textContent = q.a[0];
+  document.getElementById('soulmate-ans-b').textContent = q.a[1];
+}
+
+function answerQuestion(idx) {
+  const q = soulmateQuestions[currentQuestion];
+  if (q.keys[idx] === 'day') dayScore++;
+  soulmateState.questionAnswers.push(idx);
+  currentQuestion++;
+  if (currentQuestion >= soulmateQuestions.length) {
+    // Show energy result first
+    const isDay = dayScore >= 5;
+    document.getElementById('s3r-icon').textContent = isDay ? '☀️' : '🌙';
+    document.getElementById('s3r-title').textContent = isDay ? 'พลังงานกลางวัน ☀️' : 'พลังงานกลางคืน 🌙';
+    document.getElementById('s3r-desc').textContent = isDay
+      ? 'ความสัมพันธ์ของคุณมีพลังงานกลางวัน — ชัดเจน อบอุ่น และมีพลัง ทั้งสองคนมีแนวโน้มแสดงความรู้สึกออกมาตรงๆ'
+      : 'ความสัมพันธ์ของคุณมีพลังงานกลางคืน — ลึกซึ้ง ลึกลับ และเงียบงาม ทั้งสองคนสื่อสารกันในสิ่งที่ไม่ต้องพูด';
+    soulmateState.dayNight = isDay ? 'day' : 'night';
+    showSoulmateStep('soulmate-step3result');
+  } else {
+    renderSoulmateQuestion();
+  }
+}
+
+// ===== ELEMENT SELECTION (2 rounds) =====
+let elementRound = 1; // 1 = คุณ, 2 = เขา
+let element1 = ''; // ธาตุของคุณ
+let element2 = ''; // ธาตุของเขา
+let selectedElementBtn = null;
+
+function selectElement(el, elem) {
+  document.querySelectorAll('#soulmate-step4a .candle-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedElementBtn = elem;
+  const names = { fire:'ธาตุไฟ 🔴', wind:'ธาตุลม 🌬️', water:'ธาตุน้ำ 🔵', earth:'ธาตุดิน 🟤' };
+  const person = elementRound === 1 ? 'ของคุณ' : 'ของเขา/เธอ';
+  document.getElementById('element-selected-msg').textContent = `เลือก ${names[elem]} ${person} แล้ว`;
+  document.getElementById('element-next-btn').disabled = false;
+}
+
+function elementNextStep() {
+  if (!selectedElementBtn) return;
+  if (elementRound === 1) {
+    element1 = selectedElementBtn;
+    soulmateState.candle = element1;
+    // Reset for round 2
+    elementRound = 2;
+    selectedElementBtn = null;
+    document.querySelectorAll('#soulmate-step4a .candle-btn').forEach(b => b.classList.remove('selected'));
+    document.getElementById('element-person-label').textContent = 'เลือกธาตุเจ้าเรือนของเขา/เธอ';
+    document.getElementById('element-person-sub').textContent = 'เดือนเกิดของเขา/เธอ';
+    document.getElementById('element-selected-msg').textContent = '';
+    document.getElementById('element-next-btn').disabled = true;
+  } else {
+    element2 = selectedElementBtn;
+    soulmateState.candleLabel = element2;
+    elementRound = 1;
+    soulmateNextTo4B();
+  }
+}
+
+function soulmateNextTo4B() { showSoulmateStep('soulmate-step4b'); }
+
+function selectCandle(el, element, img, label) {
+  document.querySelectorAll('.candle-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  soulmateState.candle = element;
+  soulmateState.candleLabel = label;
+  document.getElementById('candle-lit-msg').textContent = '🕯️ พลังธาตุถูกปลุกขึ้นแล้ว…';
+  document.getElementById('candle-next-btn').disabled = false;
+}
+
+function soulmateNextTo4B() { showSoulmateStep('soulmate-step4b'); }
+
+function selectDayNight(el, type) {
+  soulmateState.dayNight = type;
+  el.style.borderColor = 'var(--gold)';
+  el.style.background = 'rgba(201,168,76,0.1)';
+  setTimeout(() => {
+    showSoulmateStep('soulmate-step4c');
+    setupKhan();
+  }, 400);
+}
+
+function setupKhan() {
+  const canvas = document.getElementById('khan-canvas');
+  const ctx = canvas.getContext('2d');
+  khanStrokes = 0;
+  let isDrawing = false;
+
+  function draw(x, y) {
+    ctx.beginPath();
+    ctx.arc(x, y, 20, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(150,200,255,0.3)';
+    ctx.fill();
+    khanStrokes++;
+    if (khanStrokes > 20) {
+      document.getElementById('khan-msg').textContent = 'กำลังส่งพลังงานของคุณสู่จักรวาล…';
+      document.getElementById('khan-next-btn').disabled = false;
+      document.getElementById('khan-next-btn').textContent = '✨ ส่งพลังงานแล้ว ดูผลดวงคู่';
+    } else if (khanStrokes > 8) {
+      document.getElementById('khan-msg').textContent = '💫 พลังงานกำลังสะสม…';
+    }
+  }
+
+  canvas.addEventListener('mousedown', e => { isDrawing = true; });
+  canvas.addEventListener('mousemove', e => {
+    if (!isDrawing) return;
+    const r = canvas.getBoundingClientRect();
+    draw(e.clientX - r.left, e.clientY - r.top);
+  });
+  canvas.addEventListener('mouseup', () => isDrawing = false);
+  canvas.addEventListener('touchstart', e => { isDrawing = true; e.preventDefault(); }, {passive:false});
+  canvas.addEventListener('touchmove', e => {
+    if (!isDrawing) return;
+    e.preventDefault();
+    const r = canvas.getBoundingClientRect();
+    const t = e.touches[0];
+    draw(t.clientX - r.left, t.clientY - r.top);
+  }, {passive:false});
+  canvas.addEventListener('touchend', () => isDrawing = false);
+}
+
+function soulmateGoLoading() {
+  showSoulmateStep('soulmate-step5');
+  setupStars();
+  const msgs = [
+    'กำลังอ่านพลังธาตุของทั้งสองดวง…',
+    'กำลังคำนวณดาวประจำวันเกิด…',
+    'กำลังเปิดพลังงานความสัมพันธ์…',
+    'เกือบแล้ว…'
+  ];
+  let mi = 0;
+  const el = document.getElementById('loading-msg');
+  el.textContent = msgs[0];
+  const iv = setInterval(() => {
+    mi++;
+    if (mi < msgs.length) {
+      el.style.opacity = 0;
+      setTimeout(() => { el.textContent = msgs[mi]; el.style.opacity = 1; }, 300);
+    } else {
+      clearInterval(iv);
+      setTimeout(() => showSoulmateResult(), 800);
+    }
+  }, 1200);
+}
+
+function setupStars() {
+  const bg = document.getElementById('stars-bg');
+  bg.innerHTML = Array.from({length:40}, () => {
+    const size = Math.random() * 3 + 1;
+    const x = Math.random() * 100;
+    const y = Math.random() * 100;
+    const delay = Math.random() * 3;
+    return `<div style="position:absolute;left:${x}%;top:${y}%;width:${size}px;height:${size}px;background:white;border-radius:50%;animation:twinkle ${2+Math.random()*2}s ${delay}s infinite;"></div>`;
+  }).join('');
+}
+
+function showSoulmateResult() {
+  useCredit();
+  showSoulmateStep('soulmate-step6');
+
+  const dob1 = new Date(soulmateState.dob1);
+  const dob2 = new Date(soulmateState.dob2);
+  const seed = dob1.getDate() + dob1.getMonth() + dob2.getDate() + dob2.getMonth();
+  const score = 55 + (seed % 41);
+
+  const elementMap = {
+    fire: { name:'ธาตุไฟ', partner:'ธาตุไม้', desc:'ธาตุไฟมีพลังงานและความกล้าหาญสูง เมื่อพบกับพลังงานของอีกฝ่าย จะเกิดความร้อนแรงและแรงดึงดูดที่รู้สึกได้ชัดเจน' },
+    water: { name:'ธาตุน้ำ', partner:'ธาตุดิน', desc:'ธาตุน้ำไหลตามและปรับตัวได้ดี ความสัมพันธ์นี้มีความลึกซึ้งทางอารมณ์ ทั้งสองเข้าใจกันในสิ่งที่ไม่ต้องพูด' },
+    wood: { name:'ธาตุไม้', partner:'ธาตุน้ำ', desc:'ธาตุไม้เติบโตได้ดีเมื่อมีการดูแล ความสัมพันธ์นี้มีความอ่อนโยนและการเติบโตร่วมกัน' },
+    wind: { name:'ธาตุลม', partner:'ธาตุไฟ', desc:'ธาตุลมโอบล้อมทุกอย่างด้วยอิสรภาพ ความสัมพันธ์นี้ต้องการพื้นที่ส่วนตัวและความเข้าใจในอิสรภาพของกันและกัน' },
+  };
+
+  const energyMap = {
+    start: 'เพิ่งเริ่มต้น ทุกอย่างยังสดใหม่',
+    hot: 'แรงดึงดูดสูงมาก เคมีตรงกัน',
+    unclear: 'ยังไม่ชัดเจน ต้องใช้เวลา',
+    distant: 'มีระยะห่าง แต่ยังมีความผูกพัน',
+    cycle: 'วนกลับมาซ้ำๆ มีเรื่องค้างคาใจ',
+    serious: 'จริงจังและมั่นคง'
+  };
+
+  const typePool = ['คู่บุญ','คู่ผลักดัน','คู่เรียนรู้','คู่ที่เปลี่ยนชีวิต','คู่กรรม','คู่จิตวิญญาณ'];
+  const typeLabel = typePool[seed % typePool.length];
+
+  const habitPool = [
+    'คู่นี้คุยกันได้ทั้งวัน แต่เงียบใส่กันก็เก่ง สิ่งที่ไม่ได้พูดมักมีความหมายมากกว่าสิ่งที่พูดออกมา',
+    'ทั้งสองคนชอบทำสิ่งเล็กๆ ให้กัน มากกว่าคำพูดหวานๆ ความรักของคู่นี้แสดงออกผ่านการกระทำ',
+    'เวลาอยู่ด้วยกันจะรู้สึกสบายใจ แต่บางครั้งก็ต้องการพื้นที่ส่วนตัวพอกัน'
+  ];
+
+  const attractPool = [
+    'ความแตกต่างของทั้งสองคือสิ่งที่ดึงดูดกัน สิ่งที่อีกฝ่ายมีคือสิ่งที่คุณอยากได้',
+    'มีความเข้าใจกันในระดับที่ลึกกว่าคำพูด แค่มองตาก็รู้ว่ากันคิดอะไร',
+    'พลังงานของทั้งสองเสริมกันอย่างลงตัว เมื่ออยู่ด้วยกันจะรู้สึกสมบูรณ์ขึ้น'
+  ];
+
+  const warningPool = [
+    'ระวังการสื่อสารที่ไม่ชัดเจน สิ่งที่คิดในใจแต่ไม่พูดออกมาอาจสะสมจนเป็นปัญหา',
+    'อย่าให้ความคาดหวังสูงเกินไปจนลืมมองความจริง ทั้งสองต่างก็มีข้อบกพร่องของตัวเอง',
+    'ระวังช่วงเวลาที่ต่างคนต่างยุ่ง ความห่างเหินเล็กๆ อาจขยายใหญ่ขึ้นได้'
+  ];
+
+  const longtermPool = [
+    'ความสัมพันธ์นี้มีศักยภาพสูงมาก หากทั้งสองคนเลือกที่จะเติบโตไปด้วยกัน สิ่งที่รออยู่ข้างหน้าจะดีกว่าที่คิด',
+    'คู่นี้มีรากฐานที่แข็งแกร่ง แม้จะมีช่วงเวลาที่ยากลำบากบ้าง แต่พลังงานระยะยาวของคู่นี้เป็นบวก',
+    'ความสัมพันธ์นี้จะเปลี่ยนแปลงทั้งสองคนในทางที่ดี ไม่ว่าผลลัพธ์สุดท้ายจะเป็นอย่างไร'
+  ];
+
+  const advicePool = [
+    'รักคือการเลือกทุกวัน อย่ารอให้สมบูรณ์แบบก่อนค่อยรัก',
+    'บางครั้งการนิ่งเงียบก็คือคำตอบ ฟังใจตัวเองให้มากขึ้น',
+    'ดวงบอกแค่แนวทาง แต่ใจคุณเองต่างหากที่เลือกเส้นทาง'
+  ];
+
+  const elem = elementMap[soulmateState.candle] || elementMap.fire;
+  const scoreLabel = score >= 80 ? 'ดึงดูดกันสูงมาก ✨' : score >= 65 ? 'เข้ากันได้ดี 💕' : 'ดึงดูดแต่ท้าทาย 🌊';
+  const scoreDesc = score >= 80 ? 'พลังงานของทั้งสองโคจรมาบรรจบกัน' : score >= 65 ? 'มีความเข้ากันในหลายด้าน' : 'ต้องการความเข้าใจและความพยายาม';
+
+  document.getElementById('s6-score-label').textContent = scoreLabel;
+  document.getElementById('s6-score-pct').textContent = score + '%';
+  document.getElementById('s6-score-bar').style.width = score + '%';
+  document.getElementById('s6-score-desc').textContent = scoreDesc;
+  document.getElementById('s6-element-text').textContent = elem.desc;
+  document.getElementById('s6-habit').textContent = habitPool[seed % habitPool.length];
+  document.getElementById('s6-attract').textContent = attractPool[seed % attractPool.length];
+  document.getElementById('s6-warning').textContent = warningPool[seed % warningPool.length];
+  document.getElementById('s6-longterm').textContent = longtermPool[seed % longtermPool.length];
+  document.getElementById('s6-type').textContent = typeLabel;
+  document.getElementById('s6-advice').textContent = advicePool[seed % advicePool.length];
+
+  showCreditsBar('soulmate');
+}
+
+function showSoulmateStep(stepId) {
+  ['soulmate-step0','soulmate-step1','soulmate-step2','soulmate-step3',
+   'soulmate-step4a','soulmate-step4b','soulmate-step4c','soulmate-step5','soulmate-step6'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  const target = document.getElementById(stepId);
+  if (target) { target.style.display = 'block'; window.scrollTo(0,0); }
+}
+
+
 
 function selectSoulmateScience(science) {
   selectedSoulmateScience = science;
+  soulmateState.science = science;
   const labels = {
     thai: '🛕 ศาสตร์ไทย — โหราศาสตร์ไทยโบราณ',
     chinese: '🏮 ศาสตร์จีน — จิวเลขวิทยาจีน',
@@ -1100,14 +1581,10 @@ function selectSoulmateScience(science) {
     western: '⭐ ศาสตร์ตะวันตก — Numerology & Astrology',
   };
   document.getElementById('soulmate-science-label').textContent = labels[science] || '';
-  document.getElementById('soulmate-step0').style.display = 'none';
-  document.getElementById('soulmate-step1').style.display = 'block';
+  showSoulmateStep('soulmate-step1');
 }
 
-function soulmateBackToScience() {
-  document.getElementById('soulmate-step1').style.display = 'none';
-  document.getElementById('soulmate-step0').style.display = 'block';
-}
+function soulmateBackToScience() { showSoulmateStep('soulmate-step0'); }
 
 const soulmateData = [
   {score:95, emoji:'💞', title:'คู่แท้แห่งจักรวาล', text:'ดวงของทั้งสองโคจรมาบรรจบกันอย่างสมบูรณ์แบบ ความสัมพันธ์นี้หายากและพิเศษมาก', advice:'รักษาความสัมพันธ์นี้ไว้ด้วยความจริงใจและการสื่อสารที่ดี'},
@@ -1154,11 +1631,10 @@ function drawSoulmate() {
 }
 
 function resetSoulmate() {
-  document.getElementById('soulmate-result').classList.remove('show');
   document.getElementById('soulmate-dob1').value = '';
   document.getElementById('soulmate-dob2').value = '';
-  document.getElementById('soulmate-step1').style.display = 'none';
-  document.getElementById('soulmate-step0').style.display = 'block';
+  soulmateState = { dob1:'', dob2:'', science:'', relationEnergy:'', questionAnswers:[], candle:'', dayNight:'', candleLabel:'' };
+  showSoulmateStep('soulmate-step0');
   showCreditsBar('soulmate');
 }
 
