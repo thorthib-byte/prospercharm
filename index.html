@@ -553,10 +553,12 @@
 
 
     <!-- STEP 4C: ลอยขันน้ำมนต์ fullscreen -->
-    <div id="soulmate-step4c" style="display:none; position:relative; width:100%; height:100vh; overflow:hidden; background:#000;">
-      <!-- Video fullscreen -->
+    <div id="soulmate-step4c" style="display:none; position:relative; width:100%; height:100vh; overflow:hidden; background:#1a0a2e;">
+      <!-- รูปขัน default -->
+      <img id="khan-img" src="images/soulmate/khan.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:opacity 0.3s;">
+      <!-- Video ซ่อนไว้ก่อน -->
       <video id="khan-video" src="images/soulmate/khanvideo.mp4" loop muted playsinline
-        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.3s;">
       </video>
 
       <!-- progress ring overlay กลางจอ -->
@@ -573,7 +575,7 @@
         <!-- ข้อความ -->
         <div style="position:absolute;bottom:15%;left:0;right:0;text-align:center;">
           <div id="khan-msg" style="font-family:'Noto Serif Thai',serif;font-size:18px;color:rgba(245,230,163,0.95);margin-bottom:6px;min-height:28px;text-shadow:0 2px 8px rgba(0,0,0,0.8);"></div>
-          <div id="khan-pct" style="font-size:14px;color:rgba(212,175,55,0.8);text-shadow:0 2px 8px rgba(0,0,0,0.8);">กดค้างเพื่อเริ่ม</div>
+          <div id="khan-pct" style="font-size:14px;color:rgba(212,175,55,0.8);text-shadow:0 2px 8px rgba(0,0,0,0.8);">กดค้างไว้ อย่าปล่อย</div>
         </div>
       </div>
     </div>
@@ -1454,6 +1456,8 @@ function startKhanHold(e) {
   const video = document.getElementById('khan-video');
 
   if (video) { video.play(); video.style.opacity = '1'; }
+  const img = document.getElementById('khan-img');
+  if (img) img.style.opacity = '0';
 
   let progress = 0;
   ring.dataset.progress = 0;
@@ -1482,6 +1486,8 @@ function stopKhanHold(e) {
   clearInterval(window._khanInterval);
   const video = document.getElementById('khan-video');
   if (video) { video.pause(); video.style.opacity = '0'; video.currentTime = 0; }
+  const img = document.getElementById('khan-img');
+  if (img) img.style.opacity = '1';
   const ring = document.getElementById('khan-ring');
   if (ring) { ring.style.strokeDashoffset = 628; ring.dataset.progress = 0; }
   const msg = document.getElementById('khan-msg');
