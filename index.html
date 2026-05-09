@@ -1426,7 +1426,8 @@ function selectCandle(el, element, img, label) {
 
 function soulmateGoLoading() {
   // Hide header and credits bar for fullscreen effect
-  document.querySelector('.inner-header').style.display = 'none';
+  const header = document.querySelector('#page-soulmate .inner-header');
+  if (header) header.style.display = 'none';
   document.getElementById('soulmate-credits-bar').style.display = 'none';
   showSoulmateStep('soulmate-step5');
   setTimeout(() => runLoadingMsgs(), 300);
@@ -1534,8 +1535,8 @@ function setupStars() {
 }
 
 function showSoulmateResult() {
-  // Restore header
-  document.querySelector('.inner-header').style.display = 'flex';
+  const header = document.querySelector('#page-soulmate .inner-header');
+  if (header) header.style.display = 'flex';
   useCredit();
   showSoulmateStep('soulmate-step6');
 
