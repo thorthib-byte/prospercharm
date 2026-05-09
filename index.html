@@ -14,8 +14,8 @@
     --white: #FDFAF6;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
-  body { font-family:'Noto Sans Thai',sans-serif; background:var(--cream); color:var(--text); min-height:100vh; overflow-x:hidden; }
-  .app { max-width:430px; margin:0 auto; min-height:100vh; }
+  body { font-family:'Noto Sans Thai',sans-serif; background:var(--cream); color:var(--text); min-height:100dvh; overflow-x:hidden; }
+  .app { max-width:430px; margin:0 auto; min-height:100dvh; }
 
   /* HEADER */
   .header { background:var(--white); padding:10px 20px; display:flex; align-items:center; justify-content:center; border-bottom:1px solid rgba(180,160,130,0.25); position:relative; gap:10px; }
@@ -588,14 +588,14 @@
       <!-- Full screen background image -->
       <img src="images/soulmate/khanloading.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
 
-      <!-- ข้อความด้านบน -->
-      <div style="position:absolute; top:8%; left:0; right:0; text-align:center; padding:0 24px;">
+      <!-- ข้อความด้านล่าง -->
+      <div style="position:absolute; bottom:16%; left:0; right:0; text-align:center; padding:0 24px;">
         <div id="loading-msg" style="font-family:'Noto Serif Thai',serif; font-size:17px; color:rgba(245,230,163,0.95); margin-bottom:4px; min-height:24px; text-shadow:0 2px 8px rgba(0,0,0,0.6);"></div>
         <div style="font-size:13px; color:rgba(212,175,55,0.8); letter-spacing:1px; text-shadow:0 2px 8px rgba(0,0,0,0.6);">โปรดรอสักครู่</div>
       </div>
 
       <!-- กลีบดอกไม้เรืองแสง -->
-      <div style="position:absolute; bottom:12%; left:50%; transform:translateX(-50%); display:flex; gap:5px; align-items:center; white-space:nowrap;">
+      <div style="position:absolute; bottom:10%; left:50%; transform:translateX(-50%); display:flex; gap:5px; align-items:center; white-space:nowrap;">
         <div class="petal-glow" style="animation-delay:0s">🌸</div>
         <div class="petal-glow" style="animation-delay:0.2s">🌸</div>
         <div class="petal-glow" style="animation-delay:0.4s">🌸</div>
@@ -643,6 +643,11 @@
     </div>
 
     <!-- Sections -->
+    <div style="background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(201,168,76,0.05)); border:1px solid rgba(201,168,76,0.4); border-radius:16px; padding:20px; margin-bottom:14px; text-align:center;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🧿 พลังงานของความสัมพันธ์นี้คือ</div>
+      <div id="s6-type" style="font-family:'Noto Serif Thai',serif; font-size:22px; font-weight:700; color:var(--gold);"></div>
+    </div>
+
     <div id="s6-element" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
       <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">☯️ พลังธาตุของคู่นี้</div>
       <div id="s6-element-text" style="font-size:14px; color:var(--text-mid); line-height:1.8;"></div>
@@ -666,11 +671,6 @@
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
       <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">💍 แนวโน้มระยะยาว</div>
       <div id="s6-longterm" style="font-size:14px; color:var(--text-mid); line-height:1.8;"></div>
-    </div>
-
-    <div style="background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(201,168,76,0.05)); border:1px solid rgba(201,168,76,0.4); border-radius:16px; padding:20px; margin-bottom:14px; text-align:center;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🧿 พลังงานของความสัมพันธ์นี้คือ</div>
-      <div id="s6-type" style="font-family:'Noto Serif Thai',serif; font-size:22px; font-weight:700; color:var(--gold);"></div>
     </div>
 
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:20px; text-align:center;">
