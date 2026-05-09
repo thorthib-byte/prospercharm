@@ -1399,6 +1399,8 @@ function selectCandle(el, element, img, label) {
 function soulmateGoLoading() {
   showSoulmateStep('soulmate-step5');
   setupStars();
+  setTimeout(() => runLoadingMsgs(), 300);
+}
 
 function setupKhan() {
   const ring = document.getElementById('khan-ring');
@@ -1495,6 +1497,8 @@ function selectDayNight(el, type) {
     setupKhan();
   }, 400);
 }
+
+function runLoadingMsgs() {
   const msgs = [
     'กำลังอ่านพลังธาตุของทั้งสองดวง…',
     'กำลังคำนวณดาวประจำวันเกิด…',
