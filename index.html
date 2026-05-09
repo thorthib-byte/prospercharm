@@ -412,12 +412,44 @@
   <div class="page" id="page-soulmate">
     <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">💑 ดูดวงสมพงศ์</div></div>
     <div class="credits-bar" id="soulmate-credits-bar"><span class="credits-bar-text">เครดิตคงเหลือ</span><span class="credits-bar-num" id="soulmate-credits-num"></span></div>
-    <div class="form-section">
+
+    <!-- STEP 0: เลือกศาสตร์ -->
+    <div id="soulmate-step0" style="padding:24px 20px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:6px;">เลือกศาสตร์ที่ต้องการ</div>
+      <div style="font-size:13px; color:var(--text-light); text-align:center; margin-bottom:24px;">แต่ละศาสตร์มีวิธีอ่านดวงที่แตกต่างกัน</div>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
+        <div onclick="selectSoulmateScience('thai')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px 16px; text-align:center; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); transition:all 0.2s;">
+          <div style="font-size:36px; margin-bottom:8px;">🛕</div>
+          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">ศาสตร์ไทย</div>
+          <div style="font-size:11px; color:var(--text-light); margin-top:4px;">โหราศาสตร์ไทยโบราณ</div>
+        </div>
+        <div onclick="selectSoulmateScience('chinese')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px 16px; text-align:center; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); transition:all 0.2s;">
+          <div style="font-size:36px; margin-bottom:8px;">🏮</div>
+          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">ศาสตร์จีน</div>
+          <div style="font-size:11px; color:var(--text-light); margin-top:4px;">จิวเลขวิทยาจีน</div>
+        </div>
+        <div onclick="selectSoulmateScience('indian')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px 16px; text-align:center; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); transition:all 0.2s;">
+          <div style="font-size:36px; margin-bottom:8px;">🪷</div>
+          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">ศาสตร์อินเดีย</div>
+          <div style="font-size:11px; color:var(--text-light); margin-top:4px;">โหราศาสตร์เวท</div>
+        </div>
+        <div onclick="selectSoulmateScience('western')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px 16px; text-align:center; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); transition:all 0.2s;">
+          <div style="font-size:36px; margin-bottom:8px;">⭐</div>
+          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">ศาสตร์ตะวันตก</div>
+          <div style="font-size:11px; color:var(--text-light); margin-top:4px;">Numerology & Astrology</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 1: กรอกวันเกิด -->
+    <div id="soulmate-step1" style="display:none;" class="form-section">
+      <div id="soulmate-science-label" style="font-family:'Noto Serif Thai',serif; font-size:14px; color:var(--gold); margin-bottom:12px; text-align:center;"></div>
       <label class="form-label">วันเกิดของคุณ</label>
       <input type="date" class="form-input" id="soulmate-dob1">
       <label class="form-label">วันเกิดของอีกฝ่าย</label>
       <input type="date" class="form-input" id="soulmate-dob2">
       <button class="cta-btn" onclick="checkAndDrawSoulmate()">💑 ดูความเข้ากัน</button>
+      <button class="reset-btn" style="margin-top:10px;" onclick="soulmateBackToScience()">← เปลี่ยนศาสตร์</button>
     </div>
     <div class="loading" id="soulmate-loading"><span class="loading-spinner">💑</span><div class="loading-text">กำลังวิเคราะห์ดวงสมพงศ์...</div></div>
     <div class="result-card" id="soulmate-result">
@@ -482,7 +514,18 @@ const tarotQuestions = {
     'มีโอกาสได้รีเทิร์นกันไหม?',
     'ถ้ากลับไปคบกัน จะดีขึ้นจริงไหม?',
   ],
-  work: [],
+  work: [
+    'งานตอนนี้จะไปต่อดีไหม?',
+    'มีโอกาสได้งานใหม่ไหม?',
+    'ควรเปลี่ยนงานตอนนี้ไหม?',
+    'งานนี้เหมาะกับเราจริงไหม?',
+    'จะได้เลื่อนตำแหน่งไหม?',
+    'เจ้านายคิดยังไงกับเรา?',
+    'เพื่อนร่วมงานไว้ใจได้ไหม?',
+    'งานที่ทำอยู่จะมั่นคงไหม?',
+    'สิ่งที่กำลังทำจะสำเร็จไหม?',
+    'ควรตัดสินใจยังไงกับงานนี้ดี?',
+  ],
   money: [],
   health: [],
 };
@@ -1046,6 +1089,26 @@ function drawTarot(){
 const energyMeanings={1:'เลขแห่งความเป็นผู้นำ วันนี้เหมาะแก่การริเริ่มและตัดสินใจด้วยตัวเอง',2:'เลขแห่งความสมดุล วันนี้เหมาะแก่การทำงานร่วมกับผู้อื่นและการเจรจา',3:'เลขแห่งความสร้างสรรค์ พลังงานแห่งการแสดงออกและความสนุกสนาน',4:'เลขแห่งความมั่นคง วันนี้เหมาะแก่การวางรากฐานและทำงานอย่างตั้งใจ',5:'เลขแห่งการเปลี่ยนแปลง วันนี้อาจมีเรื่องใหม่หรือความเปลี่ยนแปลงเกิดขึ้น',6:'เลขแห่งความรักและครอบครัว วันนี้เหมาะแก่การดูแลคนที่รักและตัวเอง',7:'เลขแห่งปัญญาและจิตวิญญาณ วันนี้เหมาะแก่การทบทวนและค้นหาความหมาย',8:'เลขแห่งความอุดมสมบูรณ์ พลังงานด้านการเงินและความสำเร็จแรงมากวันนี้',9:'เลขแห่งการให้และความเมตตา วันนี้เหมาะแก่การทำบุญและช่วยเหลือผู้อื่น'};
 function calcEnergyNumbers(dob){const t=new Date(),p=dob.split('-');const d=parseInt(p[2]),m=parseInt(p[1]);return[((d+t.getDate())%9)+1,((m+t.getMonth()+1)%9)+1,((d+m+t.getFullYear()%100)%9)+1];}
 function drawEnergy(){const dob=document.getElementById('energy-dob').value;if(!dob){alert('กรุณากรอกวันเกิดก่อนนะคะ');return;}document.getElementById('energy-result').classList.remove('show');document.getElementById('energy-loading').classList.add('show');setTimeout(()=>{useCredit();const nums=calcEnergyNumbers(dob);document.getElementById('energy-bubbles').innerHTML=nums.map(n=>`<div class="energy-bubble">${n}</div>`).join('');document.getElementById('energy-meanings').innerHTML=nums.map(n=>`<div class="energy-item"><div class="energy-num-small">${n}</div><div class="energy-desc">${energyMeanings[n]}</div></div>`).join('');document.getElementById('energy-loading').classList.remove('show');document.getElementById('energy-result').classList.add('show');showCreditsBar('energy');document.getElementById('energy-result').scrollIntoView({behavior:'smooth',block:'start'});},1800);}
+let selectedSoulmateScience = '';
+
+function selectSoulmateScience(science) {
+  selectedSoulmateScience = science;
+  const labels = {
+    thai: '🛕 ศาสตร์ไทย — โหราศาสตร์ไทยโบราณ',
+    chinese: '🏮 ศาสตร์จีน — จิวเลขวิทยาจีน',
+    indian: '🪷 ศาสตร์อินเดีย — โหราศาสตร์เวท',
+    western: '⭐ ศาสตร์ตะวันตก — Numerology & Astrology',
+  };
+  document.getElementById('soulmate-science-label').textContent = labels[science] || '';
+  document.getElementById('soulmate-step0').style.display = 'none';
+  document.getElementById('soulmate-step1').style.display = 'block';
+}
+
+function soulmateBackToScience() {
+  document.getElementById('soulmate-step1').style.display = 'none';
+  document.getElementById('soulmate-step0').style.display = 'block';
+}
+
 const soulmateData = [
   {score:95, emoji:'💞', title:'คู่แท้แห่งจักรวาล', text:'ดวงของทั้งสองโคจรมาบรรจบกันอย่างสมบูรณ์แบบ ความสัมพันธ์นี้หายากและพิเศษมาก', advice:'รักษาความสัมพันธ์นี้ไว้ด้วยความจริงใจและการสื่อสารที่ดี'},
   {score:85, emoji:'💕', title:'ดวงเสริมกันอย่างลงตัว', text:'ทั้งสองมีพลังงานที่เสริมซึ่งกันและกัน ฝ่ายหนึ่งแข็งแกร่งในจุดที่อีกฝ่ายอ่อน', advice:'เปิดใจรับฟังกันและช่วยเหลือซึ่งกันและกัน ความสัมพันธ์จะยิ่งแน่นแฟ้น'},
@@ -1094,6 +1157,8 @@ function resetSoulmate() {
   document.getElementById('soulmate-result').classList.remove('show');
   document.getElementById('soulmate-dob1').value = '';
   document.getElementById('soulmate-dob2').value = '';
+  document.getElementById('soulmate-step1').style.display = 'none';
+  document.getElementById('soulmate-step0').style.display = 'block';
   showCreditsBar('soulmate');
 }
 
