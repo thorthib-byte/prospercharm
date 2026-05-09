@@ -552,31 +552,30 @@
 
 
 
-    <!-- STEP 4C: ลอยขันน้ำมนต์ -->
-    <div id="soulmate-step4c" style="display:none; padding:20px; text-align:center;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark); margin-bottom:6px;">ลอยขันน้ำมนต์</div>
-      <div style="font-size:13px; color:var(--text-light); margin-bottom:20px;">กดค้างที่ขัน 5 วินาทีเพื่อส่งพลังงาน</div>
-      <div style="position:relative; width:280px; height:280px; margin:0 auto 16px;">
-        <!-- รูปขันเป็น background -->
-        <img src="images/soulmate/khan.png" style="position:absolute;top:0;left:0;width:280px;height:280px;object-fit:cover;border-radius:50%;">
-        <!-- Video ทับบน -->
-        <video id="khan-video" src="images/soulmate/khanvideo.mp4" loop muted playsinline
-          style="position:absolute;top:0;left:0;width:280px;height:280px;object-fit:cover;border-radius:50%;opacity:0;transition:opacity 0.3s;">
-        </video>
-        <!-- progress ring -->
-        <svg style="position:absolute;top:0;left:0;transform:rotate(-90deg);" width="280" height="280">
-          <circle cx="140" cy="140" r="130" fill="none" stroke="rgba(212,175,55,0.25)" stroke-width="8"/>
-          <circle id="khan-ring" cx="140" cy="140" r="130" fill="none" stroke="var(--gold)" stroke-width="8" stroke-linecap="round"
-            stroke-dasharray="817" stroke-dashoffset="817" style="transition:stroke-dashoffset 0.05s linear;"/>
+    <!-- STEP 4C: ลอยขันน้ำมนต์ fullscreen -->
+    <div id="soulmate-step4c" style="display:none; position:relative; width:100%; height:100vh; overflow:hidden; background:#000;">
+      <!-- Video fullscreen -->
+      <video id="khan-video" src="images/soulmate/khanvideo.mp4" loop muted playsinline
+        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+      </video>
+
+      <!-- progress ring overlay กลางจอ -->
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;"
+        onmousedown="startKhanHold(event)" onmouseup="stopKhanHold(event)" onmouseleave="stopKhanHold(event)"
+        ontouchstart="startKhanHold(event)" ontouchend="stopKhanHold(event)">
+
+        <svg style="transform:rotate(-90deg);" width="220" height="220">
+          <circle cx="110" cy="110" r="100" fill="none" stroke="rgba(212,175,55,0.2)" stroke-width="6"/>
+          <circle id="khan-ring" cx="110" cy="110" r="100" fill="none" stroke="var(--gold)" stroke-width="6" stroke-linecap="round"
+            stroke-dasharray="628" stroke-dashoffset="628" style="transition:stroke-dashoffset 0.05s linear;"/>
         </svg>
-        <!-- hold overlay -->
-        <div style="position:absolute;inset:0;border-radius:50%;cursor:pointer;"
-          onmousedown="startKhanHold(event)" onmouseup="stopKhanHold(event)" onmouseleave="stopKhanHold(event)"
-          ontouchstart="startKhanHold(event)" ontouchend="stopKhanHold(event)">
+
+        <!-- ข้อความ -->
+        <div style="position:absolute;bottom:15%;left:0;right:0;text-align:center;">
+          <div id="khan-msg" style="font-family:'Noto Serif Thai',serif;font-size:18px;color:rgba(245,230,163,0.95);margin-bottom:6px;min-height:28px;text-shadow:0 2px 8px rgba(0,0,0,0.8);"></div>
+          <div id="khan-pct" style="font-size:14px;color:rgba(212,175,55,0.8);text-shadow:0 2px 8px rgba(0,0,0,0.8);">กดค้างเพื่อเริ่ม</div>
         </div>
       </div>
-      <div id="khan-msg" style="font-size:14px; color:var(--gold); margin-bottom:8px; min-height:24px; font-family:'Noto Serif Thai',serif;"></div>
-      <div id="khan-pct" style="font-size:13px; color:var(--text-light);">กดค้างเพื่อเริ่ม</div>
     </div>
 
     <!-- STEP 5: Loading -->
@@ -1408,6 +1407,9 @@ function elementNextStep() {
     soulmateState.candleLabel = element2;
     elementRound = 1;
     selectedElementBtn = null;
+    const h4c = document.querySelector('#page-soulmate .inner-header');
+    if (h4c) h4c.style.display = 'none';
+    document.getElementById('soulmate-credits-bar').style.display = 'none';
     showSoulmateStep('soulmate-step4c');
     setTimeout(() => setupKhan(), 100);
   }
@@ -1438,10 +1440,10 @@ function setupKhan() {
   const msg = document.getElementById('khan-msg');
   const pct = document.getElementById('khan-pct');
   const video = document.getElementById('khan-video');
-  if (ring) { ring.style.strokeDashoffset = 817; ring.dataset.progress = 0; }
+  if (ring) { ring.style.strokeDashoffset = 628; ring.dataset.progress = 0; }
   if (msg) msg.textContent = '';
   if (pct) pct.textContent = 'กดค้างเพื่อเริ่ม';
-  if (video) { video.pause(); video.currentTime = 0; }
+  if (video) { video.play(); video.currentTime = 0; }
 }
 
 function startKhanHold(e) {
@@ -1459,7 +1461,7 @@ function startKhanHold(e) {
   window._khanInterval = setInterval(() => {
     progress = Math.min(100, progress + (100 / (5000 / 50)));
     ring.dataset.progress = progress;
-    ring.style.strokeDashoffset = 817 * (1 - progress / 100);
+    ring.style.strokeDashoffset = 628*(1-progress/100);
     if (pct) pct.textContent = Math.round(progress) + '%';
     if (msg) {
       if (progress < 30) msg.textContent = 'กำลังส่งพลังงาน…';
@@ -1481,7 +1483,7 @@ function stopKhanHold(e) {
   const video = document.getElementById('khan-video');
   if (video) { video.pause(); video.style.opacity = '0'; video.currentTime = 0; }
   const ring = document.getElementById('khan-ring');
-  if (ring) { ring.style.strokeDashoffset = 817; ring.dataset.progress = 0; }
+  if (ring) { ring.style.strokeDashoffset = 628; ring.dataset.progress = 0; }
   const msg = document.getElementById('khan-msg');
   const pct = document.getElementById('khan-pct');
   if (msg) msg.textContent = '';
@@ -1489,6 +1491,9 @@ function stopKhanHold(e) {
 }
 
 function soulmateNextTo4B() {
+  const h4c = document.querySelector('#page-soulmate .inner-header');
+  if (h4c) h4c.style.display = 'none';
+  document.getElementById('soulmate-credits-bar').style.display = 'none';
   showSoulmateStep('soulmate-step4c');
   setupKhan();
 }
