@@ -494,7 +494,7 @@
       <div style="font-size:64px; margin-bottom:16px;" id="s3r-icon"></div>
       <div style="font-family:'Noto Serif Thai',serif; font-size:20px; font-weight:700; color:var(--brown-dark); margin-bottom:8px;" id="s3r-title"></div>
       <div style="font-size:14px; color:var(--text-mid); line-height:1.8; margin-bottom:28px;" id="s3r-desc"></div>
-      <button class="cta-btn" onclick="showSoulmateStep('soulmate-step4a')">ถัดไป →</button>
+      <button class="cta-btn" onclick="showSoulmateStep('soulmate-step4a')" style="margin-top:8px;">เลือกธาตุเจ้าเรือน →</button>
     </div>
 
     <!-- STEP 4A: เลือกธาตุเจ้าเรือน -->
@@ -532,34 +532,29 @@
       <button class="cta-btn" id="element-next-btn" onclick="elementNextStep()" disabled>ถัดไป →</button>
     </div>
 
-    <!-- STEP 4B: กลางวัน/กลางคืน -->
-    <div id="soulmate-step4b" style="display:none; padding:20px; text-align:center;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">พลังของความสัมพันธ์นี้เป็น…</div>
-      <div style="font-size:13px; color:var(--text-light); margin-bottom:32px;">เลือกสิ่งที่รู้สึกว่าใช่</div>
-      <div style="display:flex; gap:20px; justify-content:center;">
-        <div onclick="selectDayNight(this,'day')" style="flex:1; max-width:140px; padding:24px 16px; background:var(--white); border:2px solid rgba(180,160,130,0.3); border-radius:20px; cursor:pointer; transition:all 0.2s; text-align:center;">
-          <div style="font-size:52px; margin-bottom:10px;">☀️</div>
-          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">พลังกลางวัน</div>
-          <div style="font-size:11px; color:var(--text-light); margin-top:4px;">ชัดเจน อบอุ่น มีพลัง</div>
-        </div>
-        <div onclick="selectDayNight(this,'night')" style="flex:1; max-width:140px; padding:24px 16px; background:var(--white); border:2px solid rgba(180,160,130,0.3); border-radius:20px; cursor:pointer; transition:all 0.2s; text-align:center;">
-          <div style="font-size:52px; margin-bottom:10px;">🌙</div>
-          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">พลังกลางคืน</div>
-          <div style="font-size:11px; color:var(--text-light); margin-top:4px;">ลึกซึ้ง ลึกลับ เงียบงาม</div>
-        </div>
-      </div>
-    </div>
+
 
     <!-- STEP 4C: ลอยขันน้ำมนต์ -->
     <div id="soulmate-step4c" style="display:none; padding:20px; text-align:center;">
       <div style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark); margin-bottom:6px;">ลอยขันน้ำมนต์</div>
-      <div style="font-size:13px; color:var(--text-light); margin-bottom:20px;">ใช้นิ้วลากบนขันเพื่อส่งพลังงาน</div>
-      <div style="position:relative; width:280px; height:280px; margin:0 auto 20px; border-radius:50%; overflow:hidden; cursor:pointer;" id="khan-container">
-        <img src="images/soulmate/khan.png" style="width:100%; height:100%; object-fit:cover; border-radius:50%;">
-        <canvas id="khan-canvas" width="280" height="280" style="position:absolute; top:0; left:0; border-radius:50%; opacity:0.6;"></canvas>
+      <div style="font-size:13px; color:var(--text-light); margin-bottom:20px;">กดค้างที่ขันเพื่อส่งพลังงาน</div>
+      <div style="position:relative; width:280px; height:280px; margin:0 auto 16px;" id="khan-container">
+        <img src="images/soulmate/khan.png" style="width:280px; height:280px; object-fit:cover; border-radius:50%; display:block;">
+        <!-- progress ring -->
+        <svg style="position:absolute;top:0;left:0;transform:rotate(-90deg);" width="280" height="280">
+          <circle cx="140" cy="140" r="130" fill="none" stroke="rgba(212,175,55,0.2)" stroke-width="8"/>
+          <circle id="khan-ring" cx="140" cy="140" r="130" fill="none" stroke="var(--gold)" stroke-width="8" stroke-linecap="round"
+            stroke-dasharray="817" stroke-dashoffset="817" style="transition:stroke-dashoffset 0.05s linear;"/>
+        </svg>
+        <!-- hold button overlay -->
+        <div id="khan-hold-btn"
+          style="position:absolute;inset:0;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;"
+          onmousedown="startKhanHold()" onmouseup="stopKhanHold()" onmouseleave="stopKhanHold()"
+          ontouchstart="startKhanHold()" ontouchend="stopKhanHold()">
+        </div>
       </div>
-      <div id="khan-msg" style="font-size:13px; color:var(--gold); margin-bottom:16px; min-height:20px;"></div>
-      <button class="cta-btn" id="khan-next-btn" onclick="soulmateGoLoading()" disabled>กำลังส่งพลังงาน… ✨</button>
+      <div id="khan-msg" style="font-size:14px; color:var(--gold); margin-bottom:8px; min-height:24px; font-family:'Noto Serif Thai',serif;"></div>
+      <div id="khan-pct" style="font-size:13px; color:var(--text-light); margin-bottom:16px;">กดค้างเพื่อเริ่ม</div>
     </div>
 
     <!-- STEP 5: Loading -->
@@ -1396,60 +1391,64 @@ function selectCandle(el, element, img, label) {
   document.getElementById('candle-next-btn').disabled = false;
 }
 
-function soulmateNextTo4B() { showSoulmateStep('soulmate-step4b'); }
+function soulmateGoLoading() {
+  showSoulmateStep('soulmate-step5');
+  setupStars();
+
+function setupKhan() {
+  let holdInterval = null;
+  let progress = 0;
+  const ring = document.getElementById('khan-ring');
+  const msg = document.getElementById('khan-msg');
+  const pct = document.getElementById('khan-pct');
+  const circumference = 817;
+  progress = 0;
+  ring.style.strokeDashoffset = circumference;
+  msg.textContent = '';
+  pct.textContent = 'กดค้างเพื่อเริ่ม';
+}
+
+function startKhanHold() {
+  const ring = document.getElementById('khan-ring');
+  const msg = document.getElementById('khan-msg');
+  const pct = document.getElementById('khan-pct');
+  const circumference = 817;
+  let progress = parseFloat(ring.dataset.progress || 0);
+
+  window._khanInterval = setInterval(() => {
+    progress = Math.min(100, progress + 1.5);
+    ring.dataset.progress = progress;
+    ring.style.strokeDashoffset = circumference * (1 - progress / 100);
+    pct.textContent = Math.round(progress) + '%';
+
+    if (progress < 40) msg.textContent = 'กำลังส่งพลังงาน…';
+    else if (progress < 70) msg.textContent = '💫 พลังงานกำลังสะสม…';
+    else if (progress < 100) msg.textContent = '✨ เกือบแล้ว…';
+    else {
+      clearInterval(window._khanInterval);
+      msg.textContent = 'กำลังส่งพลังงานสู่จักรวาล… 🌟';
+      pct.textContent = '100%';
+      setTimeout(() => soulmateGoLoading(), 600);
+    }
+  }, 50);
+}
+
+function stopKhanHold() {
+  clearInterval(window._khanInterval);
+}
+
+function soulmateNextTo4B() {
+  showSoulmateStep('soulmate-step4c');
+  setupKhan();
+}
 
 function selectDayNight(el, type) {
   soulmateState.dayNight = type;
-  el.style.borderColor = 'var(--gold)';
-  el.style.background = 'rgba(201,168,76,0.1)';
   setTimeout(() => {
     showSoulmateStep('soulmate-step4c');
     setupKhan();
   }, 400);
 }
-
-function setupKhan() {
-  const canvas = document.getElementById('khan-canvas');
-  const ctx = canvas.getContext('2d');
-  khanStrokes = 0;
-  let isDrawing = false;
-
-  function draw(x, y) {
-    ctx.beginPath();
-    ctx.arc(x, y, 20, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(150,200,255,0.3)';
-    ctx.fill();
-    khanStrokes++;
-    if (khanStrokes > 20) {
-      document.getElementById('khan-msg').textContent = 'กำลังส่งพลังงานของคุณสู่จักรวาล…';
-      document.getElementById('khan-next-btn').disabled = false;
-      document.getElementById('khan-next-btn').textContent = '✨ ส่งพลังงานแล้ว ดูผลดวงคู่';
-    } else if (khanStrokes > 8) {
-      document.getElementById('khan-msg').textContent = '💫 พลังงานกำลังสะสม…';
-    }
-  }
-
-  canvas.addEventListener('mousedown', e => { isDrawing = true; });
-  canvas.addEventListener('mousemove', e => {
-    if (!isDrawing) return;
-    const r = canvas.getBoundingClientRect();
-    draw(e.clientX - r.left, e.clientY - r.top);
-  });
-  canvas.addEventListener('mouseup', () => isDrawing = false);
-  canvas.addEventListener('touchstart', e => { isDrawing = true; e.preventDefault(); }, {passive:false});
-  canvas.addEventListener('touchmove', e => {
-    if (!isDrawing) return;
-    e.preventDefault();
-    const r = canvas.getBoundingClientRect();
-    const t = e.touches[0];
-    draw(t.clientX - r.left, t.clientY - r.top);
-  }, {passive:false});
-  canvas.addEventListener('touchend', () => isDrawing = false);
-}
-
-function soulmateGoLoading() {
-  showSoulmateStep('soulmate-step5');
-  setupStars();
   const msgs = [
     'กำลังอ่านพลังธาตุของทั้งสองดวง…',
     'กำลังคำนวณดาวประจำวันเกิด…',
@@ -1561,7 +1560,8 @@ function showSoulmateResult() {
 
 function showSoulmateStep(stepId) {
   ['soulmate-step0','soulmate-step1','soulmate-step2','soulmate-step3',
-   'soulmate-step4a','soulmate-step4b','soulmate-step4c','soulmate-step5','soulmate-step6'].forEach(id => {
+   'soulmate-step3result','soulmate-step4a','soulmate-step4c',
+   'soulmate-step5','soulmate-step6'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
