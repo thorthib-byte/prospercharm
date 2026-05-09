@@ -500,34 +500,36 @@
     <!-- STEP 4A: เลือกธาตุเจ้าเรือน -->
     <div id="soulmate-step4a" style="display:none; padding:20px;">
       <div id="element-person-label" style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:4px;">เลือกธาตุเจ้าเรือนของคุณ</div>
-      <div style="font-size:12px; color:var(--text-light); text-align:center; margin-bottom:6px;" id="element-person-sub">เดือนเกิดของคุณ</div>
+      <div style="font-size:12px; color:var(--text-light); text-align:center; margin-bottom:20px;" id="element-person-sub">เดือนเกิดของคุณ</div>
 
-      <!-- คำแนะนำธาตุ -->
-      <div style="background:var(--cream-dark); border-radius:12px; padding:12px 14px; margin-bottom:16px; font-size:12px; color:var(--text-mid); line-height:1.9;">
-        🔴 <b>ธาตุไฟ</b> — มกราคม / กุมภาพันธ์ / มีนาคม<br>
-        🌬️ <b>ธาตุลม</b> — เมษายน / พฤษภาคม / มิถุนายน<br>
-        🔵 <b>ธาตุน้ำ</b> — กรกฎาคม / สิงหาคม / กันยายน<br>
-        🟤 <b>ธาตุดิน</b> — ตุลาคม / พฤศจิกายน / ธันวาคม
+      <!-- 4 เทียนเรียงแถว -->
+      <div style="display:flex; gap:8px; justify-content:center; margin-bottom:20px;">
+        <div onclick="selectElement(this,'fire')" class="candle-btn" style="flex:1; text-align:center; padding:12px 6px; border-radius:16px;">
+          <img src="images/soulmate/candlered.png" style="width:100%; max-width:80px; height:160px; object-fit:cover; border-radius:10px; display:block; margin:0 auto;">
+          <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:700; color:var(--brown-dark); margin-top:8px;">เทียนสีแดง</div>
+          <div style="font-size:12px; color:var(--gold); font-weight:600; margin-top:2px;">ธาตุไฟ</div>
+          <div style="font-size:10px; color:var(--text-light); margin-top:4px; line-height:1.6;">เดือน<br>มกราคม กุมภาพันธ์<br>มีนาคม</div>
+        </div>
+        <div onclick="selectElement(this,'wind')" class="candle-btn" style="flex:1; text-align:center; padding:12px 6px; border-radius:16px;">
+          <img src="images/soulmate/candlewhite.png" style="width:100%; max-width:80px; height:160px; object-fit:cover; border-radius:10px; display:block; margin:0 auto;">
+          <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:700; color:var(--brown-dark); margin-top:8px;">เทียนสีขาว</div>
+          <div style="font-size:12px; color:var(--gold); font-weight:600; margin-top:2px;">ธาตุลม</div>
+          <div style="font-size:10px; color:var(--text-light); margin-top:4px; line-height:1.6;">เดือน<br>เมษายน พฤษภาคม<br>มิถุนายน</div>
+        </div>
+        <div onclick="selectElement(this,'water')" class="candle-btn" style="flex:1; text-align:center; padding:12px 6px; border-radius:16px;">
+          <img src="images/soulmate/candleblue.png" style="width:100%; max-width:80px; height:160px; object-fit:cover; border-radius:10px; display:block; margin:0 auto;">
+          <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:700; color:var(--brown-dark); margin-top:8px;">เทียนสีน้ำเงิน</div>
+          <div style="font-size:12px; color:var(--gold); font-weight:600; margin-top:2px;">ธาตุน้ำ</div>
+          <div style="font-size:10px; color:var(--text-light); margin-top:4px; line-height:1.6;">เดือน<br>กรกฎาคม สิงหาคม<br>กันยายน</div>
+        </div>
+        <div onclick="selectElement(this,'earth')" class="candle-btn" style="flex:1; text-align:center; padding:12px 6px; border-radius:16px;">
+          <img src="images/soulmate/candlegren.png" style="width:100%; max-width:80px; height:160px; object-fit:cover; border-radius:10px; display:block; margin:0 auto;">
+          <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:700; color:var(--brown-dark); margin-top:8px;">เทียนสีเขียว</div>
+          <div style="font-size:12px; color:var(--gold); font-weight:600; margin-top:2px;">ธาตุดิน</div>
+          <div style="font-size:10px; color:var(--text-light); margin-top:4px; line-height:1.6;">เดือน<br>ตุลาคม พฤศจิกายน<br>ธันวาคม</div>
+        </div>
       </div>
 
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:16px;">
-        <div onclick="selectElement(this,'fire')" class="candle-btn" style="text-align:center; padding:16px 10px;">
-          <img src="images/soulmate/candlered.png" style="width:100%; height:110px; object-fit:contain;">
-          <div style="font-size:13px; color:var(--brown-dark); margin-top:6px; font-family:'Noto Serif Thai',serif; font-weight:600;">🔴 ธาตุไฟ</div>
-        </div>
-        <div onclick="selectElement(this,'wind')" class="candle-btn" style="text-align:center; padding:16px 10px;">
-          <img src="images/soulmate/candlewhite.png" style="width:100%; height:110px; object-fit:contain;">
-          <div style="font-size:13px; color:var(--brown-dark); margin-top:6px; font-family:'Noto Serif Thai',serif; font-weight:600;">🌬️ ธาตุลม</div>
-        </div>
-        <div onclick="selectElement(this,'water')" class="candle-btn" style="text-align:center; padding:16px 10px;">
-          <img src="images/soulmate/candleblue.png" style="width:100%; height:110px; object-fit:contain;">
-          <div style="font-size:13px; color:var(--brown-dark); margin-top:6px; font-family:'Noto Serif Thai',serif; font-weight:600;">🔵 ธาตุน้ำ</div>
-        </div>
-        <div onclick="selectElement(this,'earth')" class="candle-btn" style="text-align:center; padding:16px 10px;">
-          <img src="images/soulmate/candlegren.png" style="width:100%; height:110px; object-fit:contain;">
-          <div style="font-size:13px; color:var(--brown-dark); margin-top:6px; font-family:'Noto Serif Thai',serif; font-weight:600;">🟤 ธาตุดิน</div>
-        </div>
-      </div>
       <div id="element-selected-msg" style="font-size:13px; color:var(--gold); text-align:center; min-height:20px; margin-bottom:12px;"></div>
       <button class="cta-btn" id="element-next-btn" onclick="elementNextStep()" disabled>ถัดไป →</button>
     </div>
@@ -1364,7 +1366,6 @@ function elementNextStep() {
   if (elementRound === 1) {
     element1 = selectedElementBtn;
     soulmateState.candle = element1;
-    // Reset for round 2
     elementRound = 2;
     selectedElementBtn = null;
     document.querySelectorAll('#soulmate-step4a .candle-btn').forEach(b => b.classList.remove('selected'));
@@ -1376,7 +1377,9 @@ function elementNextStep() {
     element2 = selectedElementBtn;
     soulmateState.candleLabel = element2;
     elementRound = 1;
-    soulmateNextTo4B();
+    selectedElementBtn = null;
+    showSoulmateStep('soulmate-step4c');
+    setTimeout(() => setupKhan(), 100);
   }
 }
 
