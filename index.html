@@ -1221,6 +1221,8 @@ function selectTarotTopic(topic) {
   document.getElementById('tarot-step0').style.display = 'none';
   document.getElementById('tarot-step1').style.display = 'block';
 }
+
+function tarotBackToTopic() {
   document.getElementById('tarot-step1').style.display = 'none';
   document.getElementById('tarot-step0').style.display = 'block';
   selectedTopic = null;
@@ -1833,77 +1835,41 @@ function handleHash() {
   if (!hash) return;
 
   const routes = {
-    // เซียมซี
-    'siam-chinese': () => {
-      goTo('page-siam');
-      selectTemple('chinese');
-    },
-    'siam-thai': () => {
-      goTo('page-siam');
-      selectTemple('thai');
-    },
-    // ไพ่ทาโรต์
-    'tarot-love': () => {
-      goTo('page-tarot');
-      selectTarotTopic('love');
-    },
-    'tarot-work': () => {
-      goTo('page-tarot');
-      selectTarotTopic('work');
-    },
-    'tarot-money': () => {
-      goTo('page-tarot');
-      selectTarotTopic('money');
-    },
-    'tarot-health': () => {
-      goTo('page-tarot');
-      selectTarotTopic('health');
-    },
-    // เลขพลังงาน
-    'energy': () => {
-      goTo('page-energy');
-    },
-    // ดวงสมพงศ์
-    'soulmate-thai': () => {
-      goTo('page-soulmate');
-      selectSoulmateScience('thai');
-    },
-    'soulmate-chinese': () => {
-      goTo('page-soulmate');
-      selectSoulmateScience('chinese');
-    },
-    'soulmate-indian': () => {
-      goTo('page-soulmate');
-      selectSoulmateScience('indian');
-    },
-    'soulmate-western': () => {
-      goTo('page-soulmate');
-      selectSoulmateScience('western');
-    },
+    'siam-chinese': () => { goTo('page-siam'); selectTemple('chinese'); },
+    'siam-thai': () => { goTo('page-siam'); selectTemple('thai'); },
+    'tarot-love': () => { goTo('page-tarot'); selectTarotTopic('love'); },
+    'tarot-work': () => { goTo('page-tarot'); selectTarotTopic('work'); },
+    'tarot-money': () => { goTo('page-tarot'); selectTarotTopic('money'); },
+    'tarot-health': () => { goTo('page-tarot'); selectTarotTopic('health'); },
+    'energy': () => { goTo('page-energy'); },
+    'soulmate-thai': () => { goTo('page-soulmate'); selectSoulmateScience('thai'); },
+    'soulmate-chinese': () => { goTo('page-soulmate'); selectSoulmateScience('chinese'); },
+    'soulmate-indian': () => { goTo('page-soulmate'); selectSoulmateScience('indian'); },
+    'soulmate-western': () => { goTo('page-soulmate'); selectSoulmateScience('western'); },
   };
 
   if (routes[hash]) routes[hash]();
 }
 
-// Run on load
-window.addEventListener('load', () => {
-  loadState();
-  handleHash();
-});
-window.addEventListener('hashchange', handleHash);
-
+// Init
 loadState();
 
-// Read URL parameter and go to correct page
-const urlParams = new URLSearchParams(window.location.search);
-const goTo_param = urlParams.get('go');
-if (goTo_param) {
-  if (goTo_param === 'siam') goTo('page-siam');
-  else if (goTo_param === 'tarot') goTo('page-tarot');
-  else if (goTo_param === 'energy') goTo('page-energy');
-  else if (goTo_param === 'pricing') goTo('page-pricing');
-  else if (goTo_param === 'soulmate') goTo('page-soulmate');
-}
+window.addEventListener('hashchange', handleHash);
+
+window.addEventListener('load', () => {
+  // Handle URL hash
+  handleHash();
+  // Handle ?go= param
+  const urlParams = new URLSearchParams(window.location.search);
+  const goTo_param = urlParams.get('go');
+  if (goTo_param) {
+    if (goTo_param === 'siam') goTo('page-siam');
+    else if (goTo_param === 'tarot') goTo('page-tarot');
+    else if (goTo_param === 'energy') goTo('page-energy');
+    else if (goTo_param === 'pricing') goTo('page-pricing');
+    else if (goTo_param === 'soulmate') goTo('page-soulmate');
+  }
+});
 </script>
 </body>
 </html>
