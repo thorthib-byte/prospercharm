@@ -555,7 +555,7 @@
     <!-- STEP 4B: เลือกพลังกลางวัน/กลางคืน -->
     <div id="soulmate-step4b" style="display:none; padding:20px; text-align:center;">
       <div style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">พลังของความสัมพันธ์นี้เป็น…</div>
-      <div style="font-size:13px; color:var(--text-light); margin-bottom:32px;">เลือกสิ่งที่รู้สึกว่าใช่</div>
+      <div style="font-size:13px; color:var(--text-light); margin-bottom:32px;">✦ ผลลัพธ์จากการประเมินพลังงานของคุณ ✦</div>
       <div style="display:flex; gap:20px; justify-content:center;">
         <div onclick="confirmDayNight('day')" style="flex:1; max-width:140px; padding:24px 16px; background:var(--white); border:2px solid rgba(180,160,130,0.3); border-radius:20px; cursor:pointer; transition:all 0.2s; text-align:center;">
           <div style="font-size:52px; margin-bottom:10px;">☀️</div>
@@ -664,6 +664,7 @@
     <div style="background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(201,168,76,0.05)); border:1px solid rgba(201,168,76,0.4); border-radius:16px; padding:20px; margin-bottom:14px; text-align:center;">
       <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🧿 พลังงานของความสัมพันธ์นี้คือ</div>
       <div id="s6-type" style="font-family:'Noto Serif Thai',serif; font-size:22px; font-weight:700; color:var(--gold);"></div>
+      <div id="s6-combo-name" style="font-size:13px; color:var(--text-mid); margin-top:8px; font-style:italic;"></div>
     </div>
 
     <div id="s6-element" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
@@ -1430,11 +1431,7 @@ function elementNextStep() {
     soulmateState.candleLabel = element2;
     elementRound = 1;
     selectedElementBtn = null;
-    const h4c = document.querySelector('#page-soulmate .inner-header');
-    if (h4c) h4c.style.display = 'none';
-    document.getElementById('soulmate-credits-bar').style.display = 'none';
-    showSoulmateStep('soulmate-step4c');
-    setTimeout(() => setupKhan(), 100);
+    showSoulmateStep('soulmate-step4b');
   }
 }
 
@@ -1523,7 +1520,8 @@ function confirmDayNight(type) {
   soulmateState.dayNight = type;
   const h4c = document.querySelector('#page-soulmate .inner-header');
   if (h4c) h4c.style.display = 'none';
-  document.getElementById('soulmate-credits-bar').style.display = 'none';
+  const credits = document.getElementById('soulmate-credits-bar');
+  if (credits) credits.style.display = 'none';
   showSoulmateStep('soulmate-step4c');
   setTimeout(() => setupKhan(), 100);
 }
@@ -1577,23 +1575,27 @@ function setupStars() {
 const soulmateElementPredictions = {
   fire: {
     day: {
-      attraction: 'ความร้อนแรงของธาตุไฟผสานกับพลังกลางวัน ทำให้ทั้งสองรู้สึกถึงพลังงานที่ชัดเจนและเข้มข้น ความรักที่โชติช่วงและมองเห็นได้ชัด',
-      warning: 'ระวังการปะทะเมื่ออารมณ์พุ่งสูง ไฟที่แรงเกินอาจเผาสิ่งที่รัก',
+      comboName: 'ไฟเปิดเผย 🔥☀️',
+      attraction: 'ความรักของคู่นี้ร้อนแรงและชัดเจน ต่างฝ่ายต่างแสดงออกตรงๆ ไม่มีการซ่อนเร้น พลังงานระหว่างกันโชติช่วงและมองเห็นได้ทุกคน',
+      warning: 'ระวังการปะทะเมื่ออารมณ์พุ่งสูง ไฟที่แรงเกินอาจเผาสิ่งที่รักได้',
       advice: 'ใช้พลังงานนี้สร้างสรรค์สิ่งใหม่ร่วมกัน ไม่ใช่แข่งขันกัน',
     },
     night: {
-      attraction: 'ธาตุไฟในยามค่ำคืนคือไฟที่ลึกและลุ่มหลง ความดึงดูดระหว่างสองคนนี้มีเสน่ห์ลึกลับที่อธิบายไม่ได้',
+      comboName: 'ไฟซ่อนเร้น 🔥🌙',
+      attraction: 'ความรักที่ลุ่มหลงและลึกซึ้ง มีแรงดึงดูดที่อธิบายไม่ได้ เคมีระหว่างกันรู้สึกได้แต่ไม่ได้แสดงออกมาตรงๆ',
       warning: 'ระวังความหึงหวงและการครอบครอง พลังไฟกลางคืนเผาไหม้ช้าแต่ลึก',
       advice: 'เปิดใจพูดคุยในสิ่งที่ซ่อนอยู่ในใจ ความจริงใจคือน้ำที่ดับไฟได้',
     }
   },
   wind: {
     day: {
-      attraction: 'ธาตุลมกับพลังกลางวันสร้างความสัมพันธ์ที่เบาสบาย อิสระ และเต็มไปด้วยการสื่อสารที่ดี',
+      comboName: 'ลมสดใส 🌬️☀️',
+      attraction: 'ความสัมพันธ์ที่เบาสบาย อิสระ และเต็มไปด้วยการสื่อสารที่ดี ทั้งสองคนรู้สึกผ่อนคลายเมื่ออยู่ด้วยกัน',
       warning: 'ระวังความไม่มั่นคง ลมพัดแรงอาจพาทุกอย่างปลิวหายได้',
       advice: 'หาจุดยึดเหนี่ยวร่วมกัน เพื่อให้ความสัมพันธ์มั่นคงในระยะยาว',
     },
     night: {
+      comboName: 'ลมล่องลอย 🌬️🌙',
       attraction: 'ลมกลางคืนพัดพาความลึกลับและจินตนาการ ทั้งสองคนสร้างโลกส่วนตัวที่สวยงามร่วมกัน',
       warning: 'ระวังความฝันที่ห่างจากความจริงมากเกินไป',
       advice: 'ฝันด้วยกันได้ แต่อย่าลืมกลับมาเหยียบดินเพื่อสร้างสิ่งที่จับต้องได้',
@@ -1601,24 +1603,28 @@ const soulmateElementPredictions = {
   },
   water: {
     day: {
-      attraction: 'ธาตุน้ำกับพลังกลางวันสร้างความรักที่อบอุ่น ไหลลื่น และเต็มไปด้วยการดูแลซึ่งกันและกัน',
+      comboName: 'น้ำอ่อนโยน 🌊☀️',
+      attraction: 'ความรักที่อบอุ่น ไหลลื่น และเต็มไปด้วยการดูแลซึ่งกันและกัน เข้ากันได้ดีในสังคมและรับรู้ความรู้สึกกันอย่างละเอียดอ่อน',
       warning: 'ระวังการละลายตัวตนในความสัมพันธ์จนลืมตัวเอง',
       advice: 'รักคนอื่นได้ แต่ต้องรักตัวเองให้ได้ก่อน',
     },
     night: {
-      attraction: 'น้ำกลางคืนลึกและเงียบสงบ ความสัมพันธ์นี้มีความเข้าใจกันในระดับจิตใต้สำนึก',
+      comboName: 'น้ำลึกผูกพัน 🌊🌙',
+      attraction: 'น้ำกลางคืนลึกและเงียบสงบ ความสัมพันธ์นี้มีความเข้าใจกันในระดับจิตใต้สำนึก ผูกพันกันอย่างแนบแน่น',
       warning: 'ระวังอารมณ์ที่ท่วมท้นในยามดึก การตัดสินใจตอนกลางคืนอาจผิดพลาด',
       advice: 'ฟังใจตัวเองและกันให้มาก ความเงียบบางครั้งพูดได้มากกว่าคำพูด',
     }
   },
   earth: {
     day: {
-      attraction: 'ธาตุดินกับพลังกลางวันสร้างความสัมพันธ์ที่มั่นคง จริงจัง และเติบโตไปด้วยกันอย่างช้าแต่แน่นอน',
+      comboName: 'ดินมั่นคง 🟤☀️',
+      attraction: 'ความสัมพันธ์ที่มั่นคง จริงจัง และเติบโตไปด้วยกันอย่างช้าแต่แน่นอน เชื่อใจกันได้และมองเห็นอนาคตร่วมกัน',
       warning: 'ระวังความเคร่งครัดและแข็งกระด้างจนขาดความโรแมนติก',
       advice: 'หาเวลาทำสิ่งเล็กๆ น้อยๆ ที่หวานหอมให้กัน อย่าลืมรดน้ำความรักทุกวัน',
     },
     night: {
-      attraction: 'ดินกลางคืนเต็มไปด้วยพลังลึกและความลุ่มลึก ความสัมพันธ์นี้สร้างรากฐานที่แข็งแกร่งในความมืด',
+      comboName: 'ดินลึกลับ 🟤🌙',
+      attraction: 'ดินกลางคืนเต็มไปด้วยพลังลึกและความลุ่มลึก ความสัมพันธ์นี้สร้างรากฐานที่แข็งแกร่งในความเงียบ มีเสน่ห์ที่คนนอกมองไม่เห็น',
       warning: 'ระวังการเก็บกดความรู้สึกไว้ใต้ดินนานเกินไป',
       advice: 'ขุดความรู้สึกที่ซ่อนขึ้นมาพูดคุยกัน ดอกไม้ต้องการแสงสว่างเพื่อเติบโต',
     }
@@ -1693,13 +1699,23 @@ function showSoulmateResult() {
   document.getElementById('s6-score-pct').textContent = score + '%';
   document.getElementById('s6-score-bar').style.width = score + '%';
   document.getElementById('s6-score-desc').textContent = scoreDesc;
-  document.getElementById('s6-element-text').textContent = elem.desc;
-  document.getElementById('s6-habit').textContent = habitPool[seed % habitPool.length];
-  document.getElementById('s6-attract').textContent = attractPool[seed % attractPool.length];
-  document.getElementById('s6-warning').textContent = warningPool[seed % warningPool.length];
-  document.getElementById('s6-longterm').textContent = longtermPool[seed % longtermPool.length];
+
+  // Element + DayNight combo prediction
+  const elemKey = soulmateState.candle || 'fire';
+  const dayNightKey = soulmateState.dayNight || 'day';
+  const elemPred = (soulmateElementPredictions[elemKey] || soulmateElementPredictions.fire)[dayNightKey] || {};
+
+  // Add combo name to s6-type section
   document.getElementById('s6-type').textContent = typeLabel;
-  document.getElementById('s6-advice').textContent = advicePool[seed % advicePool.length];
+  const comboEl = document.getElementById('s6-combo-name');
+  if (comboEl) comboEl.textContent = 'สภาพธาตุ: ' + (elemPred.comboName || '');
+
+  document.getElementById('s6-element-text').textContent = elemPred.attraction || elem.desc;
+  document.getElementById('s6-habit').textContent = habitPool[seed % habitPool.length];
+  document.getElementById('s6-attract').textContent = elemPred.attraction || attractPool[seed % attractPool.length];
+  document.getElementById('s6-warning').textContent = elemPred.warning || warningPool[seed % warningPool.length];
+  document.getElementById('s6-longterm').textContent = longtermPool[seed % longtermPool.length];
+  document.getElementById('s6-advice').textContent = elemPred.advice || advicePool[seed % advicePool.length];
 
   showCreditsBar('soulmate');
 }
