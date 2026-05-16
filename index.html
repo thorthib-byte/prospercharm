@@ -470,13 +470,38 @@
     <!-- STEP 2: เลือกของบูชา -->
     <div id="energy-step2" style="display:none; position:fixed; inset:0; z-index:50; overflow:hidden;">
       <img src="images/energy/buchanaga.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
-      <canvas id="bucha-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:2;"></canvas>
-      <div style="position:absolute;top:4%;left:0;right:0;text-align:center;z-index:3;pointer-events:none;">
+
+      <!-- instruction ด้านบน -->
+      <div style="position:absolute;top:4%;left:0;right:0;text-align:center;z-index:3;">
         <div style="font-family:'Noto Serif Thai',serif;font-size:14px;color:#FFD700;text-shadow:0 2px 8px rgba(0,0,0,0.9);background:rgba(0,0,0,0.45);display:inline-block;padding:8px 20px;border-radius:20px;border:1px solid rgba(255,215,0,0.3);">
-          ✦ ลากนิ้ววนเป็นวงกลมบนสิ่งที่ต้องการถวาย ✦
+          ✦ เลือกของบูชาที่ต้องการถวาย ✦
         </div>
       </div>
+
+      <!-- ชื่อที่เลือก -->
       <div id="bucha-selected-name" style="position:absolute;top:13%;left:0;right:0;text-align:center;z-index:3;pointer-events:none;font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:#FFD700;text-shadow:0 0 15px rgba(255,215,0,0.9),0 2px 8px rgba(0,0,0,0.9);min-height:28px;"></div>
+
+      <!-- ปุ่ม 4 อัน ด้านล่าง -->
+      <div style="position:absolute;bottom:6%;left:0;right:0;z-index:3;padding:0 16px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:360px;margin:0 auto;">
+          <button onclick="selectBucha(this,'incense','กระถางธูป 🪔')"
+            style="padding:14px 10px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,215,0,0.4);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(255,215,0,0.9);cursor:pointer;transition:all 0.2s;">
+            🪔 กระถางธูป
+          </button>
+          <button onclick="selectBucha(this,'candle','เทียน 🕯️')"
+            style="padding:14px 10px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,215,0,0.4);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(255,215,0,0.9);cursor:pointer;transition:all 0.2s;">
+            🕯️ เทียน
+          </button>
+          <button onclick="selectBucha(this,'kratong','กระทง 🌸')"
+            style="padding:14px 10px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,215,0,0.4);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(255,215,0,0.9);cursor:pointer;transition:all 0.2s;">
+            🌸 กระทง
+          </button>
+          <button onclick="selectBucha(this,'garland','พวงมาลัย 💐')"
+            style="padding:14px 10px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,215,0,0.4);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(255,215,0,0.9);cursor:pointer;transition:all 0.2s;">
+            💐 พวงมาลัย
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- STEP 3: จุดธูป -->
@@ -1669,16 +1694,7 @@ function energyNextStep(step) {
   if (target) {
     target.style.display = 'block';
     window.scrollTo(0,0);
-    if (step === 2) {
-      document.body.style.overflow = 'hidden';
-      document.body.style.touchAction = 'none';
-      document.documentElement.style.overflow = 'hidden';
-      setTimeout(() => setupBuchaCanvas(), 150);
-    } else {
-      document.body.style.overflow = '';
-      document.body.style.touchAction = '';
-      document.documentElement.style.overflow = '';
-    }
+    if (step === 2) setTimeout(() => setupBuchaCanvas(), 100);
   }
 }
 const energyMeanings={1:'เลขแห่งความเป็นผู้นำ วันนี้เหมาะแก่การริเริ่มและตัดสินใจด้วยตัวเอง',2:'เลขแห่งความสมดุล วันนี้เหมาะแก่การทำงานร่วมกับผู้อื่นและการเจรจา',3:'เลขแห่งความสร้างสรรค์ พลังงานแห่งการแสดงออกและความสนุกสนาน',4:'เลขแห่งความมั่นคง วันนี้เหมาะแก่การวางรากฐานและทำงานอย่างตั้งใจ',5:'เลขแห่งการเปลี่ยนแปลง วันนี้อาจมีเรื่องใหม่หรือความเปลี่ยนแปลงเกิดขึ้น',6:'เลขแห่งความรักและครอบครัว วันนี้เหมาะแก่การดูแลคนที่รักและตัวเอง',7:'เลขแห่งปัญญาและจิตวิญญาณ วันนี้เหมาะแก่การทบทวนและค้นหาความหมาย',8:'เลขแห่งความอุดมสมบูรณ์ พลังงานด้านการเงินและความสำเร็จแรงมากวันนี้',9:'เลขแห่งการให้และความเมตตา วันนี้เหมาะแก่การทำบุญและช่วยเหลือผู้อื่น'};
