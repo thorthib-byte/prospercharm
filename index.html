@@ -474,37 +474,37 @@
 
       <!-- กรอบทอง overlay แต่ละสิ่งของ -->
 
-      <!-- 🪔 กระถางธูป - กลางรูป ~32-55% จากบน, 30-70% จากซ้าย -->
+      <!-- 🪔 กระถางธูป - กลางรูปบน ~20-42% จากบน, 32-68% จากซ้าย -->
       <div id="bucha-incense" onclick="selectEnergyOffering(this,'incense','ธูป')"
-        style="position:absolute;top:32%;left:28%;width:44%;height:24%;
+        style="position:absolute;top:20%;left:32%;width:36%;height:22%;
           border:3px solid transparent;border-radius:50%;cursor:pointer;transition:all 0.3s;z-index:3;">
       </div>
 
-      <!-- 🕯️ เทียนซ้าย ~24-40% จากบน, 8-30% จากซ้าย -->
+      <!-- 🕯️ เทียนบนซ้าย ~17-32% จากบน, 8-28% จากซ้าย -->
       <div id="bucha-candle-l" onclick="selectEnergyOffering(this,'candle','เทียน')"
-        style="position:absolute;top:24%;left:8%;width:22%;height:18%;
-          border:3px solid transparent;border-radius:12px;cursor:pointer;transition:all 0.3s;z-index:3;">
+        style="position:absolute;top:17%;left:8%;width:20%;height:16%;
+          border:3px solid transparent;border-radius:50%;cursor:pointer;transition:all 0.3s;z-index:3;">
       </div>
-      <!-- 🕯️ เทียนขวา ~24-40% จากบน, 70-92% จากซ้าย -->
+      <!-- 🕯️ เทียนบนขวา ~17-32% จากบน, 72-92% จากซ้าย -->
       <div id="bucha-candle-r" onclick="selectEnergyOffering(this,'candle','เทียน')"
-        style="position:absolute;top:24%;left:70%;width:22%;height:18%;
-          border:3px solid transparent;border-radius:12px;cursor:pointer;transition:all 0.3s;z-index:3;">
+        style="position:absolute;top:17%;left:72%;width:20%;height:16%;
+          border:3px solid transparent;border-radius:50%;cursor:pointer;transition:all 0.3s;z-index:3;">
       </div>
 
-      <!-- 🌸 กระทงซ้าย ~56-74% จากบน, 5-28% จากซ้าย -->
+      <!-- 🌸 กระทงซ้าย ~50-68% จากบน, 5-25% จากซ้าย -->
       <div id="bucha-kratong-l" onclick="selectEnergyOffering(this,'kratong','กระทง')"
-        style="position:absolute;top:56%;left:5%;width:23%;height:18%;
+        style="position:absolute;top:50%;left:5%;width:20%;height:18%;
           border:3px solid transparent;border-radius:12px;cursor:pointer;transition:all 0.3s;z-index:3;">
       </div>
-      <!-- 🌸 กระทงขวา ~56-74% จากบน, 72-95% จากซ้าย -->
+      <!-- 🌸 กระทงขวา ~50-68% จากบน, 75-95% จากซ้าย -->
       <div id="bucha-kratong-r" onclick="selectEnergyOffering(this,'kratong','กระทง')"
-        style="position:absolute;top:56%;left:72%;width:23%;height:18%;
+        style="position:absolute;top:50%;left:75%;width:20%;height:18%;
           border:3px solid transparent;border-radius:12px;cursor:pointer;transition:all 0.3s;z-index:3;">
       </div>
 
-      <!-- 💐 พวงมาลัย ~62-88% จากบน, 25-75% จากซ้าย -->
+      <!-- 💐 พวงมาลัย ~52-80% จากบน, 28-72% จากซ้าย -->
       <div id="bucha-garland" onclick="selectEnergyOffering(this,'garland','พวงมาลัย')"
-        style="position:absolute;top:62%;left:25%;width:50%;height:26%;
+        style="position:absolute;top:52%;left:28%;width:44%;height:28%;
           border:3px solid transparent;border-radius:50%;cursor:pointer;transition:all 0.3s;z-index:3;">
       </div>
 
@@ -1545,19 +1545,24 @@ const buchaGroups = {
   garland:  ['bucha-garland'],
 };
 
-const goldGlow = '3px solid rgba(255,215,0,0.9)';
-const goldShadow = '0 0 16px rgba(255,215,0,0.7), 0 0 32px rgba(255,215,0,0.3)';
+const goldGlow = '3px solid rgba(255,215,0,0.95)';
+const goldShadow = '0 0 20px rgba(255,215,0,0.8), 0 0 40px rgba(255,215,0,0.4), inset 0 0 20px rgba(255,215,0,0.1)';
+const goldBg = 'rgba(255,215,0,0.08)';
 
 function selectEnergyOffering(el, type, name) {
   // Clear all borders
   Object.values(buchaGroups).flat().forEach(id => {
     const el = document.getElementById(id);
-    if (el) { el.style.border = '3px solid transparent'; el.style.boxShadow = 'none'; }
+    if (el) { el.style.border = '3px solid transparent'; el.style.boxShadow = 'none'; el.style.background = 'transparent'; }
   });
   // Highlight selected group
   (buchaGroups[type] || [type]).forEach(id => {
     const target = document.getElementById(id);
-    if (target) { target.style.border = goldGlow; target.style.boxShadow = goldShadow; }
+    if (target) {
+      target.style.border = goldGlow;
+      target.style.boxShadow = goldShadow;
+      target.style.background = goldBg;
+    }
   });
   document.getElementById('energy-offering-msg').textContent = `✦ เลือก${name}แล้ว พ่อปู่รับทราบแล้วค่ะ`;
   document.getElementById('energy-offering-btn').disabled = false;
@@ -1637,13 +1642,6 @@ function setupEnergyMist() {
     const size = 60 + Math.random() * 100;
     return `<div style="position:absolute;left:${Math.random()*100}%;top:${Math.random()*100}%;width:${size}px;height:${size}px;background:radial-gradient(circle,rgba(100,200,150,0.06),transparent);border-radius:50%;animation:floatNum ${4+Math.random()*6}s ${Math.random()*4}s ease-in-out infinite alternate;"></div>`;
   }).join('');
-}
-
-function selectEnergyOffering(el, type, name) {
-  document.querySelectorAll('.offering-item').forEach(b => b.classList.remove('selected'));
-  el.classList.add('selected');
-  document.getElementById('energy-offering-msg').textContent = `✦ เลือก${name}แล้ว พ่อปู่รับทราบแล้วค่ะ`;
-  document.getElementById('energy-offering-btn').disabled = false;
 }
 
 function lightEnergyIncense() {
