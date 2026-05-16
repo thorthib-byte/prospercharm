@@ -1221,8 +1221,6 @@ function selectTarotTopic(topic) {
   document.getElementById('tarot-step0').style.display = 'none';
   document.getElementById('tarot-step1').style.display = 'block';
 }
-
-function tarotBackToTopic() {
   document.getElementById('tarot-step1').style.display = 'none';
   document.getElementById('tarot-step0').style.display = 'block';
   selectedTopic = null;
@@ -1828,6 +1826,71 @@ function resetSiam() {
   shakeCount = 0;
   showCreditsBar('siam');
 }
+
+// ===== URL HASH ROUTING =====
+function handleHash() {
+  const hash = window.location.hash.replace('#', '');
+  if (!hash) return;
+
+  const routes = {
+    // เซียมซี
+    'siam-chinese': () => {
+      goTo('page-siam');
+      selectTemple('chinese');
+    },
+    'siam-thai': () => {
+      goTo('page-siam');
+      selectTemple('thai');
+    },
+    // ไพ่ทาโรต์
+    'tarot-love': () => {
+      goTo('page-tarot');
+      selectTarotTopic('love');
+    },
+    'tarot-work': () => {
+      goTo('page-tarot');
+      selectTarotTopic('work');
+    },
+    'tarot-money': () => {
+      goTo('page-tarot');
+      selectTarotTopic('money');
+    },
+    'tarot-health': () => {
+      goTo('page-tarot');
+      selectTarotTopic('health');
+    },
+    // เลขพลังงาน
+    'energy': () => {
+      goTo('page-energy');
+    },
+    // ดวงสมพงศ์
+    'soulmate-thai': () => {
+      goTo('page-soulmate');
+      selectSoulmateScience('thai');
+    },
+    'soulmate-chinese': () => {
+      goTo('page-soulmate');
+      selectSoulmateScience('chinese');
+    },
+    'soulmate-indian': () => {
+      goTo('page-soulmate');
+      selectSoulmateScience('indian');
+    },
+    'soulmate-western': () => {
+      goTo('page-soulmate');
+      selectSoulmateScience('western');
+    },
+  };
+
+  if (routes[hash]) routes[hash]();
+}
+
+// Run on load
+window.addEventListener('load', () => {
+  loadState();
+  handleHash();
+});
+window.addEventListener('hashchange', handleHash);
 
 loadState();
 
