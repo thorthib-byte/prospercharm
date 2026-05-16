@@ -552,6 +552,24 @@
 
 
 
+    <!-- STEP 4B: เลือกพลังกลางวัน/กลางคืน -->
+    <div id="soulmate-step4b" style="display:none; padding:20px; text-align:center;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">พลังของความสัมพันธ์นี้เป็น…</div>
+      <div style="font-size:13px; color:var(--text-light); margin-bottom:32px;">เลือกสิ่งที่รู้สึกว่าใช่</div>
+      <div style="display:flex; gap:20px; justify-content:center;">
+        <div onclick="confirmDayNight('day')" style="flex:1; max-width:140px; padding:24px 16px; background:var(--white); border:2px solid rgba(180,160,130,0.3); border-radius:20px; cursor:pointer; transition:all 0.2s; text-align:center;">
+          <div style="font-size:52px; margin-bottom:10px;">☀️</div>
+          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">พลังกลางวัน</div>
+          <div style="font-size:11px; color:var(--text-light); margin-top:4px;">ชัดเจน อบอุ่น มีพลัง</div>
+        </div>
+        <div onclick="confirmDayNight('night')" style="flex:1; max-width:140px; padding:24px 16px; background:var(--white); border:2px solid rgba(180,160,130,0.3); border-radius:20px; cursor:pointer; transition:all 0.2s; text-align:center;">
+          <div style="font-size:52px; margin-bottom:10px;">🌙</div>
+          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">พลังกลางคืน</div>
+          <div style="font-size:11px; color:var(--text-light); margin-top:4px;">ลึกซึ้ง ลึกลับ เงียบงาม</div>
+        </div>
+      </div>
+    </div>
+
     <!-- STEP 4C: ลอยขันน้ำมนต์ fullscreen -->
     <div id="soulmate-step4c" style="display:none; position:fixed; inset:0; width:100%; height:100%; overflow:hidden; background:#1a0a2e; z-index:50;">
       <!-- รูปขัน default -->
@@ -1453,6 +1471,8 @@ function setupKhan() {
 
 function startKhanHold(e) {
   if (e) e.preventDefault();
+  // Vibrate once to confirm hold started
+  if (navigator.vibrate) navigator.vibrate(100);
   const ring = document.getElementById('khan-ring');
   const msg = document.getElementById('khan-msg');
   const pct = document.getElementById('khan-pct');
@@ -1499,12 +1519,17 @@ function stopKhanHold(e) {
   if (pct) pct.textContent = 'กดค้างค้างไว้ อย่าปล่อย';
 }
 
-function soulmateNextTo4B() {
+function confirmDayNight(type) {
+  soulmateState.dayNight = type;
   const h4c = document.querySelector('#page-soulmate .inner-header');
   if (h4c) h4c.style.display = 'none';
   document.getElementById('soulmate-credits-bar').style.display = 'none';
   showSoulmateStep('soulmate-step4c');
-  setupKhan();
+  setTimeout(() => setupKhan(), 100);
+}
+
+function soulmateNextTo4B() {
+  showSoulmateStep('soulmate-step4b');
 }
 
 function selectDayNight(el, type) {
@@ -1547,6 +1572,58 @@ function setupStars() {
     return `<div style="position:absolute;left:${x}%;top:${y}%;width:${size}px;height:${size}px;background:white;border-radius:50%;animation:twinkle ${2+Math.random()*2}s ${delay}s infinite;"></div>`;
   }).join('');
 }
+
+
+const soulmateElementPredictions = {
+  fire: {
+    day: {
+      attraction: 'ความร้อนแรงของธาตุไฟผสานกับพลังกลางวัน ทำให้ทั้งสองรู้สึกถึงพลังงานที่ชัดเจนและเข้มข้น ความรักที่โชติช่วงและมองเห็นได้ชัด',
+      warning: 'ระวังการปะทะเมื่ออารมณ์พุ่งสูง ไฟที่แรงเกินอาจเผาสิ่งที่รัก',
+      advice: 'ใช้พลังงานนี้สร้างสรรค์สิ่งใหม่ร่วมกัน ไม่ใช่แข่งขันกัน',
+    },
+    night: {
+      attraction: 'ธาตุไฟในยามค่ำคืนคือไฟที่ลึกและลุ่มหลง ความดึงดูดระหว่างสองคนนี้มีเสน่ห์ลึกลับที่อธิบายไม่ได้',
+      warning: 'ระวังความหึงหวงและการครอบครอง พลังไฟกลางคืนเผาไหม้ช้าแต่ลึก',
+      advice: 'เปิดใจพูดคุยในสิ่งที่ซ่อนอยู่ในใจ ความจริงใจคือน้ำที่ดับไฟได้',
+    }
+  },
+  wind: {
+    day: {
+      attraction: 'ธาตุลมกับพลังกลางวันสร้างความสัมพันธ์ที่เบาสบาย อิสระ และเต็มไปด้วยการสื่อสารที่ดี',
+      warning: 'ระวังความไม่มั่นคง ลมพัดแรงอาจพาทุกอย่างปลิวหายได้',
+      advice: 'หาจุดยึดเหนี่ยวร่วมกัน เพื่อให้ความสัมพันธ์มั่นคงในระยะยาว',
+    },
+    night: {
+      attraction: 'ลมกลางคืนพัดพาความลึกลับและจินตนาการ ทั้งสองคนสร้างโลกส่วนตัวที่สวยงามร่วมกัน',
+      warning: 'ระวังความฝันที่ห่างจากความจริงมากเกินไป',
+      advice: 'ฝันด้วยกันได้ แต่อย่าลืมกลับมาเหยียบดินเพื่อสร้างสิ่งที่จับต้องได้',
+    }
+  },
+  water: {
+    day: {
+      attraction: 'ธาตุน้ำกับพลังกลางวันสร้างความรักที่อบอุ่น ไหลลื่น และเต็มไปด้วยการดูแลซึ่งกันและกัน',
+      warning: 'ระวังการละลายตัวตนในความสัมพันธ์จนลืมตัวเอง',
+      advice: 'รักคนอื่นได้ แต่ต้องรักตัวเองให้ได้ก่อน',
+    },
+    night: {
+      attraction: 'น้ำกลางคืนลึกและเงียบสงบ ความสัมพันธ์นี้มีความเข้าใจกันในระดับจิตใต้สำนึก',
+      warning: 'ระวังอารมณ์ที่ท่วมท้นในยามดึก การตัดสินใจตอนกลางคืนอาจผิดพลาด',
+      advice: 'ฟังใจตัวเองและกันให้มาก ความเงียบบางครั้งพูดได้มากกว่าคำพูด',
+    }
+  },
+  earth: {
+    day: {
+      attraction: 'ธาตุดินกับพลังกลางวันสร้างความสัมพันธ์ที่มั่นคง จริงจัง และเติบโตไปด้วยกันอย่างช้าแต่แน่นอน',
+      warning: 'ระวังความเคร่งครัดและแข็งกระด้างจนขาดความโรแมนติก',
+      advice: 'หาเวลาทำสิ่งเล็กๆ น้อยๆ ที่หวานหอมให้กัน อย่าลืมรดน้ำความรักทุกวัน',
+    },
+    night: {
+      attraction: 'ดินกลางคืนเต็มไปด้วยพลังลึกและความลุ่มลึก ความสัมพันธ์นี้สร้างรากฐานที่แข็งแกร่งในความมืด',
+      warning: 'ระวังการเก็บกดความรู้สึกไว้ใต้ดินนานเกินไป',
+      advice: 'ขุดความรู้สึกที่ซ่อนขึ้นมาพูดคุยกัน ดอกไม้ต้องการแสงสว่างเพื่อเติบโต',
+    }
+  }
+};
 
 function showSoulmateResult() {
   const header = document.querySelector('#page-soulmate .inner-header');
@@ -1629,7 +1706,7 @@ function showSoulmateResult() {
 
 function showSoulmateStep(stepId) {
   ['soulmate-step0','soulmate-step1','soulmate-step2','soulmate-step3',
-   'soulmate-step3result','soulmate-step4a','soulmate-step4c',
+   'soulmate-step3result','soulmate-step4a','soulmate-step4b','soulmate-step4c',
    'soulmate-step5','soulmate-step6'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
@@ -1835,13 +1912,16 @@ function handleHash() {
   if (!hash) return;
 
   const routes = {
+    'siam': () => { goTo('page-siam'); },
     'siam-chinese': () => { goTo('page-siam'); selectTemple('chinese'); },
     'siam-thai': () => { goTo('page-siam'); selectTemple('thai'); },
+    'tarot': () => { goTo('page-tarot'); },
     'tarot-love': () => { goTo('page-tarot'); selectTarotTopic('love'); },
     'tarot-work': () => { goTo('page-tarot'); selectTarotTopic('work'); },
     'tarot-money': () => { goTo('page-tarot'); selectTarotTopic('money'); },
     'tarot-health': () => { goTo('page-tarot'); selectTarotTopic('health'); },
     'energy': () => { goTo('page-energy'); },
+    'soulmate': () => { goTo('page-soulmate'); },
     'soulmate-thai': () => { goTo('page-soulmate'); selectSoulmateScience('thai'); },
     'soulmate-chinese': () => { goTo('page-soulmate'); selectSoulmateScience('chinese'); },
     'soulmate-indian': () => { goTo('page-soulmate'); selectSoulmateScience('indian'); },
