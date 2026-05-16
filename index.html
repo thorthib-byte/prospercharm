@@ -423,6 +423,37 @@
     <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">🐉 พิธีพ่อปู่ศรีสุทโธ</div></div>
     <div class="credits-bar" id="energy-credits-bar"><span class="credits-bar-text">เครดิตคงเหลือ</span><span class="credits-bar-num" id="energy-credits-num"></span></div>
 
+    <!-- STEP 0: Welcome Video -->
+    <div id="energy-step0" style="display:none; position:fixed; inset:0; background:#000; z-index:50; overflow:hidden;">
+      <!-- Video 10 วิ -->
+      <video id="energy-welcome-video" src="images/energy/welcomenaga.mp4" muted playsinline
+        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"
+        onended="showWelcomeStill()">
+      </video>
+      <!-- Still image หลังจบ video -->
+      <img id="energy-welcome-still" src="images/energy/welcomenagastill.png"
+        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;">
+      <!-- ข้อความและปุ่มทับบน still -->
+      <div id="energy-welcome-content" style="display:none;position:absolute;inset:0;z-index:2;">
+        <div style="position:absolute;top:35%;left:0;right:0;text-align:center;padding:0 24px;">
+          <div style="font-family:'Noto Serif Thai',serif;font-size:28px;font-weight:700;color:#FFD700;text-shadow:0 0 20px rgba(255,215,0,0.8),0 2px 4px rgba(0,0,0,0.8);margin-bottom:8px;">ตั้งจิตอธิษฐาน</div>
+          <div style="font-family:'Noto Serif Thai',serif;font-size:16px;color:rgba(245,230,163,0.9);text-shadow:0 2px 4px rgba(0,0,0,0.8);margin-bottom:6px;">ถึงโชคที่คุณต้องการ</div>
+          <div style="font-size:13px;color:rgba(212,175,55,0.8);text-shadow:0 2px 4px rgba(0,0,0,0.8);line-height:1.8;">
+            หลับตา ตั้งจิตให้สงบ<br>
+            อธิษฐานถึงสิ่งที่คุณต้องการ<br>
+            พ่อปู่ศรีสุทโธจะรับรู้ และเปิดทางโชคให้คุณ
+          </div>
+        </div>
+        <div style="position:absolute;bottom:12%;left:0;right:0;text-align:center;padding:0 40px;">
+          <button onclick="energyNextStep(2)"
+            style="width:100%;max-width:280px;padding:16px 24px;background:linear-gradient(135deg,rgba(180,130,20,0.9),rgba(212,175,55,0.9));border:2px solid rgba(255,215,0,0.6);border-radius:40px;font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:#1a0a00;cursor:pointer;text-shadow:0 1px 2px rgba(255,255,255,0.3);box-shadow:0 0 30px rgba(212,175,55,0.4);">
+            🐉 เริ่มพิธี
+          </button>
+          <div style="font-size:11px;color:rgba(212,175,55,0.6);margin-top:8px;">เชื่อมพลังงานกับพ่อปู่ศรีสุทโธ</div>
+        </div>
+      </div>
+    </div>
+
     <!-- STEP 1: กรอกวันเกิด -->
     <div id="energy-step1" class="form-section">
       <div style="text-align:center; margin-bottom:24px;">
@@ -436,23 +467,62 @@
       <button class="cta-btn" onclick="startEnergyCeremony()">🐉 เริ่มพิธี</button>
     </div>
 
-    <!-- STEP 2: เลือกของบูชา -->
-    <div id="energy-step2" style="display:none; position:relative; min-height:100vh; background:linear-gradient(180deg,#0a1628 0%,#0d2137 40%,#0a2818 100%); overflow:hidden;">
-      <div style="position:absolute;inset:0;pointer-events:none;" id="energy-mist"></div>
-      <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);font-size:120px;opacity:0.1;filter:blur(4px);pointer-events:none;">🐉</div>
-      <div style="position:relative;z-index:2;padding:40px 20px 30px;text-align:center;">
-        <div style="font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:600;color:rgba(245,230,163,0.95);margin-bottom:6px;">ตั้งจิตอธิษฐาน</div>
-        <div style="font-size:13px;color:rgba(212,175,55,0.7);margin-bottom:28px;">ถึงโชคที่คุณต้องการ</div>
-        <div style="font-size:64px;margin-bottom:20px;">⛩️</div>
-        <div style="font-size:12px;color:rgba(212,175,55,0.6);margin-bottom:24px;">เลือกของบูชาที่ต้องการถวาย</div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;max-width:320px;margin:0 auto 24px;">
-          <div onclick="selectEnergyOffering(this,'incense','ธูป')" class="offering-item"><div style="font-size:32px;">🪔</div><div style="font-size:10px;color:rgba(212,175,55,0.8);margin-top:4px;">ธูป</div></div>
-          <div onclick="selectEnergyOffering(this,'candle','เทียน')" class="offering-item"><div style="font-size:32px;">🕯️</div><div style="font-size:10px;color:rgba(212,175,55,0.8);margin-top:4px;">เทียน</div></div>
-          <div onclick="selectEnergyOffering(this,'flower','ดอกไม้')" class="offering-item"><div style="font-size:32px;">🌸</div><div style="font-size:10px;color:rgba(212,175,55,0.8);margin-top:4px;">ดอกไม้</div></div>
-          <div onclick="selectEnergyOffering(this,'water','ขันน้ำ')" class="offering-item"><div style="font-size:32px;">🏺</div><div style="font-size:10px;color:rgba(212,175,55,0.8);margin-top:4px;">ขันน้ำ</div></div>
-        </div>
-        <div id="energy-offering-msg" style="font-size:13px;color:rgba(212,175,55,0.8);min-height:20px;margin-bottom:16px;"></div>
-        <button class="cta-btn" id="energy-offering-btn" onclick="energyNextStep(3)" disabled style="max-width:280px;background:rgba(212,175,55,0.9);color:#1a0a2e;">🐉 ถวายของบูชา</button>
+    <!-- STEP 2: เลือกของบูชา (รูป buchanaga.png + กรอบทอง) -->
+    <div id="energy-step2" style="display:none; position:fixed; inset:0; z-index:50; overflow:hidden;">
+      <!-- รูป background -->
+      <img src="images/energy/buchanaga.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
+
+      <!-- กรอบทอง overlay แต่ละสิ่งของ -->
+
+      <!-- 🪔 กระถางธูป - กลางรูป ~32-55% จากบน, 30-70% จากซ้าย -->
+      <div id="bucha-incense" onclick="selectEnergyOffering(this,'incense','ธูป')"
+        style="position:absolute;top:32%;left:28%;width:44%;height:24%;
+          border:3px solid transparent;border-radius:50%;cursor:pointer;transition:all 0.3s;z-index:3;">
+      </div>
+
+      <!-- 🕯️ เทียนซ้าย ~24-40% จากบน, 8-30% จากซ้าย -->
+      <div id="bucha-candle-l" onclick="selectEnergyOffering(this,'candle','เทียน')"
+        style="position:absolute;top:24%;left:8%;width:22%;height:18%;
+          border:3px solid transparent;border-radius:12px;cursor:pointer;transition:all 0.3s;z-index:3;">
+      </div>
+      <!-- 🕯️ เทียนขวา ~24-40% จากบน, 70-92% จากซ้าย -->
+      <div id="bucha-candle-r" onclick="selectEnergyOffering(this,'candle','เทียน')"
+        style="position:absolute;top:24%;left:70%;width:22%;height:18%;
+          border:3px solid transparent;border-radius:12px;cursor:pointer;transition:all 0.3s;z-index:3;">
+      </div>
+
+      <!-- 🌸 กระทงซ้าย ~56-74% จากบน, 5-28% จากซ้าย -->
+      <div id="bucha-kratong-l" onclick="selectEnergyOffering(this,'kratong','กระทง')"
+        style="position:absolute;top:56%;left:5%;width:23%;height:18%;
+          border:3px solid transparent;border-radius:12px;cursor:pointer;transition:all 0.3s;z-index:3;">
+      </div>
+      <!-- 🌸 กระทงขวา ~56-74% จากบน, 72-95% จากซ้าย -->
+      <div id="bucha-kratong-r" onclick="selectEnergyOffering(this,'kratong','กระทง')"
+        style="position:absolute;top:56%;left:72%;width:23%;height:18%;
+          border:3px solid transparent;border-radius:12px;cursor:pointer;transition:all 0.3s;z-index:3;">
+      </div>
+
+      <!-- 💐 พวงมาลัย ~62-88% จากบน, 25-75% จากซ้าย -->
+      <div id="bucha-garland" onclick="selectEnergyOffering(this,'garland','พวงมาลัย')"
+        style="position:absolute;top:62%;left:25%;width:50%;height:26%;
+          border:3px solid transparent;border-radius:50%;cursor:pointer;transition:all 0.3s;z-index:3;">
+      </div>
+
+      <!-- ชื่อสิ่งที่เลือก -->
+      <div id="energy-offering-msg"
+        style="position:absolute;top:6%;left:0;right:0;text-align:center;
+          font-family:'Noto Serif Thai',serif;font-size:16px;color:#FFD700;
+          text-shadow:0 0 10px rgba(255,215,0,0.8),0 2px 4px rgba(0,0,0,0.8);
+          min-height:24px;">
+        กรุณาเลือกของบูชาที่ต้องการถวาย
+      </div>
+
+      <!-- ปุ่มถวาย -->
+      <div style="position:absolute;bottom:8%;left:0;right:0;text-align:center;padding:0 40px;">
+        <button class="cta-btn" id="energy-offering-btn" onclick="energyNextStep(3)" disabled
+          style="max-width:280px;background:linear-gradient(135deg,rgba(180,130,20,0.9),rgba(212,175,55,0.9));border:2px solid rgba(255,215,0,0.5);color:#1a0a00;font-family:'Noto Serif Thai',serif;">
+          🐉 ถวายของบูชา
+        </button>
       </div>
     </div>
 
@@ -1442,6 +1512,80 @@ function drawTarot(){
   }, 800);
 }
 // ===== ENERGY CEREMONY FLOW =====
+// Welcome video
+function startEnergyWelcome() {
+  // Show step0 fullscreen
+  [1,2,3,4,5,6].forEach(s => {
+    const el = document.getElementById('energy-step' + s);
+    if (el) el.style.display = 'none';
+  });
+  const step0 = document.getElementById('energy-step0');
+  if (step0) step0.style.display = 'block';
+  window.scrollTo(0,0);
+  const video = document.getElementById('energy-welcome-video');
+  if (video) {
+    video.currentTime = 0;
+    video.play();
+  }
+}
+
+function showWelcomeStill() {
+  document.getElementById('energy-welcome-video').style.display = 'none';
+  document.getElementById('energy-welcome-still').style.display = 'block';
+  document.getElementById('energy-welcome-content').style.display = 'block';
+}
+
+// Energy welcome trigger handled in main goTo below
+
+// Gold border selection
+const buchaGroups = {
+  incense:  ['bucha-incense'],
+  candle:   ['bucha-candle-l', 'bucha-candle-r'],
+  kratong:  ['bucha-kratong-l', 'bucha-kratong-r'],
+  garland:  ['bucha-garland'],
+};
+
+const goldGlow = '3px solid rgba(255,215,0,0.9)';
+const goldShadow = '0 0 16px rgba(255,215,0,0.7), 0 0 32px rgba(255,215,0,0.3)';
+
+function selectEnergyOffering(el, type, name) {
+  // Clear all borders
+  Object.values(buchaGroups).flat().forEach(id => {
+    const el = document.getElementById(id);
+    if (el) { el.style.border = '3px solid transparent'; el.style.boxShadow = 'none'; }
+  });
+  // Highlight selected group
+  (buchaGroups[type] || [type]).forEach(id => {
+    const target = document.getElementById(id);
+    if (target) { target.style.border = goldGlow; target.style.boxShadow = goldShadow; }
+  });
+  document.getElementById('energy-offering-msg').textContent = `✦ เลือก${name}แล้ว พ่อปู่รับทราบแล้วค่ะ`;
+  document.getElementById('energy-offering-btn').disabled = false;
+}
+
+function energyNextStep(step) {
+  // Hide step0
+  const step0 = document.getElementById('energy-step0');
+  if (step0) step0.style.display = 'none';
+  // Restore header for step1, hide for step2 (fullscreen bucha)
+  const header = document.querySelector('#page-energy .inner-header');
+  const credits = document.getElementById('energy-credits-bar');
+  if (step === 1) {
+    if (header) header.style.display = 'flex';
+    if (credits && userState.plan !== 'free') credits.classList.add('show');
+  } else if (step === 2) {
+    if (header) header.style.display = 'none';
+    if (credits) credits.classList.remove('show');
+  } else {
+    if (header) header.style.display = 'flex';
+  }
+  [1,2,3,4,5,6].forEach(s => {
+    const el = document.getElementById('energy-step' + s);
+    if (el) el.style.display = 'none';
+  });
+  const target = document.getElementById('energy-step' + step);
+  if (target) { target.style.display = 'block'; window.scrollTo(0,0); }
+}
 const energyMeanings={1:'เลขแห่งความเป็นผู้นำ วันนี้เหมาะแก่การริเริ่มและตัดสินใจด้วยตัวเอง',2:'เลขแห่งความสมดุล วันนี้เหมาะแก่การทำงานร่วมกับผู้อื่นและการเจรจา',3:'เลขแห่งความสร้างสรรค์ พลังงานแห่งการแสดงออกและความสนุกสนาน',4:'เลขแห่งความมั่นคง วันนี้เหมาะแก่การวางรากฐานและทำงานอย่างตั้งใจ',5:'เลขแห่งการเปลี่ยนแปลง วันนี้อาจมีเรื่องใหม่หรือความเปลี่ยนแปลงเกิดขึ้น',6:'เลขแห่งความรักและครอบครัว วันนี้เหมาะแก่การดูแลคนที่รักและตัวเอง',7:'เลขแห่งปัญญาและจิตวิญญาณ วันนี้เหมาะแก่การทบทวนและค้นหาความหมาย',8:'เลขแห่งความอุดมสมบูรณ์ พลังงานด้านการเงินและความสำเร็จแรงมากวันนี้',9:'เลขแห่งการให้และความเมตตา วันนี้เหมาะแก่การทำบุญและช่วยเหลือผู้อื่น'};
 
 const energyColors={1:{name:'สีแดง',hex:'#E53935'},2:{name:'สีส้ม',hex:'#FB8C00'},3:{name:'สีเหลืองทอง',hex:'#F9A825'},4:{name:'สีเขียว',hex:'#43A047'},5:{name:'สีฟ้า',hex:'#1E88E5'},6:{name:'สีชมพู',hex:'#E91E8C'},7:{name:'สีม่วง',hex:'#8E24AA'},8:{name:'สีทอง',hex:'#C9A84C'},9:{name:'สีขาว',hex:'#F5F5F5'}};
@@ -1475,11 +1619,15 @@ function startEnergyCeremony() {
   const secondaryNums = [((d + today.getDate()) % 9) + 1, ((m + today.getMonth()) % 9) + 1];
   const score = (7 + (Math.abs(d * m + today.getDate()) % 25) / 10).toFixed(1);
   const prophecyIdx = Math.abs(d + m + today.getDate()) % energyCeremonyProphecies.length;
-
   energyCeremonyData = { mainNum, secondaryNums, score, prophecy: energyCeremonyProphecies[prophecyIdx] };
 
-  energyNextStep(2);
-  setupEnergyMist();
+  // Hide header for fullscreen video
+  const header = document.querySelector('#page-energy .inner-header');
+  const credits = document.getElementById('energy-credits-bar');
+  if (header) header.style.display = 'none';
+  if (credits) credits.style.display = 'none';
+
+  startEnergyWelcome();
 }
 
 function setupEnergyMist() {
@@ -2565,14 +2713,6 @@ function showNagaStep(stepId) {
   const target = document.getElementById(stepId);
   if (target) { target.style.display = 'block'; window.scrollTo(0,0); }
 }
-
-// Add naga to goTo credits bar
-const _origGoTo = goTo;
-goTo = function(pageId) {
-  _origGoTo(pageId);
-  const type = pageId.replace('page-','');
-  if (type === 'naga') showCreditsBar('naga');
-};
 
 function showPaymentPrompt(type) {
   openPayment('single',29,1);
