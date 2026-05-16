@@ -168,6 +168,7 @@
   .candle-btn.selected { border-color:var(--gold); background:rgba(201,168,76,0.08); }
   .soulmate-answer-btn { padding:16px 20px; background:var(--white); border:1px solid rgba(180,160,130,0.3); border-radius:14px; font-family:'Noto Serif Thai',serif; font-size:15px; color:var(--brown-dark); cursor:pointer; transition:all 0.2s; text-align:center; }
   .soulmate-answer-btn:active { background:rgba(201,168,76,0.1); border-color:var(--gold); }
+  @keyframes floatNum { from{transform:translateY(0) rotate(-5deg)} to{transform:translateY(-20px) rotate(5deg)} }
   @keyframes petalPulse {
     0%,100% { opacity:0.2; transform:scale(0.7); background:rgba(212,175,55,0.4); }
     50% { opacity:1; transform:scale(1.2); background:var(--gold); box-shadow:0 0 8px rgba(212,175,55,0.8); }
@@ -413,24 +414,100 @@
   <div class="page" id="page-energy">
     <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">🔢 เลขพลังงานประจำวัน</div></div>
     <div class="credits-bar" id="energy-credits-bar"><span class="credits-bar-text">เครดิตคงเหลือ</span><span class="credits-bar-num" id="energy-credits-num"></span></div>
-    <div class="form-section">
+
+    <!-- STEP 1: กรอกวันเกิด -->
+    <div id="energy-step1" class="form-section">
+      <div style="text-align:center; margin-bottom:20px;">
+        <div style="font-size:48px; margin-bottom:8px;">🔢</div>
+        <div style="font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:600; color:var(--brown-dark); margin-bottom:4px;">รายงานพลังงานโชคประจำวัน</div>
+        <div style="font-size:13px; color:var(--text-light);">ระบบจะวิเคราะห์พลังงานเฉพาะตัวของคุณ</div>
+      </div>
       <label class="form-label">วันเกิดของคุณ</label>
       <input type="date" class="form-input" id="energy-dob">
-      <button class="cta-btn" onclick="checkAndDraw('energy')">✨ คำนวณพลังงาน</button>
+      <button class="cta-btn" onclick="startEnergyAnalysis()">✨ เริ่มวิเคราะห์พลังงาน</button>
     </div>
-    <div class="loading" id="energy-loading"><span class="loading-spinner">✨</span><div class="loading-text">กำลังคำนวณพลังงาน...</div></div>
-    <div class="lock-wall" id="energy-lock">
-      <span class="lock-icon">🔒</span><div class="lock-title">ต้องสมัครก่อนนะคะ</div>
-      <div class="lock-desc">สมัครแพ็กเกจเพื่อดูดวง<br>หรือจ่ายรายครั้ง 29 บาท</div>
-      <button class="lock-btn-gold" onclick="goTo('page-pricing')">✦ ดูแพ็กเกจทั้งหมด</button>
-      <button class="lock-btn-single" onclick="openPayment('single',29,1)">จ่ายครั้งนี้ 29 บาท</button>
+
+    <!-- STEP 2: Loading -->
+    <div id="energy-step2" style="display:none; min-height:60vh; background:linear-gradient(180deg,#1a1040,#2d1b6e); padding:40px 20px; text-align:center; position:relative; overflow:hidden;">
+      <!-- floating numbers animation -->
+      <div id="energy-floats" style="position:absolute;inset:0;pointer-events:none;"></div>
+      <div style="position:relative;z-index:2;padding-top:60px;">
+        <div style="font-size:64px; margin-bottom:20px; animation:spin 3s linear infinite; display:inline-block;">🔮</div>
+        <div id="energy-loading-msg" style="font-family:'Noto Serif Thai',serif; font-size:17px; color:rgba(245,230,163,0.95); min-height:28px; transition:opacity 0.5s;"></div>
+        <div style="margin-top:24px; display:flex; justify-content:center; gap:8px;">
+          <div class="petal-glow" style="animation-delay:0s">⭐</div>
+          <div class="petal-glow" style="animation-delay:0.2s">⭐</div>
+          <div class="petal-glow" style="animation-delay:0.4s">⭐</div>
+          <div class="petal-glow" style="animation-delay:0.6s">⭐</div>
+          <div class="petal-glow" style="animation-delay:0.8s">⭐</div>
+        </div>
+      </div>
     </div>
-    <div class="result-card" id="energy-result">
-      <div class="result-card-name">เลขพลังงานเด่นวันนี้</div>
-      <div class="result-divider"></div>
-      <div class="energy-row" id="energy-bubbles"></div>
-      <div class="energy-meanings" id="energy-meanings"></div>
-      <button class="reset-btn" onclick="resetPage('energy')">🔄 คำนวณใหม่</button>
+
+    <!-- STEP 3: ผลลัพธ์ -->
+    <div id="energy-step3" style="display:none; padding:0 0 40px;">
+
+      <!-- Hero เลขเด่น -->
+      <div style="background:linear-gradient(135deg,#1a0a2e,#2d1b4e); padding:40px 20px; text-align:center; margin-bottom:16px;">
+        <div style="font-size:13px; color:rgba(212,175,55,0.7); letter-spacing:3px; margin-bottom:8px;">เลขเด่นประจำวัน</div>
+        <div id="energy-main-num" style="font-family:'Playfair Display',serif; font-size:96px; font-weight:700; color:var(--gold); line-height:1; text-shadow:0 0 40px rgba(212,175,55,0.5);"></div>
+        <div id="energy-main-desc" style="font-family:'Noto Serif Thai',serif; font-size:15px; color:rgba(245,230,163,0.9); margin-top:12px; line-height:1.7; max-width:280px; margin-left:auto; margin-right:auto;"></div>
+        <!-- ดาวคะแนน -->
+        <div style="margin-top:20px; background:rgba(255,255,255,0.08); border-radius:20px; padding:12px 20px; display:inline-block;">
+          <div style="font-size:12px; color:rgba(212,175,55,0.7); margin-bottom:4px;">พลังโชควันนี้</div>
+          <div id="energy-score" style="font-family:'Playfair Display',serif; font-size:28px; font-weight:700; color:var(--gold);"></div>
+        </div>
+      </div>
+
+      <div style="padding:0 16px;">
+
+        <!-- เลขรอง -->
+        <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
+          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:12px;">🔢 เลขรองที่ส่งเสริมกัน</div>
+          <div id="energy-secondary" style="display:flex; gap:10px; flex-wrap:wrap;"></div>
+        </div>
+
+        <!-- เลขการเงิน -->
+        <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
+          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">💰 เลขการเงิน</div>
+          <div id="energy-money-num" style="font-family:'Playfair Display',serif; font-size:32px; font-weight:700; color:var(--gold); margin-bottom:6px;"></div>
+          <div id="energy-money-desc" style="font-size:13px; color:var(--text-mid); line-height:1.7;"></div>
+        </div>
+
+        <!-- เลขที่จะเห็นระหว่างวัน -->
+        <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
+          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">👁️ เลขที่มีแนวโน้มจะเห็นระหว่างวัน</div>
+          <div id="energy-sight-nums" style="font-family:'Playfair Display',serif; font-size:24px; font-weight:700; color:var(--brown-dark); letter-spacing:8px; margin-bottom:6px;"></div>
+          <div id="energy-sight-desc" style="font-size:13px; color:var(--text-mid);"></div>
+        </div>
+
+        <!-- สีมงคล + เวลาพลังเปิด -->
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+          <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; text-align:center;">
+            <div style="font-size:12px; color:var(--text-light); margin-bottom:8px;">🎨 สีมงคลประจำวัน</div>
+            <div id="energy-color-box" style="width:48px; height:48px; border-radius:50%; margin:0 auto 8px; border:2px solid rgba(180,160,130,0.3);"></div>
+            <div id="energy-color-name" style="font-family:'Noto Serif Thai',serif; font-size:14px; font-weight:600; color:var(--brown-dark);"></div>
+          </div>
+          <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; text-align:center;">
+            <div style="font-size:12px; color:var(--text-light); margin-bottom:8px;">⏰ เวลาพลังงานเปิด</div>
+            <div id="energy-time" style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--brown-dark); margin-bottom:4px;"></div>
+            <div id="energy-time-desc" style="font-size:11px; color:var(--text-light);"></div>
+          </div>
+        </div>
+
+        <!-- ข้อความเฉพาะวัน -->
+        <div style="background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(201,168,76,0.04)); border:1px solid rgba(201,168,76,0.35); border-radius:16px; padding:20px; margin-bottom:14px;">
+          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">✨ พลังงานโชคของวันนี้</div>
+          <div id="energy-daily-msg" style="font-size:14px; color:var(--text-mid); line-height:1.9; font-style:italic;"></div>
+        </div>
+
+        <!-- ปุ่ม share/save -->
+        <div style="display:flex; gap:10px; margin-bottom:16px;">
+          <button onclick="shareEnergy()" style="flex:1; padding:13px; background:var(--brown-dark); border:none; border-radius:12px; color:var(--cream); font-family:'Noto Serif Thai',serif; font-size:14px; font-weight:600; cursor:pointer;">📤 แชร์เลขมงคล</button>
+          <button onclick="resetEnergy()" style="flex:1; padding:13px; background:transparent; border:1px solid rgba(180,160,130,0.4); border-radius:12px; color:var(--text-mid); font-family:'Noto Sans Thai',sans-serif; font-size:13px; cursor:pointer;">🔄 วิเคราะห์ใหม่</button>
+        </div>
+
+      </div>
     </div>
   </div>
 
@@ -582,7 +659,7 @@
       <!-- กดค้าง overlay ทั้งหน้า -->
       <div style="position:absolute;inset:0;"
         onmousedown="startKhanHold(event)" onmouseup="stopKhanHold(event)" onmouseleave="stopKhanHold(event)"
-        ontouchstart="startKhanHold(event)" ontouchend="stopKhanHold(event)">
+       ontouchstart="if(navigator.vibrate)navigator.vibrate(100);startKhanHold(event)" ontouchend="stopKhanHold(event)">
       </div>
 
       <!-- ข้อความด้านล่าง -->
@@ -668,7 +745,7 @@
     </div>
 
     <div id="s6-element" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">☯️ พลังธาตุของคู่นี้</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;" id="s6-element-title">☯️ พลังธาตุของคู่นี้</div>
       <div id="s6-element-text" style="font-size:14px; color:var(--text-mid); line-height:1.8;"></div>
     </div>
 
@@ -725,7 +802,7 @@ function saveState(){localStorage.setItem('pc_state',JSON.stringify(userState));
 function updateStatusBar(){const icons={free:'🌙',single:'💫',basic:'🌙',pro:'⭐',unlimited:'👑'};const names={free:'ยังไม่ได้สมัคร',single:'รายครั้ง',basic:'Basic',pro:'Pro',unlimited:'Unlimited'};document.getElementById('plan-icon').textContent=icons[userState.plan];document.getElementById('plan-name').textContent=names[userState.plan];document.getElementById('credits-display').textContent=userState.plan!=='free'?(userState.credits>=999?'ไม่จำกัด':userState.credits+' ครั้ง'):'';}
 function goTo(pageId){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(pageId).classList.add('active');window.scrollTo(0,0);const type=pageId.replace('page-','');if(['siam','tarot','energy','soulmate'].includes(type))showCreditsBar(type);}
 function showCreditsBar(type){const bar=document.getElementById(type+'-credits-bar');const num=document.getElementById(type+'-credits-num');if(userState.plan!=='free'){bar.classList.add('show');num.textContent=userState.credits>=999?'∞':userState.credits;}else{bar.classList.remove('show');}}
-function checkAndDraw(type){if(userState.plan==='free'||userState.credits<=0){showPaymentPrompt(type);return;}if(type==='siam')drawSiam();else if(type==='tarot')drawTarot();else drawEnergy();}
+function checkAndDraw(type){if(userState.plan==='free'||userState.credits<=0){showPaymentPrompt(type);return;}if(type==='siam')drawSiam();else if(type==='tarot')drawTarot();}
 function showPaymentPrompt(type){openPayment('single',29,1);showToast('กรุณาชำระเงินก่อนใช้บริการค่ะ 🙏');}
 function useCredit(){if(userState.credits<999){userState.credits--;saveState();updateStatusBar();}}
 function resetPage(type){document.getElementById(type+'-result').classList.remove('show');document.getElementById(type+'-lock').classList.remove('show');if(type==='tarot'){selectedTopic=null;document.querySelectorAll('.topic-btn').forEach(b=>b.classList.remove('selected'));document.getElementById('tarot-btn').disabled=true;}showCreditsBar(type);}
@@ -1321,8 +1398,171 @@ function drawTarot(){
   }, 800);
 }
 const energyMeanings={1:'เลขแห่งความเป็นผู้นำ วันนี้เหมาะแก่การริเริ่มและตัดสินใจด้วยตัวเอง',2:'เลขแห่งความสมดุล วันนี้เหมาะแก่การทำงานร่วมกับผู้อื่นและการเจรจา',3:'เลขแห่งความสร้างสรรค์ พลังงานแห่งการแสดงออกและความสนุกสนาน',4:'เลขแห่งความมั่นคง วันนี้เหมาะแก่การวางรากฐานและทำงานอย่างตั้งใจ',5:'เลขแห่งการเปลี่ยนแปลง วันนี้อาจมีเรื่องใหม่หรือความเปลี่ยนแปลงเกิดขึ้น',6:'เลขแห่งความรักและครอบครัว วันนี้เหมาะแก่การดูแลคนที่รักและตัวเอง',7:'เลขแห่งปัญญาและจิตวิญญาณ วันนี้เหมาะแก่การทบทวนและค้นหาความหมาย',8:'เลขแห่งความอุดมสมบูรณ์ พลังงานด้านการเงินและความสำเร็จแรงมากวันนี้',9:'เลขแห่งการให้และความเมตตา วันนี้เหมาะแก่การทำบุญและช่วยเหลือผู้อื่น'};
-function calcEnergyNumbers(dob){const t=new Date(),p=dob.split('-');const d=parseInt(p[2]),m=parseInt(p[1]);return[((d+t.getDate())%9)+1,((m+t.getMonth()+1)%9)+1,((d+m+t.getFullYear()%100)%9)+1];}
-function drawEnergy(){const dob=document.getElementById('energy-dob').value;if(!dob){alert('กรุณากรอกวันเกิดก่อนนะคะ');return;}document.getElementById('energy-result').classList.remove('show');document.getElementById('energy-loading').classList.add('show');setTimeout(()=>{useCredit();const nums=calcEnergyNumbers(dob);document.getElementById('energy-bubbles').innerHTML=nums.map(n=>`<div class="energy-bubble">${n}</div>`).join('');document.getElementById('energy-meanings').innerHTML=nums.map(n=>`<div class="energy-item"><div class="energy-num-small">${n}</div><div class="energy-desc">${energyMeanings[n]}</div></div>`).join('');document.getElementById('energy-loading').classList.remove('show');document.getElementById('energy-result').classList.add('show');showCreditsBar('energy');document.getElementById('energy-result').scrollIntoView({behavior:'smooth',block:'start'});},1800);}
+
+const energyColors = {
+  1: {name:'สีแดง', hex:'#E53935', desc:'พลังแห่งความกล้าและความเป็นผู้นำ'},
+  2: {name:'สีส้ม', hex:'#FB8C00', desc:'พลังแห่งความอบอุ่นและมิตรภาพ'},
+  3: {name:'สีเหลืองทอง', hex:'#F9A825', desc:'พลังแห่งความสุขและโชคลาภ'},
+  4: {name:'สีเขียว', hex:'#43A047', desc:'พลังแห่งความมั่นคงและการเติบโต'},
+  5: {name:'สีฟ้า', hex:'#1E88E5', desc:'พลังแห่งอิสรภาพและการเปลี่ยนแปลง'},
+  6: {name:'สีชมพู', hex:'#E91E8C', desc:'พลังแห่งความรักและความเมตตา'},
+  7: {name:'สีม่วง', hex:'#8E24AA', desc:'พลังแห่งจิตวิญญาณและปัญญา'},
+  8: {name:'สีทอง', hex:'#C9A84C', desc:'พลังแห่งความมั่งคั่งและความสำเร็จ'},
+  9: {name:'สีขาว', hex:'#F5F5F5', desc:'พลังแห่งความบริสุทธิ์และการให้'},
+};
+
+const energyTimes = {
+  1:['06:00–08:00','ช่วงเช้าตรู่ พลังงานสูงสุด'],
+  2:['09:00–11:00','ช่วงสาย เหมาะกับการพบปะผู้คน'],
+  3:['10:00–12:00','ช่วงเช้าแก่ สร้างสรรค์และร่าเริง'],
+  4:['07:00–09:00','ช่วงเช้า มั่นคงและมีสมาธิ'],
+  5:['12:00–14:00','เที่ยงวัน พลังเปลี่ยนแปลงสูง'],
+  6:['18:00–20:00','เย็น เหมาะกับครอบครัวและคนรัก'],
+  7:['21:00–23:00','ค่ำ เงียบสงบ เหมาะทำสมาธิ'],
+  8:['08:00–10:00','เช้า พลังการเงินแรง'],
+  9:['15:00–17:00','บ่าย เหมาะทำบุญและให้'],
+};
+
+const energyDailyMsgs = {
+  1:'วันนี้มีเกณฑ์ได้รับการยอมรับจากคนรอบข้าง สิ่งที่ริเริ่มไว้จะเริ่มเห็นผล อย่ากลัวที่จะแสดงความคิดเห็น',
+  2:'วันนี้มีเกณฑ์ได้รับความช่วยเหลือจากผู้อื่น ความร่วมมือจะนำโชคดีมาให้ เปิดใจรับสิ่งใหม่',
+  3:'วันนี้มีเกณฑ์ได้โชคจากเรื่องเล็กๆ ที่เกือบมองข้าม ความคิดสร้างสรรค์จะเป็นกุญแจสำคัญ',
+  4:'วันนี้มีเกณฑ์ได้รับผลตอบแทนจากความพยายามที่สะสมมา ความอดทนจะได้รับรางวัล',
+  5:'วันนี้มีเกณฑ์พบกับโอกาสใหม่ที่ไม่คาดคิด เปิดรับการเปลี่ยนแปลงและอย่ายึดติดกับแผนเดิม',
+  6:'วันนี้มีเกณฑ์ได้รับพลังงานดีจากคนที่รัก ความสัมพันธ์จะช่วยเสริมโชคลาภ',
+  7:'วันนี้มีเกณฑ์ได้คำตอบที่ตามหามานาน ฟังเสียงภายในและเชื่อใจสัญชาตญาณ',
+  8:'วันนี้มีเกณฑ์ได้เงินจากเรื่องที่ไม่คาดคิด พลังงานการเงินแรงเป็นพิเศษ เหมาะลงทุนเล็กๆ',
+  9:'วันนี้มีเกณฑ์ได้รับผลบุญจากสิ่งที่ทำไว้ ยิ่งให้ยิ่งได้รับกลับมา',
+};
+
+function calcEnergyNumbers(dob) {
+  const t = new Date(), p = dob.split('-');
+  const d = parseInt(p[2]), m = parseInt(p[1]);
+  const mainNum = ((d + m + t.getDate() + t.getMonth() + 1) % 9) + 1;
+  const secondaryNums = [
+    ((d + t.getDate()) % 9) + 1,
+    ((m + t.getMonth() + 1) % 9) + 1,
+    ((d + m) % 9) + 1,
+  ];
+  const moneyNum = ((d * m + t.getDate()) % 9) + 1;
+  const sightNums = [mainNum, ((mainNum + 2) % 9) + 1, ((mainNum + 4) % 9) + 1];
+  const score = (6.5 + (seed => (Math.abs(seed) % 35) / 10)(d * m + t.getDate())).toFixed(1);
+  return { mainNum, secondaryNums, moneyNum, sightNums, score };
+}
+
+function startEnergyAnalysis() {
+  const dob = document.getElementById('energy-dob').value;
+  if (!dob) { alert('กรุณากรอกวันเกิดก่อนนะคะ'); return; }
+  if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('energy'); return; }
+
+  document.getElementById('energy-step1').style.display = 'none';
+  document.getElementById('energy-step2').style.display = 'block';
+  window.scrollTo(0, 0);
+  setupEnergyFloats();
+
+  const msgs = [
+    'กำลังอ่านพลังงานโชคของคุณวันนี้…',
+    'กำลังคำนวณเลขพลังงานประจำวัน…',
+    'กำลังวิเคราะห์สีมงคลและช่วงเวลา…',
+    'เกือบเสร็จแล้วค่ะ…'
+  ];
+  let mi = 0;
+  const el = document.getElementById('energy-loading-msg');
+  el.textContent = msgs[0];
+  const iv = setInterval(() => {
+    mi++;
+    if (mi < msgs.length) {
+      el.style.opacity = 0;
+      setTimeout(() => { el.textContent = msgs[mi]; el.style.opacity = 1; }, 300);
+    } else {
+      clearInterval(iv);
+      setTimeout(() => showEnergyResult(dob), 500);
+    }
+  }, 1000);
+}
+
+function setupEnergyFloats() {
+  const container = document.getElementById('energy-floats');
+  container.innerHTML = '';
+  const items = ['1','2','3','4','5','6','7','8','9','⭐','✨','🔮','💫'];
+  for (let i = 0; i < 20; i++) {
+    const el = document.createElement('div');
+    el.textContent = items[Math.floor(Math.random() * items.length)];
+    el.style.cssText = `
+      position:absolute;
+      left:${Math.random()*100}%;
+      top:${Math.random()*100}%;
+      font-size:${16+Math.random()*20}px;
+      opacity:${0.1+Math.random()*0.2};
+      color:rgba(212,175,55,0.6);
+      font-family:'Playfair Display',serif;
+      animation:floatNum ${3+Math.random()*4}s ${Math.random()*2}s ease-in-out infinite alternate;
+    `;
+    container.appendChild(el);
+  }
+}
+
+function showEnergyResult(dob) {
+  useCredit();
+  document.getElementById('energy-step2').style.display = 'none';
+  document.getElementById('energy-step3').style.display = 'block';
+  window.scrollTo(0, 0);
+
+  const data = calcEnergyNumbers(dob);
+  const n = data.mainNum;
+  const color = energyColors[n];
+  const time = energyTimes[n];
+
+  // Hero
+  document.getElementById('energy-main-num').textContent = n;
+  document.getElementById('energy-main-desc').textContent = energyMeanings[n];
+  document.getElementById('energy-score').textContent = data.score + ' / 10';
+
+  // Secondary nums
+  document.getElementById('energy-secondary').innerHTML = data.secondaryNums.map(num =>
+    `<div style="width:48px;height:48px;border-radius:50%;background:var(--brown-dark);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--cream);">${num}</div>`
+  ).join('');
+
+  // Money
+  document.getElementById('energy-money-num').textContent = data.moneyNum;
+  document.getElementById('energy-money-desc').textContent = energyMeanings[data.moneyNum];
+
+  // Sight numbers
+  document.getElementById('energy-sight-nums').textContent = data.sightNums.join('  ');
+  document.getElementById('energy-sight-desc').textContent = 'เลขเหล่านี้อาจปรากฏในชีวิตประจำวันของคุณวันนี้';
+
+  // Color
+  document.getElementById('energy-color-box').style.background = color.hex;
+  document.getElementById('energy-color-name').textContent = color.name;
+
+  // Time
+  document.getElementById('energy-time').textContent = time[0];
+  document.getElementById('energy-time-desc').textContent = time[1];
+
+  // Daily msg
+  document.getElementById('energy-daily-msg').textContent = energyDailyMsgs[n];
+
+  showCreditsBar('energy');
+}
+
+function resetEnergy() {
+  document.getElementById('energy-step3').style.display = 'none';
+  document.getElementById('energy-step1').style.display = 'block';
+  document.getElementById('energy-dob').value = '';
+  window.scrollTo(0, 0);
+  showCreditsBar('energy');
+}
+
+function shareEnergy() {
+  const num = document.getElementById('energy-main-num').textContent;
+  const score = document.getElementById('energy-score').textContent;
+  const text = `🔢 เลขมงคลประจำวันของฉันคือ ${num}\n✨ พลังโชควันนี้ ${score}\nดูดวงเลขพลังงานได้ที่ prospercharmth.com`;
+  if (navigator.share) {
+    navigator.share({ text });
+  } else {
+    navigator.clipboard.writeText(text).then(() => showToast('คัดลอกข้อความแล้วค่ะ ✓'));
+  }
+}
 // ===== SOULMATE FULL FLOW =====
 let soulmateState = {
   dob1: '', dob2: '', science: '',
@@ -1709,6 +1949,10 @@ function showSoulmateResult() {
   document.getElementById('s6-type').textContent = typeLabel;
   const comboEl = document.getElementById('s6-combo-name');
   if (comboEl) comboEl.textContent = 'สภาพธาตุ: ' + (elemPred.comboName || '');
+
+  // Update element section title with combo name
+  const elemTitle = document.getElementById('s6-element-title');
+  if (elemTitle) elemTitle.textContent = '☯️ สภาพธาตุ: ' + (elemPred.comboName || 'พลังธาตุของคู่นี้');
 
   document.getElementById('s6-element-text').textContent = elemPred.attraction || elem.desc;
   document.getElementById('s6-habit').textContent = habitPool[seed % habitPool.length];
