@@ -467,62 +467,32 @@
       <button class="cta-btn" onclick="startEnergyCeremony()">🐉 เริ่มพิธี</button>
     </div>
 
-    <!-- STEP 2: เลือกของบูชา (รูป buchanaga.png + กรอบทอง) -->
+    <!-- STEP 2: ระบายเลือกของบูชา -->
     <div id="energy-step2" style="display:none; position:fixed; inset:0; z-index:50; overflow:hidden;">
       <!-- รูป background -->
       <img src="images/energy/buchanaga.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
 
-      <!-- กรอบทอง overlay แต่ละสิ่งของ -->
+      <!-- Canvas ระบาย -->
+      <canvas id="bucha-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:2;touch-action:none;"></canvas>
 
-      <!-- 🪔 กระถางธูป - กลางรูปบน ~20-42% จากบน, 32-68% จากซ้าย -->
-      <div id="bucha-incense" onclick="selectEnergyOffering(this,'incense','ธูป')"
-        style="position:absolute;top:20%;left:32%;width:36%;height:22%;
-          border:3px solid transparent;border-radius:50%;cursor:pointer;transition:all 0.3s;z-index:3;">
-      </div>
-
-      <!-- 🕯️ เทียนบนซ้าย ~17-32% จากบน, 8-28% จากซ้าย -->
-      <div id="bucha-candle-l" onclick="selectEnergyOffering(this,'candle','เทียน')"
-        style="position:absolute;top:17%;left:8%;width:20%;height:16%;
-          border:3px solid transparent;border-radius:50%;cursor:pointer;transition:all 0.3s;z-index:3;">
-      </div>
-      <!-- 🕯️ เทียนบนขวา ~17-32% จากบน, 72-92% จากซ้าย -->
-      <div id="bucha-candle-r" onclick="selectEnergyOffering(this,'candle','เทียน')"
-        style="position:absolute;top:17%;left:72%;width:20%;height:16%;
-          border:3px solid transparent;border-radius:50%;cursor:pointer;transition:all 0.3s;z-index:3;">
+      <!-- instruction ด้านบน -->
+      <div style="position:absolute;top:4%;left:0;right:0;text-align:center;z-index:3;pointer-events:none;">
+        <div style="font-family:'Noto Serif Thai',serif;font-size:14px;color:#FFD700;text-shadow:0 2px 8px rgba(0,0,0,0.9);background:rgba(0,0,0,0.4);display:inline-block;padding:8px 20px;border-radius:20px;border:1px solid rgba(255,215,0,0.3);">
+          ✦ ใช้นิ้วระบายบนสิ่งของที่ต้องการถวาย ✦
+        </div>
       </div>
 
-      <!-- 🌸 กระทงซ้าย ~50-68% จากบน, 5-25% จากซ้าย -->
-      <div id="bucha-kratong-l" onclick="selectEnergyOffering(this,'kratong','กระทง')"
-        style="position:absolute;top:50%;left:5%;width:20%;height:18%;
-          border:3px solid transparent;border-radius:12px;cursor:pointer;transition:all 0.3s;z-index:3;">
-      </div>
-      <!-- 🌸 กระทงขวา ~50-68% จากบน, 75-95% จากซ้าย -->
-      <div id="bucha-kratong-r" onclick="selectEnergyOffering(this,'kratong','กระทง')"
-        style="position:absolute;top:50%;left:75%;width:20%;height:18%;
-          border:3px solid transparent;border-radius:12px;cursor:pointer;transition:all 0.3s;z-index:3;">
-      </div>
+      <!-- ชื่อสิ่งที่กำลังระบาย -->
+      <div id="bucha-selected-name" style="position:absolute;top:13%;left:0;right:0;text-align:center;z-index:3;pointer-events:none;font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:#FFD700;text-shadow:0 0 15px rgba(255,215,0,0.9),0 2px 8px rgba(0,0,0,0.9);min-height:28px;"></div>
 
-      <!-- 💐 พวงมาลัย ~52-80% จากบน, 28-72% จากซ้าย -->
-      <div id="bucha-garland" onclick="selectEnergyOffering(this,'garland','พวงมาลัย')"
-        style="position:absolute;top:52%;left:28%;width:44%;height:28%;
-          border:3px solid transparent;border-radius:50%;cursor:pointer;transition:all 0.3s;z-index:3;">
-      </div>
-
-      <!-- ชื่อสิ่งที่เลือก -->
-      <div id="energy-offering-msg"
-        style="position:absolute;top:6%;left:0;right:0;text-align:center;
-          font-family:'Noto Serif Thai',serif;font-size:16px;color:#FFD700;
-          text-shadow:0 0 10px rgba(255,215,0,0.8),0 2px 4px rgba(0,0,0,0.8);
-          min-height:24px;">
-        กรุณาเลือกของบูชาที่ต้องการถวาย
-      </div>
-
-      <!-- ปุ่มถวาย -->
-      <div style="position:absolute;bottom:8%;left:0;right:0;text-align:center;padding:0 40px;">
-        <button class="cta-btn" id="energy-offering-btn" onclick="energyNextStep(3)" disabled
-          style="max-width:280px;background:linear-gradient(135deg,rgba(180,130,20,0.9),rgba(212,175,55,0.9));border:2px solid rgba(255,215,0,0.5);color:#1a0a00;font-family:'Noto Serif Thai',serif;">
-          🐉 ถวายของบูชา
-        </button>
+      <!-- progress dots ด้านล่าง -->
+      <div style="position:absolute;bottom:6%;left:0;right:0;text-align:center;z-index:3;pointer-events:none;">
+        <div style="font-size:12px;color:rgba(212,175,55,0.8);margin-bottom:10px;text-shadow:0 2px 4px rgba(0,0,0,0.9);">ระบาย 3 ครั้งเพื่อยืนยัน</div>
+        <div style="display:flex;justify-content:center;gap:14px;">
+          <div id="bucha-dot-1" style="width:14px;height:14px;border-radius:50%;background:rgba(255,215,0,0.2);border:2px solid rgba(255,215,0,0.6);transition:all 0.4s;"></div>
+          <div id="bucha-dot-2" style="width:14px;height:14px;border-radius:50%;background:rgba(255,215,0,0.2);border:2px solid rgba(255,215,0,0.6);transition:all 0.4s;"></div>
+          <div id="bucha-dot-3" style="width:14px;height:14px;border-radius:50%;background:rgba(255,215,0,0.2);border:2px solid rgba(255,215,0,0.6);transition:all 0.4s;"></div>
+        </div>
       </div>
     </div>
 
@@ -1537,35 +1507,111 @@ function showWelcomeStill() {
 
 // Energy welcome trigger handled in main goTo below
 
-// Gold border selection
-const buchaGroups = {
-  incense:  ['bucha-incense'],
-  candle:   ['bucha-candle-l', 'bucha-candle-r'],
-  kratong:  ['bucha-kratong-l', 'bucha-kratong-r'],
-  garland:  ['bucha-garland'],
-};
+// ===== BUCHA CANVAS PAINTING =====
+let buchaStrokeCount = 0;
+let buchaIsDrawing = false;
+let buchaCurrentOffering = '';
 
-const goldGlow = '3px solid rgba(255,215,0,0.95)';
-const goldShadow = '0 0 20px rgba(255,215,0,0.8), 0 0 40px rgba(255,215,0,0.4), inset 0 0 20px rgba(255,215,0,0.1)';
-const goldBg = 'rgba(255,215,0,0.08)';
+// ตำแหน่งของบูชาในรูป (% ของหน้าจอ)
+const buchaZones = [
+  { name: 'ธูป 🪔',     top: 0.17, left: 0.28, w: 0.44, h: 0.26, type: 'incense' },
+  { name: 'เทียน 🕯️',   top: 0.17, left: 0.05, w: 0.22, h: 0.18, type: 'candle' },
+  { name: 'เทียน 🕯️',   top: 0.17, left: 0.73, w: 0.22, h: 0.18, type: 'candle' },
+  { name: 'กระทง 🌸',   top: 0.48, left: 0.03, w: 0.22, h: 0.20, type: 'kratong' },
+  { name: 'กระทง 🌸',   top: 0.48, left: 0.75, w: 0.22, h: 0.20, type: 'kratong' },
+  { name: 'พวงมาลัย 💐', top: 0.52, left: 0.25, w: 0.50, h: 0.30, type: 'garland' },
+];
 
-function selectEnergyOffering(el, type, name) {
-  // Clear all borders
-  Object.values(buchaGroups).flat().forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { el.style.border = '3px solid transparent'; el.style.boxShadow = 'none'; el.style.background = 'transparent'; }
-  });
-  // Highlight selected group
-  (buchaGroups[type] || [type]).forEach(id => {
-    const target = document.getElementById(id);
-    if (target) {
-      target.style.border = goldGlow;
-      target.style.boxShadow = goldShadow;
-      target.style.background = goldBg;
+function setupBuchaCanvas() {
+  const canvas = document.getElementById('bucha-canvas');
+  if (!canvas) return;
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  const ctx = canvas.getContext('2d');
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  buchaStrokeCount = 0;
+  buchaCurrentOffering = '';
+  updateBuchaDots(0);
+  document.getElementById('bucha-selected-name').textContent = '';
+
+  function getPos(e) {
+    const r = canvas.getBoundingClientRect();
+    if (e.touches) return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
+    return { x: e.clientX - r.left, y: e.clientY - r.top };
+  }
+
+  function detectZone(x, y) {
+    const px = x / canvas.width, py = y / canvas.height;
+    for (const z of buchaZones) {
+      if (px >= z.left && px <= z.left + z.w && py >= z.top && py <= z.top + z.h) return z;
     }
-  });
-  document.getElementById('energy-offering-msg').textContent = `✦ เลือก${name}แล้ว พ่อปู่รับทราบแล้วค่ะ`;
-  document.getElementById('energy-offering-btn').disabled = false;
+    return null;
+  }
+
+  function startDraw(e) {
+    e.preventDefault();
+    buchaIsDrawing = true;
+    const pos = getPos(e);
+    const zone = detectZone(pos.x, pos.y);
+    if (zone) {
+      // ถ้าเปลี่ยน zone reset
+      if (buchaCurrentOffering && buchaCurrentOffering !== zone.type) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        buchaStrokeCount = 0;
+        updateBuchaDots(0);
+      }
+      buchaCurrentOffering = zone.type;
+      document.getElementById('bucha-selected-name').textContent = '✦ ' + zone.name + ' ✦';
+    }
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+  }
+
+  function draw(e) {
+    e.preventDefault();
+    if (!buchaIsDrawing) return;
+    const pos = getPos(e);
+    ctx.lineTo(pos.x, pos.y);
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
+    ctx.lineWidth = 40;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.stroke();
+  }
+
+  function endDraw(e) {
+    e.preventDefault();
+    if (!buchaIsDrawing) return;
+    buchaIsDrawing = false;
+    if (buchaCurrentOffering) {
+      buchaStrokeCount = Math.min(3, buchaStrokeCount + 1);
+      updateBuchaDots(buchaStrokeCount);
+      if (buchaStrokeCount >= 3) {
+        setTimeout(() => energyNextStep(3), 800);
+      }
+    }
+  }
+
+  canvas.addEventListener('mousedown', startDraw);
+  canvas.addEventListener('mousemove', draw);
+  canvas.addEventListener('mouseup', endDraw);
+  canvas.addEventListener('touchstart', startDraw, { passive: false });
+  canvas.addEventListener('touchmove', draw, { passive: false });
+  canvas.addEventListener('touchend', endDraw, { passive: false });
+}
+
+function updateBuchaDots(count) {
+  for (let i = 1; i <= 3; i++) {
+    const dot = document.getElementById('bucha-dot-' + i);
+    if (!dot) continue;
+    if (i <= count) {
+      dot.style.background = 'rgba(255,215,0,0.9)';
+      dot.style.boxShadow = '0 0 10px rgba(255,215,0,0.8)';
+    } else {
+      dot.style.background = 'rgba(255,215,0,0.2)';
+      dot.style.boxShadow = 'none';
+    }
+  }
 }
 
 function energyNextStep(step) {
@@ -1589,7 +1635,11 @@ function energyNextStep(step) {
     if (el) el.style.display = 'none';
   });
   const target = document.getElementById('energy-step' + step);
-  if (target) { target.style.display = 'block'; window.scrollTo(0,0); }
+  if (target) {
+    target.style.display = 'block';
+    window.scrollTo(0,0);
+    if (step === 2) setTimeout(() => setupBuchaCanvas(), 100);
+  }
 }
 const energyMeanings={1:'เลขแห่งความเป็นผู้นำ วันนี้เหมาะแก่การริเริ่มและตัดสินใจด้วยตัวเอง',2:'เลขแห่งความสมดุล วันนี้เหมาะแก่การทำงานร่วมกับผู้อื่นและการเจรจา',3:'เลขแห่งความสร้างสรรค์ พลังงานแห่งการแสดงออกและความสนุกสนาน',4:'เลขแห่งความมั่นคง วันนี้เหมาะแก่การวางรากฐานและทำงานอย่างตั้งใจ',5:'เลขแห่งการเปลี่ยนแปลง วันนี้อาจมีเรื่องใหม่หรือความเปลี่ยนแปลงเกิดขึ้น',6:'เลขแห่งความรักและครอบครัว วันนี้เหมาะแก่การดูแลคนที่รักและตัวเอง',7:'เลขแห่งปัญญาและจิตวิญญาณ วันนี้เหมาะแก่การทบทวนและค้นหาความหมาย',8:'เลขแห่งความอุดมสมบูรณ์ พลังงานด้านการเงินและความสำเร็จแรงมากวันนี้',9:'เลขแห่งการให้และความเมตตา วันนี้เหมาะแก่การทำบุญและช่วยเหลือผู้อื่น'};
 
