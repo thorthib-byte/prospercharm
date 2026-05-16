@@ -1525,8 +1525,10 @@ const buchaZones = [
 function setupBuchaCanvas() {
   const canvas = document.getElementById('bucha-canvas');
   if (!canvas) return;
+
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
+
   const ctx = canvas.getContext('2d');
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   buchaStrokeCount = 0;
@@ -1534,10 +1536,18 @@ function setupBuchaCanvas() {
   updateBuchaDots(0);
   document.getElementById('bucha-selected-name').textContent = '';
 
+  let points = [];
+  let isDrawing = false;
+
   function getPos(e) {
     const r = canvas.getBoundingClientRect();
-    if (e.touches) return { x: e.touches[0].clientX - r.left, y: e.touches[0].clientY - r.top };
-    return { x: e.clientX - r.left, y: e.clientY - r.top };
+    const scaleX = canvas.width / r.width;
+    const scaleY = canvas.height / r.height;
+    const src = e.touches ? e.touches[0] : e;
+    return {
+      x: (src.clientX - r.left) * scaleX,
+      y: (src.clientY - r.top) * scaleY
+    };
   }
 
   function detectZone(x, y) {
@@ -1548,57 +1558,108 @@ function setupBuchaCanvas() {
     return null;
   }
 
+  function isCircle(pts) {
+    if (pts.length < 20) return false;
+    // หา centroid
+    const cx = pts.reduce((s,p) => s+p.x, 0) / pts.length;
+    const cy = pts.reduce((s,p) => s+p.y, 0) / pts.length;
+    // หา avg radius
+    const radii = pts.map(p => Math.sqrt((p.x-cx)**2+(p.y-cy)**2));
+    const avgR = radii.reduce((s,r) => s+r, 0) / radii.length;
+    if (avgR < 20) return false;
+    // ตรวจว่า variance ไม่เกินเกณฑ์
+    const variance = radii.reduce((s,r) => s+(r-avgR)**2, 0) / radii.length;
+    const stdDev = Math.sqrt(variance);
+    // ตรวจว่าวนครบรอบ (start ใกล้ end)
+    const first = pts[0], last = pts[pts.length-1];
+    const closeDist = Math.sqrt((first.x-last.x)**2+(first.y-last.y)**2);
+    return stdDev/avgR < 0.5 && closeDist < avgR * 1.2;
+  }
+
+  function drawTrail(pts) {
+    if (pts.length < 2) return;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x, pts[0].y);
+    for (let i = 1; i < pts.length; i++) {
+      ctx.lineTo(pts[i].x, pts[i].y);
+    }
+    ctx.strokeStyle = 'rgba(255,215,0,0.7)';
+    ctx.lineWidth = 4;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.shadowColor = 'rgba(255,215,0,0.9)';
+    ctx.shadowBlur = 12;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+  }
+
   function startDraw(e) {
     e.preventDefault();
-    buchaIsDrawing = true;
+    isDrawing = true;
+    points = [];
     const pos = getPos(e);
-    const zone = detectZone(pos.x, pos.y);
-    if (zone) {
-      // ถ้าเปลี่ยน zone reset
-      if (buchaCurrentOffering && buchaCurrentOffering !== zone.type) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        buchaStrokeCount = 0;
-        updateBuchaDots(0);
-      }
-      buchaCurrentOffering = zone.type;
-      document.getElementById('bucha-selected-name').textContent = '✦ ' + zone.name + ' ✦';
-    }
-    ctx.beginPath();
-    ctx.moveTo(pos.x, pos.y);
+    points.push(pos);
   }
 
   function draw(e) {
     e.preventDefault();
-    if (!buchaIsDrawing) return;
+    if (!isDrawing) return;
     const pos = getPos(e);
-    ctx.lineTo(pos.x, pos.y);
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.25)';
-    ctx.lineWidth = 40;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.stroke();
+    points.push(pos);
+    drawTrail(points);
   }
 
   function endDraw(e) {
     e.preventDefault();
-    if (!buchaIsDrawing) return;
-    buchaIsDrawing = false;
-    if (buchaCurrentOffering) {
-      buchaStrokeCount = Math.min(3, buchaStrokeCount + 1);
-      updateBuchaDots(buchaStrokeCount);
-      if (buchaStrokeCount >= 3) {
+    if (!isDrawing) return;
+    isDrawing = false;
+
+    if (isCircle(points)) {
+      // หาว่าวนอยู่บน zone ไหน
+      const mid = points[Math.floor(points.length/2)];
+      const zone = detectZone(mid.x, mid.y) || detectZone(points[0].x, points[0].y);
+
+      if (zone) {
+        buchaCurrentOffering = zone.type;
+        document.getElementById('bucha-selected-name').textContent = '✦ ' + zone.name + ' ✦';
+
+        // วาดวงสีทองค้างไว้
+        const cx = points.reduce((s,p) => s+p.x, 0) / points.length;
+        const cy = points.reduce((s,p) => s+p.y, 0) / points.length;
+        const avgR = points.reduce((s,p) => s+Math.sqrt((p.x-cx)**2+(p.y-cy)**2), 0) / points.length;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.beginPath();
+        ctx.arc(cx, cy, avgR, 0, Math.PI*2);
+        ctx.strokeStyle = 'rgba(255,215,0,0.9)';
+        ctx.lineWidth = 4;
+        ctx.shadowColor = 'rgba(255,215,0,1)';
+        ctx.shadowBlur = 20;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        // อัป dot เป็นเต็มทั้ง 3
+        updateBuchaDots(3);
+        document.getElementById('bucha-selected-name').textContent = '✦ พ่อปู่รับของบูชาแล้วค่ะ ✦';
         setTimeout(() => energyNextStep(3), 800);
+      } else {
+        // วงอยู่นอก zone ล้างแล้วบอก
+        setTimeout(() => ctx.clearRect(0, 0, canvas.width, canvas.height), 500);
       }
+    } else {
+      // ไม่เป็นวง ล้างออก
+      setTimeout(() => ctx.clearRect(0, 0, canvas.width, canvas.height), 300);
     }
   }
 
-  canvas.addEventListener('mousedown', startDraw);
-  canvas.addEventListener('mousemove', draw);
-  canvas.addEventListener('mouseup', endDraw);
-  canvas.addEventListener('touchstart', startDraw, { passive: false });
-  canvas.addEventListener('touchmove', draw, { passive: false });
-  canvas.addEventListener('touchend', endDraw, { passive: false });
+  canvas.addEventListener('mousedown', startDraw, {passive:false});
+  canvas.addEventListener('mousemove', draw, {passive:false});
+  canvas.addEventListener('mouseup', endDraw, {passive:false});
+  canvas.addEventListener('touchstart', startDraw, {passive:false});
+  canvas.addEventListener('touchmove', draw, {passive:false});
+  canvas.addEventListener('touchend', endDraw, {passive:false});
 }
+
 
 function updateBuchaDots(count) {
   for (let i = 1; i <= 3; i++) {
