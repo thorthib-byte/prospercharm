@@ -467,25 +467,41 @@
       <button class="cta-btn" onclick="startEnergyCeremony()">🐉 เริ่มพิธี</button>
     </div>
 
-    <!-- STEP 2: ระบายเลือกของบูชา -->
-    <div id="energy-step2" style="display:none; position:fixed; inset:0; z-index:50; overflow:hidden;"
-      onmousedown="buchaStart(event)" onmousemove="buchaDraw(event)" onmouseup="buchaEnd(event)"
-      ontouchstart="buchaStart(event)" ontouchmove="buchaDraw(event)" ontouchend="buchaEnd(event)">
-      <!-- รูป background -->
-      <img src="images/energy/buchanaga.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;">
-
-      <!-- Canvas วาดวง (pointer-events:none ให้ div รับ touch) -->
-      <canvas id="bucha-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:2;pointer-events:none;"></canvas>
+    <!-- STEP 2: เลือกของบูชา -->
+    <div id="energy-step2" style="display:none; position:fixed; inset:0; z-index:50; overflow:hidden;">
+      <img src="images/energy/buchanaga.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
 
       <!-- instruction ด้านบน -->
-      <div style="position:absolute;top:4%;left:0;right:0;text-align:center;z-index:3;pointer-events:none;">
-        <div style="font-family:'Noto Serif Thai',serif;font-size:14px;color:#FFD700;text-shadow:0 2px 8px rgba(0,0,0,0.9);background:rgba(0,0,0,0.4);display:inline-block;padding:8px 20px;border-radius:20px;border:1px solid rgba(255,215,0,0.3);">
-          ✦ ลากนิ้ววนเป็นวงกลมบนสิ่งที่ต้องการถวาย ✦
+      <div style="position:absolute;top:4%;left:0;right:0;text-align:center;z-index:3;">
+        <div style="font-family:'Noto Serif Thai',serif;font-size:14px;color:#FFD700;text-shadow:0 2px 8px rgba(0,0,0,0.9);background:rgba(0,0,0,0.45);display:inline-block;padding:8px 20px;border-radius:20px;border:1px solid rgba(255,215,0,0.3);">
+          ✦ เลือกของบูชาที่ต้องการถวาย ✦
         </div>
       </div>
 
-      <!-- ชื่อสิ่งที่กำลังวาด -->
+      <!-- ชื่อที่เลือก -->
       <div id="bucha-selected-name" style="position:absolute;top:13%;left:0;right:0;text-align:center;z-index:3;pointer-events:none;font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:#FFD700;text-shadow:0 0 15px rgba(255,215,0,0.9),0 2px 8px rgba(0,0,0,0.9);min-height:28px;"></div>
+
+      <!-- ปุ่ม 4 อัน ด้านล่าง -->
+      <div style="position:absolute;bottom:6%;left:0;right:0;z-index:3;padding:0 16px;">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:360px;margin:0 auto;">
+          <button onclick="selectBucha(this,'incense','กระถางธูป 🪔')"
+            style="padding:14px 10px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,215,0,0.4);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(255,215,0,0.9);cursor:pointer;transition:all 0.2s;">
+            🪔 กระถางธูป
+          </button>
+          <button onclick="selectBucha(this,'candle','เทียน 🕯️')"
+            style="padding:14px 10px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,215,0,0.4);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(255,215,0,0.9);cursor:pointer;transition:all 0.2s;">
+            🕯️ เทียน
+          </button>
+          <button onclick="selectBucha(this,'kratong','กระทง 🌸')"
+            style="padding:14px 10px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,215,0,0.4);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(255,215,0,0.9);cursor:pointer;transition:all 0.2s;">
+            🌸 กระทง
+          </button>
+          <button onclick="selectBucha(this,'garland','พวงมาลัย 💐')"
+            style="padding:14px 10px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,215,0,0.4);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(255,215,0,0.9);cursor:pointer;transition:all 0.2s;">
+            💐 พวงมาลัย
+          </button>
+        </div>
+      </div>
     </div>
 
     <!-- STEP 3: จุดธูป -->
@@ -1499,8 +1515,20 @@ function showWelcomeStill() {
 
 // Energy welcome trigger handled in main goTo below
 
-// ===== BUCHA CANVAS PAINTING =====
-let buchaPoints = [];
+function selectBucha(el, type, name) {
+  // Highlight selected button
+  document.querySelectorAll('#energy-step2 button').forEach(b => {
+    b.style.border = '2px solid rgba(255,215,0,0.4)';
+    b.style.background = 'rgba(0,0,0,0.55)';
+    b.style.boxShadow = 'none';
+  });
+  el.style.border = '2px solid rgba(255,215,0,1)';
+  el.style.background = 'rgba(180,130,0,0.4)';
+  el.style.boxShadow = '0 0 20px rgba(255,215,0,0.6)';
+  buchaCurrentOffering = type;
+  document.getElementById('bucha-selected-name').textContent = '✦ เลือก' + name + ' พ่อปู่รับทราบแล้วค่ะ ✦';
+  setTimeout(() => energyNextStep(3), 1000);
+}
 let buchaDrawing = false;
 let buchaCtx = null;
 
