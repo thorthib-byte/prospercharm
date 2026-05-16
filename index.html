@@ -1523,8 +1523,8 @@ function setupBuchaCanvas() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   buchaStrokeCount = 0;
   buchaCurrentOffering = '';
-  updateBuchaDots(0);
-  document.getElementById('bucha-selected-name').textContent = '';
+  if (document.getElementById('bucha-selected-name'))
+    document.getElementById('bucha-selected-name').textContent = '';
 
   let points = [];
   let isDrawing = false;
@@ -1630,8 +1630,7 @@ function setupBuchaCanvas() {
 
         // อัป dot เป็นเต็มทั้ง 3
         updateBuchaDots(3);
-        document.getElementById('bucha-selected-name').textContent = '✦ พ่อปู่รับของบูชาแล้วค่ะ ✦';
-        setTimeout(() => energyNextStep(3), 800);
+        document.getElementById('bucha-selected-name').textContent = '✦ พ่อปู่รับของบูชาแล้วค่ะ ✦';        setTimeout(() => energyNextStep(3), 800);
       } else {
         // วงอยู่นอก zone ล้างแล้วบอก
         setTimeout(() => ctx.clearRect(0, 0, canvas.width, canvas.height), 500);
@@ -1664,6 +1663,7 @@ function updateBuchaDots(count) {
     }
   }
 }
+
 
 function energyNextStep(step) {
   // Hide step0
