@@ -1540,17 +1540,14 @@ let currentOfferingVideo = '';
 function selectOffering(type, name, stillSrc, videoSrc) {
   buchaCurrentOffering = type;
   currentOfferingVideo = videoSrc;
-  // Set images
   document.getElementById('offering-still-img').src = stillSrc;
   const vid = document.getElementById('offering-video');
   vid.src = videoSrc;
   vid.style.opacity = '0';
-  // Reset ring
   const ring = document.getElementById('offering-ring');
-  ring.style.strokeDashoffset = '565';
+  if (ring) { ring.style.strokeDashoffset = '565'; }
   offeringProgress = 0;
   document.getElementById('offering-msg').textContent = '';
-  // Show step2b
   ['energy-step1','energy-step2'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
