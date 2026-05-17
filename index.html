@@ -476,39 +476,35 @@
     </div>
 
     <!-- STEP 2: เลือกของบูชา -->
-    <div id="energy-step2" style="display:none; position:relative; width:100%; min-height:100dvh; z-index:50; overflow:hidden;">
-      <img src="images/energy/buchanaga.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
-      <div style="position:absolute;top:4%;left:0;right:0;text-align:center;z-index:3;pointer-events:none;">
-        <div style="font-family:'Noto Serif Thai',serif;font-size:14px;color:#FFD700;text-shadow:0 2px 8px rgba(0,0,0,0.9);background:rgba(0,0,0,0.45);display:inline-block;padding:8px 20px;border-radius:20px;border:1px solid rgba(255,215,0,0.3);">
-          ✦ เลือกของบูชาที่ต้องการถวาย ✦
-        </div>
+    <!-- STEP 2: เลือกของบูชา -->
+    <div id="energy-step2" style="display:none; position:relative; width:100%; height:100dvh;">
+      <!-- bg fullscreen -->
+      <img src="images/energy/buchanaga.png" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:48;">
+      <!-- ข้อความบน -->
+      <div style="position:fixed;top:4%;left:0;right:0;text-align:center;z-index:52;pointer-events:none;">
+        <div style="font-family:'Noto Serif Thai',serif;font-size:14px;color:#FFD700;text-shadow:0 2px 8px rgba(0,0,0,0.9);background:rgba(0,0,0,0.5);display:inline-block;padding:8px 20px;border-radius:20px;border:1px solid rgba(255,215,0,0.3);">✦ เลือกของบูชาที่ต้องการถวาย ✦</div>
       </div>
-      <div style="position:absolute;bottom:8%;left:0;right:0;z-index:3;padding:0 16px;">
+      <!-- ปุ่ม z-index สูงสุด -->
+      <div style="position:fixed;bottom:8%;left:0;right:0;z-index:53;padding:0 16px;">
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:360px;margin:0 auto;">
-          <button onclick="selectOffering('baisri','พานบายศรี','images/energy/baiseestill.png','images/energy/baiseemove.mp4')" style="padding:14px 10px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,215,0,0.4);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(255,215,0,0.9);cursor:pointer;">🌺 พานบายศรี</button>
-          <button onclick="selectOffering('malai','พวงมาลัย','images/energy/malaistill.png','images/energy/malaimove.mp4')" style="padding:14px 10px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,215,0,0.4);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(255,215,0,0.9);cursor:pointer;">💐 พวงมาลัย</button>
-          <button onclick="selectOffering('plu','หมากพลู','images/energy/plustill.png','images/energy/plumove.mp4')" style="padding:14px 10px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,215,0,0.4);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(255,215,0,0.9);cursor:pointer;">🌿 หมากพลู</button>
-          <button onclick="selectOffering('fruit','ผลไม้มงคล','images/energy/fruitstill.png','images/energy/fruitmove.mp4')" style="padding:14px 10px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,215,0,0.4);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(255,215,0,0.9);cursor:pointer;">🍊 ผลไม้มงคล</button>
+          <button onclick="selectOffering('baisri','พานบายศรี','images/energy/baiseestill.png','images/energy/baiseemove.mp4')" style="padding:14px 10px;background:rgba(0,0,0,0.75);border:2px solid rgba(255,215,0,0.7);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:#FFD700;cursor:pointer;-webkit-tap-highlight-color:transparent;">🌺 พานบายศรี</button>
+          <button onclick="selectOffering('malai','พวงมาลัย','images/energy/malaistill.png','images/energy/malaimove.mp4')" style="padding:14px 10px;background:rgba(0,0,0,0.75);border:2px solid rgba(255,215,0,0.7);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:#FFD700;cursor:pointer;-webkit-tap-highlight-color:transparent;">💐 พวงมาลัย</button>
+          <button onclick="selectOffering('plu','หมากพลู','images/energy/plustill.png','images/energy/plumove.mp4')" style="padding:14px 10px;background:rgba(0,0,0,0.75);border:2px solid rgba(255,215,0,0.7);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:#FFD700;cursor:pointer;-webkit-tap-highlight-color:transparent;">🌿 หมากพลู</button>
+          <button onclick="selectOffering('fruit','ผลไม้มงคล','images/energy/fruitstill.png','images/energy/fruitmove.mp4')" style="padding:14px 10px;background:rgba(0,0,0,0.75);border:2px solid rgba(255,215,0,0.7);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:#FFD700;cursor:pointer;-webkit-tap-highlight-color:transparent;">🍊 ผลไม้มงคล</button>
         </div>
       </div>
     </div>
 
     <!-- STEP 2B: ถวายของ -->
-    <div id="energy-step2b" style="display:none; position:relative; width:100%; min-height:100dvh; z-index:50; overflow:hidden;">
-      <img id="offering-still-img" src="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
-      <video id="offering-video" src="" muted playsinline
-        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.4s;"></video>
-      <div style="position:absolute;top:6%;left:0;right:0;text-align:center;z-index:4;pointer-events:none;">
-        <div style="font-family:'Noto Serif Thai',serif;font-size:15px;color:#FFD700;text-shadow:0 2px 8px rgba(0,0,0,0.9);background:rgba(0,0,0,0.4);display:inline-block;padding:8px 20px;border-radius:20px;border:1px solid rgba(255,215,0,0.3);">
-          ✦ ตั้งจิตอธิษฐาน แล้วกดถวาย ✦
-        </div>
+    <div id="energy-step2b" style="display:none; position:relative; width:100%; height:100dvh;">
+      <img id="offering-still-img" src="" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:48;">
+      <video id="offering-video" src="" muted playsinline style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.4s;z-index:49;"></video>
+      <div style="position:fixed;top:6%;left:0;right:0;text-align:center;z-index:52;pointer-events:none;">
+        <div style="font-family:'Noto Serif Thai',serif;font-size:15px;color:#FFD700;text-shadow:0 2px 8px rgba(0,0,0,0.9);background:rgba(0,0,0,0.4);display:inline-block;padding:8px 20px;border-radius:20px;border:1px solid rgba(255,215,0,0.3);">✦ ตั้งจิตอธิษฐาน แล้วกดถวาย ✦</div>
       </div>
-      <div id="offering-msg" style="position:absolute;bottom:18%;left:0;right:0;text-align:center;z-index:4;pointer-events:none;font-family:'Noto Serif Thai',serif;font-size:16px;font-weight:600;color:#FFD700;text-shadow:0 0 12px rgba(255,215,0,0.9),0 2px 8px rgba(0,0,0,0.8);min-height:28px;"></div>
-      <div style="position:absolute;bottom:8%;left:0;right:0;text-align:center;z-index:4;padding:0 40px;">
-        <button onclick="confirmOffering()"
-          style="width:100%;max-width:280px;padding:16px 24px;background:linear-gradient(135deg,rgba(180,130,20,0.95),rgba(212,175,55,0.95));border:2px solid rgba(255,215,0,0.7);border-radius:40px;font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:#1a0a00;cursor:pointer;box-shadow:0 0 30px rgba(212,175,55,0.5);">
-          🙏 ถวายของบูชา
-        </button>
+      <div id="offering-msg" style="position:fixed;bottom:20%;left:0;right:0;text-align:center;z-index:52;pointer-events:none;font-family:'Noto Serif Thai',serif;font-size:16px;font-weight:600;color:#FFD700;text-shadow:0 0 12px rgba(255,215,0,0.9),0 2px 8px rgba(0,0,0,0.8);"></div>
+      <div style="position:fixed;bottom:8%;left:0;right:0;text-align:center;z-index:53;padding:0 40px;">
+        <button onclick="confirmOffering()" style="width:100%;max-width:280px;padding:16px 24px;background:linear-gradient(135deg,rgba(180,130,20,0.95),rgba(212,175,55,0.95));border:2px solid rgba(255,215,0,0.7);border-radius:40px;font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:#1a0a00;cursor:pointer;">🙏 ถวายของบูชา</button>
       </div>
     </div>
 
