@@ -493,32 +493,23 @@
       </div>
     </div>
 
-    <!-- STEP 2B: กดค้างถวายของ -->
+    <!-- STEP 2B: ถวายของ -->
     <div id="energy-step2b" style="display:none; position:fixed; inset:0; z-index:50; overflow:hidden;">
-      <!-- รูปนิ่งของบูชา -->
       <img id="offering-still-img" src="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;">
-      <!-- Video วางของ -->
       <video id="offering-video" src="" muted playsinline
         style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.4s;"></video>
-      <!-- instruction -->
       <div style="position:absolute;top:6%;left:0;right:0;text-align:center;z-index:4;pointer-events:none;">
         <div style="font-family:'Noto Serif Thai',serif;font-size:15px;color:#FFD700;text-shadow:0 2px 8px rgba(0,0,0,0.9);background:rgba(0,0,0,0.4);display:inline-block;padding:8px 20px;border-radius:20px;border:1px solid rgba(255,215,0,0.3);">
-          ✦ กดค้างที่รูปเพื่อถวาย ✦
+          ✦ ตั้งจิตอธิษฐาน แล้วกดถวาย ✦
         </div>
       </div>
-      <!-- progress ring + hold area -->
-      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:3;"
-        onmousedown="startOfferingHold()" onmouseup="stopOfferingHold()" onmouseleave="stopOfferingHold()"
-        ontouchstart="startOfferingHold()" ontouchend="stopOfferingHold()">
-        <svg style="transform:rotate(-90deg);pointer-events:none;" width="200" height="200">
-          <circle cx="100" cy="100" r="90" fill="none" stroke="rgba(255,215,0,0.2)" stroke-width="6"/>
-          <circle id="offering-ring" cx="100" cy="100" r="90" fill="none" stroke="#FFD700" stroke-width="6"
-            stroke-linecap="round" stroke-dasharray="565" stroke-dashoffset="565"
-            style="transition:stroke-dashoffset 0.05s linear;filter:drop-shadow(0 0 8px rgba(255,215,0,0.9));"/>
-        </svg>
+      <div id="offering-msg" style="position:absolute;bottom:18%;left:0;right:0;text-align:center;z-index:4;pointer-events:none;font-family:'Noto Serif Thai',serif;font-size:16px;font-weight:600;color:#FFD700;text-shadow:0 0 12px rgba(255,215,0,0.9),0 2px 8px rgba(0,0,0,0.8);min-height:28px;"></div>
+      <div style="position:absolute;bottom:8%;left:0;right:0;text-align:center;z-index:4;padding:0 40px;">
+        <button onclick="confirmOffering()"
+          style="width:100%;max-width:280px;padding:16px 24px;background:linear-gradient(135deg,rgba(180,130,20,0.95),rgba(212,175,55,0.95));border:2px solid rgba(255,215,0,0.7);border-radius:40px;font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:#1a0a00;cursor:pointer;box-shadow:0 0 30px rgba(212,175,55,0.5);">
+          🙏 ถวายของบูชา
+        </button>
       </div>
-      <!-- ข้อความสถานะ -->
-      <div id="offering-msg" style="position:absolute;bottom:10%;left:0;right:0;text-align:center;z-index:4;pointer-events:none;font-family:'Noto Serif Thai',serif;font-size:16px;font-weight:600;color:#FFD700;text-shadow:0 0 12px rgba(255,215,0,0.9),0 2px 8px rgba(0,0,0,0.8);min-height:28px;"></div>
     </div>
 
     <!-- STEP 3: จุดธูป -->
@@ -1572,40 +1563,16 @@ function selectOffering(type, name, stillSrc, videoSrc) {
   window.scrollTo(0,0);
 }
 
-function startOfferingHold() {
-  if (navigator.vibrate) navigator.vibrate(100);
-  const ring = document.getElementById('offering-ring');
+function confirmOffering() {
   const msg = document.getElementById('offering-msg');
-  offeringProgress = 0;
-
-  offeringHoldInterval = setInterval(() => {
-    offeringProgress = Math.min(100, offeringProgress + (100/(3000/50)));
-    ring.style.strokeDashoffset = 565 * (1 - offeringProgress/100);
-    if (offeringProgress < 40) msg.textContent = 'กำลังถวาย…';
-    else if (offeringProgress < 80) msg.textContent = '🙏 พ่อปู่กำลังรับ…';
-    else msg.textContent = '✨ เกือบแล้ว…';
-
-    if (offeringProgress >= 100) {
-      clearInterval(offeringHoldInterval);
-      msg.textContent = '🐉 พ่อปู่รับของบูชาแล้วค่ะ';
-      // เล่น video
-      const vid = document.getElementById('offering-video');
-      vid.style.opacity = '1';
-      vid.play();
-      // ผ่านไป step3 หลัง 5 วิ
-      setTimeout(() => energyNextStep(3), 5000);
-    }
-  }, 50);
-}
-
-function stopOfferingHold() {
-  clearInterval(offeringHoldInterval);
-  if (offeringProgress < 100) {
-    const ring = document.getElementById('offering-ring');
-    ring.style.strokeDashoffset = '565';
-    offeringProgress = 0;
-    document.getElementById('offering-msg').textContent = '';
-  }
+  if (msg) msg.textContent = '🐉 พ่อปู่รับของบูชาแล้วค่ะ';
+  const vid = document.getElementById('offering-video');
+  if (vid) { vid.style.opacity = '1'; vid.play(); }
+  // ซ่อนปุ่ม
+  const btn = document.querySelector('#energy-step2b button');
+  if (btn) btn.style.display = 'none';
+  // ไป step3 หลัง 5 วิ
+  setTimeout(() => energyNextStep(3), 5000);
 }
 let buchaDrawing = false;
 let buchaCtx = null;
