@@ -1909,14 +1909,6 @@ function showEnergyFinalResult() {
   showCreditsBar('energy');
 }
 
-function energyNextStep(step) {
-  [1,2,'2b',3,4,5,6].forEach(s => {
-    const el = document.getElementById('energy-step' + s);
-    if (el) el.style.display = 'none';
-  });
-  const target = document.getElementById('energy-step' + step);
-  if (target) { target.style.display = 'block'; window.scrollTo(0,0); }
-}
 
 function resetEnergy() {
   energyCeremonyData = {}; energyWaterProgress = 0;
