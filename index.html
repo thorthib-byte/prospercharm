@@ -68,6 +68,13 @@
   .form-label { display:block; color:var(--text-mid); font-size:13px; margin-bottom:8px; font-weight:500; }
   .form-input { width:100%; padding:10px 14px; background:var(--white); border:1px solid rgba(180,160,130,0.4); border-radius:12px; color:var(--text); font-size:16px; font-family:'Noto Sans Thai',sans-serif; outline:none; margin-bottom:16px; }
   .form-input:focus { border-color:var(--gold); }
+  .dob-hint { font-size:12px; color:var(--text-light); margin-bottom:10px; padding:8px 12px; background:rgba(201,168,76,0.08); border-radius:8px; border-left:3px solid var(--gold); line-height:1.6; }
+  .dob-row { display:flex; gap:8px; margin-bottom:16px; }
+  .dob-select { padding:10px 4px; background:var(--white); border:1px solid rgba(180,160,130,0.4); border-radius:12px; color:var(--text); font-size:15px; font-family:'Noto Sans Thai',sans-serif; outline:none; appearance:none; -webkit-appearance:none; text-align:center; cursor:pointer; width:100%; }
+  .dob-select:focus { border-color:var(--gold); }
+  .dob-day { flex:0.7; }
+  .dob-month { flex:1.6; }
+  .dob-year { flex:1; }
 
   .topic-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px; }
   .topic-btn { padding:14px 10px; background:var(--white); border:1px solid rgba(180,160,130,0.3); border-radius:12px; color:var(--text-mid); font-family:'Noto Sans Thai',sans-serif; font-size:14px; cursor:pointer; transition:all 0.2s; text-align:center; }
@@ -304,7 +311,12 @@
     <div id="siam-step1" class="form-section" style="display:none;">
       <div id="siam-temple-label" style="font-family:'Noto Serif Thai',serif; font-size:14px; color:var(--text-mid); margin-bottom:12px; text-align:center;"></div>
       <label class="form-label">วันเกิดของคุณ</label>
-      <input type="date" class="form-input" id="siam-dob">
+      <div class="dob-hint">กรุณากรอกวันเกิดเป็น พ.ศ. เช่น 16 สิงหาคม 2547</div>
+      <div class="dob-row">
+        <div class="dob-day"><select class="dob-select" id="siam-dob-d"><option value="">วัน</option></select></div>
+        <div class="dob-month"><select class="dob-select" id="siam-dob-m"><option value="">เดือน</option></select></div>
+        <div class="dob-year"><select class="dob-select" id="siam-dob-y"><option value="">ปี พ.ศ.</option></select></div>
+      </div>
       <button class="cta-btn" onclick="siamNext()">ถัดไป →</button>
       <button class="reset-btn" style="margin-top:10px;" onclick="siamBackToTemple()">← เปลี่ยนวัด</button>
     </div>
@@ -378,7 +390,12 @@
     <div id="tarot-step1" style="display:none;" class="form-section">
       <div id="tarot-topic-label" style="font-family:'Noto Serif Thai',serif; font-size:14px; color:var(--text-mid); margin-bottom:12px; text-align:center;"></div>
       <label class="form-label">วันเกิดของคุณ</label>
-      <input type="date" class="form-input" id="tarot-dob">
+      <div class="dob-hint">กรุณากรอกวันเกิดเป็น พ.ศ. เช่น 16 สิงหาคม 2547</div>
+      <div class="dob-row">
+        <div class="dob-day"><select class="dob-select" id="tarot-dob-d"><option value="">วัน</option></select></div>
+        <div class="dob-month"><select class="dob-select" id="tarot-dob-m"><option value="">เดือน</option></select></div>
+        <div class="dob-year"><select class="dob-select" id="tarot-dob-y"><option value="">ปี พ.ศ.</option></select></div>
+      </div>
       <button class="cta-btn" onclick="tarotNextToQuestion()">ถัดไป →</button>
       <button class="reset-btn" style="margin-top:10px;" onclick="tarotBackToTopic()">← เปลี่ยนหัวข้อ</button>
     </div>
@@ -472,7 +489,12 @@
         <div style="font-size:12px; color:var(--text-light);">แห่งคำชะโนด ผู้ประทานโชคลาภ</div>
       </div>
       <label class="form-label">วันเกิดของคุณ</label>
-      <input type="date" class="form-input" id="energy-dob">
+      <div class="dob-hint">กรุณากรอกวันเกิดเป็น พ.ศ. เช่น 16 สิงหาคม 2547</div>
+      <div class="dob-row">
+        <div class="dob-day"><select class="dob-select" id="energy-dob-d"><option value="">วัน</option></select></div>
+        <div class="dob-month"><select class="dob-select" id="energy-dob-m"><option value="">เดือน</option></select></div>
+        <div class="dob-year"><select class="dob-select" id="energy-dob-y"><option value="">ปี พ.ศ.</option></select></div>
+      </div>
       <button class="cta-btn" onclick="startEnergyCeremony()">🐉 เริ่มพิธี</button>
     </div>
 
@@ -657,9 +679,19 @@
     <div id="soulmate-step1" style="display:none;" class="form-section">
       <div id="soulmate-science-label" style="font-family:'Noto Serif Thai',serif; font-size:14px; color:var(--gold); margin-bottom:12px; text-align:center;"></div>
       <label class="form-label">วันเกิดของคุณ</label>
-      <input type="date" class="form-input" id="soulmate-dob1">
+      <div class="dob-hint">กรุณากรอกวันเกิดเป็น พ.ศ. เช่น 16 สิงหาคม 2547</div>
+      <div class="dob-row">
+        <div class="dob-day"><select class="dob-select" id="soulmate-dob1-d"><option value="">วัน</option></select></div>
+        <div class="dob-month"><select class="dob-select" id="soulmate-dob1-m"><option value="">เดือน</option></select></div>
+        <div class="dob-year"><select class="dob-select" id="soulmate-dob1-y"><option value="">ปี พ.ศ.</option></select></div>
+      </div>
       <label class="form-label">วันเกิดของอีกฝ่าย</label>
-      <input type="date" class="form-input" id="soulmate-dob2">
+      <div class="dob-hint">กรุณากรอกวันเกิดเป็น พ.ศ. เช่น 16 สิงหาคม 2547</div>
+      <div class="dob-row">
+        <div class="dob-day"><select class="dob-select" id="soulmate-dob2-d"><option value="">วัน</option></select></div>
+        <div class="dob-month"><select class="dob-select" id="soulmate-dob2-m"><option value="">เดือน</option></select></div>
+        <div class="dob-year"><select class="dob-select" id="soulmate-dob2-y"><option value="">ปี พ.ศ.</option></select></div>
+      </div>
       <button class="cta-btn" onclick="soulmateNextToEnergy()">ดูความเข้ากัน 💞</button>
       <button class="reset-btn" style="margin-top:10px;" onclick="soulmateBackToScience()">← เปลี่ยนศาสตร์</button>
     </div>
@@ -905,6 +937,44 @@
 </div>
 
 <script>
+// ===== THAI DATE PICKER HELPERS =====
+const thaiMonths = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+
+function initDobSelects() {
+  // Populate all dob selects
+  const ids = ['siam','tarot','energy','soulmate-dob1','soulmate-dob2'];
+  ids.forEach(id => {
+    const prefix = id === 'soulmate-dob1' || id === 'soulmate-dob2' ? id : id + '-dob';
+    const dSel = document.getElementById(prefix + '-d') || document.getElementById(id + '-d');
+    const mSel = document.getElementById(prefix + '-m') || document.getElementById(id + '-m');
+    const ySel = document.getElementById(prefix + '-y') || document.getElementById(id + '-y');
+    if (!dSel || !mSel || !ySel) return;
+    // Days
+    for (let i = 1; i <= 31; i++) { const o = document.createElement('option'); o.value = i; o.textContent = i; dSel.appendChild(o); }
+    // Months
+    thaiMonths.forEach((name, idx) => { const o = document.createElement('option'); o.value = idx + 1; o.textContent = name; mSel.appendChild(o); });
+    // Years BE: current year BE down to 100 years ago
+    const nowBE = new Date().getFullYear() + 543;
+    for (let y = nowBE; y >= nowBE - 100; y--) { const o = document.createElement('option'); o.value = y; o.textContent = y; ySel.appendChild(o); }
+  });
+}
+
+function getDobValue(prefix) {
+  // prefix e.g. 'siam-dob', 'energy-dob', 'soulmate-dob1'
+  const d = document.getElementById(prefix + '-d');
+  const m = document.getElementById(prefix + '-m');
+  const y = document.getElementById(prefix + '-y');
+  if (!d || !m || !y || !d.value || !m.value || !y.value) return '';
+  const yearCE = parseInt(y.value) - 543;
+  const mm = String(m.value).padStart(2, '0');
+  const dd = String(d.value).padStart(2, '0');
+  return yearCE + '-' + mm + '-' + dd; // returns YYYY-MM-DD (CE)
+}
+
+function clearDob(prefix) {
+  ['d','m','y'].forEach(p => { const el = document.getElementById(prefix + '-' + p); if (el) el.value = ''; });
+}
+
 let userState={plan:'free',credits:0,planExpiry:null};
 function loadState(){try{const s=localStorage.getItem('pc_state');if(s){userState=JSON.parse(s);if(userState.planExpiry&&new Date()>new Date(userState.planExpiry)){userState={plan:'free',credits:0,planExpiry:null};saveState();}}}catch(e){}updateStatusBar();}
 function saveState(){localStorage.setItem('pc_state',JSON.stringify(userState));}
@@ -1326,7 +1396,7 @@ let selectedQuestion = '';
 let pickedCards = [];
 
 function tarotNextToQuestion() {
-  const dob = document.getElementById('tarot-dob').value;
+  const dob = getDobValue('tarot-dob');
   if (!dob) { alert('กรุณากรอกวันเกิดก่อนนะคะ'); return; }
   document.getElementById('tarot-step1').style.display = 'none';
   document.getElementById('tarot-step2').style.display = 'block';
@@ -1446,7 +1516,7 @@ function resetTarot() {
 }
 const siamData={1:{title:"ซีกมงคลที่หนึ่ง — มังกรทองพุ่งฟ้า",text:"ดวงชะตากำลังพุ่งสูงดั่งมังกรทอง สิ่งที่หวังจะสำเร็จได้ไม่ยาก โชคลาภกำลังเข้ามา",advice:"เหมาะแก่การเริ่มต้นสิ่งใหม่ ลงมือทำได้เลย ผลจะดีกว่าที่คาด"},2:{title:"ซีกมงคลที่สอง — ดอกบัวบานในบึง",text:"แม้อยู่ในสถานการณ์ท้าทาย แต่จะผ่านพ้นไปได้อย่างงดงาม",advice:"อย่าหยุดนิ่งแม้อุปสรรคจะมากมาย ความพยายามจะส่งผลในระยะยาว"},3:{title:"ซีกมงคลที่สาม — ดาวสามดวงส่องสว่าง",text:"มีผู้คนคอยช่วยเหลือสนับสนุนอยู่เสมอ มิตรภาพเป็นพลังสำคัญ",advice:"เปิดใจรับความช่วยเหลือ อย่าลืมตอบแทนน้ำใจด้วยความจริงใจ"},4:{title:"ซีกมงคลที่สี่ — ลมอ่อนพัดใบไม้",text:"เป็นเวลาแห่งการพักผ่อนสะสมพลัง ไม่จำเป็นต้องเร่งรีบ",advice:"ทบทวนตัวเอง วางแผนให้รอบคอบก่อนลงมือ ผลจะดีกว่าการรีบร้อน"},5:{title:"ซีกมงคลที่ห้า — เมฆหมอกกลายเป็นรุ้ง",text:"หลังช่วงยากลำบาก แสงสว่างกำลังจะมาถึง สิ่งที่รอคอยใกล้จะเป็นจริง",advice:"อดทนอีกเพียงเล็กน้อย ความสำเร็จอยู่แค่เอื้อม อย่าถอดใจ"},6:{title:"ซีกมงคลที่หก — น้ำใสไหลรินไม่หยุด",text:"โชคลาภและรายได้จะไหลเข้ามาอย่างต่อเนื่อง การงานราบรื่น",advice:"ช่วงดีสำหรับลงทุนหรือเริ่มโครงการใหม่ บริหารจัดการให้รอบคอบ"},7:{title:"ซีกมงคลที่เจ็ด — เจ็ดดาวมงคลนำทาง",text:"สติปัญญาและการตัดสินใจจะคมชัดเป็นพิเศษในช่วงนี้",advice:"เชื่อใจสัญชาตญาณ การตัดสินใจสำคัญในช่วงนี้มักถูกต้อง"},8:{title:"ซีกมงคลที่แปด — แปดทิศแห่งความเจริญ",text:"แปดคือเลขมงคลแห่งความเจริญรุ่งเรือง ดวงส่งสัญญาณแห่งความมั่งคั่ง",advice:"เหมาะแก่การทำธุรกิจ เจรจาต่อรอง โอกาสอยู่ตรงหน้า"},9:{title:"ซีกมงคลที่เก้า — มังกรเก้าองค์คุ้มครอง",text:"ได้รับการคุ้มครองจากสิ่งศักดิ์สิทธิ์ ภัยพิบัติจะเบี่ยงหลีก ชีวิตราบรื่น",advice:"ทำบุญกุศลเพื่อเสริมดวง พลังงานดีๆ จะตอบแทนกลับมาหลายเท่า"},10:{title:"ซีกมงคลที่สิบ — ครบบริบูรณ์",text:"สิบคือความสมบูรณ์ ชีวิตในทุกด้านกำลังเข้าสู่ความสมดุลที่ดี",advice:"ขอบคุณในสิ่งที่มี และแบ่งปันความดีให้ผู้อื่น"}};
 function getSiamNumber(dob){const today=new Date();const seed=dob.replace(/-/g,'')+today.toISOString().slice(0,10).replace(/-/g,'');let h=0;for(let c of seed)h=((h<<5)-h)+c.charCodeAt(0);return Math.abs(h%10)+1;}
-function drawSiam(){const dob=document.getElementById('siam-dob').value;if(!dob){alert('กรุณากรอกวันเกิดก่อนนะคะ');return;}document.getElementById('siam-result').classList.remove('show');setTimeout(()=>{useCredit();const n=getSiamNumber(dob);const d=siamData[n];document.getElementById('siam-number').textContent=n;document.getElementById('siam-title').textContent=d.title;document.getElementById('siam-text').textContent=d.text;document.getElementById('siam-advice').textContent=d.advice;document.getElementById('siam-result').classList.add('show');showCreditsBar('siam');document.getElementById('siam-result').scrollIntoView({behavior:'smooth',block:'start'});},500);}
+function drawSiam(){const dob=getDobValue('siam-dob');if(!dob){alert('กรุณากรอกวันเกิดก่อนนะคะ');return;}document.getElementById('siam-result').classList.remove('show');setTimeout(()=>{useCredit();const n=getSiamNumber(dob);const d=siamData[n];document.getElementById('siam-number').textContent=n;document.getElementById('siam-title').textContent=d.title;document.getElementById('siam-text').textContent=d.text;document.getElementById('siam-advice').textContent=d.advice;document.getElementById('siam-result').classList.add('show');showCreditsBar('siam');document.getElementById('siam-result').scrollIntoView({behavior:'smooth',block:'start'});},500);}
 const tarotData={love:[{emoji:'🌹',title:'The Lovers — คู่รักแห่งดวงดาว',text:'ความรักกำลังเบ่งบาน ถ้ามีคู่แล้วความสัมพันธ์จะแข็งแกร่งขึ้น ถ้าโสดอาจพบคนที่ใช่',advice:'เปิดใจรับความรักอย่างกล้าหาญ อย่ากลัวแสดงความรู้สึกที่แท้จริง'},{emoji:'🌙',title:'The Moon — แสงจันทร์แห่งความลึก',text:'มีบางเรื่องในความสัมพันธ์ที่ยังคลุมเครือ ควรสื่อสารให้ชัดเจนขึ้น',advice:'พูดคุยกันด้วยใจเปิดกว้าง ความเข้าใจแท้จริงจะทำให้ความสัมพันธ์มั่นคง'},{emoji:'⭐',title:'The Star — ดาวนำทางแห่งความหวัง',text:'ความรักที่แท้จริงกำลังรอท่านอยู่ ไม่ว่าผ่านอะไรมา ความหวังยังสว่างไสว',advice:'วางใจในจังหวะของชีวิต สิ่งดีๆ กำลังเดินทางมาหาท่าน'}],work:[{emoji:'⚡',title:'The Emperor — จักรพรรดิแห่งความสำเร็จ',text:'มีความสามารถในการนำและตัดสินใจที่แข็งแกร่ง เหมาะแก่การแสดงศักยภาพ',advice:'ก้าวออกมานำหน้า แสดงความสามารถให้ผู้ใหญ่มองเห็น'},{emoji:'🏆',title:'The Chariot — รถศึกแห่งชัยชนะ',text:'ชัยชนะอยู่ตรงหน้า แม้มีอุปสรรค ถ้าไม่ยอมแพ้จะประสบความสำเร็จ',advice:'มุ่งหน้าต่อด้วยความมั่นใจ อย่าให้สิ่งรอบข้างมาเบี่ยงความสนใจ'},{emoji:'🌿',title:'The Hermit — ฤๅษีผู้รอบรู้',text:'เป็นเวลาของการเรียนรู้และพัฒนาตัวเอง ความรู้ที่สะสมจะกลายเป็นอาวุธ',advice:'ลงทุนกับการพัฒนาทักษะ เรียนรู้สิ่งใหม่ ผลจะปรากฏในอนาคตอันใกล้'}],money:[{emoji:'💰',title:'Ace of Pentacles — เหรียญแห่งโชคลาภ',text:'โอกาสทางการเงินกำลังเปิดออก อาจมีรายได้ใหม่หรือโอกาสลงทุนที่ดีเข้ามา',advice:'ตรวจสอบโอกาสด้วยสติ ศึกษาให้ถ่องแท้ก่อนตัดสินใจ'},{emoji:'🌊',title:'The Wheel — วงล้อแห่งชะตา',text:'การเงินอยู่ในช่วงเปลี่ยนแปลง มีทั้งขึ้นและลง แต่แนวโน้มโดยรวมดีขึ้น',advice:'สำรองเงินไว้บ้าง แต่อย่ากลัวจนเกินไป โอกาสที่ดีกำลังใกล้เข้ามา'},{emoji:'✨',title:'The Sun — ดวงอาทิตย์แห่งความรุ่งโรจน์',text:'การเงินสว่างไสว รายได้มั่นคง อาจมีโบนัสหรือรายได้พิเศษเข้ามา',advice:'ใช้ช่วงเวลาดีนี้วางรากฐานทางการเงินระยะยาว ออมและลงทุนอย่างชาญฉลาด'}],health:[{emoji:'🌸',title:'Temperance — ความสมดุลแห่งชีวิต',text:'ร่างกายและจิตใจต้องการความสมดุล ดูแลตัวเองทั้งสองด้านให้ดี',advice:'นอนหลับพักผ่อนให้เพียงพอ รับประทานอาหารดี หาเวลาผ่อนคลาย'},{emoji:'💪',title:'Strength — พลังแห่งจิตใจ',text:'มีพลังและความแข็งแกร่งมากกว่าที่คิด สุขภาพกายดี แต่ต้องดูแลสุขภาพจิตด้วย',advice:'ออกกำลังกายสม่ำเสมอ หาวิธีจัดการความเครียดที่เหมาะกับตัวเอง'},{emoji:'🌿',title:'The World — โลกแห่งความสมบูรณ์',text:'สุขภาพโดยรวมอยู่ในเกณฑ์ดี ร่างกายกำลังฟื้นฟูและแข็งแรงขึ้น',advice:'รักษาสมดุลชีวิต อย่าทำงานหักโหมเกินไป จิตใจผ่อนคลายสร้างสุขภาพดี'}]};
 function getTarotIndex(dob,topic){const today=new Date();const seed=dob+topic+today.toISOString().slice(0,10);let h=0;for(let c of seed)h=((h<<5)-h)+c.charCodeAt(0);return Math.abs(h)%3;}
 function drawTarot(){
@@ -1757,7 +1827,7 @@ const energyCeremonyProphecies = [
 ];
 
 function startEnergyCeremony() {
-  const dob = document.getElementById('energy-dob').value;
+  const dob = getDobValue('energy-dob');
   if (!dob) { alert('กรุณากรอกวันเกิดก่อนนะคะ'); return; }
   if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('energy'); return; }
 
@@ -1905,8 +1975,8 @@ function showEnergyFinalResult() {
 
 function resetEnergy() {
   energyCeremonyData = {}; energyWaterProgress = 0;
-  const dob = document.getElementById('energy-dob');
-  if (dob) dob.value = '';
+  const dob = null;
+  clearDob('energy-dob');
   const icon = document.getElementById('energy-incense-icon');
   if (icon) { icon.dataset.lit = ''; icon.style.animation = ''; }
   const smoke = document.getElementById('energy-smoke');
@@ -1959,7 +2029,7 @@ function calcEnergyNumbers(dob) {
 }
 
 function startEnergyAnalysis() {
-  const dob = document.getElementById('energy-dob').value;
+  const dob = getDobValue('energy-dob');
   if (!dob) { alert('กรุณากรอกวันเกิดก่อนนะคะ'); return; }
   if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('energy'); return; }
 
@@ -2056,7 +2126,7 @@ function showEnergyResult(dob) {
 function resetEnergy() {
   document.getElementById('energy-step3').style.display = 'none';
   document.getElementById('energy-step1').style.display = 'block';
-  document.getElementById('energy-dob').value = '';
+  clearDob('energy-dob');
   window.scrollTo(0, 0);
   showCreditsBar('energy');
 }
@@ -2096,8 +2166,8 @@ let dayScore = 0;
 let khanStrokes = 0;
 
 function soulmateNextToEnergy() {
-  const dob1 = document.getElementById('soulmate-dob1').value;
-  const dob2 = document.getElementById('soulmate-dob2').value;
+  const dob1 = getDobValue('soulmate-dob1');
+  const dob2 = getDobValue('soulmate-dob2');
   if (!dob1 || !dob2) { alert('กรุณากรอกวันเกิดทั้งสองคนก่อนนะคะ'); return; }
   if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('soulmate'); return; }
   soulmateState.dob1 = dob1; soulmateState.dob2 = dob2;
@@ -2528,8 +2598,8 @@ function checkAndDrawSoulmate() {
 }
 
 function drawSoulmate() {
-  const dob1 = document.getElementById('soulmate-dob1').value;
-  const dob2 = document.getElementById('soulmate-dob2').value;
+  const dob1 = getDobValue('soulmate-dob1');
+  const dob2 = getDobValue('soulmate-dob2');
   if (!dob1 || !dob2) { alert('กรุณากรอกวันเกิดทั้งสองคนก่อนนะคะ'); return; }
   document.getElementById('soulmate-result').classList.remove('show');
   document.getElementById('soulmate-loading').classList.add('show');
@@ -2550,8 +2620,8 @@ function drawSoulmate() {
 }
 
 function resetSoulmate() {
-  document.getElementById('soulmate-dob1').value = '';
-  document.getElementById('soulmate-dob2').value = '';
+  clearDob('soulmate-dob1');
+  clearDob('soulmate-dob2');
   soulmateState = { dob1:'', dob2:'', science:'', relationEnergy:'', questionAnswers:[], candle:'', dayNight:'', candleLabel:'' };
   showSoulmateStep('soulmate-step0');
   showCreditsBar('soulmate');
@@ -2577,7 +2647,7 @@ function siamBackToTemple() {
 }
 
 function siamNext() {
-  const dob = document.getElementById('siam-dob').value;
+  const dob = getDobValue('siam-dob');
   if (!dob) { alert('กรุณากรอกวันเกิดก่อนนะคะ'); return; }
   if (userState.plan === 'free' || userState.credits <= 0) {
     showPaymentPrompt('siam'); return;
@@ -2909,6 +2979,8 @@ loadState();
 window.addEventListener('hashchange', handleHash);
 
 window.addEventListener('load', () => {
+  // Init Thai date pickers
+  initDobSelects();
   // Handle URL hash
   handleHash();
   // Handle ?dev=true param
