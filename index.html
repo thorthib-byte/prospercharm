@@ -2911,8 +2911,17 @@ window.addEventListener('hashchange', handleHash);
 window.addEventListener('load', () => {
   // Handle URL hash
   handleHash();
-  // Handle ?go= param
+  // Handle ?dev=true param
   const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('dev') === 'true') {
+    userState.plan = 'unlimited';
+    userState.credits = 999;
+    userState.planExpiry = null;
+    saveState();
+    updateStatusBar();
+    showToast('🛠️ Dev Mode เปิดแล้ว — ใช้งานได้ไม่จำกัด');
+  }
+  // Handle ?go= param
   const goTo_param = urlParams.get('go');
   if (goTo_param) {
     if (goTo_param === 'siam') goTo('page-siam');
