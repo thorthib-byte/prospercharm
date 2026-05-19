@@ -385,8 +385,14 @@
 
   <!-- TAROT -->
   <div class="page" id="page-tarot">
-    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">🃏 ไพ่ทาโรต์แห่งชะตา</div></div>
-    <div class="credits-bar" id="tarot-credits-bar"><span class="credits-bar-text">เครดิตคงเหลือ</span><span class="credits-bar-num" id="tarot-credits-num"></span></div>
+    <div class="inner-header">
+      <button class="back-btn" onclick="goTo('page-home')">←</button>
+      <div class="inner-title">🃏 ไพ่ทาโรต์แห่งชะตา</div>
+      <div class="inner-header-credits" id="tarot-credits-bar" style="display:none;">
+        <span class="inner-header-credits-text">เครดิตคงเหลือ</span>
+        <span class="inner-header-credits-num" id="tarot-credits-num"></span>
+      </div>
+    </div>
 
     <!-- STEP 0: เลือกหัวข้อ -->
     <div id="tarot-step0" style="padding:24px 20px;">
@@ -472,8 +478,14 @@
 
   <!-- ENERGY -->
   <div class="page" id="page-energy">
-    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">🐉 พิธีพ่อปู่ศรีสุทโธ</div></div>
-    <div class="credits-bar" id="energy-credits-bar"><span class="credits-bar-text">เครดิตคงเหลือ</span><span class="credits-bar-num" id="energy-credits-num"></span></div>
+    <div class="inner-header">
+      <button class="back-btn" onclick="goTo('page-home')">←</button>
+      <div class="inner-title">🐉 พิธีพ่อปู่ศรีสุทโธ</div>
+      <div class="inner-header-credits" id="energy-credits-bar" style="display:none;">
+        <span class="inner-header-credits-text">เครดิตคงเหลือ</span>
+        <span class="inner-header-credits-num" id="energy-credits-num"></span>
+      </div>
+    </div>
 
     <!-- STEP 0: Welcome Video -->
     <div id="energy-step0" style="display:none; position:fixed; inset:0; width:100%; height:100%; background:#000; z-index:50; overflow:hidden;">
@@ -670,8 +682,14 @@
 
   <!-- SOULMATE -->  <!-- SOULMATE -->
   <div class="page" id="page-soulmate">
-    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">💑 ดูดวงสมพงศ์</div></div>
-    <div class="credits-bar" id="soulmate-credits-bar"><span class="credits-bar-text">เครดิตคงเหลือ</span><span class="credits-bar-num" id="soulmate-credits-num"></span></div>
+    <div class="inner-header">
+      <button class="back-btn" onclick="goTo('page-home')">←</button>
+      <div class="inner-title">💑 ดูดวงสมพงศ์</div>
+      <div class="inner-header-credits" id="soulmate-credits-bar" style="display:none;">
+        <span class="inner-header-credits-text">เครดิตคงเหลือ</span>
+        <span class="inner-header-credits-num" id="soulmate-credits-num"></span>
+      </div>
+    </div>
 
     <!-- STEP 0: เลือกศาสตร์ -->
     <div id="soulmate-step0" style="padding:24px 20px;">
@@ -1007,22 +1025,27 @@ function saveState(){localStorage.setItem('pc_state',JSON.stringify(userState));
 function updateStatusBar(){const icons={free:'🌙',single:'💫',basic:'🌙',pro:'⭐',unlimited:'👑'};const names={free:'ยังไม่ได้สมัคร',single:'รายครั้ง',basic:'Basic',pro:'Pro',unlimited:'Unlimited'};document.getElementById('plan-icon').textContent=icons[userState.plan];document.getElementById('plan-name').textContent=names[userState.plan];document.getElementById('credits-display').textContent=userState.plan!=='free'?(userState.credits>=999?'ไม่จำกัด':userState.credits+' ครั้ง'):'';}
 function goTo(pageId){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(pageId).classList.add('active');window.scrollTo(0,0);const type=pageId.replace('page-','');if(['siam','tarot','energy','soulmate'].includes(type))showCreditsBar(type);}
 function showCreditsBar(type){
-  if (type === 'siam') {
-    const bar = document.getElementById('siam-credits-bar');
-    const num = document.getElementById('siam-credits-num');
-    const shakeNum = document.getElementById('siam-shake-credits-num');
-    const shakeBox = document.getElementById('siam-shake-credits');
-    const creditsVal = userState.credits >= 999 ? '∞' : userState.credits;
-    if (userState.plan !== 'free') {
-      if (bar) { bar.style.display = 'flex'; if (num) num.textContent = creditsVal; }
-      if (shakeBox) { shakeBox.style.display = 'flex'; if (shakeNum) shakeNum.textContent = creditsVal; }
-    } else {
-      if (bar) bar.style.display = 'none';
+  const bar = document.getElementById(type+'-credits-bar');
+  const num = document.getElementById(type+'-credits-num');
+  if (!bar) return;
+  const creditsVal = userState.credits >= 999 ? '∞' : userState.credits;
+  if (userState.plan !== 'free') {
+    bar.style.display = 'flex';
+    if (num) num.textContent = creditsVal;
+    // อัปเดต credits ใน fullscreen header ของ siam ด้วย
+    if (type === 'siam') {
+      const shakeNum = document.getElementById('siam-shake-credits-num');
+      const shakeBox = document.getElementById('siam-shake-credits');
+      if (shakeBox) shakeBox.style.display = 'flex';
+      if (shakeNum) shakeNum.textContent = creditsVal;
+    }
+  } else {
+    bar.style.display = 'none';
+    if (type === 'siam') {
+      const shakeBox = document.getElementById('siam-shake-credits');
       if (shakeBox) shakeBox.style.display = 'none';
     }
-    return;
   }
-  const bar=document.getElementById(type+'-credits-bar');const num=document.getElementById(type+'-credits-num');if(bar && userState.plan!=='free'){bar.classList.add('show');if(num) num.textContent=userState.credits>=999?'∞':userState.credits;}else if(bar){bar.classList.remove('show');}
 }
 function checkAndDraw(type){if(userState.plan==='free'||userState.credits<=0){showPaymentPrompt(type);return;}if(type==='siam')drawSiam();else if(type==='tarot')drawTarot();}
 function showPaymentPrompt(type){openPayment('single',29,1);showToast('กรุณาชำระเงินก่อนใช้บริการค่ะ 🙏');}
@@ -1825,15 +1848,14 @@ function energyNextStep(step) {
   // Hide step0
   const step0 = document.getElementById('energy-step0');
   if (step0) step0.style.display = 'none';
-  // Restore header for step1, hide for step2 (fullscreen bucha)
   const header = document.querySelector('#page-energy .inner-header');
   const credits = document.getElementById('energy-credits-bar');
   if (step === 1) {
     if (header) header.style.display = 'flex';
-    if (credits && userState.plan !== 'free') credits.classList.add('show');
+    if (credits && userState.plan !== 'free') credits.style.display = 'flex';
   } else if (step === 2) {
     if (header) header.style.display = 'none';
-    if (credits) credits.classList.remove('show');
+    if (credits) credits.style.display = 'none';
   } else {
     if (header) header.style.display = 'flex';
   }
