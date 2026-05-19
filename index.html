@@ -37,6 +37,10 @@
 
   /* INNER HEADER */
   .inner-header { background:var(--white); padding:14px 20px; display:flex; align-items:center; gap:12px; border-bottom:1px solid rgba(180,160,130,0.25); }
+  .inner-header-credits { margin-left:auto; display:flex; align-items:center; gap:6px; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.3); border-radius:20px; padding:4px 12px; }
+  .inner-header-credits-text { font-size:11px; color:var(--text-mid); }
+  .inner-header-credits-num { font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:700; color:var(--gold); }
+  .shake-dot { font-size:22px; opacity:0.25; transition:opacity 0.3s ease, transform 0.2s ease; display:inline-block; }
   .back-btn { background:none; border:1px solid rgba(180,160,130,0.4); color:var(--brown); width:34px; height:34px; border-radius:50%; cursor:pointer; font-size:16px; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
   .inner-title { font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:600; color:var(--brown-dark); }
 
@@ -286,8 +290,14 @@
 
   <!-- SIAM SI -->
   <div class="page" id="page-siam">
-    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title">🎋 เซียมซีจากวัดดังฮ่องกง</div></div>
-    <div class="credits-bar" id="siam-credits-bar"><span class="credits-bar-text">เครดิตคงเหลือ</span><span class="credits-bar-num" id="siam-credits-num"></span></div>
+    <div class="inner-header">
+      <button class="back-btn" onclick="goTo('page-home')">←</button>
+      <div class="inner-title" id="siam-header-title">🎋 เขย่าเซียมซี</div>
+      <div class="inner-header-credits" id="siam-credits-bar" style="display:none;">
+        <span class="inner-header-credits-text">เครดิตคงเหลือ</span>
+        <span class="inner-header-credits-num" id="siam-credits-num">∞</span>
+      </div>
+    </div>
 
     <!-- STEP 0: เลือกวัด -->
     <div id="siam-step0" style="padding:24px 20px;">
@@ -322,22 +332,50 @@
     </div>
 
     <!-- STEP 2: เขย่า -->
-    <div id="siam-step2" style="display:none; min-height:calc(100vh - 120px); background:var(--cream); position:relative; overflow:hidden;">
-      <!-- ข้อความกลางจอ -->
-      <div style="text-align:center; padding:40px 24px 24px;">
-        <div style="font-family:'Noto Serif Thai',serif; font-size:20px; font-weight:600; color:var(--brown-dark); margin-bottom:10px;">ตั้งจิตอธิษฐาน แล้วเขย่ามือถือ</div>
-        <div style="font-size:14px; color:var(--text-mid); margin-bottom:28px;">เขย่า 5 ครั้ง คำทำนายจะปรากฏ</div>
-        <div style="display:flex; justify-content:space-between; margin-bottom:8px; max-width:320px; margin-left:auto; margin-right:auto;">
-          <span style="font-size:13px; color:var(--text-mid);">จำนวนครั้งที่เขย่า</span>
-          <span style="font-size:13px; color:var(--gold); font-weight:700;" id="shake-count">0 / 5</span>
+    <div id="siam-step2" style="display:none; position:fixed; inset:0; z-index:50; overflow:hidden; background:#f5ede0;">
+      <!-- ฉากหลัง -->
+      <img id="siam-wall-img" src="images/siam/wallsiamsithai.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top; z-index:0;">
+
+      <!-- header ทับ -->
+      <div style="position:absolute; top:0; left:0; right:0; z-index:10; background:rgba(255,252,245,0.92); border-bottom:1px solid rgba(180,140,60,0.2); padding:14px 20px; display:flex; align-items:center; gap:12px; padding-top:calc(14px + env(safe-area-inset-top,0px));">
+        <button class="back-btn" onclick="siamBack()" style="background:rgba(255,248,235,0.9); border:1px solid rgba(180,140,60,0.3);">←</button>
+        <div id="siam-shake-header-title" style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark);">🎋 เขย่าเซียมซีวัดไทย</div>
+        <div id="siam-shake-credits" style="margin-left:auto; display:flex; align-items:center; gap:6px; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.35); border-radius:20px; padding:4px 12px;">
+          <span style="font-size:11px; color:var(--text-mid);">เครดิตคงเหลือ</span>
+          <span style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:700; color:var(--gold);" id="siam-shake-credits-num">∞</span>
         </div>
-        <div style="background:var(--cream-dark); border-radius:20px; height:7px; overflow:hidden; max-width:320px; margin:0 auto 16px;">
-          <div id="shake-bar" style="background:var(--gold); height:100%; width:0%; border-radius:20px; transition:width 0.3s ease;"></div>
-        </div>
-        <div style="font-size:13px; color:var(--text-light);" id="shake-hint">📱 เขย่ามือถือได้เลยค่ะ</div>
       </div>
-      <!-- รูปเต็มความกว้าง -->
-      <img src="images/siam/shakesiemsi.png" id="siam-shake-img" style="width:100%; display:block; transition:transform 0.1s ease;">
+
+      <!-- กล่องข้อความด้านบน -->
+      <div style="position:absolute; top:calc(72px + env(safe-area-inset-top,0px)); left:0; right:0; text-align:center; padding:20px 28px 0; z-index:2;">
+        <div style="display:inline-block; background:rgba(255,248,235,0.88); border:1.5px solid rgba(180,140,60,0.3); border-radius:16px; padding:16px 24px; box-shadow:0 4px 20px rgba(120,80,20,0.1);">
+          <div style="font-family:'Noto Serif Thai',serif; font-size:22px; font-weight:700; color:var(--brown-dark); line-height:1.45;">ตั้งจิตอธิษฐาน<br>แล้วเขย่ามือถือ</div>
+          <div style="font-size:13px; color:var(--gold); font-weight:600; margin-top:8px;">✦ เขย่า 5 ครั้ง คำทำนายจะปรากฏ ✦</div>
+        </div>
+      </div>
+
+      <!-- รูปมือถือกระบอก -->
+      <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-52%); width:86%; max-width:340px; z-index:2;">
+        <img id="siam-shake-img" src="images/siam/siemsithai14.png" style="width:100%; display:block; transition:transform 0.12s ease; filter:drop-shadow(0 10px 28px rgba(80,40,0,0.2));">
+      </div>
+
+      <!-- กล่อง progress ด้านล่าง -->
+      <div style="position:absolute; bottom:0; left:0; right:0; z-index:10; padding:0 16px calc(20px + env(safe-area-inset-bottom,0px));">
+        <div style="background:rgba(255,248,235,0.95); border:1.5px solid rgba(180,140,60,0.3); border-radius:20px; padding:14px 20px 16px; box-shadow:0 -2px 20px rgba(120,80,20,0.08);">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+            <span style="font-size:13px; color:var(--text-mid);">จำนวนครั้งที่เขย่า</span>
+            <span style="font-size:14px; color:var(--gold); font-weight:700;" id="shake-count">0 / 5</span>
+          </div>
+          <div style="display:flex; justify-content:center; gap:14px; margin-bottom:12px;">
+            <span class="shake-dot" id="shake-dot-1">🌸</span>
+            <span class="shake-dot" id="shake-dot-2">🌸</span>
+            <span class="shake-dot" id="shake-dot-3">🌸</span>
+            <span class="shake-dot" id="shake-dot-4">🌸</span>
+            <span class="shake-dot" id="shake-dot-5">🌸</span>
+          </div>
+          <div style="text-align:center; font-size:13px; color:var(--text-mid);" id="shake-hint">📱 เขย่ามือถือได้เลยค่ะ</div>
+        </div>
+      </div>
     </div>
 
     <div class="lock-wall" id="siam-lock">
@@ -980,7 +1018,24 @@ function loadState(){try{const s=localStorage.getItem('pc_state');if(s){userStat
 function saveState(){localStorage.setItem('pc_state',JSON.stringify(userState));}
 function updateStatusBar(){const icons={free:'🌙',single:'💫',basic:'🌙',pro:'⭐',unlimited:'👑'};const names={free:'ยังไม่ได้สมัคร',single:'รายครั้ง',basic:'Basic',pro:'Pro',unlimited:'Unlimited'};document.getElementById('plan-icon').textContent=icons[userState.plan];document.getElementById('plan-name').textContent=names[userState.plan];document.getElementById('credits-display').textContent=userState.plan!=='free'?(userState.credits>=999?'ไม่จำกัด':userState.credits+' ครั้ง'):'';}
 function goTo(pageId){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(pageId).classList.add('active');window.scrollTo(0,0);const type=pageId.replace('page-','');if(['siam','tarot','energy','soulmate'].includes(type))showCreditsBar(type);}
-function showCreditsBar(type){const bar=document.getElementById(type+'-credits-bar');const num=document.getElementById(type+'-credits-num');if(bar && userState.plan!=='free'){bar.classList.add('show');if(num) num.textContent=userState.credits>=999?'∞':userState.credits;}else if(bar){bar.classList.remove('show');}}
+function showCreditsBar(type){
+  if (type === 'siam') {
+    const bar = document.getElementById('siam-credits-bar');
+    const num = document.getElementById('siam-credits-num');
+    const shakeNum = document.getElementById('siam-shake-credits-num');
+    const shakeBox = document.getElementById('siam-shake-credits');
+    const creditsVal = userState.credits >= 999 ? '∞' : userState.credits;
+    if (userState.plan !== 'free') {
+      if (bar) { bar.style.display = 'flex'; if (num) num.textContent = creditsVal; }
+      if (shakeBox) { shakeBox.style.display = 'flex'; if (shakeNum) shakeNum.textContent = creditsVal; }
+    } else {
+      if (bar) bar.style.display = 'none';
+      if (shakeBox) shakeBox.style.display = 'none';
+    }
+    return;
+  }
+  const bar=document.getElementById(type+'-credits-bar');const num=document.getElementById(type+'-credits-num');if(bar && userState.plan!=='free'){bar.classList.add('show');if(num) num.textContent=userState.credits>=999?'∞':userState.credits;}else if(bar){bar.classList.remove('show');}
+}
 function checkAndDraw(type){if(userState.plan==='free'||userState.credits<=0){showPaymentPrompt(type);return;}if(type==='siam')drawSiam();else if(type==='tarot')drawTarot();}
 function showPaymentPrompt(type){openPayment('single',29,1);showToast('กรุณาชำระเงินก่อนใช้บริการค่ะ 🙏');}
 function useCredit(){if(userState.credits<999){userState.credits--;saveState();updateStatusBar();}}
@@ -2639,6 +2694,9 @@ function selectTemple(temple) {
   document.getElementById('siam-step1').style.display = 'block';
   const label = temple === 'chinese' ? '🏮 วัดจีน — ฮ่องกง มาเก๊า' : '🛕 วัดไทย — สายมูไทย';
   document.getElementById('siam-temple-label').textContent = label;
+  // อัปเดต header title
+  const headerTitle = temple === 'chinese' ? '🏮 เขย่าเซียมซีวัดจีน' : '🛕 เขย่าเซียมซีวัดไทย';
+  document.getElementById('siam-header-title').textContent = headerTitle;
 }
 
 function siamBackToTemple() {
@@ -2654,9 +2712,12 @@ function siamNext() {
   }
   document.getElementById('siam-step1').style.display = 'none';
   document.getElementById('siam-step2').style.display = 'block';
-  // เปลี่ยนรูปตามวัดที่เลือก
-  const img = document.getElementById('siam-shake-img');
-  img.src = selectedTemple === 'chinese' ? 'images/siam/shakesiemsi.png' : 'images/siam/siemsithai14.png';
+  // เปลี่ยนรูปและฉากหลังตามวัดที่เลือก
+  document.getElementById('siam-shake-img').src = selectedTemple === 'chinese' ? 'images/siam/shakesiemsi.png' : 'images/siam/siemsithai14.png';
+  document.getElementById('siam-wall-img').src = selectedTemple === 'chinese' ? 'images/siam/wallsiamsichinese.png' : 'images/siam/wallsiamsithai.png';
+  document.getElementById('siam-shake-header-title').textContent = selectedTemple === 'chinese' ? '🏮 เขย่าเซียมซีวัดจีน' : '🛕 เขย่าเซียมซีวัดไทย';
+  // อัปเดต credits ใน fullscreen header
+  showCreditsBar('siam');
   shakeCount = 0;
   updateShakeUI();
   startShakeDetection();
@@ -2730,7 +2791,10 @@ function onShake() {
 
 function updateShakeUI() {
   document.getElementById('shake-count').textContent = shakeCount + ' / 5';
-  document.getElementById('shake-bar').style.width = (shakeCount * 20) + '%';
+  for (let i = 1; i <= 5; i++) {
+    const dot = document.getElementById('shake-dot-' + i);
+    if (dot) { dot.style.opacity = i <= shakeCount ? '1' : '0.25'; dot.style.transform = i === shakeCount ? 'scale(1.3)' : 'scale(1)'; }
+  }
   const hints = ['📱 เขย่ามือถือได้เลยค่ะ','✨ ดีมาก! เขย่าต่อเลยค่ะ','🎋 กำลังดี! อีกนิดเดียว','🌟 เกือบถึงแล้วค่ะ','💫 อีกครั้งเดียว!',''];
   document.getElementById('shake-hint').textContent = hints[shakeCount] || '';
 }
