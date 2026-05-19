@@ -336,20 +336,8 @@
       <!-- ฉากหลัง -->
       <img id="siam-wall-img" src="images/siam/wallsiamsithai.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:top; z-index:0;">
 
-      <!-- header ทับ -->
-      <div style="position:absolute; top:0; left:0; right:0; z-index:10; background:rgba(255,252,245,0.92); border-bottom:1px solid rgba(180,140,60,0.2); padding:14px 20px; display:flex; align-items:center; gap:12px; padding-top:calc(14px + env(safe-area-inset-top,0px));">
-        <button class="back-btn" onclick="siamBack()" style="background:rgba(255,248,235,0.9); border:1px solid rgba(180,140,60,0.3);">←</button>
-        <div id="siam-shake-header-title" style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark);">🎋 เขย่าเซียมซีวัดไทย</div>
-        <div id="siam-shake-credits" style="margin-left:auto; display:flex; align-items:center; gap:6px; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.35); border-radius:20px; padding:4px 12px;">
-          <span style="font-size:11px; color:var(--text-mid);">เครดิตคงเหลือ</span>
-          <span style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:700; color:var(--gold);" id="siam-shake-credits-num">∞</span>
-        </div>
-      </div>
-
-      <!-- กล่องข้อความด้านบน ถูกลบออก ข้อความฝังใน wallpaper แทน -->
-
       <!-- รูปมือถือกระบอก — เต็มจอ -->
-      <div style="position:absolute; top:calc(60px + env(safe-area-inset-top,0px)); left:0; right:0; bottom:0; z-index:2; display:flex; align-items:center; justify-content:center;">
+      <div style="position:absolute; top:0; left:0; right:0; bottom:0; z-index:2; display:flex; align-items:center; justify-content:center;">
         <img id="siam-shake-img" src="images/siam/siemsithai14.png" style="width:100%; height:100%; object-fit:contain; object-position:center bottom; display:block; transition:transform 0.12s ease;">
       </div>
 
@@ -2743,7 +2731,6 @@ function siamNext() {
   // เปลี่ยนรูปและฉากหลังตามวัดที่เลือก
   document.getElementById('siam-shake-img').src = selectedTemple === 'chinese' ? 'images/siam/shakesiemsi.png' : 'images/siam/siemsithai14.png';
   document.getElementById('siam-wall-img').src = selectedTemple === 'chinese' ? 'images/siam/wallsiamsichinese.png' : 'images/siam/wallsiamsithai.png';
-  document.getElementById('siam-shake-header-title').textContent = selectedTemple === 'chinese' ? '🏮 เขย่าเซียมซีวัดจีน' : '🛕 เขย่าเซียมซีวัดไทย';
   // อัปเดต credits ใน fullscreen header
   showCreditsBar('siam');
   shakeCount = 0;
