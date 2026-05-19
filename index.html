@@ -1048,6 +1048,15 @@ function showCreditsBar(type){
   }
 }
 function checkAndDraw(type){if(userState.plan==='free'||userState.credits<=0){showPaymentPrompt(type);return;}if(type==='siam')drawSiam();else if(type==='tarot')drawTarot();}
+
+function hidePageHeader(pageId) {
+  const h = document.querySelector('#' + pageId + ' .inner-header');
+  if (h) h.style.display = 'none';
+}
+function showPageHeader(pageId) {
+  const h = document.querySelector('#' + pageId + ' .inner-header');
+  if (h) h.style.display = 'flex';
+}
 function showPaymentPrompt(type){openPayment('single',29,1);showToast('กรุณาชำระเงินก่อนใช้บริการค่ะ 🙏');}
 function useCredit(){if(userState.credits<999){userState.credits--;saveState();updateStatusBar();}}
 function resetPage(type){document.getElementById(type+'-result').classList.remove('show');document.getElementById(type+'-lock').classList.remove('show');if(type==='tarot'){selectedTopic=null;document.querySelectorAll('.topic-btn').forEach(b=>b.classList.remove('selected'));document.getElementById('tarot-btn').disabled=true;}showCreditsBar(type);}
@@ -1466,6 +1475,7 @@ function tarotNextToQuestion() {
   if (!dob) { alert('กรุณากรอกวันเกิดก่อนนะคะ'); return; }
   document.getElementById('tarot-step1').style.display = 'none';
   document.getElementById('tarot-step2').style.display = 'block';
+  hidePageHeader('page-tarot');
   renderQuestions();
 }
 
@@ -1553,6 +1563,7 @@ function tarotBackToQuestion() {
 function tarotBackToDob() {
   document.getElementById('tarot-step2').style.display = 'none';
   document.getElementById('tarot-step1').style.display = 'block';
+  showPageHeader('page-tarot');
 }
 
 function selectTarotTopic(topic) {
@@ -1567,6 +1578,7 @@ function tarotBackToTopic() {
   document.getElementById('tarot-step1').style.display = 'none';
   document.getElementById('tarot-step0').style.display = 'block';
   selectedTopic = null;
+  showPageHeader('page-tarot');
 }
 
 function resetTarot() {
@@ -1578,6 +1590,7 @@ function resetTarot() {
   selectedTopic = null;
   selectedQuestion = '';
   pickedCards = [];
+  showPageHeader('page-tarot');
   showCreditsBar('tarot');
 }
 const siamData={1:{title:"ซีกมงคลที่หนึ่ง — มังกรทองพุ่งฟ้า",text:"ดวงชะตากำลังพุ่งสูงดั่งมังกรทอง สิ่งที่หวังจะสำเร็จได้ไม่ยาก โชคลาภกำลังเข้ามา",advice:"เหมาะแก่การเริ่มต้นสิ่งใหม่ ลงมือทำได้เลย ผลจะดีกว่าที่คาด"},2:{title:"ซีกมงคลที่สอง — ดอกบัวบานในบึง",text:"แม้อยู่ในสถานการณ์ท้าทาย แต่จะผ่านพ้นไปได้อย่างงดงาม",advice:"อย่าหยุดนิ่งแม้อุปสรรคจะมากมาย ความพยายามจะส่งผลในระยะยาว"},3:{title:"ซีกมงคลที่สาม — ดาวสามดวงส่องสว่าง",text:"มีผู้คนคอยช่วยเหลือสนับสนุนอยู่เสมอ มิตรภาพเป็นพลังสำคัญ",advice:"เปิดใจรับความช่วยเหลือ อย่าลืมตอบแทนน้ำใจด้วยความจริงใจ"},4:{title:"ซีกมงคลที่สี่ — ลมอ่อนพัดใบไม้",text:"เป็นเวลาแห่งการพักผ่อนสะสมพลัง ไม่จำเป็นต้องเร่งรีบ",advice:"ทบทวนตัวเอง วางแผนให้รอบคอบก่อนลงมือ ผลจะดีกว่าการรีบร้อน"},5:{title:"ซีกมงคลที่ห้า — เมฆหมอกกลายเป็นรุ้ง",text:"หลังช่วงยากลำบาก แสงสว่างกำลังจะมาถึง สิ่งที่รอคอยใกล้จะเป็นจริง",advice:"อดทนอีกเพียงเล็กน้อย ความสำเร็จอยู่แค่เอื้อม อย่าถอดใจ"},6:{title:"ซีกมงคลที่หก — น้ำใสไหลรินไม่หยุด",text:"โชคลาภและรายได้จะไหลเข้ามาอย่างต่อเนื่อง การงานราบรื่น",advice:"ช่วงดีสำหรับลงทุนหรือเริ่มโครงการใหม่ บริหารจัดการให้รอบคอบ"},7:{title:"ซีกมงคลที่เจ็ด — เจ็ดดาวมงคลนำทาง",text:"สติปัญญาและการตัดสินใจจะคมชัดเป็นพิเศษในช่วงนี้",advice:"เชื่อใจสัญชาตญาณ การตัดสินใจสำคัญในช่วงนี้มักถูกต้อง"},8:{title:"ซีกมงคลที่แปด — แปดทิศแห่งความเจริญ",text:"แปดคือเลขมงคลแห่งความเจริญรุ่งเรือง ดวงส่งสัญญาณแห่งความมั่งคั่ง",advice:"เหมาะแก่การทำธุรกิจ เจรจาต่อรอง โอกาสอยู่ตรงหน้า"},9:{title:"ซีกมงคลที่เก้า — มังกรเก้าองค์คุ้มครอง",text:"ได้รับการคุ้มครองจากสิ่งศักดิ์สิทธิ์ ภัยพิบัติจะเบี่ยงหลีก ชีวิตราบรื่น",advice:"ทำบุญกุศลเพื่อเสริมดวง พลังงานดีๆ จะตอบแทนกลับมาหลายเท่า"},10:{title:"ซีกมงคลที่สิบ — ครบบริบูรณ์",text:"สิบคือความสมบูรณ์ ชีวิตในทุกด้านกำลังเข้าสู่ความสมดุลที่ดี",advice:"ขอบคุณในสิ่งที่มี และแบ่งปันความดีให้ผู้อื่น"}};
@@ -2100,6 +2113,7 @@ function startEnergyAnalysis() {
 
   document.getElementById('energy-step1').style.display = 'none';
   document.getElementById('energy-step2').style.display = 'block';
+  hidePageHeader('page-energy');
   window.scrollTo(0, 0);
   setupEnergyFloats();
 
@@ -2192,6 +2206,7 @@ function resetEnergy() {
   document.getElementById('energy-step3').style.display = 'none';
   document.getElementById('energy-step1').style.display = 'block';
   clearDob('energy-dob');
+  showPageHeader('page-energy');
   window.scrollTo(0, 0);
   showCreditsBar('energy');
 }
@@ -2236,6 +2251,7 @@ function soulmateNextToEnergy() {
   if (!dob1 || !dob2) { alert('กรุณากรอกวันเกิดทั้งสองคนก่อนนะคะ'); return; }
   if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('soulmate'); return; }
   soulmateState.dob1 = dob1; soulmateState.dob2 = dob2;
+  hidePageHeader('page-soulmate');
   showSoulmateStep('soulmate-step2');
 }
 
@@ -2689,6 +2705,7 @@ function resetSoulmate() {
   clearDob('soulmate-dob2');
   soulmateState = { dob1:'', dob2:'', science:'', relationEnergy:'', questionAnswers:[], candle:'', dayNight:'', candleLabel:'' };
   showSoulmateStep('soulmate-step0');
+  showPageHeader('page-soulmate');
   showCreditsBar('soulmate');
 }
 
@@ -2722,6 +2739,7 @@ function siamNext() {
   }
   document.getElementById('siam-step1').style.display = 'none';
   document.getElementById('siam-step2').style.display = 'block';
+  hidePageHeader('page-siam');
   // เปลี่ยนรูปและฉากหลังตามวัดที่เลือก
   document.getElementById('siam-shake-img').src = selectedTemple === 'chinese' ? 'images/siam/shakesiemsi.png' : 'images/siam/siemsithai14.png';
   document.getElementById('siam-wall-img').src = selectedTemple === 'chinese' ? 'images/siam/wallsiamsichinese.png' : 'images/siam/wallsiamsithai.png';
@@ -2736,6 +2754,7 @@ function siamNext() {
 function siamBack() {
   document.getElementById('siam-step2').style.display = 'none';
   document.getElementById('siam-step1').style.display = 'block';
+  showPageHeader('page-siam');
   stopShakeDetection();
   shakeCount = 0;
 }
