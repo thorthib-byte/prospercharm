@@ -354,27 +354,21 @@
         </div>
       </div>
 
-      <!-- รูปมือถือกระบอก -->
-      <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-52%); width:86%; max-width:340px; z-index:2;">
-        <img id="siam-shake-img" src="images/siam/siemsithai14.png" style="width:100%; display:block; transition:transform 0.12s ease; filter:drop-shadow(0 10px 28px rgba(80,40,0,0.2));">
+      <!-- รูปมือถือกระบอก — เต็มจอ -->
+      <div style="position:absolute; top:calc(68px + env(safe-area-inset-top,0px)); left:0; right:0; bottom:0; z-index:2; display:flex; align-items:center; justify-content:center;">
+        <img id="siam-shake-img" src="images/siam/siemsithai14.png" style="width:100%; height:100%; object-fit:contain; object-position:center bottom; display:block; transition:transform 0.12s ease;">
       </div>
 
-      <!-- กล่อง progress ด้านล่าง -->
-      <div style="position:absolute; bottom:0; left:0; right:0; z-index:10; padding:0 16px calc(20px + env(safe-area-inset-bottom,0px));">
-        <div style="background:rgba(255,248,235,0.95); border:1.5px solid rgba(180,140,60,0.3); border-radius:20px; padding:14px 20px 16px; box-shadow:0 -2px 20px rgba(120,80,20,0.08);">
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-            <span style="font-size:13px; color:var(--text-mid);">จำนวนครั้งที่เขย่า</span>
-            <span style="font-size:14px; color:var(--gold); font-weight:700;" id="shake-count">0 / 5</span>
-          </div>
-          <div style="display:flex; justify-content:center; gap:14px; margin-bottom:12px;">
-            <span class="shake-dot" id="shake-dot-1">🌸</span>
-            <span class="shake-dot" id="shake-dot-2">🌸</span>
-            <span class="shake-dot" id="shake-dot-3">🌸</span>
-            <span class="shake-dot" id="shake-dot-4">🌸</span>
-            <span class="shake-dot" id="shake-dot-5">🌸</span>
-          </div>
-          <div style="text-align:center; font-size:13px; color:var(--text-mid);" id="shake-hint">📱 เขย่ามือถือได้เลยค่ะ</div>
+      <!-- dots + hint ลอยด้านล่าง -->
+      <div style="position:absolute; bottom:calc(24px + env(safe-area-inset-bottom,0px)); left:0; right:0; z-index:10; text-align:center;">
+        <div style="display:flex; justify-content:center; gap:14px; margin-bottom:6px;">
+          <span class="shake-dot" id="shake-dot-1">🌸</span>
+          <span class="shake-dot" id="shake-dot-2">🌸</span>
+          <span class="shake-dot" id="shake-dot-3">🌸</span>
+          <span class="shake-dot" id="shake-dot-4">🌸</span>
+          <span class="shake-dot" id="shake-dot-5">🌸</span>
         </div>
+        <div style="font-size:13px; color:rgba(80,50,10,0.75); text-shadow:0 1px 4px rgba(255,245,220,0.9);" id="shake-hint">📱 เขย่ามือถือได้เลยค่ะ</div>
       </div>
     </div>
 
@@ -2790,7 +2784,6 @@ function onShake() {
 }
 
 function updateShakeUI() {
-  document.getElementById('shake-count').textContent = shakeCount + ' / 5';
   for (let i = 1; i <= 5; i++) {
     const dot = document.getElementById('shake-dot-' + i);
     if (dot) { dot.style.opacity = i <= shakeCount ? '1' : '0.25'; dot.style.transform = i === shakeCount ? 'scale(1.3)' : 'scale(1)'; }
