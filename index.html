@@ -2158,6 +2158,21 @@ function resetEnergyFull() {
   if (loadingText) loadingText.style.display = 'block';
   const offeringBtn = document.querySelector('#energy-step2b button');
   if (offeringBtn) offeringBtn.style.display = '';
+  // reset step4 ขันน้ำมนต์
+  const reveal2 = document.getElementById('energy-reveal2');
+  if (reveal2) reveal2.style.display = 'none';
+  const num2area = document.getElementById('energy-num2-area');
+  if (num2area) num2area.innerHTML = '';
+  const waterText = document.getElementById('energy-water-text');
+  if (waterText) waterText.textContent = 'วนนิ้วเพื่อเปิดเผย';
+  const waterCanvas = document.getElementById('energy-water-canvas');
+  if (waterCanvas) { waterCanvas.dataset.init = ''; waterCanvas.dataset.spinning = ''; const ctx = waterCanvas.getContext('2d'); if(ctx) ctx.clearRect(0,0,240,240); }
+  // reset step5 ผนึกนาค
+  document.querySelectorAll('.naga-seal').forEach(s => { s.textContent = '🔮'; s.style.border = '2px solid rgba(212,175,55,0.4)'; s.style.background = 'radial-gradient(circle,#1a0a4e,#0a1628)'; });
+  const prophecyBox = document.getElementById('energy-prophecy-box');
+  if (prophecyBox) prophecyBox.style.display = 'none';
+  const prophecyText = document.getElementById('energy-prophecy-text');
+  if (prophecyText) prophecyText.textContent = '';
 }
 
 function resetEnergy() {
@@ -2348,6 +2363,21 @@ function resetEnergy() {
   if (nextBtn) nextBtn.style.display = 'none';
   const track = document.getElementById('energy-incense-bar-track');
   if (track) delete track.dataset.init;
+  // reset step4 ขันน้ำมนต์
+  const reveal2 = document.getElementById('energy-reveal2');
+  if (reveal2) reveal2.style.display = 'none';
+  const num2area = document.getElementById('energy-num2-area');
+  if (num2area) num2area.innerHTML = '';
+  const waterText = document.getElementById('energy-water-text');
+  if (waterText) waterText.textContent = 'วนนิ้วเพื่อเปิดเผย';
+  const waterCanvas = document.getElementById('energy-water-canvas');
+  if (waterCanvas) { waterCanvas.dataset.init = ''; waterCanvas.dataset.spinning = ''; const ctx = waterCanvas.getContext('2d'); if(ctx) ctx.clearRect(0,0,240,240); }
+  // reset step5 ผนึกนาค
+  document.querySelectorAll('.naga-seal').forEach(s => { s.textContent = '🔮'; s.style.border = '2px solid rgba(212,175,55,0.4)'; s.style.background = 'radial-gradient(circle,#1a0a4e,#0a1628)'; });
+  const prophecyBox = document.getElementById('energy-prophecy-box');
+  if (prophecyBox) prophecyBox.style.display = 'none';
+  const prophecyText = document.getElementById('energy-prophecy-text');
+  if (prophecyText) prophecyText.textContent = '';
   window.scrollTo(0, 0);
   showCreditsBar('energy');
 }
