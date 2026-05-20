@@ -730,7 +730,7 @@
         <div class="dob-month"><select class="dob-select" id="soulmate-dob2-m"><option value="">เดือน</option></select></div>
         <div class="dob-year"><select class="dob-select" id="soulmate-dob2-y"><option value="">ปี พ.ศ.</option></select></div>
       </div>
-      <button class="cta-btn" onclick="soulmateNextToEnergy()">ดูความเข้ากัน 💞</button>
+      <button class="cta-btn" onclick="soulmateNextToEnergy()">ดูความเข้ากัน</button>
       <button class="reset-btn" style="margin-top:10px;" onclick="soulmateBackToScience()">← เปลี่ยนศาสตร์</button>
     </div>
 
@@ -749,7 +749,7 @@
     </div>
 
     <!-- STEP 3: 10 คำถามพลังงาน -->
-    <div id="soulmate-step3" style="display:none; padding:20px;">
+    <div id="soulmate-step3" style="display:none; padding:20px; padding-top:48px;">
       <div style="background:var(--cream-dark); border-radius:20px; height:6px; overflow:hidden; margin-bottom:20px;">
         <div id="soulmate-progress-bar" style="background:var(--gold); height:100%; width:10%; border-radius:20px; transition:width 0.3s ease;"></div>
       </div>
@@ -780,25 +780,25 @@
           <img src="images/soulmate/candlered.png" style="width:100%; max-width:80px; height:160px; object-fit:cover; border-radius:10px; display:block; margin:0 auto;">
           <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:700; color:var(--brown-dark); margin-top:8px;">เทียนสีแดง</div>
           <div style="font-size:12px; color:var(--gold); font-weight:600; margin-top:2px;">ธาตุไฟ</div>
-          <div style="font-size:10px; color:var(--text-light); margin-top:4px; line-height:1.6;">เดือน<br>มกราคม กุมภาพันธ์<br>มีนาคม</div>
+          <div style="font-size:10px; color:var(--text-light); margin-top:4px; line-height:1.6;">เดือนเกิด<br>มกราคม กุมภาพันธ์<br>มีนาคม</div>
         </div>
         <div onclick="selectElement(this,'wind')" class="candle-btn" style="flex:1; text-align:center; padding:12px 6px; border-radius:16px;">
           <img src="images/soulmate/candlewhite.png" style="width:100%; max-width:80px; height:160px; object-fit:cover; border-radius:10px; display:block; margin:0 auto;">
           <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:700; color:var(--brown-dark); margin-top:8px;">เทียนสีขาว</div>
           <div style="font-size:12px; color:var(--gold); font-weight:600; margin-top:2px;">ธาตุลม</div>
-          <div style="font-size:10px; color:var(--text-light); margin-top:4px; line-height:1.6;">เดือน<br>เมษายน พฤษภาคม<br>มิถุนายน</div>
+          <div style="font-size:10px; color:var(--text-light); margin-top:4px; line-height:1.6;">เดือนเกิด<br>เมษายน พฤษภาคม<br>มิถุนายน</div>
         </div>
         <div onclick="selectElement(this,'water')" class="candle-btn" style="flex:1; text-align:center; padding:12px 6px; border-radius:16px;">
           <img src="images/soulmate/candleblue.png" style="width:100%; max-width:80px; height:160px; object-fit:cover; border-radius:10px; display:block; margin:0 auto;">
           <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:700; color:var(--brown-dark); margin-top:8px;">เทียนสีน้ำเงิน</div>
           <div style="font-size:12px; color:var(--gold); font-weight:600; margin-top:2px;">ธาตุน้ำ</div>
-          <div style="font-size:10px; color:var(--text-light); margin-top:4px; line-height:1.6;">เดือน<br>กรกฎาคม สิงหาคม<br>กันยายน</div>
+          <div style="font-size:10px; color:var(--text-light); margin-top:4px; line-height:1.6;">เดือนเกิด<br>กรกฎาคม สิงหาคม<br>กันยายน</div>
         </div>
         <div onclick="selectElement(this,'earth')" class="candle-btn" style="flex:1; text-align:center; padding:12px 6px; border-radius:16px;">
           <img src="images/soulmate/candlegren.png" style="width:100%; max-width:80px; height:160px; object-fit:cover; border-radius:10px; display:block; margin:0 auto;">
           <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:700; color:var(--brown-dark); margin-top:8px;">เทียนสีเขียว</div>
           <div style="font-size:12px; color:var(--gold); font-weight:600; margin-top:2px;">ธาตุดิน</div>
-          <div style="font-size:10px; color:var(--text-light); margin-top:4px; line-height:1.6;">เดือน<br>ตุลาคม พฤศจิกายน<br>ธันวาคม</div>
+          <div style="font-size:10px; color:var(--text-light); margin-top:4px; line-height:1.6;">เดือนเกิด<br>ตุลาคม พฤศจิกายน<br>ธันวาคม</div>
         </div>
       </div>
 
@@ -2792,7 +2792,7 @@ function showSoulmateResult() {
 
   // Update element section title with combo name
   const elemTitle = document.getElementById('s6-element-title');
-  if (elemTitle) elemTitle.textContent = '☯️ สภาพธาตุ: ' + (elemPred.comboName || 'พลังธาตุของคู่นี้');
+  if (elemTitle) elemTitle.textContent = 'สภาพธาตุ: ' + (elemPred.comboName || 'พลังธาตุของคู่นี้');
 
   document.getElementById('s6-element-text').textContent = elemPred.attraction || elem.desc;
   document.getElementById('s6-habit').textContent = habitPool[seed % habitPool.length];
@@ -2893,6 +2893,23 @@ function resetSoulmate() {
   clearDob('soulmate-dob1');
   clearDob('soulmate-dob2');
   soulmateState = { dob1:'', dob2:'', science:'', relationEnergy:'', questionAnswers:[], candle:'', dayNight:'', candleLabel:'' };
+  // reset step2 พลังงานความสัมพันธ์
+  document.querySelectorAll('.energy-select-btn').forEach(b => b.classList.remove('selected'));
+  // reset step3 คำถาม
+  const pb = document.getElementById('soulmate-progress-bar');
+  if (pb) pb.style.width = '10%';
+  // reset step4a เทียน
+  document.querySelectorAll('#soulmate-step4a .candle-btn').forEach(b => {
+    b.classList.remove('selected');
+    b.style.border = '';
+    b.style.background = '';
+  });
+  const elemMsg = document.getElementById('element-selected-msg');
+  if (elemMsg) elemMsg.textContent = '';
+  const elemBtn = document.getElementById('element-next-btn');
+  if (elemBtn) elemBtn.disabled = true;
+  // reset result
+  document.getElementById('soulmate-result').classList.remove('show');
   showSoulmateStep('soulmate-step0');
   showPageHeader('page-soulmate');
   showCreditsBar('soulmate');
