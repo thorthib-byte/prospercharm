@@ -194,6 +194,7 @@
   @keyframes smokeRise { 0%{opacity:1;transform:translateX(-50%) translateY(0) scale(1)} 100%{opacity:0;transform:translateX(-50%) translateY(-80px) scale(2)} }
   @keyframes numReveal { from{opacity:0;transform:scale(0.3) translateY(20px)} to{opacity:1;transform:scale(1) translateY(0)} }
   @keyframes nagaGlow { 0%,100%{text-shadow:0 0 20px rgba(212,175,55,0.3)} 50%{text-shadow:0 0 40px rgba(212,175,55,0.8),0 0 60px rgba(212,175,55,0.4)} }
+  @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,0.4)} 50%{box-shadow:0 0 0 6px rgba(212,175,55,0)} }
   .offering-item { background:rgba(212,175,55,0.08); border:1px solid rgba(212,175,55,0.2); border-radius:12px; padding:12px 8px; text-align:center; cursor:pointer; transition:all 0.2s; }
   .offering-item.selected { background:rgba(212,175,55,0.2); border-color:var(--gold); }
   .offering-btn { padding:14px 10px;background:rgba(0,0,0,0.55);border:2px solid rgba(255,215,0,0.4);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(255,215,0,0.9);cursor:pointer;transition:all 0.2s; }
@@ -239,9 +240,66 @@
       <div class="status-plan"><span id="plan-icon">🌙</span><span id="plan-name">ยังไม่ได้สมัคร</span></div>
       <div style="display:flex;align-items:center;gap:10px;">
         <span class="status-credits" id="credits-display"></span>
+        <button id="checkin-btn" onclick="openCheckin()" style="background:linear-gradient(135deg,rgba(180,130,20,0.9),rgba(212,175,55,0.9));border:none;border-radius:20px;padding:5px 12px;font-family:'Noto Serif Thai',serif;font-size:12px;font-weight:600;color:#1a0a00;cursor:pointer;display:flex;align-items:center;gap:4px;">🪙 เช็คอิน</button>
         <button class="upgrade-link" onclick="goTo('page-pricing')">สมัครแพ็กเกจ →</button>
       </div>
     </div>
+
+  <!-- DAILY CHECK-IN MODAL -->
+  <div id="checkin-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;align-items:flex-end;justify-content:center;">
+    <div style="background:var(--white);border-radius:24px 24px 0 0;width:100%;max-height:88vh;overflow-y:auto;padding:0 0 32px;">
+      <!-- Handle -->
+      <div style="text-align:center;padding:12px 0 0;"><div style="width:40px;height:4px;background:rgba(180,160,130,0.3);border-radius:2px;display:inline-block;"></div></div>
+      <!-- Header -->
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px 8px;">
+        <div>
+          <div style="font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;color:var(--brown-dark);">เช็คอินประจำวัน</div>
+          <div style="font-size:12px;color:var(--text-light);" id="checkin-month-label"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--gold);font-weight:600;" id="checkin-streak-label">🔥 1 วัน</div>
+          <button onclick="closeCheckin()" style="background:rgba(180,160,130,0.15);border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;">✕</button>
+        </div>
+      </div>
+      <!-- Today reward -->
+      <div style="margin:8px 20px 16px;background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(212,175,55,0.05));border:1px solid rgba(201,168,76,0.3);border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;">
+        <div style="width:56px;height:56px;background:linear-gradient(135deg,#c9a84c,#ffd700);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">🪙</div>
+        <div style="flex:1;">
+          <div style="font-size:12px;color:var(--text-light);margin-bottom:2px;">รางวัลวันนี้</div>
+          <div style="font-family:'Noto Serif Thai',serif;font-size:22px;font-weight:700;color:var(--gold);" id="checkin-today-reward">+5 เหรียญ</div>
+          <div style="font-size:11px;color:var(--text-light);">เหรียญสะสมปัจจุบัน: <span id="checkin-coins-total" style="color:var(--gold);font-weight:600;">0</span> / 100</div>
+        </div>
+        <button id="checkin-claim-btn" onclick="claimCheckin()" style="padding:10px 18px;background:linear-gradient(135deg,#c9a84c,#ffd700);border:none;border-radius:20px;font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:#1a0a00;cursor:pointer;">รับเลย</button>
+      </div>
+      <!-- Coins bar -->
+      <div style="margin:0 20px 16px;">
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);margin-bottom:6px;"><span>เหรียญสะสม</span><span id="checkin-bar-label">0 / 100</span></div>
+        <div style="background:var(--cream-dark);border-radius:10px;height:8px;overflow:hidden;"><div id="checkin-coins-bar" style="background:linear-gradient(to right,#c9a84c,#ffd700);height:100%;width:0%;border-radius:10px;transition:width 0.5s ease;"></div></div>
+        <div style="font-size:11px;color:var(--text-light);margin-top:6px;text-align:center;" id="checkin-coins-hint"></div>
+      </div>
+      <!-- Calendar -->
+      <div style="padding:0 20px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:600;color:var(--brown-dark);">ประวัติเดือนนี้</div>
+          <div style="font-size:12px;color:var(--text-light);">พลาดแล้วรับย้อนหลังไม่ได้</div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:8px;">
+          <div style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">อา</div>
+          <div style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">จ</div>
+          <div style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">อ</div>
+          <div style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">พ</div>
+          <div style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">พฤ</div>
+          <div style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">ศ</div>
+          <div style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">ส</div>
+        </div>
+        <div id="checkin-calendar" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;"></div>
+      </div>
+      <!-- Claim button -->
+      <div style="padding:16px 20px 0;">
+        <button id="checkin-main-btn" onclick="claimCheckin()" style="width:100%;padding:16px;background:linear-gradient(135deg,#c9a84c,#ffd700);border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:16px;font-weight:700;color:#1a0a00;cursor:pointer;" id="checkin-main-btn">🪙 รับเหรียญวันนี้</button>
+      </div>
+    </div>
+  </div>
     <div style="text-align:center;padding:12px 0 4px;font-family:'Noto Serif Thai',serif;font-size:13px;color:var(--text-light);">✦ เลือกบริการที่ต้องการ ✦</div>
     <div class="menu-grid">
       <div class="menu-card" onclick="goTo('page-siam')"><img class="menu-icon" src="images/icons/siemsi.png"><span class="menu-title">เซียมซี</span><span class="menu-desc">จากวัดดัง</span><span class="menu-price">29 บาท/ครั้ง</span></div>
@@ -2915,7 +2973,189 @@ function resetSoulmate() {
   showCreditsBar('soulmate');
 }
 
-// ===== SIAM SHAKE SYSTEM =====
+// ===== DAILY CHECK-IN SYSTEM =====
+const CHECKIN_REWARDS = [3, 3, 5, 3, 8, 3, 12]; // 7-day pattern
+const CHECKIN_MAX_COINS = 100;
+
+function getCheckinState() {
+  try {
+    const s = localStorage.getItem('pc_checkin');
+    return s ? JSON.parse(s) : { lastDate: null, streak: 0, coins: 0, history: {} };
+  } catch(e) { return { lastDate: null, streak: 0, coins: 0, history: {} }; }
+}
+function saveCheckinState(state) {
+  localStorage.setItem('pc_checkin', JSON.stringify(state));
+}
+function getTodayStr() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+function getTodayReward(streak) {
+  return CHECKIN_REWARDS[(streak) % CHECKIN_REWARDS.length];
+}
+function hasCheckedInToday() {
+  const s = getCheckinState();
+  return s.lastDate === getTodayStr();
+}
+
+function openCheckin() {
+  const overlay = document.getElementById('checkin-overlay');
+  overlay.style.display = 'flex';
+  renderCheckin();
+}
+function closeCheckin() {
+  document.getElementById('checkin-overlay').style.display = 'none';
+}
+
+function renderCheckin() {
+  const state = getCheckinState();
+  const today = getTodayStr();
+  const todayReward = getTodayReward(state.streak);
+  const alreadyClaimed = hasCheckedInToday();
+  const coins = Math.min(state.coins, CHECKIN_MAX_COINS);
+
+  // month label
+  const now = new Date();
+  const thMonths = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+  document.getElementById('checkin-month-label').textContent = thMonths[now.getMonth()] + ' ' + (now.getFullYear() + 543);
+  document.getElementById('checkin-streak-label').textContent = '🔥 ' + state.streak + ' วัน';
+  document.getElementById('checkin-today-reward').textContent = '+' + todayReward + ' เหรียญ';
+  document.getElementById('checkin-coins-total').textContent = coins;
+  document.getElementById('checkin-bar-label').textContent = coins + ' / 100';
+  document.getElementById('checkin-coins-bar').style.width = coins + '%';
+
+  const hint = coins >= 100 ? 'เหรียญเต็ม 100 แล้ว! ใช้ได้เลยค่ะ' : 'สะสมครบ 100 เหรียญ = 1 ครั้งฟรี';
+  document.getElementById('checkin-coins-hint').textContent = hint;
+
+  // main button
+  const mainBtn = document.getElementById('checkin-main-btn');
+  const claimBtn = document.getElementById('checkin-claim-btn');
+  if (alreadyClaimed) {
+    mainBtn.textContent = '✓ รับเหรียญแล้ววันนี้';
+    mainBtn.style.background = 'rgba(180,160,130,0.2)';
+    mainBtn.style.color = 'var(--text-light)';
+    mainBtn.disabled = true;
+    claimBtn.textContent = '✓ รับแล้ว';
+    claimBtn.style.background = 'rgba(180,160,130,0.2)';
+    claimBtn.style.color = 'var(--text-light)';
+    claimBtn.disabled = true;
+  } else {
+    mainBtn.textContent = '🪙 รับเหรียญวันนี้';
+    mainBtn.style.background = 'linear-gradient(135deg,#c9a84c,#ffd700)';
+    mainBtn.style.color = '#1a0a00';
+    mainBtn.disabled = false;
+    claimBtn.textContent = 'รับเลย';
+    claimBtn.style.background = 'linear-gradient(135deg,#c9a84c,#ffd700)';
+    claimBtn.style.color = '#1a0a00';
+    claimBtn.disabled = false;
+  }
+
+  // calendar
+  renderCheckinCalendar(state, now);
+}
+
+function renderCheckinCalendar(state, now) {
+  const cal = document.getElementById('checkin-calendar');
+  cal.innerHTML = '';
+  const year = now.getFullYear();
+  const month = now.getMonth();
+  const today = now.getDate();
+  const firstDay = new Date(year, month, 1).getDay(); // 0=sun
+  const daysInMonth = new Date(year, month+1, 0).getDate();
+
+  // blank cells
+  for (let i = 0; i < firstDay; i++) {
+    cal.appendChild(Object.assign(document.createElement('div'), {}));
+  }
+
+  for (let d = 1; d <= daysInMonth; d++) {
+    const dateStr = year + '-' + String(month+1).padStart(2,'0') + '-' + String(d).padStart(2,'0');
+    const claimed = state.history[dateStr];
+    const isToday = d === today;
+    const isPast = d < today;
+
+    const cell = document.createElement('div');
+    cell.style.cssText = 'text-align:center;padding:4px 2px;border-radius:10px;' +
+      (isToday ? 'border:2px solid var(--gold);background:rgba(201,168,76,0.08);' : '');
+
+    const coin = document.createElement('div');
+    coin.style.cssText = 'width:28px;height:28px;border-radius:50%;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;font-size:13px;';
+    if (claimed) {
+      coin.style.background = 'linear-gradient(135deg,#c9a84c,#ffd700)';
+      coin.textContent = '🪙';
+    } else if (isPast) {
+      coin.style.background = 'rgba(180,160,130,0.15)';
+      coin.textContent = '·';
+    } else {
+      coin.style.background = 'rgba(201,168,76,0.1)';
+      coin.style.border = '1px dashed rgba(201,168,76,0.4)';
+      coin.textContent = '';
+    }
+
+    const dayNum = document.createElement('div');
+    dayNum.style.cssText = 'font-size:10px;color:' + (isToday ? 'var(--gold)' : 'var(--text-light)') + ';font-weight:' + (isToday ? '700' : '400') + ';';
+    dayNum.textContent = d;
+
+    const reward = document.createElement('div');
+    reward.style.cssText = 'font-size:9px;color:rgba(201,168,76,0.8);font-weight:600;';
+    // show reward amount for each day
+    const dayOfWeek = new Date(year, month, d).getDay();
+    const dayReward = CHECKIN_REWARDS[d % CHECKIN_REWARDS.length];
+    reward.textContent = '+' + dayReward;
+
+    cell.appendChild(coin);
+    cell.appendChild(dayNum);
+    cell.appendChild(reward);
+    cal.appendChild(cell);
+  }
+}
+
+function claimCheckin() {
+  if (hasCheckedInToday()) return;
+  const state = getCheckinState();
+  const today = getTodayStr();
+
+  // check streak continuity
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  const yStr = yesterday.getFullYear() + '-' + String(yesterday.getMonth()+1).padStart(2,'0') + '-' + String(yesterday.getDate()).padStart(2,'0');
+  const newStreak = (state.lastDate === yStr) ? state.streak + 1 : 1;
+  const reward = getTodayReward(newStreak - 1);
+  const newCoins = Math.min((state.coins || 0) + reward, CHECKIN_MAX_COINS);
+
+  state.lastDate = today;
+  state.streak = newStreak;
+  state.coins = newCoins;
+  state.history = state.history || {};
+  state.history[today] = reward;
+  saveCheckinState(state);
+
+  // แปลงเหรียญเป็น credit ถ้าครบ 100
+  if (newCoins >= 100) {
+    state.coins = 0;
+    saveCheckinState(state);
+    userState.credits = (userState.credits || 0) + 1;
+    if (userState.plan === 'free') userState.plan = 'single';
+    saveState();
+    updateStatusBar();
+    showToast('🎉 ครบ 100 เหรียญ! ได้รับ 1 ครั้งฟรีค่ะ');
+  } else {
+    showToast('🪙 รับ +' + reward + ' เหรียญแล้ว! (รวม ' + newCoins + '/100)');
+  }
+
+  renderCheckin();
+}
+
+function initCheckinBtn() {
+  // แสดงจุดแดงถ้ายังไม่ได้เช็คอินวันนี้
+  const btn = document.getElementById('checkin-btn');
+  if (!btn) return;
+  if (!hasCheckedInToday()) {
+    btn.style.animation = 'pulse 2s ease-in-out infinite';
+  }
+}
+
+
 let shakeCount = 0;
 let lastShakeTime = 0;
 let shakeListener = null;
@@ -3275,6 +3515,8 @@ window.addEventListener('hashchange', handleHash);
 window.addEventListener('load', () => {
   // Init Thai date pickers
   initDobSelects();
+  // Init check-in button
+  initCheckinBtn();
   // Handle URL hash
   handleHash();
   // Handle ?dev=true param
