@@ -1989,20 +1989,18 @@ function initIncenseBar() {
   function onStart(e) {
     if (triggered) return;
     isDragging = true;
-    startY = (e.touches ? e.touches[0].clientY : e.clientY);
   }
   function onMove(e) {
-    if (!isDragging || startY === null || triggered) return;
+    if (!isDragging || triggered) return;
     e.preventDefault();
     const curY = (e.touches ? e.touches[0].clientY : e.clientY);
-    const dy = startY - curY;
-    // delta ต่อ frame = จำกัดไม่เกิน 4% และใช้ multiplier เบา
-    const rawDelta = (dy / 220) * 100 * 0.4;
-    const delta = Math.max(-8, Math.min(8, rawDelta));
-    updateBar(progress + delta);
-    startY = curY;
+    const rect = track.getBoundingClientRect();
+    // map ตำแหน่งนิ้วตรงๆ กับหลอด — ล่างสุด=0% บนสุด=100%
+    const relY = curY - rect.top;
+    const pct = 100 - (relY / rect.height) * 100;
+    updateBar(Math.max(progress, pct)); // ดันขึ้นได้อย่างเดียว
   }
-  function onEnd() { isDragging = false; startY = null; }
+  function onEnd() { isDragging = false; }
 
   track.addEventListener('touchstart', onStart, {passive:false});
   document.addEventListener('touchmove', onMove, {passive:false});
