@@ -647,23 +647,23 @@
       <!-- Cards section — ครีมสะอาด -->
       <div style="padding:16px;">
         <div style="background:var(--white);border:1px solid rgba(180,160,130,0.25);border-radius:16px;padding:20px;margin-bottom:14px;">
-          <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:600;color:var(--brown-dark);margin-bottom:12px;">🔢 เลขรองส่งเสริม</div>
+          <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:600;color:var(--brown-dark);margin-bottom:12px;">เลขรองส่งเสริม</div>
           <div id="energy-secondary" style="display:flex;gap:10px;flex-wrap:wrap;"></div>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:14px;">
           <div style="background:var(--white);border:1px solid rgba(180,160,130,0.25);border-radius:16px;padding:16px;text-align:center;">
-            <div style="font-size:12px;color:var(--text-light);margin-bottom:8px;">🎨 สีมงคลนาค</div>
+            <div style="font-size:12px;color:var(--text-light);margin-bottom:8px;">สีมงคลนาค</div>
             <div id="energy-color-box" style="width:48px;height:48px;border-radius:50%;margin:0 auto 8px;"></div>
             <div id="energy-color-name" style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:600;color:var(--brown-dark);"></div>
           </div>
           <div style="background:var(--white);border:1px solid rgba(180,160,130,0.25);border-radius:16px;padding:16px;text-align:center;">
-            <div style="font-size:12px;color:var(--text-light);margin-bottom:8px;">⏰ เวลามงคล</div>
+            <div style="font-size:12px;color:var(--text-light);margin-bottom:8px;">เวลามงคล</div>
             <div id="energy-time" style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--brown-dark);margin-bottom:4px;"></div>
             <div id="energy-time-desc" style="font-size:11px;color:var(--text-light);"></div>
           </div>
         </div>
         <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:16px;padding:20px;margin-bottom:14px;">
-          <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:600;color:var(--brown-dark);margin-bottom:8px;">🐉 คำพยากรณ์จากพ่อปู่</div>
+          <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:600;color:var(--brown-dark);margin-bottom:8px;">คำพยากรณ์จากพ่อปู่</div>
           <div id="energy-final-prophecy" style="font-size:14px;color:var(--text-mid);line-height:1.9;font-style:italic;"></div>
         </div>
         <div style="display:flex;gap:10px;margin-bottom:32px;">
@@ -924,12 +924,12 @@
     </div>
 
     <div id="s6-element" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;" id="s6-element-title">☯️ พลังธาตุของคู่นี้</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;" id="s6-element-title">พลังธาตุของคู่นี้</div>
       <div id="s6-element-text" style="font-size:14px; color:var(--text-mid); line-height:1.8;"></div>
     </div>
 
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🌙 นิสัยเวลาอยู่ด้วยกัน</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">นิสัยเวลาอยู่ด้วยกัน</div>
       <div id="s6-habit" style="font-size:14px; color:var(--text-mid); line-height:1.8;"></div>
     </div>
 
@@ -949,7 +949,7 @@
     </div>
 
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:20px; text-align:center;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">✨ คำแนะนำจากดวงคู่</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">คำแนะนำจากดวงคู่</div>
       <div id="s6-advice" style="font-size:15px; color:var(--text-mid); line-height:1.9; font-style:italic;"></div>
     </div>
 
@@ -2112,7 +2112,7 @@ function showEnergyFinalResult() {
   document.getElementById('energy-score').textContent = energyCeremonyData.score + ' / 10';
   document.getElementById('energy-secondary').innerHTML =
     energyCeremonyData.secondaryNums.map(num =>
-      `<div style="width:48px;height:48px;border-radius:50%;background:#0a1628;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold);">${num}</div>`
+      `<div style="width:48px;height:48px;border-radius:50%;background:var(--brown-dark);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold);">${num}</div>`
     ).join('');
   const color = energyColors[n] || energyColors[1];
   document.getElementById('energy-color-box').style.background = color.hex;
@@ -3162,7 +3162,7 @@ function showNagaResult() {
   document.getElementById('naga-main-desc').textContent = energyMeanings[n] || '';
   document.getElementById('naga-score').textContent = nagaData.score + ' / 10';
   document.getElementById('naga-secondary-nums').innerHTML = nagaData.secondaryNums.map(num =>
-    `<div style="width:48px;height:48px;border-radius:50%;background:#0a1628;display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold);">${num}</div>`
+    `<div style="width:48px;height:48px;border-radius:50%;background:var(--brown-dark);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold);">${num}</div>`
   ).join('');
   const color = energyColors[n] || energyColors[1];
   document.getElementById('naga-color-box').style.background = color.hex;
