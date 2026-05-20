@@ -563,7 +563,7 @@
     </div>
 
     <!-- STEP 3: จุดธูป -->
-    <div id="energy-step3" style="display:none; position:relative; min-height:100dvh; overflow:hidden; text-align:center; background:#0d1f0d;">
+    <div id="energy-step3" style="display:none; position:fixed; inset:0; overflow-y:auto; text-align:center; background:#0d1f0d;">
       <!-- รูปพ่อปู่เป็น background -->
       <img src="images/energy/welcomenagastill.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.7);">
 
@@ -1018,14 +1018,19 @@ function loadState(){try{const s=localStorage.getItem('pc_state');if(s){userStat
 function saveState(){localStorage.setItem('pc_state',JSON.stringify(userState));}
 function updateStatusBar(){const icons={free:'🌙',single:'💫',basic:'🌙',pro:'⭐',unlimited:'👑'};const names={free:'ยังไม่ได้สมัคร',single:'รายครั้ง',basic:'Basic',pro:'Pro',unlimited:'Unlimited'};document.getElementById('plan-icon').textContent=icons[userState.plan];document.getElementById('plan-name').textContent=names[userState.plan];document.getElementById('credits-display').textContent=userState.plan!=='free'?(userState.credits>=999?'ไม่จำกัด':userState.credits+' ครั้ง'):'';}
 function goTo(pageId){
+  // Reset หน้าเก่าก่อนออก
+  const currentActive = document.querySelector('.page.active');
+  if (currentActive && pageId === 'page-home') {
+    const oldType = currentActive.id.replace('page-','');
+    if (oldType === 'energy') resetEnergyFull();
+    else if (oldType === 'siam') resetSiam();
+    else if (oldType === 'tarot') resetTarot();
+    else if (oldType === 'soulmate') resetSoulmate();
+  }
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById(pageId).classList.add('active');
   window.scrollTo(0,0);
   const type=pageId.replace('page-','');
-  if(type==='siam') resetSiam();
-  else if(type==='tarot') resetTarot();
-  else if(type==='energy') resetEnergyFull();
-  else if(type==='soulmate') resetSoulmate();
   if(['siam','tarot','energy','soulmate'].includes(type)) showCreditsBar(type);
 }
 function showCreditsBar(type){
@@ -2078,7 +2083,6 @@ function resetEnergyFull() {
     if (el) el.style.display = 'none';
   });
   document.getElementById('energy-step1').style.display = 'block';
-  document.getElementById('page-energy').style.background = '';
   showPageHeader('page-energy');
   clearDob('energy-dob');
   energyCeremonyData = {}; energyWaterProgress = 0;
@@ -2206,7 +2210,6 @@ function showEnergyResult(dob) {
   useCredit();
   document.getElementById('energy-step2').style.display = 'none';
   document.getElementById('energy-step3').style.display = 'block';
-  document.getElementById('page-energy').style.background = '#0d1f0d';
   showPageHeader('page-energy');
   window.scrollTo(0, 0);
 
@@ -2248,8 +2251,13 @@ function showEnergyResult(dob) {
 }
 
 function resetEnergy() {
-  document.getElementById('energy-step3').style.display = 'none';
+  ['energy-step0','energy-step2','energy-step2b','energy-step3',
+   'energy-step4','energy-step5','energy-step6'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
   document.getElementById('energy-step1').style.display = 'block';
+  document.getElementById('page-energy').style.background = '';
   clearDob('energy-dob');
   showPageHeader('page-energy');
   window.scrollTo(0, 0);
@@ -2879,6 +2887,8 @@ function resetSiam() {
   document.getElementById('siam-step1').style.display = 'none';
   document.getElementById('siam-step2').style.display = 'none';
   shakeCount = 0;
+  stopShakeDetection();
+  showPageHeader('page-siam');
   showCreditsBar('siam');
 }
 
