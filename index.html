@@ -1685,7 +1685,6 @@ let currentOfferingVideo = '';
 function selectOffering(type, name, stillSrc, videoSrc) {
   buchaCurrentOffering = type;
   currentOfferingVideo = videoSrc;
-  document.getElementById('offering-still-img').src = stillSrc;
   const vid = document.getElementById('offering-video');
   vid.src = videoSrc;
   vid.style.opacity = '0';
@@ -1693,12 +1692,27 @@ function selectOffering(type, name, stillSrc, videoSrc) {
   if (ring) { ring.style.strokeDashoffset = '565'; }
   offeringProgress = 0;
   document.getElementById('offering-msg').textContent = '';
-  ['energy-step1','energy-step2'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = 'none';
-  });
-  document.getElementById('energy-step2b').style.display = 'block';
-  window.scrollTo(0,0);
+
+  // โหลดรูปก่อน แล้วค่อย transition — ไม่ให้เห็นหน้าขาว
+  const img = document.getElementById('offering-still-img');
+  img.onload = function() {
+    ['energy-step1','energy-step2'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+    document.getElementById('energy-step2b').style.display = 'block';
+    window.scrollTo(0,0);
+  };
+  img.onerror = function() {
+    // fallback ถ้าโหลดรูปไม่ได้
+    ['energy-step1','energy-step2'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) el.style.display = 'none';
+    });
+    document.getElementById('energy-step2b').style.display = 'block';
+    window.scrollTo(0,0);
+  };
+  img.src = stillSrc;
 }
 
 function confirmOffering() {
