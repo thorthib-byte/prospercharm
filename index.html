@@ -240,7 +240,7 @@
       <div class="status-plan"><span id="plan-icon">🌙</span><span id="plan-name">ยังไม่ได้สมัคร</span></div>
       <div style="display:flex;align-items:center;gap:10px;">
         <span class="status-credits" id="credits-display"></span>
-        <button id="checkin-btn" onclick="openCheckin()" style="background:linear-gradient(135deg,rgba(180,130,20,0.9),rgba(212,175,55,0.9));border:none;border-radius:20px;padding:5px 12px;font-family:'Noto Serif Thai',serif;font-size:12px;font-weight:600;color:#1a0a00;cursor:pointer;display:flex;align-items:center;gap:4px;">🪙 เช็คอิน</button>
+        <button id="checkin-btn" onclick="openCheckin()" style="background:rgba(180,140,140,0.15);border:1px solid rgba(180,140,140,0.35);border-radius:20px;padding:5px 12px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;font-weight:500;color:var(--text-mid);cursor:pointer;">เช็คอิน</button>
         <button class="upgrade-link" onclick="goTo('page-pricing')">สมัครแพ็กเกจ →</button>
       </div>
     </div>
@@ -257,24 +257,24 @@
           <div style="font-size:12px;color:var(--text-light);" id="checkin-month-label"></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
-          <div style="background:rgba(201,168,76,0.1);border:1px solid rgba(201,168,76,0.3);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--gold);font-weight:600;" id="checkin-streak-label">🔥 1 วัน</div>
+          <div style="background:rgba(180,140,140,0.1);border:1px solid rgba(180,140,140,0.3);border-radius:20px;padding:4px 12px;font-size:12px;color:#a07070;font-weight:600;" id="checkin-streak-label">🔥 1 วัน</div>
           <button onclick="closeCheckin()" style="background:rgba(180,160,130,0.15);border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer;">✕</button>
         </div>
       </div>
       <!-- Today reward -->
       <div style="margin:8px 20px 16px;background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(212,175,55,0.05));border:1px solid rgba(201,168,76,0.3);border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;">
-        <div style="width:56px;height:56px;background:linear-gradient(135deg,#c9a84c,#ffd700);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">🪙</div>
+        <div style="width:56px;height:56px;background:linear-gradient(135deg,#c4a4a4,#d4b8b8);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;">🪙</div>
         <div style="flex:1;">
           <div style="font-size:12px;color:var(--text-light);margin-bottom:2px;">รางวัลวันนี้</div>
-          <div style="font-family:'Noto Serif Thai',serif;font-size:22px;font-weight:700;color:var(--gold);" id="checkin-today-reward">+5 เหรียญ</div>
-          <div style="font-size:11px;color:var(--text-light);">เหรียญสะสมปัจจุบัน: <span id="checkin-coins-total" style="color:var(--gold);font-weight:600;">0</span> / 100</div>
+          <div style="font-family:'Noto Serif Thai',serif;font-size:22px;font-weight:700;color:#a07070;" id="checkin-today-reward">+5 เหรียญ</div>
+          <div style="font-size:11px;color:var(--text-light);">เหรียญสะสมปัจจุบัน: <span id="checkin-coins-total" style="color:#a07070;font-weight:600;">0</span> / 100</div>
         </div>
-        <button id="checkin-claim-btn" onclick="claimCheckin()" style="padding:10px 18px;background:linear-gradient(135deg,#c9a84c,#ffd700);border:none;border-radius:20px;font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:#1a0a00;cursor:pointer;">รับเลย</button>
+        <button id="checkin-claim-btn" onclick="claimCheckin()" style="padding:10px 18px;background:linear-gradient(135deg,#c4a4a4,#d4b8b8);border:none;border-radius:20px;font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:#5a3a3a;cursor:pointer;">รับเลย</button>
       </div>
       <!-- Coins bar -->
       <div style="margin:0 20px 16px;">
         <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);margin-bottom:6px;"><span>เหรียญสะสม</span><span id="checkin-bar-label">0 / 100</span></div>
-        <div style="background:var(--cream-dark);border-radius:10px;height:8px;overflow:hidden;"><div id="checkin-coins-bar" style="background:linear-gradient(to right,#c9a84c,#ffd700);height:100%;width:0%;border-radius:10px;transition:width 0.5s ease;"></div></div>
+        <div style="background:var(--cream-dark);border-radius:10px;height:8px;overflow:hidden;"><div id="checkin-coins-bar" style="background:linear-gradient(to right,#c4a4a4,#d4b8b8);height:100%;width:0%;border-radius:10px;transition:width 0.5s ease;"></div></div>
         <div style="font-size:11px;color:var(--text-light);margin-top:6px;text-align:center;" id="checkin-coins-hint"></div>
       </div>
       <!-- Calendar -->
@@ -296,7 +296,7 @@
       </div>
       <!-- Claim button -->
       <div style="padding:16px 20px 0;">
-        <button id="checkin-main-btn" onclick="claimCheckin()" style="width:100%;padding:16px;background:linear-gradient(135deg,#c9a84c,#ffd700);border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:16px;font-weight:700;color:#1a0a00;cursor:pointer;" id="checkin-main-btn">🪙 รับเหรียญวันนี้</button>
+        <button id="checkin-main-btn" onclick="claimCheckin()" style="width:100%;padding:16px;background:linear-gradient(135deg,#c4a4a4,#d4b8b8);border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:16px;font-weight:700;color:#1a0a00;cursor:pointer;" id="checkin-main-btn">🪙 รับเหรียญวันนี้</button>
       </div>
     </div>
   </div>
@@ -3041,12 +3041,12 @@ function renderCheckin() {
     claimBtn.disabled = true;
   } else {
     mainBtn.textContent = '🪙 รับเหรียญวันนี้';
-    mainBtn.style.background = 'linear-gradient(135deg,#c9a84c,#ffd700)';
-    mainBtn.style.color = '#1a0a00';
+    mainBtn.style.background = 'linear-gradient(135deg,#c4a4a4,#d4b8b8)';
+    mainBtn.style.color = '#5a3a3a';
     mainBtn.disabled = false;
     claimBtn.textContent = 'รับเลย';
-    claimBtn.style.background = 'linear-gradient(135deg,#c9a84c,#ffd700)';
-    claimBtn.style.color = '#1a0a00';
+    claimBtn.style.background = 'linear-gradient(135deg,#c4a4a4,#d4b8b8)';
+    claimBtn.style.color = '#5a3a3a';
     claimBtn.disabled = false;
   }
 
@@ -3076,12 +3076,12 @@ function renderCheckinCalendar(state, now) {
 
     const cell = document.createElement('div');
     cell.style.cssText = 'text-align:center;padding:4px 2px;border-radius:10px;' +
-      (isToday ? 'border:2px solid var(--gold);background:rgba(201,168,76,0.08);' : '');
+      (isToday ? 'border:2px solid rgba(180,140,140,0.6);background:rgba(180,140,140,0.06);' : '');
 
     const coin = document.createElement('div');
     coin.style.cssText = 'width:28px;height:28px;border-radius:50%;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;font-size:13px;';
     if (claimed) {
-      coin.style.background = 'linear-gradient(135deg,#c9a84c,#ffd700)';
+      coin.style.background = 'linear-gradient(135deg,#c4a4a4,#d4b8b8)';
       coin.textContent = '🪙';
     } else if (isPast) {
       coin.style.background = 'rgba(180,160,130,0.15)';
@@ -3097,7 +3097,7 @@ function renderCheckinCalendar(state, now) {
     dayNum.textContent = d;
 
     const reward = document.createElement('div');
-    reward.style.cssText = 'font-size:9px;color:rgba(201,168,76,0.8);font-weight:600;';
+    reward.style.cssText = 'font-size:9px;color:rgba(160,112,112,0.8);font-weight:600;';
     // show reward amount for each day
     const dayOfWeek = new Date(year, month, d).getDay();
     const dayReward = CHECKIN_REWARDS[d % CHECKIN_REWARDS.length];
