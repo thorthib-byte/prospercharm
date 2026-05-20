@@ -678,7 +678,7 @@
   <div class="page" id="page-soulmate">
     <div class="inner-header">
       <button class="back-btn" onclick="goTo('page-home')">←</button>
-      <div class="inner-title">💑 ดูดวงสมพงษ์</div>
+      <div class="inner-title">ดูดวงสมพงษ์</div>
       <div class="inner-header-credits" id="soulmate-credits-bar" style="display:none;">
         <span class="inner-header-credits-text">เครดิตคงเหลือ</span>
         <span class="inner-header-credits-num" id="soulmate-credits-num"></span>
@@ -2832,10 +2832,10 @@ function selectSoulmateScience(science) {
   selectedSoulmateScience = science;
   soulmateState.science = science;
   const labels = {
-    thai: '🛕 ศาสตร์ไทย — โหราศาสตร์ไทยโบราณ',
-    chinese: '🏮 ศาสตร์จีน — จิวเลขวิทยาจีน',
-    indian: '🪷 ศาสตร์อินเดีย — โหราศาสตร์เวท',
-    western: '⭐ ศาสตร์ตะวันตก — Numerology & Astrology',
+    thai: 'ศาสตร์ไทย — โหราศาสตร์ไทยโบราณ',
+    chinese: 'ศาสตร์จีน — จิวเลขวิทยาจีน',
+    indian: 'ศาสตร์อินเดีย — โหราศาสตร์เวท',
+    western: 'ศาสตร์ตะวันตก — Numerology & Astrology',
   };
   document.getElementById('soulmate-science-label').textContent = labels[science] || '';
   showSoulmateStep('soulmate-step1');
