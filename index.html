@@ -1978,11 +1978,11 @@ function initIncenseBar() {
     progress = Math.max(0, Math.min(100, val));
     fill.style.height = progress + '%';
     label.textContent = Math.round(progress) + '%';
-    if (progress >= 100 && !triggered) {
+    if (progress >= 99.5 && !triggered) {
       triggered = true;
       fill.style.height = '100%';
       label.textContent = '100%';
-      setTimeout(() => triggerIncenseLit(), 400);
+      setTimeout(() => triggerIncenseLit(), 600);
     }
   }
 
@@ -1996,11 +1996,11 @@ function initIncenseBar() {
     e.preventDefault();
     const curY = (e.touches ? e.touches[0].clientY : e.clientY);
     const dy = startY - curY;
-    const delta = (dy / 220) * 100 * 1.2;
-    if (Math.abs(dy) > 1) {
-      updateBar(progress + delta);
-      startY = curY;
-    }
+    // delta ต่อ frame = จำกัดไม่เกิน 4% และใช้ multiplier เบา
+    const rawDelta = (dy / 220) * 100 * 0.4;
+    const delta = Math.max(-4, Math.min(4, rawDelta));
+    updateBar(progress + delta);
+    startY = curY;
   }
   function onEnd() { isDragging = false; startY = null; }
 
