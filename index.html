@@ -1975,7 +1975,7 @@ function initIncenseBar() {
   function updateBar(val) {
     progress = Math.max(0, Math.min(100, val));
     fill.style.height = progress + '%';
-    label.textContent = 'พลังงาน ' + Math.round(progress) + '%';
+    label.textContent = Math.round(progress) + '%';
     if (progress >= 100) triggerIncenseLit();
   }
 
@@ -1987,17 +1987,19 @@ function initIncenseBar() {
     if (!isDragging || startY === null) return;
     e.preventDefault();
     const curY = (e.touches ? e.touches[0].clientY : e.clientY);
-    const dy = startY - curY; // ดันขึ้น = บวก
-    const trackH = track.offsetHeight;
-    const delta = (dy / trackH) * 100 * 1.5;
-    updateBar(progress + delta);
-    startY = curY;
+    const dy = startY - curY;
+    const delta = (dy / 220) * 100 * 1.8; // 220 = ความสูงหลอด
+    if (Math.abs(delta) > 0.5) {
+      updateBar(progress + delta);
+      startY = curY;
+    }
   }
   function onEnd() { isDragging = false; startY = null; }
 
-  track.addEventListener('touchstart', onStart, {passive:true});
-  track.addEventListener('touchmove', onMove, {passive:false});
-  track.addEventListener('touchend', onEnd);
+  // ผูก touchstart กับ track, touchmove/end กับ document เพื่อรับ drag นอก track ด้วย
+  track.addEventListener('touchstart', onStart, {passive:false});
+  document.addEventListener('touchmove', onMove, {passive:false});
+  document.addEventListener('touchend', onEnd);
   track.addEventListener('mousedown', onStart);
   window.addEventListener('mousemove', onMove);
   window.addEventListener('mouseup', onEnd);
@@ -2030,7 +2032,7 @@ function floatIncenseNumbers() {
     setTimeout(() => {
       const el = document.createElement('div');
       const pos = positions[i];
-      el.style.cssText = `position:absolute;left:${pos.left};bottom:${pos.bottom};font-family:'Playfair Display',serif;font-size:72px;font-weight:700;color:rgba(255,215,0,0.95);text-shadow:0 0 30px rgba(255,215,0,0.9),0 0 60px rgba(255,200,0,0.6);animation:smokeNumFloat 2.5s ease-out forwards;pointer-events:none;line-height:1;`;
+      el.style.cssText = `position:absolute;left:${pos.left};bottom:${pos.bottom};font-family:'Playfair Display',serif;font-size:72px;font-weight:700;color:#FFD700;text-shadow:0 0 8px rgba(255,215,0,0.6),0 2px 4px rgba(0,0,0,0.8);animation:smokeNumFloat 2.5s ease-out forwards;pointer-events:none;line-height:1;`;
       el.textContent = n;
       container.appendChild(el);
     }, i * 1000);
