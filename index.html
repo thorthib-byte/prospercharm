@@ -577,19 +577,18 @@
         <button onclick="energyNextStep(4)" style="padding:16px 48px;background:linear-gradient(135deg,rgba(180,130,20,0.95),rgba(212,175,55,0.95));border:2px solid rgba(255,215,0,0.7);border-radius:40px;font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:#1a0a00;cursor:pointer;box-shadow:0 0 30px rgba(212,175,55,0.5);">ส่องขันน้ำมนต์ →</button>
       </div>
 
-      <!-- แถบพลังงาน -->
-      <div id="energy-incense-bar-wrap" style="position:absolute;bottom:0;left:0;right:0;z-index:10;padding:0 32px calc(32px + env(safe-area-inset-bottom,0px));">
+      <!-- แถบพลังงานแนวตั้ง กลางจอ -->
+      <div id="energy-incense-bar-wrap" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;display:flex;flex-direction:column;align-items:center;gap:12px;">
         <!-- hint -->
-        <div style="text-align:center;margin-bottom:10px;">
+        <div style="text-align:center;">
           <span style="font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(255,215,0,0.9);text-shadow:0 2px 8px rgba(0,0,0,0.9);background:rgba(0,0,0,0.45);padding:6px 18px;border-radius:20px;border:1px solid rgba(255,215,0,0.3);">☝️ ดันนิ้วขึ้นเพื่อจุดธูป</span>
         </div>
-        <!-- หลอด -->
-        <div style="position:relative;height:52px;background:rgba(0,0,0,0.5);border:2px solid rgba(255,215,0,0.5);border-radius:30px;overflow:hidden;touch-action:none;" id="energy-incense-bar-track">
-          <div id="energy-incense-bar-fill" style="position:absolute;bottom:0;left:0;right:0;height:0%;background:linear-gradient(to top,#b8860b,#ffd700,#fffacd);border-radius:30px;transition:height 0.05s linear;"></div>
-          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
-            <span style="font-family:'Noto Serif Thai',serif;font-size:13px;color:rgba(255,255,255,0.85);text-shadow:0 1px 4px rgba(0,0,0,0.9);letter-spacing:1px;" id="energy-incense-bar-label">พลังงาน 0%</span>
-          </div>
+        <!-- หลอดแนวตั้ง -->
+        <div style="position:relative;width:64px;height:220px;background:rgba(0,0,0,0.5);border:2px solid rgba(255,215,0,0.5);border-radius:32px;overflow:hidden;touch-action:none;" id="energy-incense-bar-track">
+          <div id="energy-incense-bar-fill" style="position:absolute;bottom:0;left:0;right:0;height:0%;background:linear-gradient(to top,#b8860b,#ffd700,#fffacd);border-radius:32px;transition:height 0.05s linear;"></div>
         </div>
+        <!-- เปอร์เซ็นต์ -->
+        <span style="font-family:'Noto Serif Thai',serif;font-size:13px;color:rgba(255,255,255,0.85);text-shadow:0 1px 4px rgba(0,0,0,0.9);" id="energy-incense-bar-label">0%</span>
       </div>
     </div>
 
@@ -2022,11 +2021,16 @@ function floatIncenseNumbers() {
   if (!container) return;
   container.style.display = 'block';
   const nums = [energyCeremonyData.mainNum, energyCeremonyData.moneyNum || ((energyCeremonyData.mainNum + 3) % 9) + 1];
+  // ตำแหน่งแยกซ้าย-ขวา ไม่ซ้อนกัน
+  const positions = [
+    { left: '22%', bottom: '35%' },
+    { left: '58%', bottom: '42%' }
+  ];
   nums.forEach((n, i) => {
     setTimeout(() => {
       const el = document.createElement('div');
-      const x = 30 + Math.random() * 40;
-      el.style.cssText = `position:absolute;left:${x}%;bottom:30%;font-family:'Playfair Display',serif;font-size:${80 - i*12}px;font-weight:700;color:rgba(255,215,0,0.95);text-shadow:0 0 30px rgba(255,215,0,0.9),0 0 60px rgba(255,200,0,0.6);animation:smokeNumFloat 2.5s ease-out forwards;pointer-events:none;`;
+      const pos = positions[i];
+      el.style.cssText = `position:absolute;left:${pos.left};bottom:${pos.bottom};font-family:'Playfair Display',serif;font-size:72px;font-weight:700;color:rgba(255,215,0,0.95);text-shadow:0 0 30px rgba(255,215,0,0.9),0 0 60px rgba(255,200,0,0.6);animation:smokeNumFloat 2.5s ease-out forwards;pointer-events:none;line-height:1;`;
       el.textContent = n;
       container.appendChild(el);
     }, i * 1000);
@@ -2310,6 +2314,30 @@ function resetEnergy() {
   document.getElementById('page-energy').style.background = '';
   clearDob('energy-dob');
   showPageHeader('page-energy');
+  // restore ปุ่มถวาย
+  const offeringBtn = document.querySelector('#energy-step2b button');
+  if (offeringBtn) offeringBtn.style.display = '';
+  const offeringMsg = document.getElementById('offering-msg');
+  if (offeringMsg) offeringMsg.textContent = '';
+  const vid = document.getElementById('offering-video');
+  if (vid) { vid.pause(); vid.src = ''; vid.style.opacity = '0'; }
+  // reset incense bar
+  const thoopVid = document.getElementById('energy-thoopmove');
+  if (thoopVid) { thoopVid.pause(); thoopVid.style.display = 'none'; }
+  const thoopStill = document.getElementById('energy-thoopstill');
+  if (thoopStill) thoopStill.style.display = 'block';
+  const barWrap = document.getElementById('energy-incense-bar-wrap');
+  if (barWrap) barWrap.style.display = 'flex';
+  const fill = document.getElementById('energy-incense-bar-fill');
+  if (fill) fill.style.height = '0%';
+  const label = document.getElementById('energy-incense-bar-label');
+  if (label) label.textContent = '0%';
+  const floats = document.getElementById('energy-incense-floats');
+  if (floats) { floats.style.display = 'none'; floats.innerHTML = ''; }
+  const nextBtn = document.getElementById('energy-incense-next');
+  if (nextBtn) nextBtn.style.display = 'none';
+  const track = document.getElementById('energy-incense-bar-track');
+  if (track) delete track.dataset.init;
   window.scrollTo(0, 0);
   showCreditsBar('energy');
 }
