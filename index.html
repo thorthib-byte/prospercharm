@@ -60,6 +60,10 @@
   .menu-title { font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:600; color:var(--brown-dark); display:block; margin-bottom:4px; }
   .menu-desc { font-size:11px; color:var(--text-light); display:block; line-height:1.5; }
   .menu-price { font-size:11px; color:var(--gold); margin-top:8px; display:block; font-weight:600; }
+  .menu-card-locked { position:relative; opacity:0.6; cursor:default; }
+  .menu-card-locked:active { transform:none; }
+  .menu-card-locked:hover { box-shadow:0 2px 12px rgba(100,80,50,0.06); border-color:rgba(180,160,130,0.25); }
+  .menu-lock-badge { position:absolute; top:10px; right:10px; background:rgba(80,60,30,0.75); color:#fff; font-size:10px; padding:3px 8px; border-radius:20px; font-family:'Noto Sans Thai',sans-serif; }
 
   /* PROMO */
   .promo-banner { margin:0 16px 24px; background:var(--white); border:1px solid rgba(180,160,130,0.3); border-radius:16px; padding:20px; text-align:center; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); }
@@ -242,6 +246,8 @@
       <div class="menu-card" onclick="goTo('page-energy')"><img class="menu-icon" src="images/icons/energy.png"><span class="menu-title">เลขพลังงาน</span><span class="menu-desc">พลังงานประจำวัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
 
       <div class="menu-card" onclick="goTo('page-soulmate')"><img class="menu-icon" src="images/icons/soulmate.png"><span class="menu-title">ดูดวงสมพงศ์</span><span class="menu-desc">ความเข้ากันของสองดวง</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card menu-card-locked" id="healing-card" onclick="handleLockedCard()"><span class="menu-lock-badge">🔒 เร็วๆ นี้</span><img class="menu-icon" src="images/icons/healing.png"><span class="menu-title">ล้างพลังงาน</span><span class="menu-desc">ชำระล้างพลังงานลบ</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card menu-card-locked" id="dream-card" onclick="handleLockedCard()"><span class="menu-lock-badge">🔒 เร็วๆ นี้</span><img class="menu-icon" src="images/icons/dream.png"><span class="menu-title">ทำนายฝัน</span><span class="menu-desc">ความหมายของฝัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
     </div>
     <div class="promo-banner" onclick="goTo('page-pricing')">
       <div class="promo-title">✦ สมัครแพ็กเกจรายเดือน ✦</div>
@@ -1046,6 +1052,7 @@ function showPageHeader(pageId) {
   if (h) h.style.display = 'flex';
 }
 function showPaymentPrompt(type){openPayment('single',29,1);showToast('กรุณาชำระเงินก่อนใช้บริการค่ะ 🙏');}
+function handleLockedCard(){ showToast('🔒 บริการนี้กำลังเปิดให้บริการเร็วๆ นี้ค่ะ'); }
 function useCredit(){if(userState.credits<999){userState.credits--;saveState();updateStatusBar();}}
 function resetPage(type){document.getElementById(type+'-result').classList.remove('show');document.getElementById(type+'-lock').classList.remove('show');if(type==='tarot'){selectedTopic=null;document.querySelectorAll('.topic-btn').forEach(b=>b.classList.remove('selected'));document.getElementById('tarot-btn').disabled=true;}showCreditsBar(type);}
 let pendingPayment={};
@@ -3064,11 +3071,19 @@ window.addEventListener('load', () => {
   // Handle ?dev=true param
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get('dev') === 'true') {
+    // ทำงานแค่ใน session นี้ — ไม่บันทึกลง localStorage
     userState.plan = 'unlimited';
     userState.credits = 999;
     userState.planExpiry = null;
-    saveState();
+    window._devMode = true;
     updateStatusBar();
+    // ปลดล็อค card ที่ล็อคอยู่
+    document.querySelectorAll('.menu-card-locked').forEach(card => {
+      card.classList.remove('menu-card-locked');
+      const badge = card.querySelector('.menu-lock-badge');
+      if (badge) badge.remove();
+      if (card.id === 'dream-card') card.setAttribute('onclick', "showToast('🌙 ทำนายฝัน — กำลังพัฒนาค่ะ')");
+    });
     showToast('🛠️ Dev Mode เปิดแล้ว — ใช้งานได้ไม่จำกัด');
   }
   // Handle ?go= param
