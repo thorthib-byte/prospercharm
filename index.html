@@ -531,7 +531,7 @@
     </div>
 
     <!-- STEP 2: เลือกของบูชา -->
-    <div id="energy-step2" style="display:none; position:fixed; inset:0; width:100%; height:100%;">
+    <div id="energy-step2" style="display:none; position:fixed; inset:0; width:100%; height:100%; background:#0a1a0a;">
       <!-- bg fullscreen -->
       <img src="images/energy/buchanaga.png" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:48;">
       <!-- ข้อความบน -->
@@ -550,7 +550,7 @@
     </div>
 
     <!-- STEP 2B: ถวายของ -->
-    <div id="energy-step2b" style="display:none; position:fixed; inset:0; width:100%; height:100%;">
+    <div id="energy-step2b" style="display:none; position:fixed; inset:0; width:100%; height:100%; background:#0a1a0a;">
       <img id="offering-still-img" src="" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:48;">
       <video id="offering-video" src="" muted playsinline style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.4s;z-index:49;"></video>
       <div style="position:fixed;top:calc(6% + env(safe-area-inset-top, 0px));left:0;right:0;text-align:center;z-index:52;pointer-events:none;">
@@ -563,7 +563,7 @@
     </div>
 
     <!-- STEP 3: จุดธูป -->
-    <div id="energy-step3" style="display:none; position:relative; min-height:100dvh; overflow:hidden; text-align:center;">
+    <div id="energy-step3" style="display:none; position:fixed; inset:0; overflow-y:auto; text-align:center; background:#0d1f0d;">
       <!-- รูปพ่อปู่เป็น background -->
       <img src="images/energy/welcomenagastill.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.7);">
 
@@ -1017,7 +1017,17 @@ let userState={plan:'free',credits:0,planExpiry:null};
 function loadState(){try{const s=localStorage.getItem('pc_state');if(s){userState=JSON.parse(s);if(userState.planExpiry&&new Date()>new Date(userState.planExpiry)){userState={plan:'free',credits:0,planExpiry:null};saveState();}}}catch(e){}updateStatusBar();}
 function saveState(){localStorage.setItem('pc_state',JSON.stringify(userState));}
 function updateStatusBar(){const icons={free:'🌙',single:'💫',basic:'🌙',pro:'⭐',unlimited:'👑'};const names={free:'ยังไม่ได้สมัคร',single:'รายครั้ง',basic:'Basic',pro:'Pro',unlimited:'Unlimited'};document.getElementById('plan-icon').textContent=icons[userState.plan];document.getElementById('plan-name').textContent=names[userState.plan];document.getElementById('credits-display').textContent=userState.plan!=='free'?(userState.credits>=999?'ไม่จำกัด':userState.credits+' ครั้ง'):'';}
-function goTo(pageId){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById(pageId).classList.add('active');window.scrollTo(0,0);const type=pageId.replace('page-','');if(['siam','tarot','energy','soulmate'].includes(type))showCreditsBar(type);}
+function goTo(pageId){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById(pageId).classList.add('active');
+  window.scrollTo(0,0);
+  const type=pageId.replace('page-','');
+  if(type==='siam') resetSiam();
+  else if(type==='tarot') resetTarot();
+  else if(type==='energy') resetEnergyFull();
+  else if(type==='soulmate') resetSoulmate();
+  if(['siam','tarot','energy','soulmate'].includes(type)) showCreditsBar(type);
+}
 function showCreditsBar(type){
   const bar = document.getElementById(type+'-credits-bar');
   const num = document.getElementById(type+'-credits-num');
@@ -2060,6 +2070,28 @@ function showEnergyFinalResult() {
   showCreditsBar('energy');
 }
 
+
+function resetEnergyFull() {
+  ['energy-step0','energy-step2','energy-step2b','energy-step3',
+   'energy-step4','energy-step5','energy-step6'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById('energy-step1').style.display = 'block';
+  showPageHeader('page-energy');
+  clearDob('energy-dob');
+  energyCeremonyData = {}; energyWaterProgress = 0;
+  const icon = document.getElementById('energy-incense-icon');
+  if (icon) { icon.dataset.lit = ''; icon.style.animation = ''; }
+  const smoke = document.getElementById('energy-smoke');
+  if (smoke) smoke.style.display = 'none';
+  const vid = document.getElementById('offering-video');
+  if (vid) { vid.pause(); vid.src = ''; vid.style.opacity = '0'; }
+  const offeringMsg = document.getElementById('offering-msg');
+  if (offeringMsg) offeringMsg.textContent = '';
+  const offeringBtn = document.querySelector('#energy-step2b button');
+  if (offeringBtn) offeringBtn.style.display = '';
+}
 
 function resetEnergy() {
   energyCeremonyData = {}; energyWaterProgress = 0;
