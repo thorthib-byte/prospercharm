@@ -248,7 +248,7 @@
       <div class="menu-card" onclick="goTo('page-tarot')"><img class="menu-icon" src="images/icons/tarot.png"><span class="menu-title">ไพ่ทาโรต์</span><span class="menu-desc">เปิดไพ่แห่งชะตา</span><span class="menu-price">29 บาท/ครั้ง</span></div>
       <div class="menu-card" onclick="goTo('page-energy')"><img class="menu-icon" src="images/icons/energy.png"><span class="menu-title">เลขพลังงาน</span><span class="menu-desc">พลังงานประจำวัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
 
-      <div class="menu-card" onclick="goTo('page-soulmate')"><img class="menu-icon" src="images/icons/soulmate.png"><span class="menu-title">ดูดวงสมพงศ์</span><span class="menu-desc">ความเข้ากันของสองดวง</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" onclick="goTo('page-soulmate')"><img class="menu-icon" src="images/icons/soulmate.png"><span class="menu-title">ดูดวงสมพงษ์</span><span class="menu-desc">ความเข้ากันของสองดวง</span><span class="menu-price">29 บาท/ครั้ง</span></div>
       <div class="menu-card menu-card-locked" id="healing-card" onclick="handleLockedCard()"><span class="menu-lock-badge">🔒 เร็วๆ นี้</span><img class="menu-icon" src="images/icons/healing.png"><span class="menu-title">ล้างพลังงาน</span><span class="menu-desc">ชำระล้างพลังงานลบ</span><span class="menu-price">29 บาท/ครั้ง</span></div>
       <div class="menu-card menu-card-locked" id="dream-card" onclick="handleLockedCard()"><span class="menu-lock-badge">🔒 เร็วๆ นี้</span><img class="menu-icon" src="images/icons/dream.png"><span class="menu-title">ทำนายฝัน</span><span class="menu-desc">ความหมายของฝัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
     </div>
@@ -376,7 +376,7 @@
       <div class="result-card-name" id="siam-title"></div>
       <div class="result-text" id="siam-text"></div>
       <div class="result-luck"><div class="result-luck-label">✦ คำแนะนำ</div><div class="result-luck-text" id="siam-advice"></div></div>
-      <button class="reset-btn" onclick="resetSiam()">🔄 เขย่าใหม่</button>
+      <button class="reset-btn" onclick="resetSiam()">เขย่าใหม่</button>
     </div>
   </div>
 
@@ -469,7 +469,7 @@
       <div class="result-divider"></div>
       <div class="result-text" id="tarot-text"></div>
       <div class="result-luck"><div class="result-luck-label" id="tarot-luck-label">✦ คำแนะนำ</div><div class="result-luck-text" id="tarot-advice"></div></div>
-      <button class="reset-btn" onclick="resetTarot()">🔄 เปิดไพ่ใหม่</button>
+      <button class="reset-btn" onclick="resetTarot()">เปิดไพ่ใหม่</button>
     </div>
   </div>
 
@@ -667,8 +667,8 @@
           <div id="energy-final-prophecy" style="font-size:14px;color:var(--text-mid);line-height:1.9;font-style:italic;"></div>
         </div>
         <div style="display:flex;gap:10px;margin-bottom:32px;">
-          <button onclick="shareEnergyResult()" style="flex:1;padding:13px;background:var(--brown-dark);border:none;border-radius:12px;color:rgba(212,175,55,0.9);font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:600;cursor:pointer;">📤 แชร์เลขมงคล</button>
-          <button onclick="resetEnergy()" style="flex:1;padding:13px;background:transparent;border:1px solid rgba(180,160,130,0.4);border-radius:12px;color:var(--text-mid);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">🔄 ทำพิธีใหม่</button>
+          <button onclick="shareEnergyResult()" style="flex:1;padding:13px;background:var(--brown-dark);border:none;border-radius:12px;color:rgba(212,175,55,0.9);font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:600;cursor:pointer;">แชร์เลขมงคล</button>
+          <button onclick="resetEnergy()" style="flex:1;padding:13px;background:transparent;border:1px solid rgba(180,160,130,0.4);border-radius:12px;color:var(--text-mid);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">ทำพิธีใหม่</button>
         </div>
       </div>
     </div>
@@ -678,7 +678,7 @@
   <div class="page" id="page-soulmate">
     <div class="inner-header">
       <button class="back-btn" onclick="goTo('page-home')">←</button>
-      <div class="inner-title">💑 ดูดวงสมพงศ์</div>
+      <div class="inner-title">💑 ดูดวงสมพงษ์</div>
       <div class="inner-header-credits" id="soulmate-credits-bar" style="display:none;">
         <span class="inner-header-credits-text">เครดิตคงเหลือ</span>
         <span class="inner-header-credits-num" id="soulmate-credits-num"></span>
@@ -882,7 +882,7 @@
         <div class="petal-glow" style="animation-delay:1.8s">🌸</div>
       </div>
     </div>
-    <div class="loading" id="soulmate-loading"><span class="loading-spinner">💑</span><div class="loading-text">กำลังวิเคราะห์ดวงสมพงศ์...</div></div>
+    <div class="loading" id="soulmate-loading"><span class="loading-spinner">💑</span><div class="loading-text">กำลังวิเคราะห์ดวงสมพงษ์...</div></div>
     <div class="result-card" id="soulmate-result">
       <div class="result-badge">
         <div style="font-size:52px;" id="soulmate-emoji"></div>
@@ -893,7 +893,7 @@
       <div class="result-card-name" id="soulmate-title"></div>
       <div class="result-text" id="soulmate-text"></div>
       <div class="result-luck"><div class="result-luck-label">✦ คำแนะนำ</div><div class="result-luck-text" id="soulmate-advice"></div></div>
-      <button class="reset-btn" onclick="resetSoulmate()">🔄 ดูใหม่อีกครั้ง</button>
+      <button class="reset-btn" onclick="resetSoulmate()">ดูใหม่อีกครั้ง</button>
     </div>
   </div>
 
@@ -907,7 +907,7 @@
     <!-- Score bar -->
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
       <div style="display:flex; justify-content:space-between; margin-bottom:8px;">
-        <span style="font-size:13px; color:var(--text-mid);">ระดับความสมพงศ์</span>
+        <span style="font-size:13px; color:var(--text-mid);">ระดับความสมพงษ์</span>
         <span style="font-family:'Noto Serif Thai',serif; font-size:20px; font-weight:700; color:var(--gold);" id="s6-score-pct"></span>
       </div>
       <div style="background:var(--cream-dark); border-radius:20px; height:10px; overflow:hidden;">
@@ -953,7 +953,7 @@
       <div id="s6-advice" style="font-size:15px; color:var(--text-mid); line-height:1.9; font-style:italic;"></div>
     </div>
 
-    <button class="reset-btn" onclick="resetSoulmate()">🔄 ดูใหม่อีกครั้ง</button>
+    <button class="reset-btn" onclick="resetSoulmate()">ดูใหม่อีกครั้ง</button>
   </div>
 
   <!-- PAYMENT MODAL -->
@@ -2814,6 +2814,12 @@ function showSoulmateStep(stepId) {
   const target = document.getElementById(stepId);
   if (target) {
     target.style.display = 'block';
+    // ซ่อน header เฉพาะหน้าอ่างน้ำ (4c) และ loading (5)
+    if (stepId === 'soulmate-step4c' || stepId === 'soulmate-step5') {
+      hidePageHeader('page-soulmate');
+    } else {
+      showPageHeader('page-soulmate');
+    }
     if (stepId !== 'soulmate-step4c' && stepId !== 'soulmate-step5') {
       window.scrollTo(0,0);
     }
