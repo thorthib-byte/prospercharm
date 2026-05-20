@@ -551,6 +551,12 @@
 
     <!-- STEP 2B: ถวายของ -->
     <div id="energy-step2b" style="display:none; position:fixed; inset:0; width:100%; height:100%; background:#0a1a0a;">
+      <!-- loading background ระหว่างรอรูปโหลด -->
+      <img src="images/energy/buchanaga.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:brightness(0.6);">
+      <div id="offering-loading-text" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;text-align:center;">
+        <div style="font-family:'Noto Serif Thai',serif;font-size:16px;color:rgba(255,215,0,0.9);text-shadow:0 2px 8px rgba(0,0,0,0.9);">กำลังเตรียมของบูชา...</div>
+        <div style="font-size:12px;color:rgba(255,215,0,0.6);margin-top:6px;">โปรดรอสักครู่ค่ะ</div>
+      </div>
       <img id="offering-still-img" src="" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:48;">
       <video id="offering-video" src="" muted playsinline style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity 0.4s;z-index:49;"></video>
       <div style="position:fixed;top:calc(6% + env(safe-area-inset-top, 0px));left:0;right:0;text-align:center;z-index:52;pointer-events:none;">
@@ -1710,6 +1716,10 @@ function selectOffering(type, name, stillSrc, videoSrc) {
 
   // เปลี่ยนหน้าทันที ไม่รอรูปโหลด
   const img = document.getElementById('offering-still-img');
+  img.onload = function() {
+    const t = document.getElementById('offering-loading-text');
+    if (t) t.style.display = 'none';
+  };
   img.src = stillSrc;
   ['energy-step1','energy-step2'].forEach(id => {
     const el = document.getElementById(id);
@@ -2144,6 +2154,8 @@ function resetEnergyFull() {
   if (track) delete track.dataset.init;
   const offeringMsg = document.getElementById('offering-msg');
   if (offeringMsg) offeringMsg.textContent = '';
+  const loadingText = document.getElementById('offering-loading-text');
+  if (loadingText) loadingText.style.display = 'block';
   const offeringBtn = document.querySelector('#energy-step2b button');
   if (offeringBtn) offeringBtn.style.display = '';
 }
@@ -2315,6 +2327,8 @@ function resetEnergy() {
   if (offeringBtn) offeringBtn.style.display = '';
   const offeringMsg = document.getElementById('offering-msg');
   if (offeringMsg) offeringMsg.textContent = '';
+  const loadingText2 = document.getElementById('offering-loading-text');
+  if (loadingText2) loadingText2.style.display = 'block';
   const vid = document.getElementById('offering-video');
   if (vid) { vid.pause(); vid.src = ''; vid.style.opacity = '0'; }
   // reset incense bar
