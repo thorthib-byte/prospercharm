@@ -1708,26 +1708,15 @@ function selectOffering(type, name, stillSrc, videoSrc) {
   offeringProgress = 0;
   document.getElementById('offering-msg').textContent = '';
 
-  // โหลดรูปก่อน แล้วค่อย transition — ไม่ให้เห็นหน้าขาว
+  // เปลี่ยนหน้าทันที ไม่รอรูปโหลด
   const img = document.getElementById('offering-still-img');
-  img.onload = function() {
-    ['energy-step1','energy-step2'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.display = 'none';
-    });
-    document.getElementById('energy-step2b').style.display = 'block';
-    window.scrollTo(0,0);
-  };
-  img.onerror = function() {
-    // fallback ถ้าโหลดรูปไม่ได้
-    ['energy-step1','energy-step2'].forEach(id => {
-      const el = document.getElementById(id);
-      if (el) el.style.display = 'none';
-    });
-    document.getElementById('energy-step2b').style.display = 'block';
-    window.scrollTo(0,0);
-  };
   img.src = stillSrc;
+  ['energy-step1','energy-step2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById('energy-step2b').style.display = 'block';
+  window.scrollTo(0,0);
 }
 
 function confirmOffering() {
