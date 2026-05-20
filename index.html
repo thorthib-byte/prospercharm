@@ -611,6 +611,9 @@
       <!-- overlay มืดเบาๆ ด้านล่างให้ปุ่มอ่านง่าย -->
       <div style="position:absolute;bottom:0;left:0;right:0;height:45%;background:linear-gradient(to top,rgba(0,0,0,0.7) 0%,transparent 100%);z-index:1;pointer-events:none;"></div>
 
+      <!-- วิดีโอเกล็ดพญานาค (เล่นหลังเลือก) -->
+      <video id="energy-nagaseal-video" src="images/energy/nagasealmove.mp4" muted playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:5;display:none;"></video>
+
       <!-- prophecy box (แสดงหลังเลือก) -->
       <div id="energy-prophecy-box" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;z-index:20;background:rgba(5,15,10,0.88);display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;">
         <div style="font-family:'Noto Serif Thai',serif;font-size:15px;color:rgba(245,230,163,0.7);margin-bottom:12px;letter-spacing:2px;">✦ คำพยากรณ์จากพญานาค ✦</div>
@@ -627,19 +630,21 @@
     </div>
 
     <!-- STEP 6: ผลลัพธ์สรุป -->
-    <div id="energy-step6" style="display:none;">
-      <div style="background:linear-gradient(180deg,#0a1628,#1a0a2e);padding:40px 20px;text-align:center;position:relative;overflow:hidden;">
-        <div style="position:absolute;inset:0;font-size:200px;opacity:0.06;display:flex;align-items:center;justify-content:center;pointer-events:none;">🐉</div>
+    <div id="energy-step6" style="display:none; background:var(--cream);">
+      <!-- Hero section — โทนทอง/ครีมเข้ม -->
+      <div style="background:linear-gradient(180deg,#2c1a08,#3d2410);padding:48px 20px 36px;text-align:center;position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;opacity:0.07;font-size:200px;display:flex;align-items:center;justify-content:center;pointer-events:none;">🐉</div>
         <div style="position:relative;z-index:2;">
-          <div style="font-size:12px;color:rgba(212,175,55,0.6);letter-spacing:3px;margin-bottom:8px;">เลขพลังงานนาค</div>
-          <div id="energy-main-num" style="font-family:'Playfair Display',serif;font-size:96px;font-weight:700;color:var(--gold);line-height:1;text-shadow:0 0 40px rgba(212,175,55,0.6);"></div>
-          <div id="energy-main-desc" style="font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(245,230,163,0.85);margin-top:12px;line-height:1.7;max-width:280px;margin-left:auto;margin-right:auto;"></div>
-          <div style="margin-top:16px;background:rgba(255,255,255,0.08);border-radius:20px;padding:10px 20px;display:inline-block;">
+          <div style="font-size:11px;color:rgba(212,175,55,0.7);letter-spacing:3px;margin-bottom:8px;">เลขพลังงานนาค</div>
+          <div id="energy-main-num" style="font-family:'Playfair Display',serif;font-size:96px;font-weight:700;color:var(--gold);line-height:1;text-shadow:0 0 40px rgba(212,175,55,0.5);"></div>
+          <div id="energy-main-desc" style="font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(245,230,180,0.9);margin-top:12px;line-height:1.8;max-width:280px;margin-left:auto;margin-right:auto;"></div>
+          <div style="margin-top:16px;background:rgba(0,0,0,0.25);border-radius:20px;padding:10px 24px;display:inline-block;border:1px solid rgba(212,175,55,0.3);">
             <div style="font-size:11px;color:rgba(212,175,55,0.6);margin-bottom:2px;">พลังโชคจากพ่อปู่</div>
             <div id="energy-score" style="font-family:'Playfair Display',serif;font-size:26px;font-weight:700;color:var(--gold);"></div>
           </div>
         </div>
       </div>
+      <!-- Cards section — ครีมสะอาด -->
       <div style="padding:16px;">
         <div style="background:var(--white);border:1px solid rgba(180,160,130,0.25);border-radius:16px;padding:20px;margin-bottom:14px;">
           <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:600;color:var(--brown-dark);margin-bottom:12px;">🔢 เลขรองส่งเสริม</div>
@@ -657,12 +662,12 @@
             <div id="energy-time-desc" style="font-size:11px;color:var(--text-light);"></div>
           </div>
         </div>
-        <div style="background:linear-gradient(135deg,rgba(10,22,40,0.9),rgba(26,10,46,0.9));border:1px solid rgba(212,175,55,0.35);border-radius:16px;padding:20px;margin-bottom:14px;">
-          <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:600;color:rgba(245,230,163,0.95);margin-bottom:8px;">🐉 คำพยากรณ์จากพ่อปู่</div>
-          <div id="energy-final-prophecy" style="font-size:14px;color:rgba(212,175,55,0.85);line-height:1.9;font-style:italic;"></div>
+        <div style="background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.25);border-radius:16px;padding:20px;margin-bottom:14px;">
+          <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:600;color:var(--brown-dark);margin-bottom:8px;">🐉 คำพยากรณ์จากพ่อปู่</div>
+          <div id="energy-final-prophecy" style="font-size:14px;color:var(--text-mid);line-height:1.9;font-style:italic;"></div>
         </div>
-        <div style="display:flex;gap:10px;margin-bottom:16px;">
-          <button onclick="shareEnergyResult()" style="flex:1;padding:13px;background:#0a1628;border:none;border-radius:12px;color:rgba(212,175,55,0.9);font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:600;cursor:pointer;">📤 แชร์เลขมงคล</button>
+        <div style="display:flex;gap:10px;margin-bottom:32px;">
+          <button onclick="shareEnergyResult()" style="flex:1;padding:13px;background:var(--brown-dark);border:none;border-radius:12px;color:rgba(212,175,55,0.9);font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:600;cursor:pointer;">📤 แชร์เลขมงคล</button>
           <button onclick="resetEnergy()" style="flex:1;padding:13px;background:transparent;border:1px solid rgba(180,160,130,0.4);border-radius:12px;color:var(--text-mid);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">🔄 ทำพิธีใหม่</button>
         </div>
       </div>
@@ -2083,10 +2088,19 @@ function openEnergyS(el, idx) {
   // reset ปุ่มทั้งหมด
   document.querySelectorAll('.naga-seal-btn').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
-  // แสดง prophecy overlay
-  const box = document.getElementById('energy-prophecy-box');
-  box.style.display = 'flex';
-  document.getElementById('energy-prophecy-text').textContent = energyCeremonyData.prophecy;
+  // เล่นวิดีโอ nagasealmove.mp4
+  const vid = document.getElementById('energy-nagaseal-video');
+  vid.style.display = 'block';
+  vid.currentTime = 0;
+  vid.play();
+  // จบวิดีโอ → ไปหน้าเฉลยอัตโนมัติ
+  vid.onended = function() {
+    showEnergyFinalResult();
+  };
+  // fallback 11 วินาที ถ้า onended ไม่ยิง
+  setTimeout(() => {
+    if (vid.style.display !== 'none') showEnergyFinalResult();
+  }, 11000);
 }
 
 function showEnergyFinalResult() {
@@ -2165,6 +2179,8 @@ function resetEnergyFull() {
   if (prophecyBox) prophecyBox.style.display = 'none';
   const prophecyText = document.getElementById('energy-prophecy-text');
   if (prophecyText) prophecyText.textContent = '';
+  const nagaVid = document.getElementById('energy-nagaseal-video');
+  if (nagaVid) { nagaVid.pause(); nagaVid.currentTime = 0; nagaVid.style.display = 'none'; nagaVid.onended = null; }
 }
 
 function resetEnergy() {
@@ -2370,6 +2386,8 @@ function resetEnergy() {
   if (prophecyBox) prophecyBox.style.display = 'none';
   const prophecyText = document.getElementById('energy-prophecy-text');
   if (prophecyText) prophecyText.textContent = '';
+  const nagaVid2 = document.getElementById('energy-nagaseal-video');
+  if (nagaVid2) { nagaVid2.pause(); nagaVid2.currentTime = 0; nagaVid2.style.display = 'none'; nagaVid2.onended = null; }
   window.scrollTo(0, 0);
   showCreditsBar('energy');
 }
