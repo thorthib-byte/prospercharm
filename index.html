@@ -1966,6 +1966,7 @@ function initIncenseBar() {
   let progress = 0;
   let startY = null;
   let isDragging = false;
+  let triggered = false;
   const track = document.getElementById('energy-incense-bar-track');
   const fill = document.getElementById('energy-incense-bar-fill');
   const label = document.getElementById('energy-incense-bar-label');
@@ -1973,30 +1974,36 @@ function initIncenseBar() {
   track.dataset.init = '1';
 
   function updateBar(val) {
+    if (triggered) return;
     progress = Math.max(0, Math.min(100, val));
     fill.style.height = progress + '%';
     label.textContent = Math.round(progress) + '%';
-    if (progress >= 100) triggerIncenseLit();
+    if (progress >= 100 && !triggered) {
+      triggered = true;
+      fill.style.height = '100%';
+      label.textContent = '100%';
+      setTimeout(() => triggerIncenseLit(), 400);
+    }
   }
 
   function onStart(e) {
+    if (triggered) return;
     isDragging = true;
     startY = (e.touches ? e.touches[0].clientY : e.clientY);
   }
   function onMove(e) {
-    if (!isDragging || startY === null) return;
+    if (!isDragging || startY === null || triggered) return;
     e.preventDefault();
     const curY = (e.touches ? e.touches[0].clientY : e.clientY);
     const dy = startY - curY;
-    const delta = (dy / 220) * 100 * 1.8; // 220 = ความสูงหลอด
-    if (Math.abs(delta) > 0.5) {
+    const delta = (dy / 220) * 100 * 1.2;
+    if (Math.abs(dy) > 1) {
       updateBar(progress + delta);
       startY = curY;
     }
   }
   function onEnd() { isDragging = false; startY = null; }
 
-  // ผูก touchstart กับ track, touchmove/end กับ document เพื่อรับ drag นอก track ด้วย
   track.addEventListener('touchstart', onStart, {passive:false});
   document.addEventListener('touchmove', onMove, {passive:false});
   document.addEventListener('touchend', onEnd);
