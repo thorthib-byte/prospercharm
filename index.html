@@ -563,31 +563,32 @@
     </div>
 
     <!-- STEP 3: จุดธูป -->
-    <div id="energy-step3" style="display:none; position:fixed; inset:0; overflow-y:auto; text-align:center; background:#0d1f0d;">
-      <!-- รูปพ่อปู่เป็น background -->
-      <img src="images/energy/welcomenagastill.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.7);">
+    <div id="energy-step3" style="display:none; position:fixed; inset:0; background:#000; overflow:hidden;">
+      <!-- พื้นหลัง still -->
+      <img id="energy-thoopstill" src="images/energy/thoopstill.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;">
+      <!-- วิดีโอธูปติดไฟ -->
+      <video id="energy-thoopmove" src="images/energy/thoopmove.mp4" muted playsinline loop style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:1;display:none;"></video>
 
-      <div style="position:relative;z-index:2;padding:40px 20px;">
-        <div style="font-family:'Noto Serif Thai',serif;font-size:17px;color:rgba(245,230,163,0.95);margin-bottom:4px;text-shadow:0 2px 8px rgba(0,0,0,0.8);">จุดธูปบูชา</div>
-        <div style="font-size:12px;color:rgba(212,175,55,0.7);margin-bottom:24px;text-shadow:0 2px 4px rgba(0,0,0,0.8);">กดที่ธูปเพื่อจุดไฟ</div>
+      <!-- เลขลอยขึ้น (แสดงตอนวิดีโอเล่น) -->
+      <div id="energy-incense-floats" style="position:absolute;inset:0;z-index:3;pointer-events:none;display:none;"></div>
 
-        <div style="cursor:pointer;display:inline-block;" onmousedown="lightEnergyIncense()" ontouchstart="lightEnergyIncense()">
-          <div style="font-size:80px;filter:drop-shadow(0 0 20px rgba(212,175,55,0.5));" id="energy-incense-icon">🪔</div>
+      <!-- ปุ่มไปถัดไป (แสดงหลังเลขลอยเสร็จ) -->
+      <div id="energy-incense-next" style="display:none;position:absolute;bottom:calc(10% + env(safe-area-inset-bottom,0px));left:0;right:0;text-align:center;z-index:10;">
+        <button onclick="energyNextStep(4)" style="padding:16px 48px;background:linear-gradient(135deg,rgba(180,130,20,0.95),rgba(212,175,55,0.95));border:2px solid rgba(255,215,0,0.7);border-radius:40px;font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:#1a0a00;cursor:pointer;box-shadow:0 0 30px rgba(212,175,55,0.5);">ส่องขันน้ำมนต์ →</button>
+      </div>
+
+      <!-- แถบพลังงาน -->
+      <div id="energy-incense-bar-wrap" style="position:absolute;bottom:0;left:0;right:0;z-index:10;padding:0 32px calc(32px + env(safe-area-inset-bottom,0px));">
+        <!-- hint -->
+        <div style="text-align:center;margin-bottom:10px;">
+          <span style="font-family:'Noto Serif Thai',serif;font-size:14px;color:rgba(255,215,0,0.9);text-shadow:0 2px 8px rgba(0,0,0,0.9);background:rgba(0,0,0,0.45);padding:6px 18px;border-radius:20px;border:1px solid rgba(255,215,0,0.3);">☝️ ดันนิ้วขึ้นเพื่อจุดธูป</span>
         </div>
-
-        <!-- ควันและเลขลอย -->
-        <div id="energy-smoke-nums" style="display:none;position:relative;height:200px;margin-top:10px;">
-          <!-- ควัน -->
-          <div style="position:absolute;left:50%;transform:translateX(-50%);bottom:0;width:4px;background:linear-gradient(to top,rgba(255,255,255,0.6),transparent);border-radius:2px;animation:smokeColumn 2s ease-out infinite;"></div>
-
-          <!-- เลขลอยขึ้น - แสดงทีละตัว -->
-          <div id="smoke-num-display" style="position:absolute;left:50%;transform:translateX(-50%);bottom:20px;text-align:center;"></div>
-        </div>
-
-        <div id="energy-reveal1" style="display:none;margin-top:16px;">
-          <div style="font-size:13px;color:rgba(212,175,55,0.8);margin-bottom:16px;text-shadow:0 2px 4px rgba(0,0,0,0.8);">เลขธูปแรกปรากฏจากควัน…</div>
-          <div id="energy-num1-area" style="display:flex;justify-content:center;gap:16px;margin-bottom:24px;"></div>
-          <button class="cta-btn" onclick="energyNextStep(4)" style="max-width:280px;background:rgba(212,175,55,0.9);color:#1a0a2e;">ส่องขันน้ำมนต์ →</button>
+        <!-- หลอด -->
+        <div style="position:relative;height:52px;background:rgba(0,0,0,0.5);border:2px solid rgba(255,215,0,0.5);border-radius:30px;overflow:hidden;touch-action:none;" id="energy-incense-bar-track">
+          <div id="energy-incense-bar-fill" style="position:absolute;bottom:0;left:0;right:0;height:0%;background:linear-gradient(to top,#b8860b,#ffd700,#fffacd);border-radius:30px;transition:height 0.05s linear;"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+            <span style="font-family:'Noto Serif Thai',serif;font-size:13px;color:rgba(255,255,255,0.85);text-shadow:0 1px 4px rgba(0,0,0,0.9);letter-spacing:1px;" id="energy-incense-bar-label">พลังงาน 0%</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1906,6 +1907,7 @@ function energyNextStep(step) {
     target.style.display = 'block';
     window.scrollTo(0,0);
     if (step === 2) setTimeout(() => setupBuchaCanvas(), 100);
+    if (step === 3) setTimeout(() => initIncenseBar(), 100);
   }
 }
 const energyMeanings={1:'เลขแห่งความเป็นผู้นำ วันนี้เหมาะแก่การริเริ่มและตัดสินใจด้วยตัวเอง',2:'เลขแห่งความสมดุล วันนี้เหมาะแก่การทำงานร่วมกับผู้อื่นและการเจรจา',3:'เลขแห่งความสร้างสรรค์ พลังงานแห่งการแสดงออกและความสนุกสนาน',4:'เลขแห่งความมั่นคง วันนี้เหมาะแก่การวางรากฐานและทำงานอย่างตั้งใจ',5:'เลขแห่งการเปลี่ยนแปลง วันนี้อาจมีเรื่องใหม่หรือความเปลี่ยนแปลงเกิดขึ้น',6:'เลขแห่งความรักและครอบครัว วันนี้เหมาะแก่การดูแลคนที่รักและตัวเอง',7:'เลขแห่งปัญญาและจิตวิญญาณ วันนี้เหมาะแก่การทบทวนและค้นหาความหมาย',8:'เลขแห่งความอุดมสมบูรณ์ พลังงานด้านการเงินและความสำเร็จแรงมากวันนี้',9:'เลขแห่งการให้และความเมตตา วันนี้เหมาะแก่การทำบุญและช่วยเหลือผู้อื่น'};
@@ -1961,51 +1963,82 @@ function setupEnergyMist() {
   }).join('');
 }
 
-function lightEnergyIncense() {
-  const icon = document.getElementById('energy-incense-icon');
-  if (!icon || icon.dataset.lit) return;
-  icon.dataset.lit = '1';
-  icon.style.animation = 'nagaGlow 1s ease-in-out infinite';
+function initIncenseBar() {
+  let progress = 0;
+  let startY = null;
+  let isDragging = false;
+  const track = document.getElementById('energy-incense-bar-track');
+  const fill = document.getElementById('energy-incense-bar-fill');
+  const label = document.getElementById('energy-incense-bar-label');
+  if (!track || track.dataset.init) return;
+  track.dataset.init = '1';
 
-  // แสดงควันและเลขลอย
-  const smokeNums = document.getElementById('energy-smoke-nums');
-  if (smokeNums) smokeNums.style.display = 'block';
+  function updateBar(val) {
+    progress = Math.max(0, Math.min(100, val));
+    fill.style.height = progress + '%';
+    label.textContent = 'พลังงาน ' + Math.round(progress) + '%';
+    if (progress >= 100) triggerIncenseLit();
+  }
 
-  const display = document.getElementById('smoke-num-display');
+  function onStart(e) {
+    isDragging = true;
+    startY = (e.touches ? e.touches[0].clientY : e.clientY);
+  }
+  function onMove(e) {
+    if (!isDragging || startY === null) return;
+    e.preventDefault();
+    const curY = (e.touches ? e.touches[0].clientY : e.clientY);
+    const dy = startY - curY; // ดันขึ้น = บวก
+    const trackH = track.offsetHeight;
+    const delta = (dy / trackH) * 100 * 1.5;
+    updateBar(progress + delta);
+    startY = curY;
+  }
+  function onEnd() { isDragging = false; startY = null; }
+
+  track.addEventListener('touchstart', onStart, {passive:true});
+  track.addEventListener('touchmove', onMove, {passive:false});
+  track.addEventListener('touchend', onEnd);
+  track.addEventListener('mousedown', onStart);
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('mouseup', onEnd);
+}
+
+function triggerIncenseLit() {
+  // ซ่อน bar
+  const barWrap = document.getElementById('energy-incense-bar-wrap');
+  if (barWrap) barWrap.style.display = 'none';
+  // เปลี่ยนจาก still เป็น video
+  document.getElementById('energy-thoopstill').style.display = 'none';
+  const vid = document.getElementById('energy-thoopmove');
+  vid.style.display = 'block';
+  vid.play();
+  // เลขลอยขึ้น
+  setTimeout(() => floatIncenseNumbers(), 1200);
+}
+
+function floatIncenseNumbers() {
+  const container = document.getElementById('energy-incense-floats');
+  if (!container) return;
+  container.style.display = 'block';
   const nums = [energyCeremonyData.mainNum, energyCeremonyData.moneyNum || ((energyCeremonyData.mainNum + 3) % 9) + 1];
-  const digits = nums.join('').split('');
-
-  // ลอยทีละตัว เหมือนรูปที่ 2
-  let currentStr = '';
-  digits.forEach((digit, i) => {
+  nums.forEach((n, i) => {
     setTimeout(() => {
-      currentStr += digit;
-      if (display) {
-        display.innerHTML = currentStr.split('').map((d, idx) => `
-          <div style="
-            font-family:'Playfair Display',serif;
-            font-size:${64 - idx*8}px;
-            font-weight:700;
-            color:rgba(255,215,0,0.92);
-            text-shadow:0 0 20px rgba(255,215,0,0.9),0 0 40px rgba(255,200,0,0.6),0 0 60px rgba(200,150,0,0.3);
-            line-height:1.1;
-            animation:smokeNumFloat 1.2s ease-out forwards;
-            filter:drop-shadow(0 0 8px rgba(255,215,0,0.8));
-            display:block;
-          ">${d}</div>
-        `).join('');
-      }
-    }, i * 900);
+      const el = document.createElement('div');
+      const x = 30 + Math.random() * 40;
+      el.style.cssText = `position:absolute;left:${x}%;bottom:30%;font-family:'Playfair Display',serif;font-size:${80 - i*12}px;font-weight:700;color:rgba(255,215,0,0.95);text-shadow:0 0 30px rgba(255,215,0,0.9),0 0 60px rgba(255,200,0,0.6);animation:smokeNumFloat 2.5s ease-out forwards;pointer-events:none;`;
+      el.textContent = n;
+      container.appendChild(el);
+    }, i * 1000);
   });
-
-  // แสดง reveal หลังเลขครบ
+  // แสดงปุ่มไปถัดไป
   setTimeout(() => {
-    document.getElementById('energy-reveal1').style.display = 'block';
-    const area = document.getElementById('energy-num1-area');
-    area.innerHTML = nums.map(n =>
-      `<div style="font-family:'Playfair Display',serif;font-size:52px;font-weight:700;color:var(--gold);text-shadow:0 0 20px rgba(212,175,55,0.6);animation:numReveal 0.5s ease-out;">${n}</div>`
-    ).join('');
-  }, digits.length * 900 + 600);
+    document.getElementById('energy-incense-next').style.display = 'block';
+  }, nums.length * 1000 + 1200);
+}
+
+function lightEnergyIncense() {
+  // legacy — ไม่ใช้แล้ว
 }
 
 function startEnergyWater() {
@@ -2092,6 +2125,23 @@ function resetEnergyFull() {
   if (smoke) smoke.style.display = 'none';
   const vid = document.getElementById('offering-video');
   if (vid) { vid.pause(); vid.src = ''; vid.style.opacity = '0'; }
+  // reset incense bar
+  const thoopVid = document.getElementById('energy-thoopmove');
+  if (thoopVid) { thoopVid.pause(); thoopVid.style.display = 'none'; }
+  const thoopStill = document.getElementById('energy-thoopstill');
+  if (thoopStill) thoopStill.style.display = 'block';
+  const barWrap = document.getElementById('energy-incense-bar-wrap');
+  if (barWrap) barWrap.style.display = 'block';
+  const fill = document.getElementById('energy-incense-bar-fill');
+  if (fill) fill.style.height = '0%';
+  const label = document.getElementById('energy-incense-bar-label');
+  if (label) label.textContent = 'พลังงาน 0%';
+  const floats = document.getElementById('energy-incense-floats');
+  if (floats) { floats.style.display = 'none'; floats.innerHTML = ''; }
+  const nextBtn = document.getElementById('energy-incense-next');
+  if (nextBtn) nextBtn.style.display = 'none';
+  const track = document.getElementById('energy-incense-bar-track');
+  if (track) delete track.dataset.init;
   const offeringMsg = document.getElementById('offering-msg');
   if (offeringMsg) offeringMsg.textContent = '';
   const offeringBtn = document.querySelector('#energy-step2b button');
