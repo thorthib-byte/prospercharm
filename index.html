@@ -3177,6 +3177,12 @@ function showCnStep(stepId) {
   });
   const t = document.getElementById(stepId);
   if (t) t.style.display = 'block';
+  // header: แสดงเฉพาะ step2, 3, 4 ซ่อนส่วนที่เป็น fullscreen
+  if (['cn-step2','cn-step3','cn-step4'].includes(stepId)) {
+    showPageHeader('page-soulmate');
+  } else {
+    hidePageHeader('page-soulmate');
+  }
   if (stepId === 'cn-step3') startCnQA();
   if (stepId === 'cn-step5') initCnThread();
   if (stepId === 'cn-step6') initCnElements();
@@ -3414,10 +3420,14 @@ function renderCnResult() {
 }
 
 function resetCnFlow() {
-  cnState = { dob1:'', dob2:'', zodiac1:'', zodiac2:'', element1:'', element2:'', relation:'', yinYang1:0, yinYang2:0, balanceAngle:0 };
+  cnState = { dob1: cnState.dob1, dob2: cnState.dob2, zodiac1:'', zodiac2:'', element1:'', element2:'', relation:'', yinYang1:0, yinYang2:0, balanceAngle:0 };
   cnQIdx = 0; cnYYScore = 0; cnYYSpinCount = 0;
-  showCnStep('cn-step2'); // ไม่ต้องกลับไปกรอกวันเกิดใหม่
-  showPageHeader('page-soulmate');
+  // clear ผลเก่า
+  const cn9 = document.getElementById('cn-step9');
+  if (cn9) cn9.innerHTML = '';
+  // reset ปุ่มสถานะ
+  document.querySelectorAll('.cn-relation-btn').forEach(b => b.classList.remove('selected'));
+  showCnStep('cn-step2');
 }
 
 // ===== END CHINESE SCIENCE =====
