@@ -672,6 +672,8 @@
 
       <!-- วิดีโอเกล็ดพญานาค (เล่นหลังเลือก) -->
       <video id="energy-nagaseal-video" src="images/energy/nagasealmove.mp4" muted playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:5;display:none;"></video>
+      <!-- เลขลอยขึ้นตอนใกล้จบวิดีโอ -->
+      <div id="energy-nagaseal-floats" style="position:absolute;inset:0;z-index:8;pointer-events:none;display:none;"></div>
 
       <!-- prophecy box (แสดงหลังเลือก) -->
       <div id="energy-prophecy-box" style="display:none;position:absolute;top:0;left:0;right:0;bottom:0;z-index:20;background:rgba(5,15,10,0.88);display:none;flex-direction:column;align-items:center;justify-content:center;padding:32px 24px;">
@@ -2147,19 +2149,49 @@ function openEnergyS(el, idx) {
   // reset ปุ่มทั้งหมด
   document.querySelectorAll('.naga-seal-btn').forEach(b => b.classList.remove('selected'));
   el.classList.add('selected');
+  // reset float container
+  const floats = document.getElementById('energy-nagaseal-floats');
+  if (floats) { floats.innerHTML = ''; floats.style.display = 'none'; }
   // เล่นวิดีโอ nagasealmove.mp4
   const vid = document.getElementById('energy-nagaseal-video');
   vid.style.display = 'block';
   vid.currentTime = 0;
   vid.play();
+  let floated = false;
+  // ตรวจเวลา — เหลือ 3 วินาทีก่อนจบ → แสดงเลขลอย
+  vid.ontimeupdate = function() {
+    if (!floated && vid.duration && vid.currentTime >= vid.duration - 3) {
+      floated = true;
+      floatNagaSealNumbers();
+    }
+  };
   // จบวิดีโอ → ไปหน้าเฉลยอัตโนมัติ
   vid.onended = function() {
     showEnergyFinalResult();
   };
-  // fallback 11 วินาที ถ้า onended ไม่ยิง
+  // fallback 11 วินาที
   setTimeout(() => {
     if (vid.style.display !== 'none') showEnergyFinalResult();
   }, 11000);
+}
+
+function floatNagaSealNumbers() {
+  const container = document.getElementById('energy-nagaseal-floats');
+  if (!container) return;
+  container.style.display = 'block';
+  const mainNum = energyCeremonyData.mainNum;
+  const secNum = energyCeremonyData.secondaryNums ? energyCeremonyData.secondaryNums[0] : ((mainNum + 3) % 9) + 1;
+  const nums = [mainNum, secNum];
+  const positions = [{ left: '22%', bottom: '35%' }, { left: '58%', bottom: '42%' }];
+  nums.forEach((n, i) => {
+    setTimeout(() => {
+      const el = document.createElement('div');
+      const pos = positions[i];
+      el.style.cssText = `position:absolute;left:${pos.left};bottom:${pos.bottom};font-family:'Playfair Display',serif;font-size:80px;font-weight:700;color:rgba(255,215,0,0.95);text-shadow:0 0 8px rgba(255,215,0,0.6),0 2px 4px rgba(0,0,0,0.8);animation:smokeNumFloat 2.5s ease-out forwards;pointer-events:none;line-height:1;`;
+      el.textContent = n;
+      container.appendChild(el);
+    }, i * 700);
+  });
 }
 
 function showEnergyFinalResult() {
@@ -2239,7 +2271,9 @@ function resetEnergyFull() {
   const prophecyText = document.getElementById('energy-prophecy-text');
   if (prophecyText) prophecyText.textContent = '';
   const nagaVid = document.getElementById('energy-nagaseal-video');
-  if (nagaVid) { nagaVid.pause(); nagaVid.currentTime = 0; nagaVid.style.display = 'none'; nagaVid.onended = null; }
+  if (nagaVid) { nagaVid.pause(); nagaVid.currentTime = 0; nagaVid.style.display = 'none'; nagaVid.onended = null; nagaVid.ontimeupdate = null; }
+  const nagaSealFloats = document.getElementById('energy-nagaseal-floats');
+  if (nagaSealFloats) { nagaSealFloats.innerHTML = ''; nagaSealFloats.style.display = 'none'; }
 }
 
 function resetEnergy() {
@@ -2446,7 +2480,9 @@ function resetEnergy() {
   const prophecyText = document.getElementById('energy-prophecy-text');
   if (prophecyText) prophecyText.textContent = '';
   const nagaVid2 = document.getElementById('energy-nagaseal-video');
-  if (nagaVid2) { nagaVid2.pause(); nagaVid2.currentTime = 0; nagaVid2.style.display = 'none'; nagaVid2.onended = null; }
+  if (nagaVid2) { nagaVid2.pause(); nagaVid2.currentTime = 0; nagaVid2.style.display = 'none'; nagaVid2.onended = null; nagaVid2.ontimeupdate = null; }
+  const nagaSealFloats2 = document.getElementById('energy-nagaseal-floats');
+  if (nagaSealFloats2) { nagaSealFloats2.innerHTML = ''; nagaSealFloats2.style.display = 'none'; }
   window.scrollTo(0, 0);
   showCreditsBar('energy');
 }
