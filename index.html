@@ -963,9 +963,9 @@
   </div>
 
   <!-- SOULMATE RESULT -->
-  <div id="soulmate-step6" style="display:none; padding:20px 16px 40px;">
+  <div id="soulmate-step6" style="display:none; padding:20px 16px 40px;"></div>
 
-  <!-- ===== CHINESE SCIENCE STEPS ===== -->
+  <!-- ===== CHINESE SCIENCE STEPS (outside soulmate-step6) ===== -->
 
   <!-- CN-STEP1: กรอกวันเกิด (ใช้ soulmate-step1 เดิม) -->
 
@@ -2673,6 +2673,7 @@ function shareEnergy() {
   }
 }
 // ===== SOULMATE FULL FLOW =====
+let selectedSoulmateScience = '';
 let soulmateState = {
   dob1: '', dob2: '', science: '',
   relationEnergy: '', questionAnswers: [],
@@ -2703,7 +2704,7 @@ function soulmateNextToEnergy() {
   if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('soulmate'); return; }
   soulmateState.dob1 = dob1; soulmateState.dob2 = dob2;
   hidePageHeader('page-soulmate');
-  if (soulmateState.science === 'chinese') {
+  if (selectedSoulmateScience === 'chinese') {
     cnState.dob1 = dob1; cnState.dob2 = dob2;
     calcCnZodiac();
     showCnStep('cn-step2');
@@ -3087,10 +3088,14 @@ function showSoulmateStep(stepId) {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
+  // ซ่อน cn steps ด้วย
+  ['cn-step2','cn-step3','cn-step4','cn-step5','cn-step6','cn-step7','cn-step8','cn-step9'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
   const target = document.getElementById(stepId);
   if (target) {
     target.style.display = 'block';
-    // ซ่อน header เฉพาะหน้าอ่างน้ำ (4c) และ loading (5)
     if (stepId === 'soulmate-step4c' || stepId === 'soulmate-step5') {
       hidePageHeader('page-soulmate');
     } else {
@@ -3120,6 +3125,8 @@ function selectSoulmateScience(science) {
     showSoulmateStep('soulmate-step1');
   }
 }
+
+function soulmateBackToScience() { showSoulmateStep('soulmate-step0'); }
 
 // ===== CHINESE SCIENCE FLOW =====
 let cnState = {
@@ -3156,15 +3163,20 @@ const CN_YINYANG_QS = [
 let cnQIdx = 0; let cnYYScore = 0;
 
 function showCnStep(stepId) {
+  // ซ่อน soulmate steps ทั้งหมดก่อน
+  ['soulmate-step0','soulmate-step1','soulmate-step2','soulmate-step3',
+   'soulmate-step3result','soulmate-step4a','soulmate-step4b','soulmate-step4c',
+   'soulmate-step5','soulmate-step6'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  // ซ่อน cn steps ทั้งหมด
   ['cn-step2','cn-step3','cn-step4','cn-step5','cn-step6','cn-step7','cn-step8','cn-step9'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
   const t = document.getElementById(stepId);
-  if (t) {
-    t.style.display = stepId === 'cn-step8' ? 'flex' : (stepId.startsWith('cn-step') && parseInt(stepId.replace('cn-step','')) >= 5 && parseInt(stepId.replace('cn-step','')) <= 8 ? 'flex' : 'block');
-    t.style.display = 'block';
-  }
+  if (t) t.style.display = 'block';
   if (stepId === 'cn-step3') startCnQA();
   if (stepId === 'cn-step5') initCnThread();
   if (stepId === 'cn-step6') initCnElements();
