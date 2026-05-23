@@ -1162,8 +1162,30 @@ const tarotQuestions = {
     'สิ่งที่กำลังทำจะสำเร็จไหม?',
     'ควรตัดสินใจยังไงกับงานนี้ดี?',
   ],
-  money: [],
-  health: [],
+  money: [
+    'ภาพรวมการเงินในปีนี้เป็นอย่างไร',
+    'เดือนนี้จะมีโชคลาภก้อนใหญ่เข้ามาไหม',
+    'การเงินกำลังจะดีขึ้น หรือมีเรื่องให้เหนื่อยกว่าเดิม',
+    'ตอนนี้กำลังพลาดโอกาสเรื่องเงินอะไรอยู่หรือเปล่า',
+    'ทำไมเหนื่อยเรื่องเงินตลอด ทั้งที่พยายามมากแล้ว',
+    'ทำไมช่วงนี้เงินเข้ามาแล้วเก็บไม่อยู่',
+    'สิ่งที่ทำอยู่ตอนนี้ จะพาไปสู่ความมั่นคงได้จริงไหม',
+    'ช่วงนี้ควรระวังอะไรเรื่องการเงินมากที่สุด',
+    'งานหรือรายได้ทางไหน มีโอกาสเติบโตมากที่สุด',
+    'อะไรคือสิ่งที่กำลังขวางโชคการเงินอยู่ตอนนี้',
+  ],
+  health: [
+    'ภาพรวมสุขภาพในปีนี้เป็นอย่างไร',
+    'สุขภาพช่วงนี้มีอะไรน่าเป็นห่วงอยู่หรือเปล่า',
+    'ช่วงนี้ควรระวังปัญหาสุขภาพด้านไหนมากที่สุด',
+    'ทำไมช่วงนี้รู้สึกเหนื่อยง่าย หมดแรง หรือพักไม่พอ',
+    'สุขภาพช่วงนี้กำลังดีขึ้น หรือแย่ลง',
+    'มีพลังงานลบหรือความเครียดที่กำลังกระทบร่างกายอยู่ไหม',
+    'ตอนนี้ร่างกายกำลังต้องการการดูแลเรื่องอะไรมากที่สุด',
+    'อะไรคือสาเหตุที่ทำให้สุขภาพช่วงนี้ไม่สมดุล',
+    'พฤติกรรมอะไรที่กำลังส่งผลเสียต่อสุขภาพโดยไม่รู้ตัว',
+    'ถ้ายังใช้ชีวิตแบบเดิม สุขภาพจะมีแนวโน้มไปทางไหน',
+  ],
 };
 
 const tarotCardData = {
@@ -1992,10 +2014,13 @@ function startEnergyCeremony() {
   const p = dob.split('-');
   const d = parseInt(p[2]), m = parseInt(p[1]);
   const today = new Date();
-  const mainNum = ((d + m + today.getDate() + today.getMonth() + 1) % 9) + 1;
-  const secondaryNums = [((d + today.getDate()) % 9) + 1, ((m + today.getMonth()) % 9) + 1];
-  const score = (7 + (Math.abs(d * m + today.getDate()) % 25) / 10).toFixed(1);
-  const prophecyIdx = Math.abs(d + m + today.getDate()) % energyCeremonyProphecies.length;
+  // modifier ตาม offering ที่เลือก — แต่ละอันให้เลขต่างกัน
+  const offeringMod = { baisri: 1, malai: 3, plu: 5, fruit: 7 };
+  const mod = offeringMod[buchaCurrentOffering] || 0;
+  const mainNum = ((d + m + today.getDate() + today.getMonth() + 1 + mod) % 9) + 1;
+  const secondaryNums = [((d + today.getDate() + mod) % 9) + 1, ((m + today.getMonth() + mod * 2) % 9) + 1];
+  const score = (7 + (Math.abs(d * m + today.getDate() + mod) % 25) / 10).toFixed(1);
+  const prophecyIdx = Math.abs(d + m + today.getDate() + mod) % energyCeremonyProphecies.length;
   energyCeremonyData = { mainNum, secondaryNums, score, prophecy: energyCeremonyProphecies[prophecyIdx] };
 
   // Hide header for fullscreen video
@@ -2319,15 +2344,17 @@ const energyDailyMsgs = {
 function calcEnergyNumbers(dob) {
   const t = new Date(), p = dob.split('-');
   const d = parseInt(p[2]), m = parseInt(p[1]);
-  const mainNum = ((d + m + t.getDate() + t.getMonth() + 1) % 9) + 1;
+  const offeringMod = { baisri: 1, malai: 3, plu: 5, fruit: 7 };
+  const mod = offeringMod[buchaCurrentOffering] || 0;
+  const mainNum = ((d + m + t.getDate() + t.getMonth() + 1 + mod) % 9) + 1;
   const secondaryNums = [
-    ((d + t.getDate()) % 9) + 1,
-    ((m + t.getMonth() + 1) % 9) + 1,
-    ((d + m) % 9) + 1,
+    ((d + t.getDate() + mod) % 9) + 1,
+    ((m + t.getMonth() + 1 + mod) % 9) + 1,
+    ((d + m + mod * 2) % 9) + 1,
   ];
-  const moneyNum = ((d * m + t.getDate()) % 9) + 1;
+  const moneyNum = ((d * m + t.getDate() + mod) % 9) + 1;
   const sightNums = [mainNum, ((mainNum + 2) % 9) + 1, ((mainNum + 4) % 9) + 1];
-  const score = (6.5 + (seed => (Math.abs(seed) % 35) / 10)(d * m + t.getDate())).toFixed(1);
+  const score = (6.5 + (seed => (Math.abs(seed) % 35) / 10)(d * m + t.getDate() + mod)).toFixed(1);
   return { mainNum, secondaryNums, moneyNum, sightNums, score };
 }
 
