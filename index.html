@@ -763,7 +763,7 @@
         <div onclick="selectSoulmateScience('chinese')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); padding:14px; text-align:center;">
           <img src="images/soulmate/elementchinese.png" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; display:block; margin-bottom:10px;">
           <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">ศาสตร์จีน</div>
-          <div style="font-size:11px; color:var(--text-light); margin-top:3px;">จิวเลขวิทยาจีน</div>
+          <div style="font-size:11px; color:var(--text-light); margin-top:3px;">ดวงสมพงษ์หยินหยาง</div>
         </div>
         <div onclick="selectSoulmateScience('indian')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); padding:14px; text-align:center;">
           <img src="images/soulmate/elementindia.png" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; display:block; margin-bottom:10px;">
@@ -3046,7 +3046,7 @@ function selectSoulmateScience(science) {
   soulmateState.science = science;
   const labels = {
     thai: 'ศาสตร์ไทย — โหราศาสตร์ไทยโบราณ',
-    chinese: 'ศาสตร์จีน — จิวเลขวิทยาจีน',
+    chinese: 'ศาสตร์จีน — ดวงสมพงษ์หยินหยาง',
     indian: 'ศาสตร์อินเดีย — โหราศาสตร์เวท',
     western: 'ศาสตร์ตะวันตก — Numerology & Astrology',
   };
@@ -3080,16 +3080,16 @@ function calcCnZodiac() {
 }
 
 const CN_YINYANG_QS = [
-  { q: 'เวลามีปัญหาในความสัมพันธ์ คุณมักจะ...', a: ['☯️ เก็บความรู้สึกไว้ก่อน', '☀️ รีบพูดให้ชัดเจน'] },
-  { q: 'คุณแสดงความรักออกมาด้วยการ...', a: ['☯️ ทำเล็กๆ น้อยๆ เงียบๆ', '☀️ บอกตรงๆ โอบกอด'] },
-  { q: 'เวลาอีกฝ่ายเงียบ คุณ...', a: ['☯️ ให้พื้นที่และรอ', '☀️ เข้าไปถามทันที'] },
-  { q: 'ในความสัมพันธ์ คุณมักเป็น...', a: ['☯️ ฝ่ายรับและปรับตัว', '☀️ ฝ่ายนำและตัดสินใจ'] },
-  { q: 'เวลาหัวใจกระเพื่อม คุณ...', a: ['☯️ เก็บไว้รู้สึกคนเดียว', '☀️ บอกให้อีกฝ่ายรู้ทันที'] },
-  { q: 'คุณต้องการความรักแบบ...', a: ['☯️ เงียบๆ มั่นคง อบอุ่น', '☀️ ตื่นเต้น ชัดเจน กล้าหาญ'] },
-  { q: 'เวลาขัดแย้ง คุณมักจะ...', a: ['☯️ ยอมถอยเพื่อรักษาความสัมพันธ์', '☀️ ยืนหยัดในจุดยืนของตัวเอง'] },
-  { q: 'ความรักสำหรับคุณคือ...', a: ['☯️ ความรู้สึกเงียบงามที่ลึกซึ้ง', '☀️ พลังงานที่ขับเคลื่อนชีวิต'] },
-  { q: 'คุณรับมือกับการอกหักด้วยการ...', a: ['☯️ เก็บตัว ค่อยๆ รักษาตัวเอง', '☀️ ลุกขึ้น หาสิ่งใหม่ เดินหน้า'] },
-  { q: 'สิ่งที่คุณต้องการมากที่สุดในความรักคือ...', a: ['☯️ ความเข้าใจและพื้นที่ส่วนตัว', '☀️ ความชัดเจนและการแสดงออก'] },
+  { q: 'เวลามีปัญหาในความสัมพันธ์ คุณมักจะ...', a: ['เก็บความรู้สึกไว้ก่อน', 'รีบพูดให้ชัดเจน'] },
+  { q: 'คุณแสดงความรักออกมาด้วยการ...', a: ['ทำเล็กๆ น้อยๆ เงียบๆ', 'บอกตรงๆ โอบกอด'] },
+  { q: 'เวลาอีกฝ่ายเงียบ คุณ...', a: ['ให้พื้นที่และรอ', 'เข้าไปถามทันที'] },
+  { q: 'ในความสัมพันธ์ คุณมักเป็น...', a: ['ฝ่ายรับและปรับตัว', 'ฝ่ายนำและตัดสินใจ'] },
+  { q: 'เวลาหัวใจกระเพื่อม คุณ...', a: ['เก็บไว้รู้สึกคนเดียว', 'บอกให้อีกฝ่ายรู้ทันที'] },
+  { q: 'คุณต้องการความรักแบบ...', a: ['เงียบๆ มั่นคง อบอุ่น', 'ตื่นเต้น ชัดเจน กล้าหาญ'] },
+  { q: 'เวลาขัดแย้ง คุณมักจะ...', a: ['ยอมถอยเพื่อรักษาความสัมพันธ์', 'ยืนหยัดในจุดยืนของตัวเอง'] },
+  { q: 'ความรักสำหรับคุณคือ...', a: ['ความรู้สึกเงียบงามที่ลึกซึ้ง', 'พลังงานที่ขับเคลื่อนชีวิต'] },
+  { q: 'คุณรับมือกับการอกหักด้วยการ...', a: ['เก็บตัว ค่อยๆ รักษาตัวเอง', 'ลุกขึ้น หาสิ่งใหม่ เดินหน้า'] },
+  { q: 'สิ่งที่คุณต้องการมากที่สุดในความรักคือ...', a: ['ความเข้าใจและพื้นที่ส่วนตัว', 'ความชัดเจนและการแสดงออก'] },
 ];
 
 let cnQIdx = 0; let cnYYScore = 0;
@@ -3397,11 +3397,22 @@ function renderCnResult() {
 function resetCnFlow() {
   cnState = { dob1: cnState.dob1, dob2: cnState.dob2, zodiac1:'', zodiac2:'', element1:'', element2:'', relation:'', yinYang1:0, yinYang2:0, balanceAngle:0 };
   cnQIdx = 0; cnYYScore = 0; cnYYSpinCount = 0;
-  // clear ผลเก่า
+  // clear ผลเก่าทุกจุด
   const cn9 = document.getElementById('cn-step9');
   if (cn9) cn9.innerHTML = '';
-  // reset ปุ่มสถานะ
+  const floats = document.getElementById('energy-incense-floats');
+  // reset ปุ่มสถานะและ balance
   document.querySelectorAll('.cn-relation-btn').forEach(b => b.classList.remove('selected'));
+  const bar = document.getElementById('cn-balance-bar');
+  if (bar) bar.style.width = '0%';
+  const balBtn = document.getElementById('cn-balance-btn');
+  if (balBtn) balBtn.style.display = 'none';
+  const threadPath = document.getElementById('cn-thread-path');
+  if (threadPath) threadPath.setAttribute('d','');
+  const petals = document.getElementById('cn-petals');
+  if (petals) petals.innerHTML = '';
+  const threadNext = document.getElementById('cn-thread-next');
+  if (threadNext) threadNext.style.display = 'none';
   showCnStep('cn-step2');
 }
 
