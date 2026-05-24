@@ -1129,20 +1129,23 @@
   <div id="cn-step9" style="display:none; padding:20px 16px 40px; background:var(--cream);">
 
   <!-- PAYMENT MODAL -->
-  <div class="modal-overlay" id="payment-modal">
-    <div class="modal">
-      <div class="modal-title" id="modal-title">ชำระเงิน</div>
-      <div class="modal-subtitle" id="modal-subtitle"></div>
-      <div class="modal-price" id="modal-price">29 บาท</div>
-      <div class="modal-methods">
-        <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">📱</span> พร้อมเพย์</button>
-        <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">💳</span> บัตรเครดิต/เดบิต</button>
-        <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">🐰</span> Rabbit LINE Pay</button>
-        <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">💚</span> TrueMoney Wallet</button>
-      </div>
-      <div class="modal-note">* ระบบชำระเงินจริงจะเชื่อมต่อเร็วๆ นี้</div>
-      <button class="modal-close" onclick="closePayment()">ยกเลิก</button>
+  </div>
+</div>
+
+<!-- PAYMENT MODAL (outside all pages) -->
+<div class="modal-overlay" id="payment-modal">
+  <div class="modal">
+    <div class="modal-title" id="modal-title">ชำระเงิน</div>
+    <div class="modal-subtitle" id="modal-subtitle"></div>
+    <div class="modal-price" id="modal-price">29 บาท</div>
+    <div class="modal-methods">
+      <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">📱</span> พร้อมเพย์</button>
+      <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">💳</span> บัตรเครดิต/เดบิต</button>
+      <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">🐰</span> Rabbit LINE Pay</button>
+      <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">💚</span> TrueMoney Wallet</button>
     </div>
+    <div class="modal-note">* ระบบชำระเงินจริงจะเชื่อมต่อเร็วๆ นี้</div>
+    <button class="modal-close" onclick="closePayment()">ยกเลิก</button>
   </div>
 </div>
 
