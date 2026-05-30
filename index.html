@@ -1801,31 +1801,9 @@ function drawTarot(){
   const ori2 = randomOrientation();
   const ori3 = randomOrientation();
 
-  const pool1 = tarotExcelData[card1.id];
-  const pool2 = tarotExcelData[card2.id];
-  const pool3 = tarotExcelData[card3.id];
-
-  // สุ่มประโยคจาก pool — ถ้า love ใช้ love pool จาก Excel
-  let situation = '', feeling = '', outcome = '', advice = '';
-  if (selectedTopic === 'love') {
-    const lovePool1 = pool1 ? (ori1 === 'U' ? pool1.love_U : pool1.love_R) : [];
-    const lovePool2 = pool2 ? (ori2 === 'U' ? pool2.love_U : pool2.love_R) : [];
-    const lovePool3 = pool3 ? (ori3 === 'U' ? pool3.love_U : pool3.love_R) : [];
-    situation = lovePool1.length ? pickRandom(lovePool1) : (pool1 ? (ori1==='U'?pool1.upright:pool1.reversed) : '');
-    feeling   = lovePool2.length ? pickRandom(lovePool2) : (pool2 ? (ori2==='U'?pool2.upright:pool2.reversed) : '');
-    outcome   = lovePool3.length ? pickRandom(lovePool3) : (pool3 ? (ori3==='U'?pool3.upright:pool3.reversed) : '');
-    advice    = pool3 ? pool3.tone : '';
-  } else {
-    const sp = tarotSmartPool[card1.id];
-    const fp = tarotSmartPool[card2.id];
-    const op = tarotSmartPool[card3.id];
-    situation = sp ? pickRandom(sp[ori1].Situation) : (pool1 ? (ori1==='U'?pool1.upright:pool1.reversed) : '');
-    feeling   = fp ? pickRandom(fp[ori2].Feeling)   : (pool2 ? (ori2==='U'?pool2.upright:pool2.reversed) : '');
-    outcome   = op ? pickRandom(op[ori3].Outcome)   : (pool3 ? (ori3==='U'?pool3.upright:pool3.reversed) : '');
-    advice    = op ? pickRandom(op[ori3].Advice)     : (pool3 ? pool3.tone : '');
-  }
-
-  const prediction = [situation, feeling, outcome].filter(Boolean).join(' ');
+  const result = tarotPredict([card1,card2,card3], [ori1,ori2,ori3], selectedTopic, selectedQuestion);
+  const prediction = result.text;
+  const advice = result.advice;
 
   // label กลับหัวหรือปกติ
   const labels = [
@@ -1846,7 +1824,7 @@ function drawTarot(){
       <div style="display:flex;gap:12px;justify-content:center;margin-bottom:12px;">
         ${cards.map((c,i)=>`
           <div style="text-align:center;">
-            <img src="${c.img}" style="width:80px;height:120px;object-fit:cover;border-radius:8px;border:1px solid rgba(201,168,76,0.4);box-shadow:0 4px 12px rgba(0,0,0,0.15);transform:${oris[i]==='R'?'rotate(180deg)':'rotate(0deg)'};">
+            <img src="${c.file}" style="width:80px;height:120px;object-fit:cover;border-radius:8px;border:1px solid rgba(201,168,76,0.4);box-shadow:0 4px 12px rgba(0,0,0,0.15);transform:${oris[i]==='R'?'rotate(180deg)':'rotate(0deg)'};">
             <div style="font-size:9px;color:var(--text-light);margin-top:4px;font-family:'Noto Serif Thai',serif;">${labels[i]}</div>
           </div>`).join('')}
       </div>`;
@@ -1860,7 +1838,70 @@ function drawTarot(){
     document.getElementById('tarot-result').scrollIntoView({behavior:'smooth',block:'start'});
   }, 800);
 }
-// ===== ENERGY CEREMONY FLOW =====
+// ===== TAROT PREDICTION ENGINE =====
+// แปลความหมายไพ่ให้เป็นภาษาเพื่อน ฟันธง ตาม topic
+function tarotPredict(cards, oris, topic, question) {
+  const c1 = tarotExcelData[cards[0].id], o1 = oris[0];
+  const c2 = tarotExcelData[cards[1].id], o2 = oris[1];
+  const c3 = tarotExcelData[cards[2].id], o3 = oris[2];
+
+  // --- LOVE ---
+  if (topic === 'love') {
+    // ใช้ love pool จาก Excel
+    const p1 = c1 ? (o1==='U' ? c1.love_U : c1.love_R) : [];
+    const p2 = c2 ? (o2==='U' ? c2.love_U : c2.love_R) : [];
+    const p3 = c3 ? (o3==='U' ? c3.love_U : c3.love_R) : [];
+
+    // fallback ถ้าไม่มี love pool
+    const s1 = p1.length ? pickRandom(p1) : (c1 ? (o1==='U'?c1.upright:c1.reversed) : '');
+    const s2 = p2.length ? pickRandom(p2) : (c2 ? (o2==='U'?c2.upright:c2.reversed) : '');
+    const s3 = p3.length ? pickRandom(p3) : (c3 ? (o3==='U'?c3.upright:c3.reversed) : '');
+
+    const mainText = [s1, s2, s3].filter(Boolean).join(' ');
+    const advice = c3 ? (o3==='U'?c3.upright:c3.reversed).split('\n')[0] : '';
+    return { text: mainText, advice };
+  }
+
+  // --- WORK ---
+  if (topic === 'work') {
+    const verdicts = {
+      good: ['งานกำลังไปได้ดี โอกาสที่รอมานานใกล้จะมาถึงแล้ว', 'เส้นทางงานตอนนี้เปิดกว้าง เหมาะกับการลงมือทำมากกว่าการรอ', 'มีคนในที่ทำงานมองเห็นคุณค่าของคุณ แค่ยังไม่ได้พูดออกมา'],
+      neutral: ['งานตอนนี้ยังต้องใช้เวลาอีกหน่อย อย่าเพิ่งรีบสรุป', 'มีบางอย่างที่ต้องปรับก่อน ถ้าปรับได้ผลที่ออกมาจะดีกว่าที่คิด', 'ตอนนี้เหมาะกับการเก็บข้อมูลและเตรียมตัวมากกว่าการกระโดดเข้าไปทันที'],
+      bad: ['งานตอนนี้มีอุปสรรค แต่ไม่ใช่สัญญาณให้หยุด เป็นแค่บททดสอบ', 'มีบางอย่างที่ยังไม่ลงตัว อาจต้องกลับไปทบทวนจุดเริ่มต้นอีกครั้ง', 'พลังงานรอบตัวหนักไปหน่อย แต่ถ้าไม่ยอมแพ้ตอนนี้ อนาคตจะเปลี่ยน']
+    };
+    const tone = [o1,o2,o3].filter(o=>o==='U').length >= 2 ? 'good' : [o1,o2,o3].filter(o=>o==='R').length >= 2 ? 'bad' : 'neutral';
+    const workAdvice = c3 ? (o3==='U'?c3.upright:c3.reversed).split('\n')[0] : '';
+    return { text: pickRandom(verdicts[tone]), advice: workAdvice };
+  }
+
+  // --- MONEY ---
+  if (topic === 'money') {
+    const verdicts = {
+      good: ['เงินกำลังจะไหลเข้ามา มีโอกาสที่ดีรออยู่ แต่ต้องจับตาดูให้ดี', 'โชคลาภมีอยู่ในดวง แต่ต้องลงมือหน่อย ไม่ตกมาเองแน่นอน', 'ช่วงนี้เงินยังมาได้เรื่อยๆ ถ้าไม่ใช้ฟุ่มเฟือย จะเหลือเก็บได้ดีเลย'],
+      neutral: ['เงินยังไม่นิ่ง ไม่ได้แย่แต่ก็ยังไม่ดีเท่าที่อยากได้ ต้องรอจังหวะอีกนิด', 'ตอนนี้ไม่ใช่เวลาเสี่ยง แต่ถ้ามีโอกาสดีๆ มา ลองพิจารณาดูได้', 'การเงินทรงๆ แต่ไม่ได้หมายความว่าแย่ แค่ต้องบริหารให้ดีขึ้น'],
+      bad: ['ระวังเรื่องเงินในช่วงนี้ไว้ด้วย มีโอกาสรั่วไหลถ้าไม่ระวัง', 'ช่วงนี้ไม่ควรก่อหนี้หรือลงทุนใหญ่ รอจังหวะที่ดีกว่านี้ก่อน', 'เงินอาจออกเยอะกว่าปกติในช่วงนี้ ต้องคุมรายจ่ายให้ดี']
+    };
+    const tone = [o1,o2,o3].filter(o=>o==='U').length >= 2 ? 'good' : [o1,o2,o3].filter(o=>o==='R').length >= 2 ? 'bad' : 'neutral';
+    const moneyAdvice = c3 ? (o3==='U'?c3.upright:c3.reversed).split('\n')[0] : '';
+    return { text: pickRandom(verdicts[tone]), advice: moneyAdvice };
+  }
+
+  // --- HEALTH ---
+  if (topic === 'health') {
+    const verdicts = {
+      good: ['สุขภาพช่วงนี้โอเคเลย ร่างกายกำลังฟื้นตัวและแข็งแรงขึ้นเรื่อยๆ', 'พลังงานกลับมาแล้ว ช่วงนี้เหมาะกับการดูแลตัวเองและออกกำลังกาย', 'สุขภาพกายดี แต่อย่าลืมดูแลสุขภาพใจด้วยนะ'],
+      neutral: ['สุขภาพยังงั้นๆ ไม่ได้แย่แต่ก็ต้องดูแลตัวเองมากขึ้นหน่อย', 'ร่างกายกำลังส่งสัญญาณให้ชะลอลงบ้าง อย่าฝืนตัวเองมากเกินไป', 'ควรพักผ่อนให้เพียงพอ อย่าสะสมความเครียดไว้มากนัก'],
+      bad: ['ร่างกายเหนื่อยมากกว่าปกติอยู่ ควรหยุดพักก่อนที่จะป่วยจริงๆ', 'มีสัญญาณเตือนจากร่างกาย อย่าเพิกเฉยเพราะถ้าปล่อยไปอาจหนักกว่าเดิม', 'สุขภาพต้องการความใส่ใจ โดยเฉพาะเรื่องการนอนและการกิน']
+    };
+    const tone = [o1,o2,o3].filter(o=>o==='U').length >= 2 ? 'good' : [o1,o2,o3].filter(o=>o==='R').length >= 2 ? 'bad' : 'neutral';
+    const healthAdvice = c3 ? (o3==='U'?c3.upright:c3.reversed).split('\n')[0] : '';
+    return { text: pickRandom(verdicts[tone]), advice: healthAdvice };
+  }
+
+  // fallback
+  const fallback = c3 ? (o3==='U'?c3.upright:c3.reversed) : '';
+  return { text: fallback, advice: c3 ? c3.tone : '' };
+}
 // Welcome video
 function startEnergyWelcome() {
   // Show step0 fullscreen
