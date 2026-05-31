@@ -972,9 +972,9 @@
   <!-- CN-STEP2: กล่าวคำอธิษฐาน -->
   <div id="cn-step2" style="display:none; padding:20px;">
     <div style="text-align:center; margin-bottom:20px;">
-      <div style="font-size:28px; margin-bottom:8px;">🙏</div>
-      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:700; color:var(--brown-dark);">กล่าวคำอธิษฐาน</div>
-      <div style="font-size:13px; color:var(--text-light); margin-top:6px;">บอกสิ่งที่คุณอยากอธิษฐาน<br>เกี่ยวกับความสัมพันธ์นี้</div>
+      <div style="font-size:28px; margin-bottom:8px;">🕯️</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:700; color:var(--brown-dark);">ตั้งเจตนาแห่งความสัมพันธ์</div>
+      <div style="font-size:13px; color:var(--text-light); margin-top:6px;">บอกสิ่งที่คุณต้องการจากความสัมพันธ์นี้<br>เจตนาของคุณจะนำทางการทำนาย</div>
     </div>
     <!-- แสดงนักษัตร + ธาตุ -->
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;">
@@ -992,9 +992,9 @@
       </div>
     </div>
     <div style="margin-bottom:20px;">
-      <textarea id="cn-prayer-text" placeholder="เช่น อยากรู้ว่าความสัมพันธ์นี้จะไปต่อได้ไหม หรืออยากให้ความสัมพันธ์นี้แข็งแกร่งขึ้น..." style="width:100%; min-height:120px; padding:14px; border:1px solid rgba(180,160,130,0.3); border-radius:12px; background:var(--white); font-family:'Noto Sans Thai',sans-serif; font-size:14px; color:var(--text); resize:none; outline:none; line-height:1.7; box-sizing:border-box;"></textarea>
+      <textarea id="cn-prayer-text" placeholder="เช่น อยากให้ความสัมพันธ์นี้ชัดเจนขึ้น / อยากรู้ว่าเขารู้สึกยังไงกับเรา / อยากให้ทั้งคู่เข้าใจกันมากขึ้น..." style="width:100%; min-height:120px; padding:14px; border:1px solid rgba(180,160,130,0.3); border-radius:12px; background:var(--white); font-family:'Noto Sans Thai',sans-serif; font-size:14px; color:var(--text); resize:none; outline:none; line-height:1.7; box-sizing:border-box;"></textarea>
     </div>
-    <button class="cta-btn" onclick="cnPrayerNext()">ผูกด้ายแดงแห่งโชคชะตา →</button>
+    <button class="cta-btn" onclick="cnPrayerNext()">🕯️ ส่งเจตนา และผูกด้ายแดง →</button>
   </div>
 
   <!-- CN-STEP3: ผูกด้ายแดง -->
@@ -3522,12 +3522,68 @@ function renderCnResult() {
     : 'ความสัมพันธ์นี้มีพื้นฐานที่ดี ไม่มีแรงต้านจากดวงชะตา ทิศทางในอนาคตขึ้นอยู่กับความตั้งใจและความพยายามของทั้งสองคนเป็นหลัก';
 
   // คำอธิษฐาน response
-  const prayerSection = prayer ? `
+  // วิเคราะห์เจตนาจากคำที่พิมพ์
+  function analyzeIntention(prayer, isHa, isChong, yinPct, yangPct) {
+    if (!prayer) return '';
+    const p = prayer;
+    const hasClarity = /ชัดเจน|ไปต่อ|อนาคต|จริงจัง|คิดยังไง|รู้สึก/.test(p);
+    const hasHeal = /ดีขึ้น|แข็งแกร่ง|รักษา|กลับมา|รีเทิร์น|ซ่อม/.test(p);
+    const hasConnect = /ใกล้ชิด|เข้าใจ|ผูกพัน|เชื่อมโยง|สนิท/.test(p);
+    const hasFuture = /แต่งงาน|ชีวิต|อยู่ด้วยกัน|ระยะยาว/.test(p);
+
+    let response = '';
+    let advice = '';
+
+    if (hasClarity) {
+      response = isHa
+        ? `เจตนาของคุณที่อยากได้ความชัดเจนนั้นมีพลังงานดีมาก พลังฮะของ${zodiac1}และ${zodiac2}บอกว่าความชัดเจนนั้นมีอยู่ใกล้ๆ แล้ว แค่รอจังหวะที่ใช่`
+        : isChong
+        ? `เจตนาที่อยากได้ความชัดเจนนั้นจะต้องผ่านบทสนทนาที่กล้าหาญก่อน พลังชงบอกว่าความจริงอาจไม่นุ่มนวล แต่มันจะพาความสัมพันธ์ไปในทิศทางที่ถูกต้อง`
+        : `เจตนาที่อยากได้ความชัดเจนนั้นสมเหตุสมผลมาก ดวงชะตาบอกว่าถ้าคุณเริ่มพูดความจริงในใจออกไป คำตอบที่ต้องการจะตามมาเอง`;
+      advice = 'ลองตั้งคำถามตรงๆ กับตัวเองก่อนว่าถ้าได้คำตอบที่ไม่อยากได้ คุณพร้อมรับมือไหม ความพร้อมตรงนี้จะทำให้การขอความชัดเจนมีพลังมากขึ้น';
+    } else if (hasHeal) {
+      response = isHa
+        ? `เจตนาที่อยากให้ความสัมพันธ์ดีขึ้นนั้นสอดคล้องกับพลังธรรมชาติของ${zodiac1}และ${zodiac2} พลังฮะบอกว่าการฟื้นฟูนั้นเป็นไปได้ถ้าทั้งสองเลือกที่จะลงทุนกับมัน`
+        : isChong
+        ? `เจตนาที่อยากให้ดีขึ้นนั้นต้องการความกล้าที่จะเผชิญกับสิ่งที่ไม่สบายใจก่อน พลังชงไม่ได้บอกว่าซ่อมไม่ได้ แต่บอกว่าต้องซ่อมจากรากจริงๆ ไม่ใช่แค่ผิวนอก`
+        : `เจตนาที่อยากให้ดีขึ้นนั้นมีพลังงาน ดวงชะตาบอกว่าความพยายามของคุณจะไม่สูญเปล่า แต่ต้องมาจากทั้งสองฝ่ายจึงจะยั่งยืน`;
+      advice = 'การซ่อมความสัมพันธ์เริ่มจากการซ่อมตัวเองก่อน ถามตัวเองว่ามีอะไรที่คุณอยากเปลี่ยนในแบบที่คุณมีปฏิสัมพันธ์กับอีกฝ่ายบ้าง การเปลี่ยนที่เล็กน้อยของเราบางทีเปลี่ยนพลังงานทั้งหมดได้';
+    } else if (hasConnect) {
+      response = isHa
+        ? `เจตนาที่อยากให้ใกล้ชิดกันมากขึ้นนั้นไปในทิศทางเดียวกับพลังฮะที่มีอยู่แล้ว ความผูกพันของ${zodiac1}และ${zodiac2}มีพื้นฐานที่ดี แค่ต้องการการลงทุนเวลาและความสนใจ`
+        : `เจตนาที่อยากใกล้ชิดกันนั้นดีงาม ดวงชะตาบอกว่าการสร้างความผูกพันที่แท้จริงนั้นเริ่มจากการเปิดใจให้กันอย่างค่อยเป็นค่อยไป ไม่ต้องรีบ`;
+      advice = 'ความใกล้ชิดสร้างได้จากสิ่งเล็กๆ ทุกวัน ไม่ว่าจะเป็นการถามสารทุกข์สุขดิบ การจำสิ่งที่อีกฝ่ายพูดถึง หรือการอยู่เงียบๆ ด้วยกันโดยไม่ต้องทำอะไร';
+    } else if (hasFuture) {
+      response = isHa
+        ? `เจตนาที่มองถึงอนาคตระยะยาวนั้นได้รับพลังจากพลังฮะของทั้งสอง นักษัตรที่ฮะกันมักมีเส้นทางชีวิตที่เชื่อมกัน อนาคตที่อยากได้นั้นไม่ใช่แค่ฝัน`
+        : isChong
+        ? `เจตนาที่อยากมีอนาคตร่วมกันนั้นจะต้องผ่านการทดสอบก่อน พลังชงบอกว่าถ้าผ่านได้จะยิ่งแข็งแกร่ง ความสัมพันธ์ที่ผ่านบทเรียนมักยั่งยืนกว่าที่ไม่เคยถูกทดสอบ`
+        : `เจตนาที่มองถึงอนาคตนั้นบอกว่าคุณพร้อมแล้ว ดวงชะตาตอบว่าถ้าทั้งสองเลือกที่จะเดินไปด้วยกัน เส้นทางนั้นมีอยู่`;
+      advice = 'อนาคตร่วมกันสร้างได้ทีละก้าว อย่ากดดันให้ทุกอย่างชัดเจนทันที แต่ให้โฟกัสที่การสร้างความไว้วางใจและการทำให้อีกฝ่ายรู้สึกปลอดภัยกับเรา นั่นคือรากฐานที่แท้จริง';
+    } else {
+      response = isHa
+        ? `เจตนาที่คุณตั้งไว้นั้นส่งมาถึงพลังงานของ${zodiac1}และ${zodiac2} พลังฮะบอกว่าเส้นทางของทั้งสองมีแนวโน้มที่ดี เจตนาของคุณจะเป็นเหมือนแสงนำทางให้ความสัมพันธ์นี้`
+        : isChong
+        ? `เจตนาที่คุณส่งออกมานั้นมีพลัง พลังชงบอกว่าสิ่งที่คุณต้องการนั้นต้องผ่านการทดสอบก่อน แต่ถ้าเจตนายังคงชัดเจน มันจะพาทางไปได้`
+        : `เจตนาที่คุณตั้งไว้ถูกรับรู้แล้ว ดวงชะตาบอกว่าความตั้งใจของคุณนั้นจริงใจ และความจริงใจนั้นเองที่จะเป็นพลังงานที่แท้จริงให้กับความสัมพันธ์นี้`;
+      advice = 'เจตนาที่ดีเป็นจุดเริ่มต้น แต่การลงมือทำคือสิ่งที่เปลี่ยนพลังงานได้จริง ลองถามตัวเองว่าสัปดาห์นี้คุณจะทำอะไรหนึ่งอย่างเพื่อนำเจตนานี้ไปสู่การกระทำ';
+    }
+    return `
     <div style="background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.2); border-radius:16px; padding:20px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🙏 คำตอบสำหรับคำอธิษฐานของคุณ</div>
-      <div style="font-size:13px; color:var(--text-light); margin-bottom:10px; font-style:italic;">"${prayer}"</div>
-      <div style="font-size:14px; color:var(--text-mid); line-height:1.9;">ไพ่รับรู้ถึงสิ่งที่คุณอธิษฐาน พลังงานของ${zodiac1}และ${zodiac2}บวกกับความตั้งใจที่คุณส่งออกไปนั้นมีพลัง${isHa?'ที่เชื่อมโยงกันอย่างลึกซึ้ง โอกาสที่จะเป็นจริงมีอยู่สูงมาก':isChong?'ที่แข็งแกร่ง แต่ต้องผ่านบทเรียนก่อน สิ่งที่อธิษฐานจะเกิดขึ้นได้ถ้าทั้งสองเลือกเติบโตไปด้วยกัน':'ที่ดีและสมดุล ถ้าทั้งสองลงทุนกับความสัมพันธ์นี้จริงๆ สิ่งที่อธิษฐานมีโอกาสเป็นจริง'}</div>
-    </div>` : '';
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🕯️ ตอบกลับเจตนาของคุณ</div>
+      <div style="background:rgba(180,160,130,0.1); border-radius:10px; padding:10px 14px; margin-bottom:12px;">
+        <div style="font-size:12px; color:var(--text-light); margin-bottom:2px;">เจตนาที่คุณตั้งไว้</div>
+        <div style="font-size:14px; color:var(--text-mid); font-style:italic;">"${prayer}"</div>
+      </div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.9; margin-bottom:14px;">${response}</div>
+      <div style="background:var(--cream-dark); border-radius:12px; padding:14px;">
+        <div style="font-size:12px; color:var(--gold); font-weight:600; margin-bottom:6px;">✦ คำแนะนำจากดวงชะตา</div>
+        <div style="font-size:13px; color:var(--text-mid); line-height:1.8;">${advice}</div>
+      </div>
+    </div>`;
+  }
+
+  const prayerSection = prayer ? analyzeIntention(prayer, isHa, isChong, yinPct, yangPct) : '';
 
   const cn7 = document.getElementById('cn-step7');
   if (!cn7) return;
