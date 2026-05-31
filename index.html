@@ -1000,7 +1000,7 @@
   <!-- CN-STEP3: ผูกด้ายแดง -->
   <div id="cn-step3" style="display:none; position:fixed; inset:0; overflow:hidden; z-index:50;">
     <!-- background รูป -->
-    <img src="images/soulmate/chineseline.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; z-index:0;">
+    <img src="images/soulmate/chineseline.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:contain; object-position:center; z-index:0; background:#f5e8d8;">
     <!-- hint text -->
     <div style="position:absolute; top:6%; left:0; right:0; text-align:center; z-index:10; pointer-events:none;">
       <div style="font-family:'Noto Serif Thai',serif; font-size:11px; color:rgba(160,30,30,0.85); background:rgba(255,245,235,0.75); display:inline-block; padding:5px 18px; border-radius:20px; border:1px solid rgba(160,30,30,0.2);" id="cn-thread-hint">แตะจุดแดงที่ตัวคุณ แล้วลากไปอีกฝ่าย</div>
@@ -1015,16 +1015,16 @@
       </defs>
       <!-- เส้นด้ายที่ user ลาก -->
       <path id="cn-thread-path" d="" stroke="rgba(190,30,30,0.95)" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#glowThread)"/>
-      <!-- จุดแดง "คุณ" — วงซ้าย ~22%, ~58% -->
-      <g id="cn-dot-left" transform="translate(22,58)">
+      <!-- จุดแดง "คุณ" — วงซ้าย ~30%, ~63% -->
+      <g id="cn-dot-left" transform="translate(30,63)">
         <circle r="3.5" fill="rgba(190,30,30,0.9)" stroke="rgba(255,150,150,0.8)" stroke-width="0.8" filter="url(#glowRed)">
           <animate attributeName="r" values="3.5;4.5;3.5" dur="1.2s" repeatCount="indefinite"/>
           <animate attributeName="opacity" values="0.9;0.6;0.9" dur="1.2s" repeatCount="indefinite"/>
         </circle>
         <circle r="1.2" fill="rgba(255,255,255,0.9)"/>
       </g>
-      <!-- จุดเป้า "อีกฝ่าย" — วงขวา ~72%, ~58% -->
-      <g id="cn-dot-right" transform="translate(72,58)">
+      <!-- จุดเป้า "อีกฝ่าย" — วงขวา ~68%, ~63% -->
+      <g id="cn-dot-right" transform="translate(68,63)">
         <circle r="3.5" fill="rgba(30,50,140,0.7)" stroke="rgba(150,160,220,0.8)" stroke-width="0.8" stroke-dasharray="2,1.5" filter="url(#glowRed)">
           <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="4s" repeatCount="indefinite"/>
         </circle>
@@ -1034,7 +1034,7 @@
       <g id="cn-petals"></g>
     </svg>
     <!-- ปุ่มถัดไป -->
-    <div style="position:absolute; bottom:calc(8% + env(safe-area-inset-bottom,0px)); left:0; right:0; text-align:center; z-index:10;">
+    <div style="position:absolute; bottom:calc(8% + env(safe-area-inset-bottom,0px)); left:0; right:0; display:flex; justify-content:center; align-items:center; z-index:10;">
       <button id="cn-thread-next" onclick="showCnStep('cn-step4')" style="display:none; padding:14px 40px; background:linear-gradient(135deg,rgba(160,30,30,0.92),rgba(200,60,40,0.92)); border:1px solid rgba(255,150,100,0.5); border-radius:30px; font-family:'Noto Serif Thai',serif; font-size:16px; color:#fff; cursor:pointer; box-shadow:0 4px 20px rgba(160,30,30,0.4);">ตอบคำถามความสัมพันธ์ →</button>
     </div>
   </div>
@@ -3355,7 +3355,7 @@ function cnThreadEnd() {
     const hint = document.getElementById('cn-thread-hint');
     if (hint) hint.textContent = '✨ ด้ายแดงถูกผูกแล้ว';
     const btn = document.getElementById('cn-thread-next');
-    if (btn) btn.style.display = 'block';
+    if (btn) btn.style.display = 'inline-block';
     // petals
     const g = document.getElementById('cn-petals');
     if (g) for (let i=0;i<8;i++) {
