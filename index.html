@@ -998,39 +998,44 @@
   </div>
 
   <!-- CN-STEP3: ผูกด้ายแดง -->
-  <div id="cn-step3" style="display:none; position:fixed; inset:0; background:radial-gradient(ellipse at center,#2a0808,#0d0005); overflow:hidden; z-index:50;">
-    <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:20px; color:rgba(255,180,160,0.95); margin-bottom:4px; text-align:center; text-shadow:0 0 20px rgba(200,50,50,0.5);">ผูกด้ายแดงแห่งโชคชะตา</div>
-      <div style="font-size:13px; color:rgba(255,150,130,0.6); margin-bottom:16px; text-align:center;" id="cn-thread-hint">ลากด้ายแดงจากตัวคุณไปยังอีกฝ่าย</div>
-      <svg id="cn-thread-svg" viewBox="0 0 320 340" style="width:100%; max-width:340px; touch-action:none;" xmlns="http://www.w3.org/2000/svg">
-        <defs>
-          <filter id="glowRed"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-        </defs>
-        <circle cx="30" cy="40" r="1.5" fill="rgba(255,200,150,0.5)"/>
-        <circle cx="290" cy="60" r="1" fill="rgba(255,200,150,0.4)"/>
-        <circle cx="160" cy="20" r="1.5" fill="rgba(255,200,150,0.6)"/>
-        <circle cx="50" cy="180" r="1" fill="rgba(255,200,150,0.3)"/>
-        <circle cx="280" cy="250" r="1.5" fill="rgba(255,200,150,0.4)"/>
-        <g transform="translate(60,290)">
-          <circle cx="0" cy="-30" r="20" fill="rgba(180,100,100,0.3)" stroke="rgba(220,80,80,0.5)" stroke-width="1.5" filter="url(#glowRed)"/>
-          <text x="0" y="-22" text-anchor="middle" font-size="20">🧍</text>
-          <text x="0" y="8" text-anchor="middle" font-family="'Noto Sans Thai'" font-size="12" fill="rgba(255,200,180,0.9)">คุณ</text>
-          <circle id="cn-start-dot" cx="0" cy="-52" r="10" fill="rgba(200,40,40,0.9)" stroke="rgba(255,120,120,0.8)" stroke-width="2" filter="url(#glowRed)">
-            <animate attributeName="r" values="10;13;10" dur="1.2s" repeatCount="indefinite"/>
-          </circle>
-        </g>
-        <g transform="translate(260,290)">
-          <circle cx="0" cy="-30" r="20" fill="rgba(100,80,180,0.3)" stroke="rgba(120,80,200,0.5)" stroke-width="1.5" filter="url(#glowRed)"/>
-          <text x="0" y="-22" text-anchor="middle" font-size="20">🧍</text>
-          <text x="0" y="8" text-anchor="middle" font-family="'Noto Sans Thai'" font-size="12" fill="rgba(255,200,180,0.9)">อีกฝ่าย</text>
-          <circle id="cn-end-dot" cx="0" cy="-52" r="12" fill="rgba(40,10,10,0.4)" stroke="rgba(200,80,80,0.5)" stroke-width="1.5" stroke-dasharray="5,3" filter="url(#glowRed)">
-            <animateTransform attributeName="transform" type="rotate" from="0 0 -52" to="360 0 -52" dur="3s" repeatCount="indefinite"/>
-          </circle>
-        </g>
-        <path id="cn-thread-path" d="" stroke="rgba(200,40,40,0)" stroke-width="3.5" fill="none" stroke-linecap="round" filter="url(#glowRed)"/>
-        <g id="cn-petals"></g>
-      </svg>
-      <button onclick="showCnStep('cn-step4')" style="display:none; margin-top:12px; padding:14px 40px; background:linear-gradient(135deg,rgba(160,30,30,0.9),rgba(200,60,40,0.9)); border:1px solid rgba(255,120,100,0.5); border-radius:30px; font-family:'Noto Serif Thai',serif; font-size:16px; color:#fff; cursor:pointer;" id="cn-thread-next">ตอบคำถามความสัมพันธ์ →</button>
+  <div id="cn-step3" style="display:none; position:fixed; inset:0; overflow:hidden; z-index:50;">
+    <!-- background รูป -->
+    <img src="images/soulmate/chineseline.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; z-index:0;">
+    <!-- hint text -->
+    <div style="position:absolute; top:6%; left:0; right:0; text-align:center; z-index:10; pointer-events:none;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:11px; color:rgba(160,30,30,0.85); background:rgba(255,245,235,0.75); display:inline-block; padding:5px 18px; border-radius:20px; border:1px solid rgba(160,30,30,0.2);" id="cn-thread-hint">แตะจุดแดงที่ตัวคุณ แล้วลากไปอีกฝ่าย</div>
+    </div>
+    <!-- SVG overlay — viewBox 0 0 100 100 = % ของหน้าจอ -->
+    <svg id="cn-thread-svg" viewBox="0 0 100 100" preserveAspectRatio="none"
+      style="position:absolute; inset:0; width:100%; height:100%; z-index:5; touch-action:none;"
+      xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="glowRed"><feGaussianBlur stdDeviation="0.8" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        <filter id="glowThread"><feGaussianBlur stdDeviation="0.5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <!-- เส้นด้ายที่ user ลาก -->
+      <path id="cn-thread-path" d="" stroke="rgba(190,30,30,0.95)" stroke-width="0.8" fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#glowThread)"/>
+      <!-- จุดแดง "คุณ" — วงซ้าย ~22%, ~58% -->
+      <g id="cn-dot-left" transform="translate(22,58)">
+        <circle r="3.5" fill="rgba(190,30,30,0.9)" stroke="rgba(255,150,150,0.8)" stroke-width="0.8" filter="url(#glowRed)">
+          <animate attributeName="r" values="3.5;4.5;3.5" dur="1.2s" repeatCount="indefinite"/>
+          <animate attributeName="opacity" values="0.9;0.6;0.9" dur="1.2s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1.2" fill="rgba(255,255,255,0.9)"/>
+      </g>
+      <!-- จุดเป้า "อีกฝ่าย" — วงขวา ~72%, ~58% -->
+      <g id="cn-dot-right" transform="translate(72,58)">
+        <circle r="3.5" fill="rgba(30,50,140,0.7)" stroke="rgba(150,160,220,0.8)" stroke-width="0.8" stroke-dasharray="2,1.5" filter="url(#glowRed)">
+          <animateTransform attributeName="transform" type="rotate" from="0" to="360" dur="4s" repeatCount="indefinite"/>
+        </circle>
+        <circle r="1.2" fill="rgba(255,255,255,0.7)"/>
+      </g>
+      <!-- กลีบดอก -->
+      <g id="cn-petals"></g>
+    </svg>
+    <!-- ปุ่มถัดไป -->
+    <div style="position:absolute; bottom:calc(8% + env(safe-area-inset-bottom,0px)); left:0; right:0; text-align:center; z-index:10;">
+      <button id="cn-thread-next" onclick="showCnStep('cn-step4')" style="display:none; padding:14px 40px; background:linear-gradient(135deg,rgba(160,30,30,0.92),rgba(200,60,40,0.92)); border:1px solid rgba(255,150,100,0.5); border-radius:30px; font-family:'Noto Serif Thai',serif; font-size:16px; color:#fff; cursor:pointer; box-shadow:0 4px 20px rgba(160,30,30,0.4);">ตอบคำถามความสัมพันธ์ →</button>
     </div>
   </div>
 
@@ -3325,9 +3330,13 @@ function initCnThread() {
   svg.addEventListener('touchend', cnThreadEnd);
 }
 function getSvgPt(svg, e) {
-  const r = svg.getBoundingClientRect(), vb = svg.viewBox.baseVal;
+  const r = svg.getBoundingClientRect();
   const touch = e.touches ? e.touches[0] : e;
-  return { x:(touch.clientX-r.left)/r.width*vb.width, y:(touch.clientY-r.top)/r.height*vb.height };
+  // แปลง pixel → % (0-100) ให้ตรงกับ viewBox="0 0 100 100"
+  return {
+    x: (touch.clientX - r.left) / r.width * 100,
+    y: (touch.clientY - r.top) / r.height * 100
+  };
 }
 function cnThreadStart(e) { e.preventDefault(); cnThreadDrawing = true; cnThreadPts = [getSvgPt(document.getElementById('cn-thread-svg'),e)]; }
 function cnThreadMove(e) {
@@ -3349,13 +3358,14 @@ function cnThreadEnd() {
     if (btn) btn.style.display = 'block';
     // petals
     const g = document.getElementById('cn-petals');
-    if (g) for (let i=0;i<6;i++) {
-      const x=60+Math.random()*200, y=80+Math.random()*180;
+    if (g) for (let i=0;i<8;i++) {
+      const x = 15 + Math.random()*70, y = 30 + Math.random()*45;
       const el = document.createElementNS('http://www.w3.org/2000/svg','text');
       el.setAttribute('x',x); el.setAttribute('y',y);
-      el.setAttribute('font-size','14'); el.setAttribute('opacity','0');
-      el.textContent='🌸'; g.appendChild(el);
-      let op=0; const iv=setInterval(()=>{op+=0.06;el.setAttribute('opacity',op);if(op>=1)clearInterval(iv);},40);
+      el.setAttribute('font-size','3'); el.setAttribute('opacity','0');
+      el.textContent = ['🌸','🌺','✨'][Math.floor(Math.random()*3)];
+      g.appendChild(el);
+      let op=0; const iv=setInterval(()=>{op+=0.06;el.setAttribute('opacity',Math.min(op,0.8));if(op>=0.8)clearInterval(iv);},40);
     }
   }
 }
