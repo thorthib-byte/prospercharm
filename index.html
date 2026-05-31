@@ -969,71 +969,49 @@
 
   <!-- CN-STEP1: กรอกวันเกิด (ใช้ soulmate-step1 เดิม) -->
 
-  <!-- CN-STEP2: สถานะความสัมพันธ์ -->
+  <!-- CN-STEP2: กล่าวคำอธิษฐาน -->
   <div id="cn-step2" style="display:none; padding:20px;">
-    <div style="text-align:center; margin-bottom:24px;">
-      <div style="font-size:28px; margin-bottom:8px;">☯️</div>
-      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:700; color:var(--brown-dark);">ตอนนี้ความสัมพันธ์<br>ของคุณเป็นแบบไหน</div>
-      <div style="font-size:13px; color:var(--text-light); margin-top:6px;">สถานะที่เลือกจะส่งผลต่อโทนของคำทำนาย</div>
-    </div>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:24px;">
-      <button class="cn-relation-btn" onclick="selectCnRelation('new')">🌸<br><span>เริ่มต้น</span></button>
-      <button class="cn-relation-btn" onclick="selectCnRelation('distant')">🌙<br><span>ห่างเหิน</span></button>
-      <button class="cn-relation-btn" onclick="selectCnRelation('intense')">🔥<br><span>แรงดึงดูดสูง</span></button>
-      <button class="cn-relation-btn" onclick="selectCnRelation('unclear')">🌫️<br><span>ไม่ชัดเจน</span></button>
-      <button class="cn-relation-btn" onclick="selectCnRelation('cycle')">🔄<br><span>วนกลับมาเรื่อยๆ</span></button>
-      <button class="cn-relation-btn" onclick="selectCnRelation('serious')">💍<br><span>จริงจัง</span></button>
-    </div>
-  </div>
-
-  <!-- CN-STEP3: คำถาม -->
-  <div id="cn-step3" style="display:none; padding:20px; padding-top:36px;">
-    <div style="background:var(--white); border-radius:16px; padding:20px; border:1px solid rgba(180,160,130,0.2);">
-      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-        <span style="font-size:12px; color:var(--text-light);" id="cn-q-progress">คำถาม 1 / 10</span>
-      </div>
-      <div style="background:var(--cream-dark); border-radius:4px; height:4px; margin-bottom:20px;"><div id="cn-q-bar" style="background:linear-gradient(to right,rgba(180,40,40,0.6),rgba(220,80,60,0.6)); height:100%; width:10%; border-radius:4px; transition:width 0.3s;"></div></div>
-      <div style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark); margin-bottom:24px; line-height:1.7; text-align:center;" id="cn-q-text"></div>
-      <div style="display:flex; flex-direction:column; gap:10px;" id="cn-q-options"></div>
-    </div>
-  </div>
-
-  <!-- CN-STEP4: สรุปพลังหยินหยาง -->
-  <div id="cn-step4" style="display:none; padding:20px;">
     <div style="text-align:center; margin-bottom:20px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:700; color:var(--brown-dark);">สรุปพลังหยินหยาง</div>
+      <div style="font-size:28px; margin-bottom:8px;">🙏</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:700; color:var(--brown-dark);">กล่าวคำอธิษฐาน</div>
+      <div style="font-size:13px; color:var(--text-light); margin-top:6px;">บอกสิ่งที่คุณอยากอธิษฐาน<br>เกี่ยวกับความสัมพันธ์นี้</div>
     </div>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:16px;">
-      <div style="background:linear-gradient(135deg,rgba(100,80,160,0.08),rgba(60,40,120,0.05)); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; text-align:center;">
-        <div style="font-size:36px; margin-bottom:8px;" id="cn-energy1-icon">☯️</div>
+    <!-- แสดงนักษัตร + ธาตุ -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:20px;">
+      <div style="background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.2); border-radius:14px; padding:14px; text-align:center;">
         <div style="font-size:11px; color:var(--text-light); margin-bottom:4px;">คุณ</div>
-        <div style="font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:700; color:var(--brown-dark);" id="cn-energy1-label">หยินเด่น</div>
-        <div style="font-size:12px; color:var(--text-light); margin-top:6px; line-height:1.7;" id="cn-energy1-desc"></div>
+        <div style="font-size:22px; margin-bottom:4px;" id="cn-zodiac1-icon">🐉</div>
+        <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:600; color:var(--brown-dark);" id="cn-zodiac1-label"></div>
+        <div style="font-size:12px; color:var(--text-light); margin-top:2px;" id="cn-element1-label"></div>
       </div>
-      <div style="background:linear-gradient(135deg,rgba(200,80,20,0.06),rgba(180,60,20,0.04)); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; text-align:center;">
-        <div style="font-size:36px; margin-bottom:8px;" id="cn-energy2-icon">☀️</div>
+      <div style="background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.2); border-radius:14px; padding:14px; text-align:center;">
         <div style="font-size:11px; color:var(--text-light); margin-bottom:4px;">อีกฝ่าย</div>
-        <div style="font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:700; color:var(--brown-dark);" id="cn-energy2-label">หยางเด่น</div>
-        <div style="font-size:12px; color:var(--text-light); margin-top:6px; line-height:1.7;" id="cn-energy2-desc"></div>
+        <div style="font-size:22px; margin-bottom:4px;" id="cn-zodiac2-icon">🐉</div>
+        <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:600; color:var(--brown-dark);" id="cn-zodiac2-label"></div>
+        <div style="font-size:12px; color:var(--text-light); margin-top:2px;" id="cn-element2-label"></div>
       </div>
     </div>
-    <div style="background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.2); border-radius:16px; padding:16px; margin-bottom:24px; text-align:center;">
-      <div style="font-size:13px; color:var(--text-mid); line-height:1.9;" id="cn-energy-combo-desc"></div>
+    <div style="margin-bottom:20px;">
+      <textarea id="cn-prayer-text" placeholder="เช่น อยากรู้ว่าความสัมพันธ์นี้จะไปต่อได้ไหม หรืออยากให้ความสัมพันธ์นี้แข็งแกร่งขึ้น..." style="width:100%; min-height:120px; padding:14px; border:1px solid rgba(180,160,130,0.3); border-radius:12px; background:var(--white); font-family:'Noto Sans Thai',sans-serif; font-size:14px; color:var(--text); resize:none; outline:none; line-height:1.7; box-sizing:border-box;"></textarea>
     </div>
-    <button class="cta-btn" onclick="showCnStep('cn-step5')">❤️ เชื่อมชะตาความสัมพันธ์</button>
+    <button class="cta-btn" onclick="cnPrayerNext()">ผูกด้ายแดงแห่งโชคชะตา →</button>
   </div>
 
-  <!-- CN-STEP5: ผูกด้ายแดง -->
-  <div id="cn-step5" style="display:none; position:fixed; inset:0; background:radial-gradient(ellipse at center,#2a0808,#0d0005); overflow:hidden; z-index:50;">
+  <!-- CN-STEP3: ผูกด้ายแดง -->
+  <div id="cn-step3" style="display:none; position:fixed; inset:0; background:radial-gradient(ellipse at center,#2a0808,#0d0005); overflow:hidden; z-index:50;">
     <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:20px; color:rgba(255,180,160,0.95); margin-bottom:6px; text-align:center; text-shadow:0 0 20px rgba(200,50,50,0.5);">ผูกด้ายแดงแห่งโชคชะตา</div>
-      <div style="font-size:13px; color:rgba(255,150,130,0.6); margin-bottom:20px; text-align:center;" id="cn-thread-hint">ลากด้ายแดงจากตัวคุณไปยังอีกฝ่าย</div>
-      <svg id="cn-thread-svg" viewBox="0 0 320 380" style="width:100%; max-width:340px; touch-action:none;" xmlns="http://www.w3.org/2000/svg">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:20px; color:rgba(255,180,160,0.95); margin-bottom:4px; text-align:center; text-shadow:0 0 20px rgba(200,50,50,0.5);">ผูกด้ายแดงแห่งโชคชะตา</div>
+      <div style="font-size:13px; color:rgba(255,150,130,0.6); margin-bottom:16px; text-align:center;" id="cn-thread-hint">ลากด้ายแดงจากตัวคุณไปยังอีกฝ่าย</div>
+      <svg id="cn-thread-svg" viewBox="0 0 320 340" style="width:100%; max-width:340px; touch-action:none;" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <filter id="glowRed"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
         </defs>
-        <circle cx="30" cy="40" r="1.5" fill="rgba(255,200,150,0.5)"/><circle cx="290" cy="60" r="1" fill="rgba(255,200,150,0.4)"/><circle cx="160" cy="20" r="1.5" fill="rgba(255,200,150,0.6)"/>
-        <g transform="translate(60,310)">
+        <circle cx="30" cy="40" r="1.5" fill="rgba(255,200,150,0.5)"/>
+        <circle cx="290" cy="60" r="1" fill="rgba(255,200,150,0.4)"/>
+        <circle cx="160" cy="20" r="1.5" fill="rgba(255,200,150,0.6)"/>
+        <circle cx="50" cy="180" r="1" fill="rgba(255,200,150,0.3)"/>
+        <circle cx="280" cy="250" r="1.5" fill="rgba(255,200,150,0.4)"/>
+        <g transform="translate(60,290)">
           <circle cx="0" cy="-30" r="20" fill="rgba(180,100,100,0.3)" stroke="rgba(220,80,80,0.5)" stroke-width="1.5" filter="url(#glowRed)"/>
           <text x="0" y="-22" text-anchor="middle" font-size="20">🧍</text>
           <text x="0" y="8" text-anchor="middle" font-family="'Noto Sans Thai'" font-size="12" fill="rgba(255,200,180,0.9)">คุณ</text>
@@ -1041,7 +1019,7 @@
             <animate attributeName="r" values="10;13;10" dur="1.2s" repeatCount="indefinite"/>
           </circle>
         </g>
-        <g transform="translate(260,310)">
+        <g transform="translate(260,290)">
           <circle cx="0" cy="-30" r="20" fill="rgba(100,80,180,0.3)" stroke="rgba(120,80,200,0.5)" stroke-width="1.5" filter="url(#glowRed)"/>
           <text x="0" y="-22" text-anchor="middle" font-size="20">🧍</text>
           <text x="0" y="8" text-anchor="middle" font-family="'Noto Sans Thai'" font-size="12" fill="rgba(255,200,180,0.9)">อีกฝ่าย</text>
@@ -1052,66 +1030,73 @@
         <path id="cn-thread-path" d="" stroke="rgba(200,40,40,0)" stroke-width="3.5" fill="none" stroke-linecap="round" filter="url(#glowRed)"/>
         <g id="cn-petals"></g>
       </svg>
-      <button onclick="showCnStep('cn-step6')" style="display:none; margin-top:16px; padding:14px 40px; background:linear-gradient(135deg,rgba(160,30,30,0.9),rgba(200,60,40,0.9)); border:1px solid rgba(255,120,100,0.5); border-radius:30px; font-family:'Noto Serif Thai',serif; font-size:16px; color:#fff; cursor:pointer;" id="cn-thread-next">☯️ ตรวจสอบสมดุลชะตา</button>
+      <button onclick="showCnStep('cn-step4')" style="display:none; margin-top:12px; padding:14px 40px; background:linear-gradient(135deg,rgba(160,30,30,0.9),rgba(200,60,40,0.9)); border:1px solid rgba(255,120,100,0.5); border-radius:30px; font-family:'Noto Serif Thai',serif; font-size:16px; color:#fff; cursor:pointer;" id="cn-thread-next">ตอบคำถามความสัมพันธ์ →</button>
     </div>
   </div>
 
-  <!-- CN-STEP6: สมดุลธาตุ -->
-  <div id="cn-step6" style="display:none; position:fixed; inset:0; background:radial-gradient(ellipse at center,#0d0d2a,#050510); overflow:hidden; z-index:50;">
-    <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:16px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; color:rgba(255,200,150,0.95); margin-bottom:4px;">ตรวจสอบสมดุลชะตา</div>
-      <div style="font-size:12px; color:rgba(255,180,100,0.55); margin-bottom:16px;">ธาตุของทั้งสองฝ่ายกำลังพบกัน</div>
-      <svg viewBox="0 0 240 240" style="width:220px; height:220px;" xmlns="http://www.w3.org/2000/svg">
-        <defs><filter id="glow2"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-        <circle cx="120" cy="120" r="110" fill="none" stroke="rgba(255,200,100,0.15)" stroke-width="1"/>
-        <circle cx="120" cy="120" r="75" fill="none" stroke="rgba(255,200,100,0.1)" stroke-width="1" stroke-dasharray="8,4"/>
-        <path d="M120,45 A37.5,37.5,0,0,1,120,120 A37.5,37.5,0,0,0,120,195 A75,75,0,0,1,120,45Z" fill="rgba(230,230,230,0.12)"/>
-        <path d="M120,45 A37.5,37.5,0,0,0,120,120 A37.5,37.5,0,0,1,120,195 A75,75,0,0,0,120,45Z" fill="rgba(10,10,10,0.5)"/>
-        <circle cx="120" cy="82.5" r="12" fill="rgba(10,10,10,0.5)"/>
-        <circle cx="120" cy="157.5" r="12" fill="rgba(230,230,230,0.12)"/>
-        <text id="cn-el1-icon" x="120" y="128" text-anchor="middle" font-size="30" filter="url(#glow2)">🔥</text>
-        <g id="cn-el2-orbit">
-          <animateTransform attributeName="transform" type="rotate" from="0 120 120" to="360 120 120" dur="5s" repeatCount="indefinite"/>
-          <text id="cn-el2-icon" x="218" y="128" text-anchor="middle" font-size="26">🌊</text>
-        </g>
-      </svg>
-      <div style="background:rgba(255,255,255,0.04); border:1px solid rgba(255,200,100,0.15); border-radius:14px; padding:14px 16px; max-width:300px; width:100%; margin-top:12px; text-align:center;">
-        <div style="font-family:'Noto Serif Thai',serif; font-size:15px; color:rgba(255,200,150,0.9); margin-bottom:6px;" id="cn-element-combo-title">กำลังวิเคราะห์...</div>
-        <div style="font-size:12px; color:rgba(255,180,100,0.7); line-height:1.8;" id="cn-element-combo-desc"></div>
+  <!-- CN-STEP4: คำถาม 10 ข้อ -->
+  <div id="cn-step4" style="display:none; padding:20px; padding-top:36px;">
+    <div style="background:var(--white); border-radius:16px; padding:20px; border:1px solid rgba(180,160,130,0.2);">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <span style="font-size:12px; color:var(--text-light);" id="cn-q-progress">คำถาม 1 / 10</span>
+        <span style="font-size:12px; color:var(--text-light);">☯️ หยิน / ☀️ หยาง</span>
       </div>
-      <button onclick="showCnStep('cn-step7')" style="margin-top:20px; padding:14px 40px; background:linear-gradient(135deg,rgba(160,100,10,0.9),rgba(210,160,30,0.9)); border:1px solid rgba(255,200,80,0.4); border-radius:30px; font-family:'Noto Serif Thai',serif; font-size:16px; color:#1a0a00; cursor:pointer;">จัดสมดุลพลังของดวงคู่ →</button>
+      <div style="background:var(--cream-dark); border-radius:4px; height:4px; margin-bottom:20px;"><div id="cn-q-bar" style="background:linear-gradient(to right,rgba(180,40,40,0.6),rgba(220,80,60,0.6)); height:100%; width:10%; border-radius:4px; transition:width 0.3s;"></div></div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark); margin-bottom:24px; line-height:1.7; text-align:center;" id="cn-q-text"></div>
+      <div style="display:flex; flex-direction:column; gap:10px;" id="cn-q-options"></div>
     </div>
   </div>
 
-  <!-- CN-STEP7: จัดสมดุลพลัง -->
-  <div id="cn-step7" style="display:none; position:fixed; inset:0; background:radial-gradient(ellipse at center,#0d0d2a,#050510); overflow:hidden; z-index:50;">
-    <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; color:rgba(255,200,150,0.95); margin-bottom:4px;">จัดสมดุลพลังของดวงคู่</div>
-      <div style="font-size:12px; color:rgba(255,180,100,0.55); margin-bottom:16px;" id="cn-chong-label">หมุนวงชะตาเพื่อวิเคราะห์พลังชง/ฮะ</div>
-      <div id="cn-yinyang-spin" style="width:190px; height:190px; cursor:grab; user-select:none; touch-action:none;"
-        ontouchstart="cnYYStart(event)" ontouchmove="cnYYMove(event)" ontouchend="cnYYEnd(event)"
-        onmousedown="cnYYStart(event)" onmousemove="cnYYMove(event)" onmouseup="cnYYEnd(event)">
-        <svg id="cn-yy-svg" viewBox="0 0 190 190" style="width:100%; height:100%;">
-          <defs><filter id="glow3"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-          <circle cx="95" cy="95" r="90" fill="none" stroke="rgba(255,200,100,0.25)" stroke-width="1.5"/>
-          <path d="M95,5 A47.5,47.5,0,0,1,95,100 A47.5,47.5,0,0,0,95,185 A90,90,0,0,1,95,5Z" fill="rgba(235,235,235,0.18)"/>
-          <path d="M95,5 A47.5,47.5,0,0,0,95,100 A47.5,47.5,0,0,1,95,185 A90,90,0,0,0,95,5Z" fill="rgba(15,15,15,0.65)"/>
-          <circle cx="95" cy="52.5" r="16" fill="rgba(15,15,15,0.65)" filter="url(#glow3)"/>
-          <circle cx="95" cy="137.5" r="16" fill="rgba(235,235,235,0.18)" filter="url(#glow3)"/>
-          <text id="cn-yy-el1" x="95" y="102" text-anchor="middle" font-size="18" filter="url(#glow3)">🔥</text>
-          <text id="cn-yy-el2" x="95" y="145" text-anchor="middle" font-size="18" filter="url(#glow3)">🌊</text>
-        </svg>
-      </div>
-      <div style="width:220px; background:rgba(255,255,255,0.08); border-radius:10px; height:6px; margin-top:16px; overflow:hidden;">
-        <div id="cn-balance-bar" style="background:linear-gradient(to right,rgba(200,50,50,0.8),rgba(255,200,80,0.9)); height:100%; width:0%; border-radius:10px; transition:width 0.2s;"></div>
-      </div>
-      <div style="font-size:12px; color:rgba(255,200,150,0.6); margin-top:8px;" id="cn-balance-label">หมุนเพื่อปรับสมดุล</div>
-      <button id="cn-balance-btn" onclick="showCnStep('cn-step8')" style="display:none; margin-top:20px; padding:14px 40px; background:linear-gradient(135deg,rgba(160,30,30,0.9),rgba(200,60,40,0.9)); border:1px solid rgba(255,120,100,0.5); border-radius:30px; font-family:'Noto Serif Thai',serif; font-size:16px; color:#fff; cursor:pointer;">🏮 เปิดคำทำนายดวงคู่</button>
+  <!-- CN-STEP5: สรุปพลังความสัมพันธ์ -->
+  <div id="cn-step5" style="display:none; padding:20px;">
+    <div style="text-align:center; margin-bottom:20px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:700; color:var(--brown-dark);">พลังของความสัมพันธ์นี้</div>
+      <div style="font-size:12px; color:var(--text-light); margin-top:4px;">จากนักษัตร ธาตุ และพลังหยินหยางของคุณ</div>
     </div>
+    <!-- นักษัตร + ธาตุ -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
+      <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:14px; padding:16px; text-align:center;">
+        <div style="font-size:11px; color:var(--text-light); margin-bottom:4px;">คุณ</div>
+        <div style="font-size:28px; margin-bottom:4px;" id="cn-sum-zodiac1-icon"></div>
+        <div style="font-family:'Noto Serif Thai',serif; font-size:14px; font-weight:700; color:var(--brown-dark);" id="cn-sum-zodiac1"></div>
+        <div style="font-size:12px; color:var(--text-light); margin-top:4px;" id="cn-sum-el1"></div>
+        <div style="font-size:13px; color:var(--gold); margin-top:4px; font-weight:600;" id="cn-sum-yy1"></div>
+      </div>
+      <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:14px; padding:16px; text-align:center;">
+        <div style="font-size:11px; color:var(--text-light); margin-bottom:4px;">อีกฝ่าย</div>
+        <div style="font-size:28px; margin-bottom:4px;" id="cn-sum-zodiac2-icon"></div>
+        <div style="font-family:'Noto Serif Thai',serif; font-size:14px; font-weight:700; color:var(--brown-dark);" id="cn-sum-zodiac2"></div>
+        <div style="font-size:12px; color:var(--text-light); margin-top:4px;" id="cn-sum-el2"></div>
+        <div style="font-size:13px; color:var(--gold); margin-top:4px; font-weight:600;" id="cn-sum-yy2"></div>
+      </div>
+    </div>
+    <!-- พลังหยินหยางรวม -->
+    <div style="background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.2); border-radius:14px; padding:16px; margin-bottom:14px;">
+      <div style="font-size:13px; color:var(--text-light); margin-bottom:8px; text-align:center;">พลังงานรวมของความสัมพันธ์</div>
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
+        <span style="font-size:12px; color:var(--text-light); width:32px;">☯️ หยิน</span>
+        <div style="flex:1; background:var(--cream-dark); border-radius:4px; height:8px; overflow:hidden;">
+          <div id="cn-yin-bar" style="background:linear-gradient(to right,rgba(100,80,160,0.7),rgba(140,100,200,0.7)); height:100%; width:50%; border-radius:4px; transition:width 0.5s;"></div>
+        </div>
+        <span style="font-size:13px; font-weight:700; color:var(--brown-dark); width:36px;" id="cn-yin-pct">50%</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:10px;">
+        <span style="font-size:12px; color:var(--text-light); width:32px;">☀️ หยาง</span>
+        <div style="flex:1; background:var(--cream-dark); border-radius:4px; height:8px; overflow:hidden;">
+          <div id="cn-yang-bar" style="background:linear-gradient(to right,rgba(200,100,20,0.7),rgba(230,150,40,0.7)); height:100%; width:50%; border-radius:4px; transition:width 0.5s;"></div>
+        </div>
+        <span style="font-size:13px; font-weight:700; color:var(--brown-dark); width:36px;" id="cn-yang-pct">50%</span>
+      </div>
+    </div>
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.2); border-radius:14px; padding:14px; margin-bottom:20px; text-align:center;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);" id="cn-balance-verdict"></div>
+      <div style="font-size:13px; color:var(--text-mid); margin-top:6px; line-height:1.7;" id="cn-balance-desc"></div>
+    </div>
+    <button class="cta-btn" onclick="showCnStep('cn-step6')">🏮 อ่านเส้นทางแห่งโชคชะตา</button>
   </div>
 
-  <!-- CN-STEP8: Loading -->
-  <div id="cn-step8" style="display:none; position:fixed; inset:0; background:radial-gradient(ellipse at center,#1a0505,#080010); z-index:50;">
+  <!-- CN-STEP6: Loading -->
+  <div id="cn-step6" style="display:none; position:fixed; inset:0; background:radial-gradient(ellipse at center,#1a0505,#080010); z-index:50;">
     <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:20px;">
       <svg viewBox="0 0 120 120" style="width:130px; height:130px; margin-bottom:24px;">
         <defs><filter id="glowLoad"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
@@ -1121,13 +1106,12 @@
         </path>
         <text x="60" y="68" text-anchor="middle" font-size="30" filter="url(#glowLoad)">🏮</text>
       </svg>
-      <div id="cn-loading-text" style="font-family:'Noto Serif Thai',serif; font-size:16px; color:rgba(255,200,150,0.9); text-align:center; line-height:2.2; padding:0 32px;"></div>
+      <div id="cn-loading-text" style="font-family:'Noto Serif Thai',serif; font-size:16px; color:rgba(255,200,150,0.9); text-align:center; line-height:2.4; padding:0 32px;"></div>
     </div>
   </div>
 
-  <!-- CN-STEP9: คำทำนาย -->
-  <div id="cn-step9" style="display:none; padding:20px 16px 40px; background:var(--cream);">
-
+  <!-- CN-STEP7: คำทำนาย -->
+  <div id="cn-step7" style="display:none; padding:20px 16px 40px; background:var(--cream);"></div>
   <!-- PAYMENT MODAL -->
   </div>
 </div>
@@ -2834,6 +2818,7 @@ function soulmateNextToEnergy() {
   if (selectedSoulmateScience === 'chinese') {
     cnState.dob1 = dob1; cnState.dob2 = dob2;
     calcCnZodiac();
+    fillCnZodiacDisplay();
     showCnStep('cn-step2');
   } else {
     showSoulmateStep('soulmate-step2');
@@ -3258,331 +3243,337 @@ function soulmateBackToScience() { showSoulmateStep('soulmate-step0'); }
 // ===== CHINESE SCIENCE FLOW =====
 let cnState = {
   dob1: '', dob2: '', zodiac1: '', zodiac2: '', element1: '', element2: '',
-  relation: '', yinYang1: 0, yinYang2: 0, balanceAngle: 0
+  prayer: '', yinScore: 0, yangScore: 0
 };
+let cnQIdx = 0;
 
 const CN_ZODIAC = ['ชวด(หนู)','ฉลู(วัว)','ขาล(เสือ)','เถาะ(กระต่าย)','มะโรง(มังกร)','มะเส็ง(งู)','มะเมีย(ม้า)','มะแม(แพะ)','วอก(ลิง)','ระกา(ไก่)','จอ(สุนัข)','กุน(หมู)'];
-const CN_ELEMENTS = ['🌱ไม้','🔥ไฟ','🌍ดิน','⚔️ทอง','🌊น้ำ'];
-const CN_ELEMENT_NAMES = ['ไม้','ไฟ','ดิน','ทอง','น้ำ'];
+const CN_ZODIAC_ICONS = ['🐭','🐮','🐯','🐰','🐲','🐍','🐴','🐑','🐵','🐔','🐶','🐷'];
+const CN_ELEMENTS = ['ไม้','ไฟ','ดิน','ทอง','น้ำ'];
+const CN_EL_ICONS = {'ไม้':'🌱','ไฟ':'🔥','ดิน':'🌍','ทอง':'⚔️','น้ำ':'🌊'};
 
 function calcCnZodiac() {
-  const p1 = cnState.dob1.split('-'); const y1 = parseInt(p1[0]);
-  const p2 = cnState.dob2.split('-'); const y2 = parseInt(p2[0]);
+  const p1 = cnState.dob1.split('-'), y1 = parseInt(p1[0]);
+  const p2 = cnState.dob2.split('-'), y2 = parseInt(p2[0]);
   cnState.zodiac1 = CN_ZODIAC[(y1 - 4) % 12];
   cnState.zodiac2 = CN_ZODIAC[(y2 - 4) % 12];
-  cnState.element1 = CN_ELEMENT_NAMES[Math.floor(((y1 - 4) % 10) / 2)];
-  cnState.element2 = CN_ELEMENT_NAMES[Math.floor(((y2 - 4) % 10) / 2)];
+  cnState.zodiacIcon1 = CN_ZODIAC_ICONS[(y1 - 4) % 12];
+  cnState.zodiacIcon2 = CN_ZODIAC_ICONS[(y2 - 4) % 12];
+  cnState.element1 = CN_ELEMENTS[Math.floor(((y1 - 4) % 10) / 2)];
+  cnState.element2 = CN_ELEMENTS[Math.floor(((y2 - 4) % 10) / 2)];
 }
 
-const CN_YINYANG_QS = [
-  { q: 'เวลามีปัญหาในความสัมพันธ์ คุณมักจะ...', a: ['เก็บความรู้สึกไว้ก่อน', 'รีบพูดให้ชัดเจน'] },
-  { q: 'คุณแสดงความรักออกมาด้วยการ...', a: ['ทำเล็กๆ น้อยๆ เงียบๆ', 'บอกตรงๆ โอบกอด'] },
-  { q: 'เวลาอีกฝ่ายเงียบ คุณ...', a: ['ให้พื้นที่และรอ', 'เข้าไปถามทันที'] },
-  { q: 'ในความสัมพันธ์ คุณมักเป็น...', a: ['ฝ่ายรับและปรับตัว', 'ฝ่ายนำและตัดสินใจ'] },
-  { q: 'เวลาหัวใจกระเพื่อม คุณ...', a: ['เก็บไว้รู้สึกคนเดียว', 'บอกให้อีกฝ่ายรู้ทันที'] },
-  { q: 'คุณต้องการความรักแบบ...', a: ['เงียบๆ มั่นคง อบอุ่น', 'ตื่นเต้น ชัดเจน กล้าหาญ'] },
-  { q: 'เวลาขัดแย้ง คุณมักจะ...', a: ['ยอมถอยเพื่อรักษาความสัมพันธ์', 'ยืนหยัดในจุดยืนของตัวเอง'] },
-  { q: 'ความรักสำหรับคุณคือ...', a: ['ความรู้สึกเงียบงามที่ลึกซึ้ง', 'พลังงานที่ขับเคลื่อนชีวิต'] },
-  { q: 'คุณรับมือกับการอกหักด้วยการ...', a: ['เก็บตัว ค่อยๆ รักษาตัวเอง', 'ลุกขึ้น หาสิ่งใหม่ เดินหน้า'] },
-  { q: 'สิ่งที่คุณต้องการมากที่สุดในความรักคือ...', a: ['ความเข้าใจและพื้นที่ส่วนตัว', 'ความชัดเจนและการแสดงออก'] },
-];
-
-let cnQIdx = 0; let cnYYScore = 0;
-
 function showCnStep(stepId) {
-  // ซ่อน soulmate steps ทั้งหมดก่อน
-  ['soulmate-step0','soulmate-step1','soulmate-step2','soulmate-step3',
+  ['cn-step2','cn-step3','cn-step4','cn-step5','cn-step6','cn-step7',
+   'soulmate-step0','soulmate-step1','soulmate-step2','soulmate-step3',
    'soulmate-step3result','soulmate-step4a','soulmate-step4b','soulmate-step4c',
    'soulmate-step5','soulmate-step6'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = 'none';
-  });
-  // ซ่อน cn steps ทั้งหมด
-  ['cn-step2','cn-step3','cn-step4','cn-step5','cn-step6','cn-step7','cn-step8','cn-step9'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) el.style.display = 'none';
+    const el = document.getElementById(id); if (el) el.style.display = 'none';
   });
   const t = document.getElementById(stepId);
   if (t) t.style.display = 'block';
-  // header: แสดงเฉพาะ step2, 3, 4 ซ่อนส่วนที่เป็น fullscreen
-  if (['cn-step2','cn-step3','cn-step4'].includes(stepId)) {
+  if (['cn-step2','cn-step4','cn-step5','cn-step7'].includes(stepId)) {
     showPageHeader('page-soulmate');
   } else {
     hidePageHeader('page-soulmate');
   }
-  if (stepId === 'cn-step3') startCnQA();
-  if (stepId === 'cn-step5') initCnThread();
-  if (stepId === 'cn-step6') initCnElements();
-  if (stepId === 'cn-step7') initCnBalance();
-  if (stepId === 'cn-step8') startCnLoading();
-  if (stepId === 'cn-step9') renderCnResult();
-  window.scrollTo(0, 0);
+  if (stepId === 'cn-step3') initCnThread();
+  if (stepId === 'cn-step4') startCnQA();
+  if (stepId === 'cn-step5') renderCnSummary();
+  if (stepId === 'cn-step6') startCnLoading();
+  if (stepId === 'cn-step7') renderCnResult();
+  if (!['cn-step3','cn-step6'].includes(stepId)) window.scrollTo(0,0);
 }
 
-function selectCnRelation(type) {
-  cnState.relation = type;
-  document.querySelectorAll('.cn-relation-btn').forEach(b => b.classList.remove('selected'));
-  if (event && event.currentTarget) event.currentTarget.classList.add('selected');
-  setTimeout(() => showCnStep('cn-step3'), 350);
+// Step 2 — prayer
+function cnPrayerNext() {
+  const prayer = (document.getElementById('cn-prayer-text') || {}).value || '';
+  cnState.prayer = prayer.trim();
+  showCnStep('cn-step3');
 }
 
-function startCnQA() {
-  cnQIdx = 0; cnYYScore = 0;
-  renderCnQ();
+// Step 2 — fill zodiac display
+function fillCnZodiacDisplay() {
+  const z1el = document.getElementById('cn-zodiac1-icon');
+  const z2el = document.getElementById('cn-zodiac2-icon');
+  const l1el = document.getElementById('cn-zodiac1-label');
+  const l2el = document.getElementById('cn-zodiac2-label');
+  const e1el = document.getElementById('cn-element1-label');
+  const e2el = document.getElementById('cn-element2-label');
+  if (z1el) z1el.textContent = cnState.zodiacIcon1 || '🐉';
+  if (z2el) z2el.textContent = cnState.zodiacIcon2 || '🐉';
+  if (l1el) l1el.textContent = cnState.zodiac1 || '';
+  if (l2el) l2el.textContent = cnState.zodiac2 || '';
+  if (e1el) e1el.textContent = (CN_EL_ICONS[cnState.element1] || '') + ' ธาตุ' + (cnState.element1 || '');
+  if (e2el) e2el.textContent = (CN_EL_ICONS[cnState.element2] || '') + ' ธาตุ' + (cnState.element2 || '');
 }
 
-function renderCnQ() {
-  const q = CN_YINYANG_QS[cnQIdx];
-  document.getElementById('cn-q-progress').textContent = `คำถาม ${cnQIdx + 1} / 10`;
-  document.getElementById('cn-q-bar').style.width = ((cnQIdx + 1) * 10) + '%';
-  document.getElementById('cn-q-text').textContent = q.q;
-  const opts = document.getElementById('cn-q-options');
-  opts.innerHTML = '';
-  q.a.forEach((a, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'cn-q-option';
-    btn.textContent = a;
-    btn.onclick = () => answerCnQ(i);
-    opts.appendChild(btn);
-  });
-}
-
-function answerCnQ(idx) {
-  if (idx === 0) cnYYScore++; // หยิน
-  cnQIdx++;
-  if (cnQIdx < CN_YINYANG_QS.length) { renderCnQ(); }
-  else { calcCnYinYang(); showCnStep('cn-step4'); }
-}
-
-function calcCnYinYang() {
-  cnState.yinYang1 = cnYYScore; // 0-10, >5=หยิน
-  // สร้าง score ของอีกฝ่ายจาก dob2
-  const p = cnState.dob2.split('-');
-  const y2 = parseInt(p[0]), m2 = parseInt(p[1]), d2 = parseInt(p[2]);
-  cnState.yinYang2 = ((y2 + m2 + d2) % 7) + 3; // 3-9
-
-  const yin1 = cnState.yinYang1 >= 5;
-  const yin2 = cnState.yinYang2 >= 5;
-  document.getElementById('cn-energy1-icon').textContent = yin1 ? '☯️' : '☀️';
-  document.getElementById('cn-energy1-label').textContent = yin1 ? 'หยินเด่น' : 'หยางเด่น';
-  document.getElementById('cn-energy1-desc').textContent = yin1 ? 'อ่อนโยน รับฟัง ลึกซึ้ง ให้พลังงานสงบ' : 'กล้าหาญ นำ ขับเคลื่อน เต็มไปด้วยพลังงาน';
-  document.getElementById('cn-energy2-icon').textContent = yin2 ? '☯️' : '☀️';
-  document.getElementById('cn-energy2-label').textContent = yin2 ? 'หยินเด่น' : 'หยางเด่น';
-  document.getElementById('cn-energy2-desc').textContent = yin2 ? 'อ่อนโยน รับฟัง ลึกซึ้ง ให้พลังงานสงบ' : 'กล้าหาญ นำ ขับเคลื่อน เต็มไปด้วยพลังงาน';
-
-  const combos = {
-    'หยิน-หยิน': 'พลังงานเงียบงาม ลึกซึ้ง เข้าใจกันโดยไม่ต้องพูด แต่อาจขาดแรงขับเคลื่อน',
-    'หยาง-หยาง': 'พลังงานสูง ตื่นเต้น เต็มไปด้วยการเคลื่อนไหว แต่อาจชนกันบ้าง',
-    'หยิน-หยาง': 'สมดุลสมบูรณ์แบบ หยางนำทาง หยินส่งเสริม ความสัมพันธ์ลื่นไหล',
-    'หยาง-หยิน': 'สมดุลสมบูรณ์แบบ หยางนำทาง หยินส่งเสริม ความสัมพันธ์ลื่นไหล',
-  };
-  const key = (yin1?'หยิน':'หยาง') + '-' + (yin2?'หยิน':'หยาง');
-  document.getElementById('cn-energy-combo-desc').textContent = combos[key];
-}
-
-// Thread drawing
-let cnThreadDrawing = false; let cnThreadPts = [];
+// Step 3 — thread drawing
+let cnThreadDrawing = false, cnThreadPts = [];
 function initCnThread() {
   const svg = document.getElementById('cn-thread-svg');
   const path = document.getElementById('cn-thread-path');
   if (!svg || !path) return;
   path.setAttribute('d', '');
   cnThreadPts = [];
-  document.getElementById('cn-thread-next').style.display = 'none';
-  document.getElementById('cn-thread-hint').textContent = 'แตะจุดแดงที่ตัวคุณ แล้วลากไปอีกฝ่าย';
-
+  const nextBtn = document.getElementById('cn-thread-next');
+  if (nextBtn) nextBtn.style.display = 'none';
+  const hint = document.getElementById('cn-thread-hint');
+  if (hint) hint.textContent = 'ลากด้ายแดงจากตัวคุณไปยังอีกฝ่าย';
   svg.addEventListener('touchstart', cnThreadStart, {passive:false});
   svg.addEventListener('touchmove', cnThreadMove, {passive:false});
   svg.addEventListener('touchend', cnThreadEnd);
 }
-
 function getSvgPt(svg, e) {
-  const r = svg.getBoundingClientRect();
-  const vb = svg.viewBox.baseVal;
+  const r = svg.getBoundingClientRect(), vb = svg.viewBox.baseVal;
   const touch = e.touches ? e.touches[0] : e;
-  return { x: (touch.clientX - r.left) / r.width * vb.width, y: (touch.clientY - r.top) / r.height * vb.height };
+  return { x:(touch.clientX-r.left)/r.width*vb.width, y:(touch.clientY-r.top)/r.height*vb.height };
 }
-
-function cnThreadStart(e) { e.preventDefault(); cnThreadDrawing = true; cnThreadPts = [getSvgPt(document.getElementById('cn-thread-svg'), e)]; }
+function cnThreadStart(e) { e.preventDefault(); cnThreadDrawing = true; cnThreadPts = [getSvgPt(document.getElementById('cn-thread-svg'),e)]; }
 function cnThreadMove(e) {
   if (!cnThreadDrawing) return; e.preventDefault();
   const pt = getSvgPt(document.getElementById('cn-thread-svg'), e);
   cnThreadPts.push(pt);
   const path = document.getElementById('cn-thread-path');
   if (cnThreadPts.length > 1) {
-    path.setAttribute('stroke', 'rgba(220,60,60,0.9)');
-    path.setAttribute('d', 'M' + cnThreadPts.map(p => `${p.x},${p.y}`).join(' L'));
+    path.setAttribute('stroke','rgba(220,60,60,0.95)');
+    path.setAttribute('d','M'+cnThreadPts.map(p=>p.x+','+p.y).join(' L'));
   }
 }
 function cnThreadEnd() {
   cnThreadDrawing = false;
   if (cnThreadPts.length > 5) {
-    document.getElementById('cn-thread-hint').textContent = '✨ เส้นด้ายแห่งโชคชะตาถูกผูกแล้ว';
-    document.getElementById('cn-thread-next').style.display = 'block';
-    spawnPetals();
-  }
-}
-function spawnPetals() {
-  const g = document.getElementById('cn-petals');
-  if (!g) return;
-  for (let i = 0; i < 6; i++) {
-    const x = 60 + Math.random() * 200, y = 100 + Math.random() * 200;
-    const el = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-    el.setAttribute('x', x); el.setAttribute('y', y);
-    el.setAttribute('font-size', '14'); el.setAttribute('opacity', '0');
-    el.textContent = '🌸';
-    g.appendChild(el);
-    let op = 0;
-    const iv = setInterval(() => { op += 0.05; el.setAttribute('opacity', op); if (op >= 1) clearInterval(iv); }, 50);
+    const hint = document.getElementById('cn-thread-hint');
+    if (hint) hint.textContent = '✨ ด้ายแดงถูกผูกแล้ว';
+    const btn = document.getElementById('cn-thread-next');
+    if (btn) btn.style.display = 'block';
+    // petals
+    const g = document.getElementById('cn-petals');
+    if (g) for (let i=0;i<6;i++) {
+      const x=60+Math.random()*200, y=80+Math.random()*180;
+      const el = document.createElementNS('http://www.w3.org/2000/svg','text');
+      el.setAttribute('x',x); el.setAttribute('y',y);
+      el.setAttribute('font-size','14'); el.setAttribute('opacity','0');
+      el.textContent='🌸'; g.appendChild(el);
+      let op=0; const iv=setInterval(()=>{op+=0.06;el.setAttribute('opacity',op);if(op>=1)clearInterval(iv);},40);
+    }
   }
 }
 
-// Element balance
-function initCnElements() {
-  const el1 = cnState.element1, el2 = cnState.element2;
-  const icons = { ไม้:'🌱', ไฟ:'🔥', ดิน:'🌍', ทอง:'⚔️', น้ำ:'🌊' };
-  const el1El = document.getElementById('cn-el1-icon');
-  const el2El = document.getElementById('cn-el2-icon');
-  if (el1El) el1El.textContent = icons[el1] || '🌟';
-  if (el2El) el2El.textContent = icons[el2] || '✨';
-  const combos = {
-    'ไม้-ไฟ':'ไม้ส่งเสริมไฟ — พลังงานส่งเสริมกัน ความสัมพันธ์มีความร้อนแรงและการเติบโต',
-    'ไฟ-ดิน':'ไฟส่งเสริมดิน — ความมั่นคงเกิดจากพลังงาน สร้างรากฐานที่แข็งแกร่ง',
-    'ดิน-ทอง':'ดินส่งเสริมทอง — ความมั่นคงและคุณค่า ความสัมพันธ์ยั่งยืน',
-    'ทอง-น้ำ':'ทองส่งเสริมน้ำ — ชัดเจนและลื่นไหล เข้ากันได้ดีมาก',
-    'น้ำ-ไม้':'น้ำส่งเสริมไม้ — หล่อเลี้ยงและเติบโต ความรักที่บ่มเพาะ',
-    'ไฟ-น้ำ':'ไฟและน้ำ — พลังตรงข้าม ดึงดูดกันแรงแต่ต้องปรับสมดุล',
-    'น้ำ-ไฟ':'น้ำและไฟ — พลังตรงข้าม ดึงดูดกันแรงแต่ต้องปรับสมดุล',
+// Step 4 — Q&A
+const CN_QA = [
+  { q:'เวลามีปัญหา ใครเป็นฝ่ายเข้าหาก่อน?', a:['ฉันมักจะเข้าหาก่อน','อีกฝ่ายมักจะเข้าหาก่อน'], score:[1,0] },
+  { q:'ใครเป็นฝ่ายคิดมากกว่าในความสัมพันธ์นี้?', a:['ฉันคิดมากกว่า','อีกฝ่ายคิดมากกว่า'], score:[1,0] },
+  { q:'ใครต้องการความชัดเจนในความสัมพันธ์มากกว่า?', a:['ฉันต้องการมากกว่า','อีกฝ่ายต้องการมากกว่า'], score:[0,1] },
+  { q:'ใครเป็นฝ่ายยอมมากกว่าเวลาขัดแย้ง?', a:['ฉันมักจะยอม','อีกฝ่ายมักจะยอม'], score:[1,0] },
+  { q:'ความสัมพันธ์นี้ขับเคลื่อนด้วยอะไรมากกว่า?', a:['ความรู้สึกและอารมณ์','เหตุผลและความเป็นจริง'], score:[1,0] },
+  { q:'ใครแสดงความรักออกมาบ่อยกว่า?', a:['ฉันแสดงออกมากกว่า','อีกฝ่ายแสดงออกมากกว่า'], score:[1,0] },
+  { q:'ความสัมพันธ์นี้รู้สึกอย่างไรบ่อยกว่า?', a:['อบอุ่น นุ่มนวล เงียบสงบ','ตื่นเต้น มีพลัง ดุเดือด'], score:[1,0] },
+  { q:'เวลาต้องตัดสินใจสำคัญ ใครมีบทบาทมากกว่า?', a:['ฉันมักตัดสินใจ','อีกฝ่ายมักตัดสินใจ'], score:[0,1] },
+  { q:'ฉันรู้สึกว่าตัวเองในความสัมพันธ์นี้เป็นแบบไหน?', a:['ผู้ให้ ผู้ดูแล ผู้ฟัง','ผู้นำ ผู้ตัดสินใจ ผู้ขับเคลื่อน'], score:[1,0] },
+  { q:'โดยรวมความสัมพันธ์นี้รู้สึกว่า...', a:['มีความลึกซึ้งและผูกพัน','มีพลังงานและการเคลื่อนไหว'], score:[1,0] },
+];
+
+function startCnQA() {
+  cnQIdx = 0; cnState.yinScore = 0; cnState.yangScore = 0;
+  renderCnQ();
+}
+function renderCnQ() {
+  const q = CN_QA[cnQIdx];
+  const prog = document.getElementById('cn-q-progress');
+  const bar = document.getElementById('cn-q-bar');
+  const qText = document.getElementById('cn-q-text');
+  const opts = document.getElementById('cn-q-options');
+  if (prog) prog.textContent = `คำถาม ${cnQIdx+1} / 10`;
+  if (bar) bar.style.width = ((cnQIdx+1)*10)+'%';
+  if (qText) qText.textContent = q.q;
+  if (opts) {
+    opts.innerHTML = '';
+    q.a.forEach((a,i) => {
+      const btn = document.createElement('button');
+      btn.className = 'cn-q-option';
+      btn.textContent = a;
+      btn.onclick = () => answerCnQ(i, q.score[i]);
+      opts.appendChild(btn);
+    });
+  }
+}
+function answerCnQ(idx, score) {
+  if (score === 1) cnState.yinScore++; else cnState.yangScore++;
+  cnQIdx++;
+  if (cnQIdx < CN_QA.length) renderCnQ();
+  else showCnStep('cn-step5');
+}
+
+// Step 5 — summary
+function renderCnSummary() {
+  const { zodiac1, zodiac2, zodiacIcon1, zodiacIcon2, element1, element2, yinScore, yangScore } = cnState;
+  const total = yinScore + yangScore;
+  const yinPct = Math.round((yinScore/total)*100);
+  const yangPct = 100 - yinPct;
+
+  // fill icons
+  const els = {
+    'cn-sum-zodiac1-icon': zodiacIcon1||'🐉', 'cn-sum-zodiac2-icon': zodiacIcon2||'🐉',
+    'cn-sum-zodiac1': zodiac1, 'cn-sum-zodiac2': zodiac2,
+    'cn-sum-el1': (CN_EL_ICONS[element1]||'')+' ธาตุ'+element1,
+    'cn-sum-el2': (CN_EL_ICONS[element2]||'')+' ธาตุ'+element2,
+    'cn-sum-yy1': yinScore>=6 ? '☯️ หยินเด่น' : yinScore<=4 ? '☀️ หยางเด่น' : '☯️☀️ สมดุล',
+    'cn-sum-yy2': '',
+    'cn-yin-pct': yinPct+'%', 'cn-yang-pct': yangPct+'%'
   };
-  const key = el1 + '-' + el2;
-  const title = document.getElementById('cn-element-combo-title');
-  const desc = document.getElementById('cn-element-combo-desc');
-  if (title) title.textContent = `${icons[el1]||''}${el1} พบ ${icons[el2]||''}${el2}`;
-  if (desc) desc.textContent = combos[key] || `${el1}และ${el2}มีพลังงานที่เสริมกัน ความสัมพันธ์มีความสมดุลในแบบของตัวเอง`;
+  Object.entries(els).forEach(([id,val]) => { const el=document.getElementById(id); if(el) el.textContent=val; });
+  const yinBar = document.getElementById('cn-yin-bar');
+  const yangBar = document.getElementById('cn-yang-bar');
+  if (yinBar) yinBar.style.width = yinPct+'%';
+  if (yangBar) yangBar.style.width = yangPct+'%';
+
+  const verdict = document.getElementById('cn-balance-verdict');
+  const desc = document.getElementById('cn-balance-desc');
+  if (yinPct >= 70) {
+    if (verdict) verdict.textContent = '☯️ ความสัมพันธ์นี้มีพลังหยินเด่น';
+    if (desc) desc.textContent = 'ความสัมพันธ์นี้เต็มไปด้วยความอ่อนโยน ความลึกซึ้ง และการรับฟัง พลังงานไหลเงียบงามและมั่นคง';
+  } else if (yangPct >= 70) {
+    if (verdict) verdict.textContent = '☀️ ความสัมพันธ์นี้มีพลังหยางเด่น';
+    if (desc) desc.textContent = 'ความสัมพันธ์นี้เต็มไปด้วยพลังงาน การขับเคลื่อน และความชัดเจน มีแรงดึงดูดและความตื่นเต้นอยู่เสมอ';
+  } else {
+    if (verdict) verdict.textContent = '☯️☀️ ความสัมพันธ์นี้มีพลังสมดุล';
+    if (desc) desc.textContent = 'ทั้งหยินและหยางเสริมกันในความสัมพันธ์นี้ มีทั้งความอ่อนโยนและความเข้มแข็ง ความนิ่งและความเคลื่อนไหว';
+  }
 }
 
-// Yin-yang balance spin
-let cnYYAngle = 0; let cnYYSpinning = false; let cnYYStartA = 0; let cnYYCenterX = 90; let cnYYCenterY = 90; let cnYYSpinCount = 0;
-function initCnBalance() { cnYYAngle = 0; cnYYSpinCount = 0; updateCnBalance(); }
-function cnYYStart(e) { cnYYSpinning = true; const pt = e.touches ? e.touches[0] : e; const el = document.getElementById('cn-yy-svg'); const r = el.getBoundingClientRect(); cnYYStartA = Math.atan2(pt.clientY - (r.top + r.height/2), pt.clientX - (r.left + r.width/2)); }
-function cnYYMove(e) {
-  if (!cnYYSpinning) return;
-  const pt = e.touches ? e.touches[0] : e;
-  const el = document.getElementById('cn-yy-svg');
-  const r = el.getBoundingClientRect();
-  const a = Math.atan2(pt.clientY - (r.top + r.height/2), pt.clientX - (r.left + r.width/2));
-  const da = (a - cnYYStartA) * 180 / Math.PI;
-  cnYYAngle += da; cnYYStartA = a; cnYYSpinCount += Math.abs(da);
-  el.style.transform = `rotate(${cnYYAngle}deg)`;
-  updateCnBalance();
-}
-function cnYYEnd() { cnYYSpinning = false; }
-function updateCnBalance() {
-  const pct = Math.min(100, cnYYSpinCount / 7);
-  const bar = document.getElementById('cn-balance-bar');
-  const lbl = document.getElementById('cn-balance-label');
-  const btn = document.getElementById('cn-balance-btn');
-  if (bar) bar.style.width = pct + '%';
-  if (lbl) lbl.textContent = pct < 30 ? 'หมุนเพื่อปรับสมดุล' : pct < 70 ? 'กำลังปรับสมดุล...' : 'สมดุลแล้ว ✓';
-  if (btn && pct >= 70) { btn.style.display = 'block'; btn.style.background = 'linear-gradient(135deg,rgba(180,100,20,0.9),rgba(220,160,40,0.9))'; btn.style.color = '#1a0a00'; }
-}
-
-// Loading
-const cnLoadingMsgs = ['🏮 กำลังเชื่อมชะตาของทั้งสอง…','☯️ กำลังปรับสมดุลหยินหยาง…','🐉 กำลังอ่านเส้นทางแห่งโชคชะตา…','✨ กำลังหลอมรวมพลังของดวงคู่…'];
+// Step 6 — loading
+const cnLoadingMsgs = [
+  '🏮 กำลังเชื่อมด้ายแดงของทั้งสอง…',
+  '🐉 กำลังตรวจสอบชง / ฮะ…',
+  '🔥 กำลังวิเคราะห์ธาตุทั้งห้า…',
+  '☯️ กำลังประเมินสมดุลหยินหยาง…',
+];
 function startCnLoading() {
   let i = 0;
   const el = document.getElementById('cn-loading-text');
   if (el) el.textContent = cnLoadingMsgs[0];
-  const iv = setInterval(() => { i++; if (i < cnLoadingMsgs.length) { if (el) el.textContent = cnLoadingMsgs[i]; } else { clearInterval(iv); showCnStep('cn-step9'); } }, 1800);
+  const iv = setInterval(() => {
+    i++;
+    if (i < cnLoadingMsgs.length) { if (el) el.textContent = cnLoadingMsgs[i]; }
+    else { clearInterval(iv); showCnStep('cn-step7'); }
+  }, 1800);
 }
 
+// Step 7 — result
 function renderCnResult() {
   useCredit();
   showPageHeader('page-soulmate');
   showCreditsBar('soulmate');
-  const icons = { ไม้:'🌱', ไฟ:'🔥', ดิน:'🌍', ทอง:'⚔️', น้ำ:'🌊' };
-  const el1 = cnState.element1, el2 = cnState.element2;
-  const yin1 = cnState.yinYang1 >= 5, yin2 = cnState.yinYang2 >= 5;
+  const { zodiac1, zodiac2, zodiacIcon1, zodiacIcon2, element1, element2, yinScore, yangScore, prayer } = cnState;
+  const total = yinScore + yangScore;
+  const yinPct = Math.round((yinScore/total)*100);
+  const yangPct = 100 - yinPct;
+  const elIcon1 = CN_EL_ICONS[element1]||'';
+  const elIcon2 = CN_EL_ICONS[element2]||'';
 
-  // คำนวณ ชง/ฮะ/ส่งเสริม
+  // ชง / ฮะ / ส่งเสริม
   const chongPairs = [['ชวด(หนู)','มะเมีย(ม้า)'],['ฉลู(วัว)','มะแม(แพะ)'],['ขาล(เสือ)','วอก(ลิง)'],['เถาะ(กระต่าย)','ระกา(ไก่)'],['มะโรง(มังกร)','จอ(สุนัข)'],['มะเส็ง(งู)','กุน(หมู)']];
   const haPairs = [['ชวด(หนู)','ฉลู(วัว)'],['ขาล(เสือ)','กุน(หมู)'],['เถาะ(กระต่าย)','จอ(สุนัข)'],['มะโรง(มังกร)','ระกา(ไก่)'],['มะเส็ง(งู)','วอก(ลิง)'],['มะเมีย(ม้า)','มะแม(แพะ)']];
-  const isChong = chongPairs.some(p => (p[0]===cnState.zodiac1&&p[1]===cnState.zodiac2)||(p[1]===cnState.zodiac1&&p[0]===cnState.zodiac2));
-  const isHa = haPairs.some(p => (p[0]===cnState.zodiac1&&p[1]===cnState.zodiac2)||(p[1]===cnState.zodiac1&&p[0]===cnState.zodiac2));
-  const chongLabel = isChong ? '⚡ ชง — พลังตึงเครียด ดึงดูดแต่ขัดแย้ง ต้องบริหารจัดการให้ดี' : isHa ? '✨ ฮะ — พลังส่งเสริมกัน เข้ากันได้ดีตามธรรมชาติ' : '🌟 ส่งเสริมกัน — พลังงานไหลลื่น ความสัมพันธ์พัฒนาได้ดี';
+  const isChong = chongPairs.some(p=>(p[0]===zodiac1&&p[1]===zodiac2)||(p[1]===zodiac1&&p[0]===zodiac2));
+  const isHa = haPairs.some(p=>(p[0]===zodiac1&&p[1]===zodiac2)||(p[1]===zodiac1&&p[0]===zodiac2));
 
-  // คะแนน
-  const p1 = cnState.dob1.split('-'); const p2 = cnState.dob2.split('-');
-  const score = 55 + ((parseInt(p1[2]) + parseInt(p2[2]) + (yin1!==yin2?15:5) + (isHa?20:isChong?5:10)) % 40);
-  const relationBonus = {new:'พลังงานใหม่สดใส เริ่มต้นอย่างสดชื่น', distant:'ความผูกพันลึกซึ้งที่รออยู่', intense:'แรงดึงดูดพิเศษที่หาได้ยาก', unclear:'ความลึกลับที่น่าค้นหา', cycle:'ชะตาที่ถูกผูกไว้ด้วยพลังชีวิต', serious:'รากฐานที่แข็งแกร่งและยั่งยืน'};
+  const chongHaLabel = isChong ? '⚡ ชง' : isHa ? '✨ ฮะ' : '🌟 ส่งเสริมกัน';
+  const chongHaDesc = isChong
+    ? `${zodiac1}และ${zodiac2}มีพลังชงกัน ซึ่งไม่ได้แปลว่าคบกันไม่ได้ แต่หมายความว่าความสัมพันธ์นี้มีแรงดึงดูดที่รุนแรงควบคู่ไปกับแรงเสียดทาน ถ้าทั้งคู่รู้จักจัดการพลังงานนี้ได้ดี ความสัมพันธ์จะยิ่งแข็งแกร่งขึ้น`
+    : isHa
+    ? `${zodiac1}และ${zodiac2}มีพลังฮะกัน คือส่งเสริมกันตามธรรมชาติ มีความเข้าใจกันโดยไม่ต้องพูดมาก ไหลลื่นและเติมเต็มกันได้ดี นี่คือหนึ่งในคู่ที่ดีที่สุดในตำราจีน`
+    : `${zodiac1}และ${zodiac2}ส่งเสริมกัน ไม่มีแรงต้านตามธรรมชาติ ความสัมพันธ์สามารถพัฒนาได้ดีถ้าทั้งสองลงทุนกับมัน`;
 
-  const cn9 = document.getElementById('cn-step9');
-  if (!cn9) return;
-  cn9.innerHTML = `
+  // ความเข้ากันของธาตุ
+  const elementCombos = {
+    'ไม้-ไฟ':'ไม้ส่งเสริมไฟ ความรักที่มีพลังงานและการเติบโต อีกฝ่ายช่วยจุดประกายชีวิตให้สว่างขึ้น',
+    'ไฟ-ไม้':'ไม้ส่งเสริมไฟ ความรักที่มีพลังงานและการเติบโต อีกฝ่ายช่วยจุดประกายชีวิตให้สว่างขึ้น',
+    'ไฟ-ดิน':'ไฟส่งเสริมดิน ความมั่นคงเกิดจากพลังงาน สร้างรากฐานที่แข็งแกร่งร่วมกันได้',
+    'ดิน-ไฟ':'ไฟส่งเสริมดิน ความมั่นคงเกิดจากพลังงาน สร้างรากฐานที่แข็งแกร่งร่วมกันได้',
+    'ดิน-ทอง':'ดินส่งเสริมทอง ความมั่นคงและคุณค่า ความสัมพันธ์ที่ยั่งยืนและน่าเชื่อถือ',
+    'ทอง-ดิน':'ดินส่งเสริมทอง ความมั่นคงและคุณค่า ความสัมพันธ์ที่ยั่งยืนและน่าเชื่อถือ',
+    'ทอง-น้ำ':'ทองส่งเสริมน้ำ ความชัดเจนและความลื่นไหล เข้ากันได้ดีและส่งเสริมกันในระยะยาว',
+    'น้ำ-ทอง':'ทองส่งเสริมน้ำ ความชัดเจนและความลื่นไหล เข้ากันได้ดีและส่งเสริมกันในระยะยาว',
+    'น้ำ-ไม้':'น้ำส่งเสริมไม้ ความรักที่หล่อเลี้ยงและเติบโตร่วมกัน ยิ่งนานยิ่งแน่นแฟ้น',
+    'ไม้-น้ำ':'น้ำส่งเสริมไม้ ความรักที่หล่อเลี้ยงและเติบโตร่วมกัน ยิ่งนานยิ่งแน่นแฟ้น',
+    'ไฟ-น้ำ':'ไฟและน้ำเป็นพลังตรงข้าม ดึงดูดกันอย่างรุนแรงแต่ต้องระวังไม่ให้ดับกัน ต้องการความเข้าใจและการปรับตัว',
+    'น้ำ-ไฟ':'ไฟและน้ำเป็นพลังตรงข้าม ดึงดูดกันอย่างรุนแรงแต่ต้องระวังไม่ให้ดับกัน ต้องการความเข้าใจและการปรับตัว',
+  };
+  const elKey = element1+'-'+element2;
+  const elDesc = elementCombos[elKey] || `${element1}และ${element2}มีพลังงานที่เป็นเอกลักษณ์ในแบบของตัวเอง ความสัมพันธ์นี้มีเสน่ห์ที่หาได้ยาก`;
+
+  // สมดุลหยินหยาง
+  const yyDesc = yinPct>=70
+    ? 'ความสัมพันธ์นี้มีพลังหยินเด่น ซึ่งแปลว่ามีความอ่อนโยน ความลึกซึ้ง และการรับฟังเป็นพื้นฐาน พลังงานไหลนิ่งและมั่นคง แต่อาจต้องการแรงขับเคลื่อนเพิ่มบางครั้ง'
+    : yangPct>=70
+    ? 'ความสัมพันธ์นี้มีพลังหยางเด่น เต็มไปด้วยพลังงาน การเคลื่อนไหว และความกล้า แต่อาจต้องการพื้นที่เงียบงามและการรับฟังกันมากขึ้น'
+    : 'หยินและหยางในความสัมพันธ์นี้สมดุลกัน มีทั้งความอ่อนโยนและความเข้มแข็ง ทั้งนิ่งและเคลื่อนไหว นี่คือสมดุลที่หาได้ยากมาก';
+
+  // คะแนนรวม
+  const p1 = cnState.dob1.split('-'), p2 = cnState.dob2.split('-');
+  const score = Math.min(99, 55 + ((parseInt(p1[2])+parseInt(p2[2])+(isHa?20:isChong?5:12)+(Math.abs(yinPct-50)<20?10:5))%40));
+
+  // คำทำนายระยะยาว
+  const longTerm = isHa
+    ? 'ดวงชะตาของทั้งสองถูกผูกไว้ด้วยพลังฮะ ซึ่งหมายความว่าเส้นทางของทั้งสองมีแนวโน้มที่จะเชื่อมโยงกันในระยะยาว ถ้าทั้งคู่เลือกที่จะเดินไปด้วยกัน โอกาสที่จะสร้างชีวิตที่ดีร่วมกันมีสูงมาก'
+    : isChong
+    ? 'ความสัมพันธ์ชงไม่ได้หมายความว่าจบ แต่หมายความว่าทั้งสองคนจะเติบโตขึ้นมากจากการอยู่ด้วยกัน บทเรียนที่ได้จะเปลี่ยนชีวิตของทั้งคู่ ถ้าผ่านบททดสอบได้ ความสัมพันธ์นี้จะลึกและแข็งแกร่งกว่าใคร'
+    : 'ความสัมพันธ์นี้มีพื้นฐานที่ดี ไม่มีแรงต้านจากดวงชะตา ทิศทางในอนาคตขึ้นอยู่กับความตั้งใจและความพยายามของทั้งสองคนเป็นหลัก';
+
+  // คำอธิษฐาน response
+  const prayerSection = prayer ? `
+    <div style="background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.2); border-radius:16px; padding:20px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🙏 คำตอบสำหรับคำอธิษฐานของคุณ</div>
+      <div style="font-size:13px; color:var(--text-light); margin-bottom:10px; font-style:italic;">"${prayer}"</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.9;">ไพ่รับรู้ถึงสิ่งที่คุณอธิษฐาน พลังงานของ${zodiac1}และ${zodiac2}บวกกับความตั้งใจที่คุณส่งออกไปนั้นมีพลัง${isHa?'ที่เชื่อมโยงกันอย่างลึกซึ้ง โอกาสที่จะเป็นจริงมีอยู่สูงมาก':isChong?'ที่แข็งแกร่ง แต่ต้องผ่านบทเรียนก่อน สิ่งที่อธิษฐานจะเกิดขึ้นได้ถ้าทั้งสองเลือกเติบโตไปด้วยกัน':'ที่ดีและสมดุล ถ้าทั้งสองลงทุนกับความสัมพันธ์นี้จริงๆ สิ่งที่อธิษฐานมีโอกาสเป็นจริง'}</div>
+    </div>` : '';
+
+  const cn7 = document.getElementById('cn-step7');
+  if (!cn7) return;
+  cn7.innerHTML = `
     <div style="text-align:center; padding:20px 0 16px;">
       <div style="font-size:36px; margin-bottom:8px;">🧧</div>
-      <div style="font-family:'Noto Serif Thai',serif; font-size:22px; font-weight:700; color:var(--brown-dark);">คำทำนายดวงคู่</div>
-      <div style="font-size:13px; color:var(--text-light); margin-top:4px;">${cnState.zodiac1} 🤝 ${cnState.zodiac2}</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:22px; font-weight:700; color:var(--brown-dark);">คำทำนายดวงสมพงษ์</div>
+      <div style="font-size:13px; color:var(--text-light); margin-top:4px;">${zodiacIcon1||''}${zodiac1} 🤝 ${zodiacIcon2||''}${zodiac2}</div>
     </div>
 
-    <!-- ระดับความสมพงษ์ -->
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:10px;">💞 ระดับความสมพงษ์</div>
-      <div style="display:flex; justify-content:space-between; font-size:13px; color:var(--text-light); margin-bottom:8px;"><span>${relationBonus[cnState.relation]||''}</span><span style="color:var(--gold); font-weight:700;">${score}%</span></div>
+      <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px; color:var(--text-light);"><span>ระดับความสมพงษ์</span><span style="color:var(--gold); font-weight:700;">${score}%</span></div>
       <div style="background:var(--cream-dark); border-radius:10px; height:8px; overflow:hidden;"><div style="background:linear-gradient(to right,rgba(200,80,80,0.8),rgba(212,175,55,0.8)); height:100%; width:${score}%; border-radius:10px;"></div></div>
     </div>
 
-    <!-- ชง/ฮะ/ส่งเสริม -->
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🐉 วิเคราะห์ชง / ฮะ / ส่งเสริมกัน</div>
-      <div style="font-size:14px; color:var(--text-mid); line-height:1.9;">${chongLabel}</div>
-      <div style="font-size:13px; color:var(--text-light); margin-top:8px; line-height:1.8;">${isChong?'นักษัตรที่ชงกันมักมีแรงดึงดูดสูงแต่ต้องผ่านบทเรียน ความสัมพันธ์จะเติบโตหากทั้งสองเข้าใจซึ่งกันและกัน':isHa?'นักษัตรที่ฮะกันมักเข้ากันได้ดีตามธรรมชาติ มีความเข้าใจและช่วยเสริมพลังกัน':'พลังงานของทั้งสองไหลสู่กันอย่างลื่นไหล ความสัมพันธ์มีพื้นฐานที่ดี'}</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🐉 ชง / ฮะ / ส่งเสริม — ${chongHaLabel}</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.9;">${chongHaDesc}</div>
     </div>
 
-    <!-- หยินหยาง -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
-      <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; text-align:center;">
-        <div style="font-size:11px; color:var(--text-light); margin-bottom:4px;">สมดุลหยินหยาง</div>
-        <div style="font-size:24px; margin-bottom:4px;">☯️</div>
-        <div style="font-family:'Noto Serif Thai',serif; font-size:13px; color:var(--brown-dark);">${yin1?'☯️หยิน':'☀️หยาง'} + ${yin2?'☯️หยิน':'☀️หยาง'}</div>
-        <div style="font-size:11px; color:var(--text-light); margin-top:4px;">${yin1!==yin2?'สมดุลสมบูรณ์แบบ':'พลังงานเดียวกัน'}</div>
-      </div>
-      <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; text-align:center;">
-        <div style="font-size:11px; color:var(--text-light); margin-bottom:4px;">ธาตุของดวงคู่</div>
-        <div style="font-size:22px; margin-bottom:4px;">${icons[el1]||''}${icons[el2]||''}</div>
-        <div style="font-family:'Noto Serif Thai',serif; font-size:13px; color:var(--brown-dark);">${el1} + ${el2}</div>
-      </div>
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🔥 ความเข้ากันของธาตุ — ${elIcon1}${element1} + ${elIcon2}${element2}</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.9;">${elDesc}</div>
     </div>
 
-    <!-- พลังดึงดูด -->
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">☯️ สมดุลหยินหยาง — หยิน ${yinPct}% / หยาง ${yangPct}%</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.9;">${yyDesc}</div>
+    </div>
+
     <div style="background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.2); border-radius:16px; padding:20px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🔥 พลังดึงดูดระหว่างกัน</div>
-      <div style="font-size:14px; color:var(--text-mid); line-height:1.9;">ดวงของ${cnState.zodiac1}และ${cnState.zodiac2}มีพลังงาน${icons[el1]||''}${el1}และ${icons[el2]||''}${el2}ที่เสริมสร้างแรงดึงดูดในระดับจิตใต้สำนึก คุณสองคนถูกดึงเข้าหากันด้วยพลังชะตาที่ลึกกว่าที่ตาเห็น</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">💪 จุดแข็งของความสัมพันธ์นี้</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.9;">${isHa?'ความสัมพันธ์นี้มีพลังธรรมชาติที่ส่งเสริมกัน ทั้งสองมีแนวโน้มเข้าใจกันได้ง่าย ไม่ต้องอธิบายมาก รู้สึกกันได้เอง':yinPct>=60&&yangPct>=30?'ความสมดุลระหว่างหยินและหยางในความสัมพันธ์นี้คือจุดแข็ง ทั้งสองเติมเต็มกันได้โดยไม่ต้องพยายามมาก':'ทั้งสองมีพลังงานที่ชัดเจนและเป็นตัวของตัวเอง ซึ่งทำให้ความสัมพันธ์มีเอกลักษณ์และน่าสนใจ'}</div>
     </div>
 
-    <!-- จุดระวัง -->
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">⚠️ จุดที่ต้องระวัง</div>
-      <div style="font-size:14px; color:var(--text-mid); line-height:1.9;">${yin1===yin2?'ทั้งสองมีพลังงานคล้ายกัน อาจแข่งขันหรือเดินในทิศทางเดียวกันจนลืมเติมเต็มกัน':'ความแตกต่างระหว่างหยินและหยางอาจทำให้เข้าใจกันยาก ต้องสื่อสารให้ชัดเจน'}</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">⚠️ สิ่งที่ควรระวัง</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.9;">${isChong?'ความสัมพันธ์ชงมักมีช่วงที่ความขัดแย้งพุ่งสูง ต้องระวังไม่ให้อีโก้นำทาง การยอมถอยบางครั้งไม่ใช่การแพ้ แต่คือการรักษาสิ่งที่มีค่าไว้':yinPct>=70?'เมื่อทั้งคู่มีพลังหยินเด่น อาจมีช่วงที่ต่างฝ่ายต่างรอให้อีกฝ่ายเริ่มก่อน ต้องมีคนกล้าที่จะพูดและแสดงออกบ้าง':yangPct>=70?'พลังหยางเด่นทำให้บางครั้งทั้งสองต้องการนำในเวลาเดียวกัน ต้องฝึกรับฟังและให้พื้นที่กันมากขึ้น':'การสื่อสารคือกุญแจ อย่าสมมติว่าอีกฝ่ายรู้ว่าเรารู้สึกยังไง พูดออกมาตรงๆ จะช่วยได้มาก'}</div>
     </div>
 
-    <!-- แนวโน้มระยะยาว -->
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
       <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">💍 แนวโน้มระยะยาว</div>
-      <div style="font-size:14px; color:var(--text-mid); line-height:1.9;">${score>=75?'ดวงชะตาของคุณสองคนมีแนวโน้มที่ดีมากในระยะยาว หากทั้งสองเลือกที่จะเติบโตไปด้วยกัน':score>=60?'ความสัมพันธ์นี้มีศักยภาพสูง ต้องการความพยายามและความเข้าใจร่วมกัน':'พลังงานของทั้งสองต้องการการปรับสมดุล การสื่อสารและความอดทนจะเป็นกุญแจสำคัญ'}</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.9;">${longTerm}</div>
     </div>
 
-    <!-- พลังชะตา -->
-    <div style="background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.2); border-radius:16px; padding:20px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🧧 พลังชะตาของความสัมพันธ์นี้</div>
-      <div style="font-size:14px; color:var(--text-mid); line-height:1.9;">ด้ายแดงแห่งโชคชะตาที่ผูกระหว่าง${cnState.zodiac1}และ${cnState.zodiac2}นั้นถูกร้อยเรียงมาตั้งแต่อดีตชาติ พลัง${el1}และ${el2}เสริมสร้างความผูกพันที่ลึกซึ้งและงดงาม</div>
-    </div>
-
-    <!-- คำแนะนำ -->
-    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:24px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">✨ คำแนะนำจากดวงคู่</div>
-      <div style="font-size:14px; color:var(--text-mid); line-height:1.9; font-style:italic;">${yin1!==yin2?'จงโอบรับความแตกต่างของกัน พลังหยินและหยางที่สมดุลคือความงามที่หาได้ยาก อย่าพยายามเปลี่ยนอีกฝ่าย แต่จงเรียนรู้ที่จะเต้นรำด้วยกัน':'จงช่วยกันสร้างความสมดุลจากภายใน เมื่อสองพลังงานเดียวกันมาพบกัน สิ่งสำคัญคือการเติมเต็มในส่วนที่ขาด'}</div>
-    </div>
+    ${prayerSection}
 
     <div style="display:flex; gap:10px; margin-bottom:16px;">
       <button onclick="resetCnFlow()" style="flex:1; padding:13px; background:transparent; border:1px solid rgba(180,160,130,0.4); border-radius:12px; color:var(--text-mid); font-family:'Noto Sans Thai',sans-serif; font-size:13px; cursor:pointer;">ทำนายใหม่</button>
@@ -3590,20 +3581,14 @@ function renderCnResult() {
 }
 
 function resetCnFlow() {
-  cnState = { dob1: cnState.dob1, dob2: cnState.dob2, zodiac1:'', zodiac2:'', element1:'', element2:'', relation:'', yinYang1:0, yinYang2:0, balanceAngle:0 };
-  cnQIdx = 0; cnYYScore = 0; cnYYSpinCount = 0;
-  // clear ผลเก่าทุกจุด
-  const cn9 = document.getElementById('cn-step9');
-  if (cn9) cn9.innerHTML = '';
-  const floats = document.getElementById('energy-incense-floats');
-  // reset ปุ่มสถานะและ balance
-  document.querySelectorAll('.cn-relation-btn').forEach(b => b.classList.remove('selected'));
-  const bar = document.getElementById('cn-balance-bar');
-  if (bar) bar.style.width = '0%';
-  const balBtn = document.getElementById('cn-balance-btn');
-  if (balBtn) balBtn.style.display = 'none';
-  const threadPath = document.getElementById('cn-thread-path');
-  if (threadPath) threadPath.setAttribute('d','');
+  cnState = { dob1: cnState.dob1, dob2: cnState.dob2, zodiac1:'', zodiac2:'', zodiacIcon1:'', zodiacIcon2:'', element1:'', element2:'', prayer:'', yinScore:0, yangScore:0 };
+  cnQIdx = 0;
+  const cn7 = document.getElementById('cn-step7');
+  if (cn7) cn7.innerHTML = '';
+  const prayer = document.getElementById('cn-prayer-text');
+  if (prayer) prayer.value = '';
+  const path = document.getElementById('cn-thread-path');
+  if (path) path.setAttribute('d','');
   const petals = document.getElementById('cn-petals');
   if (petals) petals.innerHTML = '';
   const threadNext = document.getElementById('cn-thread-next');
