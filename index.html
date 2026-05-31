@@ -14,6 +14,7 @@
     --white: #FDFAF6;
   }
   * { margin:0; padding:0; box-sizing:border-box; }
+  input, textarea, select { -webkit-user-select:text; }
   body { font-family:'Noto Sans Thai',sans-serif; background:var(--cream); color:var(--text); min-height:100dvh; overflow-x:hidden; touch-action:manipulation; }
   .app { max-width:430px; margin:0 auto; min-height:100dvh; }
 
@@ -992,7 +993,7 @@
       </div>
     </div>
     <div style="margin-bottom:20px;">
-      <textarea id="cn-prayer-text" placeholder="เช่น อยากให้ความสัมพันธ์นี้ชัดเจนขึ้น / อยากรู้ว่าเขารู้สึกยังไงกับเรา / อยากให้ทั้งคู่เข้าใจกันมากขึ้น..." style="width:100%; min-height:120px; padding:14px; border:1px solid rgba(180,160,130,0.3); border-radius:12px; background:var(--white); font-family:'Noto Sans Thai',sans-serif; font-size:14px; color:var(--text); resize:none; outline:none; line-height:1.7; box-sizing:border-box;"></textarea>
+      <textarea id="cn-prayer-text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="เช่น อยากให้ความสัมพันธ์นี้ชัดเจนขึ้น / อยากรู้ว่าเขารู้สึกยังไงกับเรา / อยากให้ทั้งคู่เข้าใจกันมากขึ้น..." style="width:100%; min-height:120px; padding:14px; border:1px solid rgba(180,160,130,0.3); border-radius:12px; background:var(--white); font-family:'Noto Sans Thai',sans-serif; font-size:14px; color:var(--text); resize:none; outline:none; line-height:1.7; box-sizing:border-box;"></textarea>
     </div>
     <button class="cta-btn" onclick="cnPrayerNext()">🕯️ ส่งเจตนา และผูกด้ายแดง →</button>
   </div>
