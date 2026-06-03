@@ -66,7 +66,7 @@ export default async function handler(req) {
       checkinHistory: user.checkin_history || {},
       exp: Date.now() + 30 * 24 * 60 * 60 * 1000,
     };
-    const token = btoa(JSON.stringify(sessionData));
+    const token = btoa(unescape(encodeURIComponent(JSON.stringify(sessionData))));
 
     return Response.redirect(
       `https://prospercharmth.com/?token=${encodeURIComponent(token)}`,
