@@ -3767,14 +3767,13 @@ function getCheckinState() {
   try {
     const s = localStorage.getItem('pc_checkin');
     const state = s ? JSON.parse(s) : { lastDate: null, streak: 0, coins: 0, coinsMonth: null, history: {} };
-    // Reset coins ถ้าขึ้นเดือนใหม่
     const thisMonth = getCurrentMonthKey();
-    if (state.coinsMonth && state.coinsMonth !== thisMonth) {
+    // Reset coins ถ้าไม่มี coinsMonth (state เก่า) หรือขึ้นเดือนใหม่
+    if (!state.coinsMonth || state.coinsMonth !== thisMonth) {
       state.coins = 0;
       state.coinsMonth = thisMonth;
       localStorage.setItem('pc_checkin', JSON.stringify(state));
     }
-    if (!state.coinsMonth) state.coinsMonth = thisMonth;
     return state;
   } catch(e) { return { lastDate: null, streak: 0, coins: 0, coinsMonth: getCurrentMonthKey(), history: {} }; }
 }
