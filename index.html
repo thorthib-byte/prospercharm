@@ -3759,11 +3759,24 @@ function resetSoulmate() {
 const CHECKIN_REWARDS = [3, 3, 5, 3, 8, 3, 12]; // 7-day pattern
 const CHECKIN_MAX_COINS = 100;
 
+function getCurrentMonthKey() {
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+}
 function getCheckinState() {
   try {
     const s = localStorage.getItem('pc_checkin');
-    return s ? JSON.parse(s) : { lastDate: null, streak: 0, coins: 0, history: {} };
-  } catch(e) { return { lastDate: null, streak: 0, coins: 0, history: {} }; }
+    const state = s ? JSON.parse(s) : { lastDate: null, streak: 0, coins: 0, coinsMonth: null, history: {} };
+    // Reset coins ถ้าขึ้นเดือนใหม่
+    const thisMonth = getCurrentMonthKey();
+    if (state.coinsMonth && state.coinsMonth !== thisMonth) {
+      state.coins = 0;
+      state.coinsMonth = thisMonth;
+      localStorage.setItem('pc_checkin', JSON.stringify(state));
+    }
+    if (!state.coinsMonth) state.coinsMonth = thisMonth;
+    return state;
+  } catch(e) { return { lastDate: null, streak: 0, coins: 0, coinsMonth: getCurrentMonthKey(), history: {} }; }
 }
 function saveCheckinState(state) {
   localStorage.setItem('pc_checkin', JSON.stringify(state));
@@ -3907,6 +3920,7 @@ function claimCheckin() {
   state.lastDate = today;
   state.streak = newStreak;
   state.coins = newCoins;
+  state.coinsMonth = getCurrentMonthKey();
   state.history = state.history || {};
   state.history[today] = reward;
   saveCheckinState(state);
