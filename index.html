@@ -3633,6 +3633,8 @@ function renderCnResult() {
       <div style="font-size:13px; color:var(--text-light); margin-top:4px;">${zodiacIcon1||''}${zodiac1} 🤝 ${zodiacIcon2||''}${zodiac2}</div>
     </div>
 
+    ${prayerSection}
+
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:14px;">
       <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:13px; color:var(--text-light);"><span>ระดับความสมพงษ์</span><span style="color:var(--gold); font-weight:700;">${score}%</span></div>
       <div style="background:var(--cream-dark); border-radius:10px; height:8px; overflow:hidden;"><div style="background:linear-gradient(to right,rgba(200,80,80,0.8),rgba(212,175,55,0.8)); height:100%; width:${score}%; border-radius:10px;"></div></div>
@@ -3667,8 +3669,6 @@ function renderCnResult() {
       <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">💍 แนวโน้มระยะยาว</div>
       <div style="font-size:14px; color:var(--text-mid); line-height:1.9;">${longTerm}</div>
     </div>
-
-    ${prayerSection}
 
     <div style="display:flex; gap:10px; margin-bottom:16px;">
       <button onclick="resetCnFlow()" style="flex:1; padding:13px; background:transparent; border:1px solid rgba(180,160,130,0.4); border-radius:12px; color:var(--text-mid); font-family:'Noto Sans Thai',sans-serif; font-size:13px; cursor:pointer;">ทำนายใหม่</button>
