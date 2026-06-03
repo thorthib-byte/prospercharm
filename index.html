@@ -3474,17 +3474,30 @@ const cnLoadingMsgs = [
   '☯️ กำลังประเมินสมดุลหยินหยาง…',
 ];
 function startCnLoading() {
-  // เล่น video
   const vid = document.getElementById('cn-loading-video');
-  if (vid) { vid.currentTime = 0; vid.play().catch(()=>{}); }
-  let i = 0;
   const el = document.getElementById('cn-loading-text');
   if (el) el.textContent = cnLoadingMsgs[0];
-  const iv = setInterval(() => {
-    i++;
-    if (i < cnLoadingMsgs.length) { if (el) el.textContent = cnLoadingMsgs[i]; }
-    else { clearInterval(iv); if (vid) vid.pause(); showCnStep('cn-step7'); }
-  }, 1800);
+
+  let i = 0;
+  function runInterval() {
+    const iv = setInterval(() => {
+      i++;
+      if (i < cnLoadingMsgs.length) { if (el) el.textContent = cnLoadingMsgs[i]; }
+      else { clearInterval(iv); if (vid) vid.pause(); showCnStep('cn-step7'); }
+    }, 1800);
+  }
+
+  if (vid) {
+    vid.currentTime = 0;
+    const playPromise = vid.play();
+    if (playPromise !== undefined) {
+      playPromise.then(() => { runInterval(); }).catch(() => { runInterval(); });
+    } else {
+      runInterval();
+    }
+  } else {
+    runInterval();
+  }
 }
 
 // Step 7 — result
