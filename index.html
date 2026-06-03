@@ -1000,10 +1000,10 @@
 
   <!-- CN-STEP3: ผูกด้ายแดง -->
   <div id="cn-step3" style="display:none; position:fixed; inset:0; overflow:hidden; z-index:50; touch-action:none;">
-    <!-- background รูป -->
-    <img src="images/soulmate/chineseline.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:contain; object-position:center; z-index:0; background:#f5e8d8;">
-    <!-- hint text -->
-    <div style="position:absolute; top:6%; left:0; right:0; text-align:center; z-index:10; pointer-events:none;">
+    <!-- background รูป — เต็มจอ ไม่มีขอบขาว -->
+    <img src="images/soulmate/chineseline.png" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center; z-index:0;">
+    <!-- hint text — ระดับโคมแดง ~15% จากบน -->
+    <div style="position:absolute; top:15%; left:0; right:0; text-align:center; z-index:10; pointer-events:none;">
       <div style="font-family:'Noto Serif Thai',serif; font-size:11px; color:rgba(160,30,30,0.85); background:rgba(255,245,235,0.75); display:inline-block; padding:5px 18px; border-radius:20px; border:1px solid rgba(160,30,30,0.2);" id="cn-thread-hint">แตะจุดแดงที่ตัวคุณ แล้วลากไปอีกฝ่าย</div>
     </div>
     <!-- SVG overlay — viewBox 0 0 100 100 = % ของหน้าจอ -->
@@ -1034,10 +1034,7 @@
       <!-- กลีบดอก -->
       <g id="cn-petals"></g>
     </svg>
-    <!-- ปุ่มถัดไป -->
-    <div style="position:absolute; bottom:calc(8% + env(safe-area-inset-bottom,0px)); left:0; right:0; display:flex; justify-content:center; align-items:center; z-index:10;">
-      <button id="cn-thread-next" onclick="showCnStep('cn-step4')" style="display:none; padding:14px 40px; background:linear-gradient(135deg,rgba(160,30,30,0.92),rgba(200,60,40,0.92)); border:1px solid rgba(255,150,100,0.5); border-radius:30px; font-family:'Noto Serif Thai',serif; font-size:16px; color:#fff; cursor:pointer; box-shadow:0 4px 20px rgba(160,30,30,0.4);">ตอบคำถามความสัมพันธ์ →</button>
-    </div>
+    <!-- ไม่มีปุ่ม — ข้ามหน้าอัตโนมัติหลังลากเสร็จ -->
   </div>
 
   <!-- CN-STEP4: คำถาม 10 ข้อ -->
@@ -1102,13 +1099,13 @@
   </div>
 
   <!-- CN-STEP6: Loading -->
-  <div id="cn-step6" style="display:none; position:fixed; inset:0; background:#000; z-index:50;">
+  <div id="cn-step6" style="display:none; position:fixed; inset:0; background:#000; z-index:50; overflow:hidden;">
     <video id="cn-loading-video" src="images/soulmate/chineseloadingmove.mp4"
       autoplay loop muted playsinline
-      style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;">
+      style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); min-width:100%; min-height:100%; width:auto; height:auto; object-fit:cover;">
     </video>
-    <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding-bottom:18vh;">
-      <div id="cn-loading-text" style="font-family:'Noto Serif Thai',serif; font-size:16px; color:rgba(255,200,150,0.9); text-align:center; line-height:2.4; padding:0 32px; text-shadow:0 2px 8px rgba(0,0,0,0.8);"></div>
+    <div style="position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:flex-end; padding-bottom:16vh;">
+      <div id="cn-loading-text" style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:#fff; text-align:center; line-height:2.4; padding:8px 32px; background:rgba(0,0,0,0.35); border-radius:20px; backdrop-filter:blur(4px); text-shadow:0 1px 6px rgba(0,0,0,0.6);"></div>
     </div>
   </div>
 
@@ -3324,8 +3321,6 @@ function initCnThread() {
   if (!svg || !path) return;
   path.setAttribute('d', '');
   cnThreadPts = [];
-  const nextBtn = document.getElementById('cn-thread-next');
-  if (nextBtn) nextBtn.style.display = 'none';
   const hint = document.getElementById('cn-thread-hint');
   if (hint) hint.textContent = 'ลากด้ายแดงจากตัวคุณไปยังอีกฝ่าย';
   // Block zoom: prevent ALL multi-touch on document while in this step
@@ -3368,8 +3363,6 @@ function cnThreadEnd() {
   if (cnThreadPts.length > 5) {
     const hint = document.getElementById('cn-thread-hint');
     if (hint) hint.textContent = '✨ ด้ายแดงถูกผูกแล้ว';
-    const btn = document.getElementById('cn-thread-next');
-    if (btn) btn.style.display = 'inline-block';
     // petals
     const g = document.getElementById('cn-petals');
     if (g) for (let i=0;i<8;i++) {
@@ -3381,6 +3374,8 @@ function cnThreadEnd() {
       g.appendChild(el);
       let op=0; const iv=setInterval(()=>{op+=0.06;el.setAttribute('opacity',Math.min(op,0.8));if(op>=0.8)clearInterval(iv);},40);
     }
+    // ข้ามหน้าอัตโนมัติหลัง 1.2 วินาที
+    setTimeout(() => showCnStep('cn-step4'), 1200);
   }
 }
 
@@ -3687,8 +3682,6 @@ function resetCnFlow() {
   if (path) path.setAttribute('d','');
   const petals = document.getElementById('cn-petals');
   if (petals) petals.innerHTML = '';
-  const threadNext = document.getElementById('cn-thread-next');
-  if (threadNext) threadNext.style.display = 'none';
   showCnStep('cn-step2');
 }
 
