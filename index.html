@@ -1185,9 +1185,10 @@ async function syncCoinsFromServer() {
 
 async function syncCoinsToServer(state) {
   const token = localStorage.getItem('pc_line_token');
-  if (!token) return;
+  if (!token) { console.log('[sync] no token'); return; }
+  console.log('[sync] posting coins', state.coins);
   try {
-    await fetch('/api/user/coins', {
+    const res = await fetch('/api/user/coins', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + token,
@@ -1201,7 +1202,8 @@ async function syncCoinsToServer(state) {
         checkinHistory: state.history,
       }),
     });
-  } catch(e) { console.log('sync to server error', e); }
+    console.log('[sync] response status', res.status);
+  } catch(e) { console.log('[sync] error', e); }
 }
 
 function updateLineUI() {
