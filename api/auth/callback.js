@@ -16,6 +16,7 @@ export default async function handler(req) {
   }
 
   try {
+    // 1. แลก code เป็น access token
     const tokenRes = await fetch('https://api.line.me/oauth2/v2.1/token', {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -30,12 +31,14 @@ export default async function handler(req) {
     const tokenData = await tokenRes.json();
     if (!tokenData.access_token) throw new Error('No access token');
 
+    // 2. ดึงข้อมูล profile จาก LINE
     const profileRes = await fetch('https://api.line.me/v2/profile', {
       headers: { Authorization: `Bearer ${tokenData.access_token}` },
     });
     const profile = await profileRes.json();
     if (!profile.userId) throw new Error('No profile');
 
+    // 3. upsert user เข้า Supabase
     const dbRes = await fetch(`${SUPABASE_URL}/rest/v1/users`, {
       method: 'POST',
       headers: {
@@ -55,6 +58,7 @@ export default async function handler(req) {
     const userData = await dbRes.json();
     const user = Array.isArray(userData) ? userData[0] : userData;
 
+    // 4. สร้าง session token แบบง่าย (base64 encode)
     const sessionData = {
       userId: user.line_user_id,
       displayName: user.display_name,
@@ -64,10 +68,11 @@ export default async function handler(req) {
       streak: user.streak || 0,
       lastCheckin: user.last_checkin,
       checkinHistory: user.checkin_history || {},
-      exp: Date.now() + 30 * 24 * 60 * 60 * 1000,
+      exp: Date.now() + 30 * 24 * 60 * 60 * 1000, // 30 วัน
     };
     const token = btoa(unescape(encodeURIComponent(JSON.stringify(sessionData))));
 
+    // 5. redirect กลับพร้อม token
     return Response.redirect(
       `https://prospercharmth.com/?token=${encodeURIComponent(token)}`,
       302
