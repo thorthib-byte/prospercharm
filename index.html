@@ -1163,8 +1163,8 @@ function showLineUserMenu() {
 }
 
 async function syncCoinsFromServer() {
-  if (!lineSession) return;
   const token = localStorage.getItem('pc_line_token');
+  if (!token) return;
   try {
     const res = await fetch('/api/user/coins', {
       headers: { 'Authorization': 'Bearer ' + token }
@@ -1184,8 +1184,8 @@ async function syncCoinsFromServer() {
 }
 
 async function syncCoinsToServer(state) {
-  if (!lineSession) return;
   const token = localStorage.getItem('pc_line_token');
+  if (!token) return;
   try {
     await fetch('/api/user/coins', {
       method: 'POST',
@@ -4540,6 +4540,9 @@ window.addEventListener('load', () => {
 (function() {
   const gate = document.getElementById('login-gate');
   if (!gate) return;
+  // ถ้ามี ?token= ใน URL = กำลัง callback จาก LINE → ไม่แสดง gate
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('token')) return;
   const token = localStorage.getItem('pc_line_token');
   let isValid = false;
   if (token) {
