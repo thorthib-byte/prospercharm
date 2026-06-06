@@ -4071,12 +4071,16 @@ function claimCheckin() {
   state.coinsMonth = getCurrentMonthKey();
   state.history = state.history || {};
   state.history[today] = reward;
-  saveCheckinState(state);
 
-  // แปลงเหรียญเป็น credit ถ้าครบ 100
-  if (newCoins >= 100) {
+  // บันทึก localStorage ก่อน แล้ว sync ขึ้น server
+  localStorage.setItem('pc_checkin', JSON.stringify(state));
+  syncCoinsToServer(state);
+
+  // แปลงเหรียญเป็น credit ถ้าครบ 99
+  if (newCoins >= 99) {
     state.coins = 0;
-    saveCheckinState(state);
+    localStorage.setItem('pc_checkin', JSON.stringify(state));
+    syncCoinsToServer(state);
     userState.credits = (userState.credits || 0) + 1;
     if (userState.plan === 'free') userState.plan = 'single';
     saveState();
