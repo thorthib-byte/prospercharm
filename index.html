@@ -1240,7 +1240,7 @@ async function initLineAuth() {
   const savedToken = localStorage.getItem('pc_line_token');
   if (savedToken) {
     try {
-      const session = JSON.parse(atob(savedToken));
+      const session = JSON.parse(decodeURIComponent(escape(atob(savedToken))));
       if (Date.now() < session.exp) {
         lineSession = session;
         updateLineUI();
@@ -4541,9 +4541,14 @@ window.addEventListener('load', () => {
   const gate = document.getElementById('login-gate');
   if (!gate) return;
   const token = localStorage.getItem('pc_line_token');
-  if (!token) {
-    gate.style.display = 'flex';
+  let isValid = false;
+  if (token) {
+    try {
+      const session = JSON.parse(decodeURIComponent(escape(atob(token))));
+      if (Date.now() < session.exp) isValid = true;
+    } catch(e) {}
   }
+  if (!isValid) gate.style.display = 'flex';
 })();
 </script>
 
