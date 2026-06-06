@@ -1171,13 +1171,18 @@ async function syncCoinsFromServer() {
     });
     if (!res.ok) return;
     const data = await res.json();
-    // เขียนทับ localStorage ด้วยข้อมูลจาก server
+    // ดึง local state ก่อน
+    const localRaw = localStorage.getItem('pc_checkin');
+    const local = localRaw ? JSON.parse(localRaw) : null;
+    // ใช้ค่าที่ดีกว่าระหว่าง local กับ server
+    const serverCoins = data.coins || 0;
+    const localCoins = local ? (local.coins || 0) : 0;
     const state = {
-      lastDate: data.lastCheckin,
-      streak: data.streak || 0,
-      coins: data.coins || 0,
-      coinsMonth: data.coinsMonth,
-      history: data.checkinHistory || {},
+      lastDate: local ? local.lastDate : data.lastCheckin,
+      streak: local ? local.streak : (data.streak || 0),
+      coins: Math.max(serverCoins, localCoins),
+      coinsMonth: data.coinsMonth || (local ? local.coinsMonth : null),
+      history: local ? local.history : (data.checkinHistory || {}),
     };
     localStorage.setItem('pc_checkin', JSON.stringify(state));
   } catch(e) { console.log('sync error', e); }
