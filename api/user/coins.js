@@ -8,7 +8,7 @@ function parseToken(req) {
   const token = auth.replace('Bearer ', '');
   if (!token) return null;
   try {
-    return JSON.parse(atob(token));
+    return JSON.parse(decodeURIComponent(escape(atob(token))));
   } catch {
     return null;
   }
@@ -23,6 +23,7 @@ export default async function handler(req) {
     });
   }
 
+  // GET — ดึงข้อมูล coins
   if (req.method === 'GET') {
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/users?line_user_id=eq.${session.userId}&select=coins,coins_month,streak,last_checkin,checkin_history`,
@@ -46,6 +47,7 @@ export default async function handler(req) {
     }), { headers: { 'Content-Type': 'application/json' } });
   }
 
+  // POST — บันทึก coins หลัง check-in
   if (req.method === 'POST') {
     const body = await req.json();
     const { coins, coinsMonth, streak, lastCheckin, checkinHistory } = body;
