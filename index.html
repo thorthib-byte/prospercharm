@@ -994,10 +994,8 @@
         <div style="font-size:12px; color:var(--text-light); margin-top:2px;" id="cn-element2-label"></div>
       </div>
     </div>
-    <div style="margin-bottom:20px;">
-      <textarea id="cn-prayer-text" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" placeholder="เช่น อยากให้ความสัมพันธ์นี้ชัดเจนขึ้น / อยากรู้ว่าเขารู้สึกยังไงกับเรา / อยากให้ทั้งคู่เข้าใจกันมากขึ้น..." style="width:100%; min-height:120px; padding:14px; border:1px solid rgba(180,160,130,0.3); border-radius:12px; background:var(--white); font-family:'Noto Sans Thai',sans-serif; font-size:14px; color:var(--text); resize:none; outline:none; line-height:1.7; box-sizing:border-box;"></textarea>
-    </div>
-    <button class="cta-btn" onclick="cnPrayerNext()">🕯️ ส่งเจตนา และผูกด้ายแดง →</button>
+    <div style="margin-bottom:20px;"></div>
+    <button class="cta-btn" onclick="cnPrayerNext()">🕯️ ผูกด้ายแดง →</button>
   </div>
 
   <!-- CN-STEP3: ผูกด้ายแดง -->
@@ -3759,7 +3757,7 @@ function renderCnResult() {
     </div>`;
   }
 
-  const prayerSection = prayer ? analyzeIntention(prayer, isHa, isChong, yinPct, yangPct) : '';
+  const prayerSection = '';
 
   const cn7 = document.getElementById('cn-step7');
   if (!cn7) return;
