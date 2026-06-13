@@ -4496,7 +4496,7 @@ function renderCheckin() {
   document.getElementById('checkin-bar-label').textContent = coins + ' / 99';
   document.getElementById('checkin-coins-bar').style.width = coins + '%';
 
-  const hint = coins >= 100 ? 'เหรียญเต็ม 99 แล้ว! ใช้ได้เลยค่ะ' : 'สะสมครบ 99 เหรียญ = 1 ครั้งฟรี';
+  const hint = coins >= 99 ? 'เหรียญเต็ม 99 แล้ว! ใช้ได้เลยค่ะ' : 'สะสมครบ 99 เหรียญ = 1 ครั้งฟรี';
   const hintEl = document.getElementById('checkin-coins-hint');
   if (hintEl) hintEl.innerHTML = `<img src="images/icons/gift.png" style="width:14px;height:14px;object-fit:contain;opacity:0.6;vertical-align:middle;margin-right:4px;">${hint}`;
 
