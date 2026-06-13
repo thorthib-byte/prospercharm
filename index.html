@@ -1226,7 +1226,7 @@ async function syncCoinsFromServer() {
     const state = {
       lastDate: local ? local.lastDate : data.lastCheckin,
       streak: local ? local.streak : (data.streak || 0),
-      coins: Math.max(serverCoins, localCoins),
+      coins: serverCoins,
       coinsMonth: data.coinsMonth || (local ? local.coinsMonth : null),
       history: local ? local.history : (data.checkinHistory || {}),
     };
