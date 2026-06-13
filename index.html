@@ -1696,7 +1696,7 @@ function checkAndGenerateDaily() {
     const note = document.getElementById('daily-health-note');
     if (note) dailyCtx.healthNote = note.value.trim();
   }
-  if (userState.plan === 'free' && userState.credits <= 0) { showPaymentPrompt('daily'); return; }
+  if (userState.credits <= 0) { showPaymentPrompt('daily'); return; }
   const profile = getDailyProfile();
   if (!profile) { alert('เกิดข้อผิดพลาด กรุณากลับไปกรอกข้อมูลใหม่'); return; }
   useCredit();
@@ -1780,6 +1780,17 @@ function resetDaily() {
 
 // เมื่อเข้าหน้า daily ตรวจสอบว่ามี profile แล้วหรือยัง
 function onEnterDailyPage() {
+  // init DOB selects ถ้ายังไม่มี options
+  const dSel = document.getElementById('daily-dob1-d');
+  if (dSel && dSel.options.length <= 1) {
+    const nowBE = new Date().getFullYear() + 543;
+    for (let i = 1; i <= 31; i++) { const o = document.createElement('option'); o.value = i; o.textContent = i; dSel.appendChild(o); }
+    const _months = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+    const mSel = document.getElementById('daily-dob1-m');
+    if (mSel) _months.forEach((name, idx) => { const o = document.createElement('option'); o.value = idx+1; o.textContent = name; mSel.appendChild(o); });
+    const ySel = document.getElementById('daily-dob1-y');
+    if (ySel) { for (let y = nowBE; y >= nowBE-100; y--) { const o = document.createElement('option'); o.value = y; o.textContent = y; ySel.appendChild(o); } }
+  }
   const profile = getDailyProfile();
   if (profile) {
     document.getElementById('daily-step1').style.display = 'none';
