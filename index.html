@@ -383,7 +383,11 @@
       <!-- วันเกิด -->
       <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:18px; margin-bottom:14px;">
         <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:14px;">🗓 วันเกิด</div>
-        <div id="daily-dob-wrap"></div>
+        <div style="display:grid; grid-template-columns:1fr 2fr 2fr; gap:8px;">
+          <select id="daily-dob1-d" class="dob-select"><option value="">วัน</option></select>
+          <select id="daily-dob1-m" class="dob-select"><option value="">เดือน</option></select>
+          <select id="daily-dob1-y" class="dob-select"><option value="">ปี (พ.ศ.)</option></select>
+        </div>
       </div>
 
       <!-- Personal Context -->
@@ -1528,15 +1532,6 @@ function getScores(seed, sign) {
   };
 }
 
-function initDailyDob() {
-  const wrap = document.getElementById('daily-dob-wrap');
-  if (!wrap || wrap.children.length > 0) return;
-  const div = document.createElement('div');
-  div.id = 'daily-dob1';
-  wrap.appendChild(div);
-  initDobSelect('daily-dob1');
-}
-
 function checkAndGenerateDaily() {
   if (userState.plan === 'free' && userState.credits <= 0) {
     showPaymentPrompt('daily'); return;
@@ -1631,7 +1626,7 @@ const thaiMonths = ['มกราคม','กุมภาพันธ์','ม�
 
 function initDobSelects() {
   // Populate all dob selects
-  const ids = ['siam','tarot','energy','soulmate-dob1','soulmate-dob2'];
+  const ids = ['siam','tarot','energy','soulmate-dob1','soulmate-dob2','daily-dob1'];
   ids.forEach(id => {
     const prefix = id === 'soulmate-dob1' || id === 'soulmate-dob2' ? id : id + '-dob';
     const dSel = document.getElementById(prefix + '-d') || document.getElementById(id + '-d');
@@ -1685,7 +1680,6 @@ function goTo(pageId){
   window.scrollTo(0,0);
   const type=pageId.replace('page-','');
   if(['siam','tarot','energy','soulmate'].includes(type)) showCreditsBar(type);
-  if(pageId === 'page-daily') setTimeout(initDailyDob, 50);
 }
 function showCreditsBar(type){
   const bar = document.getElementById(type+'-credits-bar');
