@@ -1556,10 +1556,10 @@ function showDailyCtxForm(topic) {
         <div style="font-size:13px;color:var(--text-light);margin-top:4px;">สถานะปัจจุบันของคุณ</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;">
-        <button class="daily-ctx-btn" data-group="love" data-val="single" onclick="dailySelectCtx(this)">💫 โสดสนิท</button>
-        <button class="daily-ctx-btn" data-group="love" data-val="unclear" onclick="dailySelectCtx(this)">🤍 ความสัมพันธ์ไม่ชัดเจน</button>
-        <button class="daily-ctx-btn" data-group="love" data-val="dating" onclick="dailySelectCtx(this)">❤️ มีแฟน / คนรัก</button>
-        <button class="daily-ctx-btn" data-group="love" data-val="married" onclick="dailySelectCtx(this)">💍 แต่งงานแล้ว</button>
+        <button class="daily-ctx-btn" data-group="love" data-val="single" onclick="dailySelectCtx(this)">โสดสนิท</button>
+        <button class="daily-ctx-btn" data-group="love" data-val="unclear" onclick="dailySelectCtx(this)">ความสัมพันธ์ไม่ชัดเจน</button>
+        <button class="daily-ctx-btn" data-group="love" data-val="dating" onclick="dailySelectCtx(this)">มีแฟน / คนรัก</button>
+        <button class="daily-ctx-btn" data-group="love" data-val="married" onclick="dailySelectCtx(this)">แต่งงานแล้ว</button>
       </div>`,
     work: `
       <div style="text-align:center;margin-bottom:20px;">
@@ -1568,11 +1568,11 @@ function showDailyCtxForm(topic) {
         <div style="font-size:13px;color:var(--text-light);margin-top:4px;">สถานะปัจจุบันของคุณ</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;">
-        <button class="daily-ctx-btn" data-group="work" data-val="student" onclick="dailySelectCtx(this)">🎓 กำลังศึกษาอยู่</button>
-        <button class="daily-ctx-btn" data-group="work" data-val="employed" onclick="dailySelectCtx(this)">💼 ทำงานประจำ</button>
-        <button class="daily-ctx-btn" data-group="work" data-val="business" onclick="dailySelectCtx(this)">🚀 ธุรกิจส่วนตัว</button>
-        <button class="daily-ctx-btn" data-group="work" data-val="seeking" onclick="dailySelectCtx(this)">🔍 กำลังหางาน</button>
-        <button class="daily-ctx-btn" data-group="work" data-val="switching" onclick="dailySelectCtx(this)">🔄 กำลังพิจารณาเปลี่ยนงาน</button>
+        <button class="daily-ctx-btn" data-group="work" data-val="student" onclick="dailySelectCtx(this)">กำลังศึกษาอยู่</button>
+        <button class="daily-ctx-btn" data-group="work" data-val="employed" onclick="dailySelectCtx(this)">ทำงานประจำ</button>
+        <button class="daily-ctx-btn" data-group="work" data-val="business" onclick="dailySelectCtx(this)">ธุรกิจส่วนตัว</button>
+        <button class="daily-ctx-btn" data-group="work" data-val="seeking" onclick="dailySelectCtx(this)">กำลังหางาน</button>
+        <button class="daily-ctx-btn" data-group="work" data-val="switching" onclick="dailySelectCtx(this)">กำลังพิจารณาเปลี่ยนงาน</button>
       </div>`,
     money: `
       <div style="text-align:center;margin-bottom:20px;">
@@ -1581,11 +1581,11 @@ function showDailyCtxForm(topic) {
         <div style="font-size:13px;color:var(--text-light);margin-top:4px;">ช่วงนี้คุณกังวลเรื่องการเงินระดับไหน</div>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px;">
-        <button class="daily-ctx-btn" data-group="moneyLevel" data-val="fine" onclick="dailySelectCtx(this)">😌 สบายใจ ไม่กังวล</button>
-        <button class="daily-ctx-btn" data-group="moneyLevel" data-val="little" onclick="dailySelectCtx(this)">🙂 มีบ้างเล็กน้อย</button>
-        <button class="daily-ctx-btn" data-group="moneyLevel" data-val="medium" onclick="dailySelectCtx(this)">😐 เริ่มกังวล</button>
-        <button class="daily-ctx-btn" data-group="moneyLevel" data-val="high" onclick="dailySelectCtx(this)">😟 ค่อนข้างกังวล</button>
-        <button class="daily-ctx-btn" data-group="moneyLevel" data-val="very" onclick="dailySelectCtx(this)">😰 กังวลมาก</button>
+        <button class="daily-ctx-btn" data-group="moneyLevel" data-val="fine" onclick="dailySelectCtx(this)">สบายใจ ไม่กังวล</button>
+        <button class="daily-ctx-btn" data-group="moneyLevel" data-val="little" onclick="dailySelectCtx(this)">มีบ้างเล็กน้อย</button>
+        <button class="daily-ctx-btn" data-group="moneyLevel" data-val="medium" onclick="dailySelectCtx(this)">เริ่มกังวล</button>
+        <button class="daily-ctx-btn" data-group="moneyLevel" data-val="high" onclick="dailySelectCtx(this)">ค่อนข้างกังวล</button>
+        <button class="daily-ctx-btn" data-group="moneyLevel" data-val="very" onclick="dailySelectCtx(this)">กังวลมาก</button>
       </div>`,
     health: `
       <div style="text-align:center;margin-bottom:20px;">
@@ -1800,7 +1800,8 @@ function initDobSelects() {
   // Populate all dob selects
   const ids = ['siam','tarot','energy','soulmate-dob1','soulmate-dob2','daily-dob1'];
   ids.forEach(id => {
-    const prefix = id === 'soulmate-dob1' || id === 'soulmate-dob2' ? id : id + '-dob';
+    const isRaw = id === 'soulmate-dob1' || id === 'soulmate-dob2' || id === 'daily-dob1';
+    const prefix = isRaw ? id : id + '-dob';
     const dSel = document.getElementById(prefix + '-d') || document.getElementById(id + '-d');
     const mSel = document.getElementById(prefix + '-m') || document.getElementById(id + '-m');
     const ySel = document.getElementById(prefix + '-y') || document.getElementById(id + '-y');
