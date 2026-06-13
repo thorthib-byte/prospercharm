@@ -966,7 +966,55 @@
   </div>
 
   <!-- SOULMATE RESULT -->
-  <div id="soulmate-step6" style="display:none; padding:20px 16px 40px;"></div>
+  <div id="soulmate-step6" style="display:none; padding:20px 16px 40px;">
+    <!-- Score -->
+    <div style="text-align:center; padding:24px 0 16px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:700; color:var(--brown-dark); margin-bottom:8px;" id="s6-score-label"></div>
+      <div style="font-family:'Playfair Display',serif; font-size:52px; font-weight:700; color:var(--gold); line-height:1;" id="s6-score-pct"></div>
+      <div style="margin:12px auto; max-width:240px; height:6px; background:rgba(180,140,130,0.2); border-radius:4px;">
+        <div id="s6-score-bar" style="height:100%; background:linear-gradient(90deg,#c9a84c,#e8c87a); border-radius:4px; width:0%; transition:width 1s;"></div>
+      </div>
+      <div style="font-size:13px; color:var(--text-light);" id="s6-score-desc"></div>
+    </div>
+    <!-- ประเภทคู่ -->
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:14px; text-align:center;">
+      <div style="font-size:11px; color:var(--text-light); margin-bottom:4px;">ประเภทความสัมพันธ์</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:700; color:var(--brown-dark);" id="s6-type"></div>
+      <div style="font-size:12px; color:var(--gold); margin-top:4px;" id="s6-combo-name"></div>
+    </div>
+    <!-- พลังธาตุ -->
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;" id="s6-element-title">พลังธาตุของคู่นี้</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.8;" id="s6-element-text"></div>
+    </div>
+    <!-- นิสัยคู่ -->
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🌸 รูปแบบความสัมพันธ์</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.8;" id="s6-habit"></div>
+    </div>
+    <!-- แรงดึงดูด -->
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">💫 แรงดึงดูด</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.8;" id="s6-attract"></div>
+    </div>
+    <!-- สิ่งที่ควรระวัง -->
+    <div style="background:rgba(255,248,235,0.8); border:1px solid rgba(201,168,76,0.2); border-radius:16px; padding:16px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">⚠️ สิ่งที่ควรระวัง</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.8;" id="s6-warning"></div>
+    </div>
+    <!-- แนวโน้มระยะยาว -->
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">💍 แนวโน้มระยะยาว</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.8;" id="s6-longterm"></div>
+    </div>
+    <!-- คำแนะนำ -->
+    <div style="background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.25); border-radius:16px; padding:16px; margin-bottom:24px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--gold); margin-bottom:8px;">✦ คำแนะนำจากดวงชะตา</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.8;" id="s6-advice"></div>
+    </div>
+    <!-- ปุ่ม -->
+    <button class="reset-btn" onclick="resetSoulmate()">ทำนายใหม่อีกครั้ง</button>
+  </div>
 
   <!-- ===== CHINESE SCIENCE STEPS (outside soulmate-step6) ===== -->
 
