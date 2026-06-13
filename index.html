@@ -4619,5 +4619,91 @@ window.addEventListener('load', () => {
 })();
 </script>
 
+<!-- ADMIN PANEL -->
+<div id="admin-panel" style="display:none; position:fixed; inset:0; z-index:99999; background:#1a1a1a; overflow-y:auto; padding:24px 20px;">
+  <div style="max-width:420px; margin:0 auto;">
+    <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px;">
+      <div style="font-family:'Playfair Display',serif; font-size:20px; font-weight:700; color:#e8c87a;">🔐 Admin Panel</div>
+      <button onclick="document.getElementById('admin-panel').style.display='none'" style="background:rgba(255,255,255,0.1); border:none; color:#fff; padding:6px 14px; border-radius:20px; cursor:pointer; font-size:13px;">ปิด</button>
+    </div>
+
+    <!-- Set Coins -->
+    <div style="background:#2a2a2a; border-radius:16px; padding:20px; margin-bottom:16px;">
+      <div style="font-size:14px; font-weight:600; color:#e8c87a; margin-bottom:14px;">🪙 แก้ไขเหรียญ</div>
+      <input id="admin-line-id" placeholder="LINE User ID (Uc...)" style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid #444; background:#1a1a1a; color:#fff; font-size:13px; margin-bottom:10px; box-sizing:border-box;">
+      <input id="admin-coins-val" type="number" placeholder="จำนวนเหรียญ" style="width:100%; padding:10px 14px; border-radius:10px; border:1px solid #444; background:#1a1a1a; color:#fff; font-size:13px; margin-bottom:14px; box-sizing:border-box;">
+      <button onclick="adminSetCoins()" style="width:100%; padding:12px; background:linear-gradient(135deg,#c9a84c,#e8c87a); border:none; border-radius:10px; font-size:14px; font-weight:700; color:#1a1a1a; cursor:pointer;">อัปเดตเหรียญ</button>
+      <div id="admin-coins-result" style="margin-top:10px; font-size:13px; color:#4caf50; text-align:center;"></div>
+    </div>
+
+    <!-- User List -->
+    <div style="background:#2a2a2a; border-radius:16px; padding:20px; margin-bottom:16px;">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+        <div style="font-size:14px; font-weight:600; color:#e8c87a;">👥 รายชื่อ Users</div>
+        <button onclick="adminLoadUsers()" style="background:rgba(201,168,76,0.2); border:1px solid rgba(201,168,76,0.4); color:#e8c87a; padding:5px 12px; border-radius:20px; cursor:pointer; font-size:12px;">โหลด</button>
+      </div>
+      <div id="admin-users-list" style="font-size:12px; color:#aaa; line-height:2;"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Admin Panel
+(function() {
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('admin') === 'prospercharm2026') {
+    document.getElementById('login-gate').style.display = 'none';
+    document.getElementById('admin-panel').style.display = 'block';
+    window.history.replaceState({}, '', '/');
+  }
+})();
+
+async function adminSetCoins() {
+  const lineId = document.getElementById('admin-line-id').value.trim();
+  const coins = parseInt(document.getElementById('admin-coins-val').value);
+  const result = document.getElementById('admin-coins-result');
+  if (!lineId || isNaN(coins)) { result.style.color='#f44336'; result.textContent = 'กรอกข้อมูลให้ครบก่อนนะ'; return; }
+  result.style.color='#aaa'; result.textContent = 'กำลังอัปเดต...';
+  try {
+    const res = await fetch(`https://ibxoazhbxxtekszxevft.supabase.co/rest/v1/users?line_user_id=eq.${lineId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': 'sb_publishable_ASZzTXVbE8ppU5QUwPdutg_6QD4A0mLYLlH',
+        'Authorization': 'Bearer sb_publishable_ASZzTXVbE8ppU5QUwPdutg_6QD4A0mLYLlH',
+      },
+      body: JSON.stringify({ coins, updated_at: new Date().toISOString() }),
+    });
+    if (res.ok || res.status === 204) {
+      result.style.color='#4caf50'; result.textContent = `✅ อัปเดต ${coins} เหรียญ สำเร็จ!`;
+    } else {
+      result.style.color='#f44336'; result.textContent = 'Error: ' + res.status;
+    }
+  } catch(e) { result.style.color='#f44336'; result.textContent = 'Error: ' + e.message; }
+}
+
+async function adminLoadUsers() {
+  const list = document.getElementById('admin-users-list');
+  list.textContent = 'กำลังโหลด...';
+  try {
+    const res = await fetch('https://ibxoazhbxxtekszxevft.supabase.co/rest/v1/users?select=line_user_id,display_name,coins,last_checkin,streak', {
+      headers: {
+        'apikey': 'sb_publishable_ASZzTXVbE8ppU5QUwPdutg_6QD4A0mLYLlH',
+        'Authorization': 'Bearer sb_publishable_ASZzTXVbE8ppU5QUwPdutg_6QD4A0mLYLlH',
+      },
+    });
+    const users = await res.json();
+    list.innerHTML = users.map(u => `
+      <div style="border-bottom:1px solid #333; padding:8px 0;">
+        <div style="color:#fff; font-weight:600;">${u.display_name || 'ไม่มีชื่อ'}</div>
+        <div style="color:#aaa;">ID: ${u.line_user_id}</div>
+        <div style="color:#e8c87a;">🪙 ${u.coins} เหรียญ | 🔥 ${u.streak} วัน | เช็คอินล่าสุด: ${u.last_checkin || '-'}</div>
+        <button onclick="document.getElementById('admin-line-id').value='${u.line_user_id}'" style="margin-top:4px; background:rgba(201,168,76,0.15); border:1px solid rgba(201,168,76,0.3); color:#e8c87a; padding:3px 10px; border-radius:10px; cursor:pointer; font-size:11px;">เลือก</button>
+      </div>
+    `).join('');
+  } catch(e) { list.textContent = 'โหลดไม่ได้: ' + e.message; }
+}
+</script>
+
 </body>
 </html>
