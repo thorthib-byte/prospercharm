@@ -2326,6 +2326,8 @@ function randomOrientation() {
   return Math.random() < 0.5 ? 'U' : 'R';
 }
 
+// TODO: replace with real tarot data from Excel
+if (typeof tarotExcelData === 'undefined') { window.tarotExcelData = {}; }
 const tarotCards = Object.entries(tarotExcelData).map(([id, d]) => ({
   id, name: d.name, file: 'images/tarot/' + d.file,
   tone: d.tone, upright: d.upright, reversed: d.reversed,
