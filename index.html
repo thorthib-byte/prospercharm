@@ -372,53 +372,103 @@
       <div class="inner-title" id="daily-header-title">🌟 ดวงรายวัน</div>
     </div>
 
-    <!-- STEP 1: กรอกข้อมูลเกิด (ทำครั้งเดียว) -->
-    <div id="daily-step1" style="padding:20px 16px 40px;">
-      <div style="text-align:center; margin-bottom:24px;">
-        <div style="font-size:36px; margin-bottom:8px;">✨</div>
-        <div style="font-family:'Noto Serif Thai',serif; font-size:19px; font-weight:700; color:var(--brown-dark);">สร้างดวงกำเนิดของคุณ</div>
-        <div style="font-size:13px; color:var(--text-light); margin-top:6px; line-height:1.7;">กรอกข้อมูลเพื่อให้จักรวาลส่งคำแนะนำเฉพาะบุคคลให้คุณ</div>
+    <!-- STEP 1: กรอกข้อมูลเกิด -->
+    <div id="daily-step1" style="padding:0 0 40px; background:var(--cream); min-height:100vh;">
+
+      <!-- Hero Banner -->
+      <div style="position:relative; width:100%; height:260px; overflow:hidden; border-radius:0 0 32px 32px;">
+        <img src="images/daily/bg.png" style="width:100%;height:100%;object-fit:cover;object-position:center top;" onerror="this.style.background='linear-gradient(160deg,#e8d5c4,#c9a8b8)';this.style.display='block';">
+        <div style="position:absolute;inset:0;background:linear-gradient(to bottom, rgba(0,0,0,0) 50%, var(--cream) 100%);"></div>
       </div>
 
-      <!-- วันเกิด -->
-      <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:18px; margin-bottom:14px;">
-        <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:14px;">🗓 วันเกิด <span style="color:#c06060;font-size:12px;">*จำเป็น</span></div>
-        <div style="display:grid; grid-template-columns:1fr 2fr 2fr; gap:8px;">
-          <select id="daily-dob1-d" class="dob-select"><option value="">วัน</option></select>
-          <select id="daily-dob1-m" class="dob-select"><option value="">เดือน</option></select>
-          <select id="daily-dob1-y" class="dob-select"><option value="">ปี (พ.ศ.)</option></select>
+      <!-- Title -->
+      <div style="text-align:center; padding:0 20px 20px; margin-top:-12px;">
+        <div style="font-family:'Noto Serif Thai',serif; font-size:22px; font-weight:700; color:var(--brown-dark); line-height:1.4;">สร้างดวงรายวันเฉพาะคุณ</div>
+        <div style="font-size:13px; color:var(--text-light); margin-top:6px; line-height:1.8;">กรอกข้อมูลเพื่อให้เราสร้างคำแนะนำ<br>ที่แม่นยำและเป็นคุณมากที่สุด</div>
+      </div>
+
+      <!-- Step indicator -->
+      <div style="display:flex;align-items:center;justify-content:center;gap:0;margin:0 20px 24px;padding:0 24px;">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:var(--brown-dark);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;">1</div>
+          <div style="font-size:11px;color:var(--brown-dark);font-weight:600;">ข้อมูลเกิด</div>
+        </div>
+        <div style="flex:1;height:2px;background:rgba(180,160,130,0.25);margin:0 8px;margin-bottom:16px;"></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:rgba(180,160,130,0.2);color:var(--text-light);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;">2</div>
+          <div style="font-size:11px;color:var(--text-light);">ข้อมูลส่วนตัว</div>
+        </div>
+        <div style="flex:1;height:2px;background:rgba(180,160,130,0.25);margin:0 8px;margin-bottom:16px;"></div>
+        <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
+          <div style="width:32px;height:32px;border-radius:50%;background:rgba(180,160,130,0.2);color:var(--text-light);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;">3</div>
+          <div style="font-size:11px;color:var(--text-light);">ผลลัพธ์</div>
         </div>
       </div>
 
-      <!-- ประเทศ/จังหวัดเกิด -->
-      <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:18px; margin-bottom:14px;">
-        <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:14px;">📍 สถานที่เกิด <span style="color:#c06060;font-size:12px;">*จำเป็น</span></div>
-        <select id="daily-country-birth" class="dob-select" style="width:100%;margin-bottom:10px;" onchange="updateDailyProvinces('birth')">
-          <option value="">-- เลือกประเทศเกิด --</option>
-          <option value="TH">🇹🇭 ไทย</option>
-          <option value="OTHER">🌍 ประเทศอื่น</option>
-        </select>
-        <select id="daily-province-birth" class="dob-select" style="width:100%;">
-          <option value="">-- เลือกจังหวัดเกิด --</option>
-        </select>
-        <input id="daily-province-birth-other" placeholder="ระบุเมืองที่เกิด" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
-      </div>
+      <div style="padding:0 16px;">
 
-      <!-- ประเทศ/จังหวัดที่อยู่ปัจจุบัน -->
-      <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:18px; margin-bottom:14px;">
-        <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:14px;">🏠 ที่อยู่ปัจจุบัน <span style="color:#c06060;font-size:12px;">*จำเป็น</span></div>
-        <select id="daily-country-now" class="dob-select" style="width:100%;margin-bottom:10px;" onchange="updateDailyProvinces('now')">
-          <option value="">-- เลือกประเทศปัจจุบัน --</option>
-          <option value="TH">🇹🇭 ไทย</option>
-          <option value="OTHER">🌍 ประเทศอื่น</option>
-        </select>
-        <select id="daily-province-now" class="dob-select" style="width:100%;">
-          <option value="">-- เลือกจังหวัดปัจจุบัน --</option>
-        </select>
-        <input id="daily-province-now-other" placeholder="ระบุเมืองที่อยู่ปัจจุบัน" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
-      </div>
+        <!-- วันเกิด -->
+        <div style="background:#fff;border-radius:20px;padding:18px 18px 20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(180,140,120,0.12);display:flex;align-items:center;justify-content:center;font-size:18px;">📅</div>
+            <div>
+              <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);">วันเกิด <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 2fr 2fr;gap:8px;">
+            <select id="daily-dob1-d" class="dob-select"><option value="">วัน</option></select>
+            <select id="daily-dob1-m" class="dob-select"><option value="">เดือน</option></select>
+            <select id="daily-dob1-y" class="dob-select"><option value="">ปี (พ.ศ.)</option></select>
+          </div>
+        </div>
 
-      <button class="cta-btn" onclick="dailyStep1Next()" style="margin-top:8px;">ถัดไป →</button>
+        <!-- สถานที่เกิด -->
+        <div style="background:#fff;border-radius:20px;padding:18px 18px 20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(180,140,120,0.12);display:flex;align-items:center;justify-content:center;font-size:18px;">📍</div>
+            <div>
+              <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);">สถานที่เกิด <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <select id="daily-country-birth" class="dob-select" onchange="updateDailyProvinces('birth')">
+              <option value="">ประเทศ</option>
+              <option value="TH">🇹🇭 ไทย</option>
+              <option value="OTHER">🌍 อื่นๆ</option>
+            </select>
+            <select id="daily-province-birth" class="dob-select">
+              <option value="">จังหวัด</option>
+            </select>
+          </div>
+          <input id="daily-province-birth-other" placeholder="ระบุเมืองที่เกิด" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
+        </div>
+
+        <!-- ที่อยู่ปัจจุบัน -->
+        <div style="background:#fff;border-radius:20px;padding:18px 18px 20px;margin-bottom:24px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(180,140,120,0.12);display:flex;align-items:center;justify-content:center;font-size:18px;">🏠</div>
+            <div>
+              <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);">ที่อยู่ปัจจุบัน <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <select id="daily-country-now" class="dob-select" onchange="updateDailyProvinces('now')">
+              <option value="">ประเทศ</option>
+              <option value="TH">🇹🇭 ไทย</option>
+              <option value="OTHER">🌍 อื่นๆ</option>
+            </select>
+            <select id="daily-province-now" class="dob-select">
+              <option value="">จังหวัด</option>
+            </select>
+          </div>
+          <input id="daily-province-now-other" placeholder="ระบุเมืองที่อยู่ปัจจุบัน" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
+        </div>
+
+        <!-- ปุ่ม -->
+        <button onclick="dailyStep1Next()" style="width:100%;padding:16px;background:linear-gradient(135deg,#6b4c3b,#8b5e4a);color:#fff;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:0.3px;box-shadow:0 4px 16px rgba(107,76,59,0.35);">✨ สร้างดวงกำเนิดของฉัน</button>
+        <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--text-light);">🔒 ข้อมูลของคุณปลอดภัย 100%</div>
+
+      </div>
     </div>
 
     <!-- STEP 1.5: เลือกหัวข้อ -->
@@ -1530,6 +1580,7 @@ function dailyStep1Next() {
   if (!countryNow || !provinceNow) { alert('กรุณาเลือกประเทศและจังหวัดที่อยู่ปัจจุบันก่อนนะคะ'); return; }
 
   saveDailyProfile({ dob, countryBirth, provinceBirth, countryNow, provinceNow });
+  setDailyHeader(true);
   showDailyTopicSelect();
 }
 
@@ -1803,6 +1854,7 @@ function resetDaily() {
 function dailyEditProfile() {
   const profile = getDailyProfile();
   // แสดง step1 กลับมา
+  setDailyHeader(false);
   document.getElementById('daily-step1').style.display = 'block';
   document.getElementById('daily-step15').style.display = 'none';
   document.getElementById('daily-step16').style.display = 'none';
@@ -1853,6 +1905,11 @@ function dailyEditProfile() {
   }, 50);
 }
 
+function setDailyHeader(show) {
+  const h = document.querySelector('#page-daily .inner-header');
+  if (h) h.style.display = show ? 'flex' : 'none';
+}
+
 function onEnterDailyPage() {
   // init DOB selects ถ้ายังไม่มี options
   const dSel = document.getElementById('daily-dob1-d');
@@ -1867,9 +1924,11 @@ function onEnterDailyPage() {
   }
   const profile = getDailyProfile();
   if (profile) {
+    setDailyHeader(true);
     document.getElementById('daily-step1').style.display = 'none';
     showDailyTopicSelect();
   } else {
+    setDailyHeader(false);
     document.getElementById('daily-step1').style.display = 'block';
     document.getElementById('daily-step15').style.display = 'none';
     document.getElementById('daily-step16').style.display = 'none';
