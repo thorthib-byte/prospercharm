@@ -429,6 +429,7 @@
         <div style="font-size:13px; color:var(--text-light); margin-top:6px;">เลือกได้ 1 เรื่องต่อวัน · เรื่องที่ดูแล้วจะเปิดใหม่ไม่ได้</div>
       </div>
       <div style="display:flex; flex-direction:column; gap:12px;" id="daily-topic-btns"></div>
+      <button onclick="dailyEditProfile()" style="margin-top:20px;width:100%;padding:12px;background:transparent;border:1px solid rgba(180,160,130,0.4);border-radius:12px;font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text-light);cursor:pointer;">✏️ แก้ไขข้อมูลวันเกิด / สถานที่</button>
     </div>
 
     <!-- STEP 1.6: Context ตาม topic -->
@@ -1799,6 +1800,59 @@ function resetDaily() {
 }
 
 // เมื่อเข้าหน้า daily ตรวจสอบว่ามี profile แล้วหรือยัง
+function dailyEditProfile() {
+  const profile = getDailyProfile();
+  // แสดง step1 กลับมา
+  document.getElementById('daily-step1').style.display = 'block';
+  document.getElementById('daily-step15').style.display = 'none';
+  document.getElementById('daily-step16').style.display = 'none';
+  document.getElementById('daily-header-title').textContent = '🌟 ดวงรายวัน';
+  window.scrollTo(0, 0);
+  if (!profile) return;
+  // pre-fill วันเกิด
+  setTimeout(() => {
+    try {
+      const [y, m, d] = profile.dob.split('-');
+      const dSel = document.getElementById('daily-dob1-d');
+      const mSel = document.getElementById('daily-dob1-m');
+      const ySel = document.getElementById('daily-dob1-y');
+      if (dSel) dSel.value = parseInt(d);
+      if (mSel) mSel.value = parseInt(m);
+      if (ySel) ySel.value = parseInt(y) + 543;
+    } catch(e) {}
+    // pre-fill สถานที่เกิด
+    const cbirth = document.getElementById('daily-country-birth');
+    if (cbirth) {
+      cbirth.value = profile.countryBirth || '';
+      updateDailyProvinces('birth');
+      setTimeout(() => {
+        if (profile.countryBirth === 'TH') {
+          const pb = document.getElementById('daily-province-birth');
+          if (pb) pb.value = profile.provinceBirth || '';
+        } else {
+          const pbo = document.getElementById('daily-province-birth-other');
+          if (pbo) pbo.value = profile.provinceBirth || '';
+        }
+      }, 50);
+    }
+    // pre-fill ที่อยู่ปัจจุบัน
+    const cnow = document.getElementById('daily-country-now');
+    if (cnow) {
+      cnow.value = profile.countryNow || '';
+      updateDailyProvinces('now');
+      setTimeout(() => {
+        if (profile.countryNow === 'TH') {
+          const pn = document.getElementById('daily-province-now');
+          if (pn) pn.value = profile.provinceNow || '';
+        } else {
+          const pno = document.getElementById('daily-province-now-other');
+          if (pno) pno.value = profile.provinceNow || '';
+        }
+      }, 50);
+    }
+  }, 50);
+}
+
 function onEnterDailyPage() {
   // init DOB selects ถ้ายังไม่มี options
   const dSel = document.getElementById('daily-dob1-d');
