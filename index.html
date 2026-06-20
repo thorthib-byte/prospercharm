@@ -2284,7 +2284,7 @@ function resetPage(type){document.getElementById(type+'-result').classList.remov
 let pendingPayment={};
 function openPayment(type,price,credits){pendingPayment={type,price,credits};const titles={single:'จ่ายรายครั้ง',basic:'แพ็กเกจ Basic',pro:'แพ็กเกจ Pro',unlimited:'แพ็กเกจ Unlimited'};const subs={single:'ใช้ได้ 1 ครั้ง',basic:'5 ครั้ง/เดือน',pro:'12 ครั้ง/เดือน',unlimited:'ไม่จำกัด/เดือน'};document.getElementById('modal-title').textContent=titles[type];document.getElementById('modal-subtitle').textContent=subs[type];document.getElementById('modal-price').textContent=price+' บาท';document.getElementById('payment-modal').classList.add('show');}
 function closePayment(){document.getElementById('payment-modal').classList.remove('show');}
-function simulatePayment(){closePayment();const{type,credits}=pendingPayment;const expiry=new Date();expiry.setMonth(expiry.getMonth()+1);if(type==='single'){userState.plan='single';userState.credits=(userState.credits||0)+1;}else{userState.plan=type;userState.credits=credits;userState.planExpiry=expiry.toISOString();}saveState();updateStatusBar();document.querySelectorAll('.lock-wall').forEach(l=>l.classList.remove('show'));showToast('✅ ชำระเงินสำเร็จ! ขอบคุณค่ะ');goTo('page-home');}
+function simulatePayment(){closePayment();const{type,credits}=pendingPayment;const expiry=new Date();expiry.setMonth(expiry.getMonth()+1);if(type==='single'){userState.plan='single';userState.credits=(userState.credits||0)+1;}else{userState.plan=type;userState.credits=(userState.credits||0)+credits;userState.planExpiry=expiry.toISOString();}saveState();updateStatusBar();document.querySelectorAll('.lock-wall').forEach(l=>l.classList.remove('show'));showToast('✅ ชำระเงินสำเร็จ! ขอบคุณค่ะ');goTo('page-home');}
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 let selectedTopic=null;
 const tarotQuestions = {
@@ -4965,88 +4965,171 @@ function inGetMoonSign(dob) {
 }
 
 function inGenerateResult() {
-  const sign1 = inGetMoonSign(inState.dob1);
-  const sign2 = inGetMoonSign(inState.dob2);
   const totalQ = inQuestions.length;
   const activePct = Math.round((inState.activeScore / totalQ) * 100);
   const receptivePct = 100 - activePct;
 
-  // คะแนนความเข้ากันโดยรวม — สุ่มจาก seed วันเกิดทั้งคู่ + ความสมดุล active/receptive
+  // คะแนนความเข้ากันโดยรวม — seed จากวันเกิดทั้งคู่ + ความสมดุล active/receptive
   const seed = (new Date(inState.dob1).getDate() + new Date(inState.dob2).getDate() + inState.activeScore) % 100;
-  const balanceScore = 100 - Math.abs(activePct - receptivePct); // ยิ่งสมดุล ยิ่งสูง
+  const balanceScore = 100 - Math.abs(activePct - receptivePct);
   const overallScore = Math.max(55, Math.min(98, Math.round((balanceScore * 0.6) + (seed * 0.4))));
 
-  let scoreLabel = '', scoreDesc = '';
-  if (overallScore >= 85) { scoreLabel = 'คู่แท้ตามหลักเวท'; scoreDesc = 'ดวงดาวทั้งสองโคจรเสริมกันอย่างหาคู่เทียบยาก'; }
-  else if (overallScore >= 70) { scoreLabel = 'คู่ที่เสริมพลังกันดีมาก'; scoreDesc = 'พลังฝ่ายรับและฝ่ายรุกในความสัมพันธ์นี้สมดุลกันดี'; }
-  else if (overallScore >= 55) { scoreLabel = 'คู่ที่ต้องเรียนรู้กันมากขึ้น'; scoreDesc = 'มีพื้นฐานที่ดี แต่ต้องอาศัยความเข้าใจเพิ่มเติม'; }
-  else { scoreLabel = 'คู่ท้าทายแต่มีโอกาส'; scoreDesc = 'ความแตกต่างคือบทเรียนสำคัญของความสัมพันธ์นี้'; }
+  let overallLevel = '';
+  if (overallScore >= 85) overallLevel = 'ดีเยี่ยม';
+  else if (overallScore >= 70) overallLevel = 'ดีมาก';
+  else if (overallScore >= 55) overallLevel = 'ดี';
+  else overallLevel = 'ปานกลาง';
 
-  let balanceDesc = '';
-  if (activePct >= 65) balanceDesc = `ความสัมพันธ์นี้มีพลังฝ่ายรุก (${activePct}%) เด่นกว่าพลังฝ่ายรับ (${receptivePct}%) แสดงถึงพลวัตที่ตื่นตัว มุ่งไปข้างหน้า แต่ควรเปิดพื้นที่ให้การรับฟังมากขึ้น`;
-  else if (receptivePct >= 65) balanceDesc = `ความสัมพันธ์นี้มีพลังฝ่ายรับ (${receptivePct}%) เด่นกว่าพลังฝ่ายรุก (${activePct}%) แสดงถึงความสงบ อ่อนโยน และเข้าใจกัน แต่ควรมีจังหวะที่กล้าแสดงออกบ้าง`;
-  else balanceDesc = `พลังฝ่ายรุก (${activePct}%) และพลังฝ่ายรับ (${receptivePct}%) ในความสัมพันธ์นี้ค่อนข้างสมดุล ทำให้ทั้งสองเสริมกันได้ดีในหลายสถานการณ์`;
+  const overallDesc = overallScore >= 85
+    ? 'ความสัมพันธ์นี้มีแนวโน้มส่งเสริมกันในระยะยาวอย่างโดดเด่น ทั้งสองเข้าใจกันได้ลึกซึ้งและสามารถเติบโตเป็นคู่ชีวิตได้อย่างมั่นคง'
+    : overallScore >= 70
+    ? 'ความสัมพันธ์นี้มีแนวโน้มส่งเสริมกันในระยะยาว มีความเข้าใจซึ่งกันและกัน และสามารถเติบโตเป็นคู่ชีวิตได้'
+    : overallScore >= 55
+    ? 'ความสัมพันธ์นี้มีพื้นฐานที่ดี แต่ยังต้องอาศัยความเข้าใจและการปรับตัวเพิ่มเติมเพื่อเติบโตไปด้วยกัน'
+    : 'ความสัมพันธ์นี้มีความท้าทาย แต่หากทั้งสองเปิดใจเรียนรู้กัน ก็มีโอกาสพัฒนาไปในทางที่ดีได้';
 
-  const marriagePotential = overallScore >= 75
-    ? 'ดวงคู่นี้มีศักยภาพสูงในการสร้างชีวิตคู่ที่มั่นคง ทั้งสองมีแนวโน้มเข้าใจบทบาทของกันและกันได้ดี เหมาะกับการวางแผนระยะยาวร่วมกัน'
-    : 'ดวงคู่นี้มีศักยภาพในการสร้างชีวิตคู่ได้ แต่ต้องอาศัยการสื่อสารและปรับตัวเข้าหากันมากขึ้น ความอดทนจะเป็นกุญแจสำคัญ';
+  // 1. Ashtakoota — คะแนนเข้ากันของดวงกำเนิด (เต็ม 36)
+  const ashtakootaScore = Math.max(14, Math.min(36, Math.round((overallScore / 100) * 36)));
+  const ashtakootaDesc = ashtakootaScore >= 28
+    ? 'วิเคราะห์ความสอดคล้องของพื้นฐานชีวิต ค่านิยม และการใช้ชีวิตร่วมกัน พบว่าทั้งสองมีความเข้ากันในระดับสูง'
+    : ashtakootaScore >= 20
+    ? 'วิเคราะห์ความสอดคล้องของพื้นฐานชีวิต ค่านิยม และการใช้ชีวิตร่วมกัน พบว่ามีความเข้ากันในระดับดี แต่ยังมีบางจุดที่ต่างกัน'
+    : 'วิเคราะห์ความสอดคล้องของพื้นฐานชีวิต ค่านิยม และการใช้ชีวิตร่วมกัน พบว่าทั้งสองมีความแตกต่างที่ต้องอาศัยการปรับตัว';
 
-  const challenge = activePct >= 60
-    ? 'จุดที่ควรระวังคือทั้งสองอาจแก่งแย่งการนำในบางสถานการณ์ ลองฝึกถอยให้กันบ้างเพื่อความกลมเกลียว'
-    : receptivePct >= 60
-    ? 'จุดที่ควรระวังคือทั้งสองอาจรอให้อีกฝ่ายเริ่มก่อนจนเกิดความเข้าใจผิด ลองกล้าแสดงความต้องการของตัวเองมากขึ้น'
-    : 'จุดที่ควรระวังคือบางครั้งอาจสื่อสารกันไม่ตรงจุด ลองใช้เวลาทำความเข้าใจความต้องการของกันและกันให้มากขึ้น';
+  // 2. Manglik — พลังปะทะในความสัมพันธ์ (อิงจาก active/receptive imbalance)
+  const manglikIntensity = Math.abs(activePct - receptivePct);
+  let manglikLevel = '', manglikDesc = '';
+  if (manglikIntensity >= 40) {
+    manglikLevel = 'สูง';
+    manglikDesc = 'มีแรงดึงดูดและพลังปะทะสูง อารมณ์อาจพลุ่งพล่านได้ง่าย ควรระวังการตัดสินใจขณะมีอารมณ์ร่วม';
+  } else if (manglikIntensity >= 15) {
+    manglikLevel = 'ปานกลาง';
+    manglikDesc = 'มีแรงดึงดูดสูง แต่ควรระวังอารมณ์และความคาดหวังที่ไม่ตรงกัน';
+  } else {
+    manglikLevel = 'ต่ำ';
+    manglikDesc = 'พลังปะทะอยู่ในระดับสมดุล ความสัมพันธ์มีแนวโน้มราบรื่นโดยไม่มีแรงเสียดทานรุนแรง';
+  }
 
-  const planetInfluence = `ดวงจันทร์ของคุณอยู่ราศี${sign1} และดวงจันทร์ของอีกฝ่ายอยู่ราศี${sign2} ความสัมพันธ์ระหว่างราศีจันทร์ทั้งสองส่งผลต่ออารมณ์และความรู้สึกลึกๆ ในใจของทั้งคู่ หากราศีทั้งสองมีธาตุที่ใกล้เคียงกัน จะช่วยให้เข้าใจอารมณ์กันได้ง่ายขึ้น`;
+  // 3. Navamsa (D9) — ศักยภาพการเป็นคู่ชีวิต
+  let navamsaLevel = '', navamsaDesc = '';
+  if (overallScore >= 75) {
+    navamsaLevel = 'สูง';
+    navamsaDesc = 'ดวงสนับสนุนการสร้างความสัมพันธ์ระยะยาวและความมั่นคงในอนาคต';
+  } else if (overallScore >= 60) {
+    navamsaLevel = 'ปานกลาง';
+    navamsaDesc = 'ดวงมีศักยภาพในการสร้างความสัมพันธ์ระยะยาว แต่ต้องอาศัยความพยายามร่วมกัน';
+  } else {
+    navamsaLevel = 'ต้องเสริม';
+    navamsaDesc = 'ดวงยังต้องอาศัยการเสริมพลังความสัมพันธ์ เพื่อให้เกิดความมั่นคงในระยะยาว';
+  }
 
-  const futureTrend = overallScore >= 80
-    ? 'แนวโน้มในอนาคตของความสัมพันธ์นี้สดใส มีโอกาสพัฒนาไปสู่ความผูกพันที่มั่นคงและยาวนาน หากทั้งสองยังคงดูแลและให้เวลากันอย่างสม่ำเสมอ'
-    : 'แนวโน้มในอนาคตขึ้นอยู่กับความพยายามของทั้งสองฝ่าย หากเปิดใจปรับตัวเข้าหากันอย่างต่อเนื่อง ความสัมพันธ์จะมีทิศทางที่ดีขึ้นตามลำดับ';
+  // 4. 7th House — การใช้ชีวิตร่วมกัน
+  let house7Level = '', house7Desc = '';
+  if (balanceScore >= 80) {
+    house7Level = 'ดีเยี่ยม';
+    house7Desc = 'สะท้อนความสามารถในการเป็นคู่ครองและการสร้างสมดุลในชีวิตคู่ได้อย่างโดดเด่น';
+  } else if (balanceScore >= 60) {
+    house7Level = 'ดี';
+    house7Desc = 'สะท้อนความสามารถในการเป็นคู่ครองและการสร้างสมดุลในชีวิตคู่';
+  } else {
+    house7Level = 'ปานกลาง';
+    house7Desc = 'สะท้อนถึงการใช้ชีวิตร่วมกันที่ต้องอาศัยการเรียนรู้และปรับตัวเข้าหากันมากขึ้น';
+  }
+
+  // 5. Dasha — จังหวะเวลาแห่งความรัก
+  const dashaWindows = ['3–6 เดือนข้างหน้า', '6–12 เดือนข้างหน้า', '1–2 ปีข้างหน้า'];
+  const dashaWindow = dashaWindows[seed % dashaWindows.length];
+  const dashaDesc = `เป็นช่วงที่เหมาะต่อการพัฒนาความสัมพันธ์และวางแผนอนาคตร่วมกัน`;
+
+  // จุดแข็ง / จุดควรระวัง — ปรับตามคะแนนและความสมดุล
+  const strengths = [];
+  if (overallScore >= 70) strengths.push('มีแนวโน้มเติบโตเป็นความสัมพันธ์ระยะยาว');
+  else strengths.push('มีพื้นฐานความสัมพันธ์ที่สามารถพัฒนาต่อไปได้');
+  if (ashtakootaScore >= 24) strengths.push('สนับสนุนกันด้านเป้าหมายชีวิต');
+  else strengths.push('เปิดโอกาสให้เรียนรู้มุมมองที่แตกต่างของกันและกัน');
+  strengths.push(balanceScore >= 70 ? 'เข้าใจกันได้ดีในเรื่องสำคัญ' : 'มีศักยภาพในการเข้าใจกันมากขึ้นเมื่อเวลาผ่านไป');
+
+  const cautions = [
+    'การสื่อสารในช่วงที่มีความกดดัน',
+    'ความคาดหวังที่ไม่ได้พูดออกมาตรงๆ',
+    manglikLevel === 'สูง' ? 'การตัดสินใจด้วยอารมณ์ในช่วงที่พลังปะทะสูง' : 'การตัดสินใจด้วยอารมณ์',
+  ];
+
+  const finalAdvice = overallScore >= 70
+    ? 'ความสัมพันธ์นี้มีรากฐานที่ดีและมีศักยภาพในการเติบโตร่วมกัน หากทั้งสองฝ่ายเปิดใจรับฟังและปรับตัวเข้าหากัน จะสามารถสร้างความมั่นคงในระยะยาวได้'
+    : 'ความสัมพันธ์นี้ต้องอาศัยความเข้าใจและความอดทนจากทั้งสองฝ่าย หากเปิดใจรับฟังและปรับตัวเข้าหากันอย่างสม่ำเสมอ จะสามารถพัฒนาไปในทางที่ดีขึ้นได้';
 
   document.getElementById('in-step5').innerHTML = `
-    <div style="text-align:center; padding:24px 0 16px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:700; color:var(--brown-dark); margin-bottom:4px;">❤️ ความเข้ากันโดยรวม</div>
-      <div style="font-family:'Playfair Display',serif; font-size:52px; font-weight:700; color:var(--gold); line-height:1;">${overallScore}%</div>
-      <div style="margin:12px auto; max-width:240px; height:6px; background:rgba(180,140,130,0.2); border-radius:4px;">
+    <div style="text-align:center; padding:8px 0 20px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:700; color:var(--brown-dark);">💍 ผลวิเคราะห์ดวงสมพงษ์ศาสตร์อินเดีย</div>
+    </div>
+
+    <div style="text-align:center; padding:8px 0 20px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:600; color:var(--brown-dark); margin-bottom:4px;">❤️ ความเข้ากันโดยรวม</div>
+      <div style="font-family:'Playfair Display',serif; font-size:52px; font-weight:700; color:var(--gold); line-height:1; margin-top:6px;">${overallScore}%</div>
+      <div style="margin:12px auto; max-width:240px; height:8px; background:rgba(180,140,130,0.2); border-radius:4px; overflow:hidden;">
         <div style="height:100%; background:linear-gradient(90deg,#c9a84c,#e8c87a); border-radius:4px; width:${overallScore}%; transition:width 1s;"></div>
       </div>
-      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:600;color:var(--brown-dark);margin-top:8px;">${scoreLabel}</div>
-      <div style="font-size:13px; color:var(--text-light); margin-top:4px;">${scoreDesc}</div>
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:600;color:var(--brown-dark);margin-top:10px;">ระดับ : ${overallLevel}</div>
+      <div style="font-size:13px; color:var(--text-light); margin-top:6px; line-height:1.8; padding:0 8px;">${overallDesc}</div>
     </div>
 
-    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:10px;">☯️ พลังฝ่ายรับ vs ☀️ พลังฝ่ายรุก</div>
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
-        <div style="width:70px;font-size:12px;color:var(--text-mid);">☀️ ฝ่ายรุก</div>
-        <div style="flex:1;height:8px;background:rgba(180,160,130,0.15);border-radius:4px;"><div style="width:${activePct}%;height:100%;background:linear-gradient(90deg,#d4af37,#f5d9a8);border-radius:4px;"></div></div>
-        <div style="width:36px;text-align:right;font-size:12px;color:var(--gold);font-weight:600;">${activePct}%</div>
+    <div style="text-align:center;margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:600;color:var(--brown-dark);">🪷 วิเคราะห์จาก 5 ปัจจัยหลัก</div>
+    </div>
+
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:12px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:2px;">❤️ Ashtakoota</div>
+      <div style="font-size:12px; color:var(--text-light); margin-bottom:8px;">ความเข้ากันของดวงกำเนิด</div>
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--gold);margin-bottom:8px;">${ashtakootaScore} / 36 คะแนน</div>
+      <div style="font-size:13px;color:var(--text-mid);line-height:1.8;">${ashtakootaDesc}</div>
+    </div>
+
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:12px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:2px;">🔥 Manglik</div>
+      <div style="font-size:12px; color:var(--text-light); margin-bottom:8px;">พลังปะทะในความสัมพันธ์</div>
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--gold);margin-bottom:8px;">ระดับ : ${manglikLevel}</div>
+      <div style="font-size:13px;color:var(--text-mid);line-height:1.8;">${manglikDesc}</div>
+    </div>
+
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:12px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:2px;">💍 Navamsa (D9)</div>
+      <div style="font-size:12px; color:var(--text-light); margin-bottom:8px;">ศักยภาพการเป็นคู่ชีวิต</div>
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--gold);margin-bottom:8px;">ระดับ : ${navamsaLevel}</div>
+      <div style="font-size:13px;color:var(--text-mid);line-height:1.8;">${navamsaDesc}</div>
+    </div>
+
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:12px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:2px;">🤝 7th House</div>
+      <div style="font-size:12px; color:var(--text-light); margin-bottom:8px;">การใช้ชีวิตร่วมกัน</div>
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--gold);margin-bottom:8px;">ระดับ : ${house7Level}</div>
+      <div style="font-size:13px;color:var(--text-mid);line-height:1.8;">${house7Desc}</div>
+    </div>
+
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:20px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:2px;">⏳ Dasha</div>
+      <div style="font-size:12px; color:var(--text-light); margin-bottom:8px;">จังหวะเวลาแห่งความรัก</div>
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--gold);margin-bottom:8px;">ช่วงเวลาเด่น : ${dashaWindow}</div>
+      <div style="font-size:13px;color:var(--text-mid);line-height:1.8;">${dashaDesc}</div>
+    </div>
+
+    <div style="background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.2); border-radius:16px; padding:16px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:10px;">✨ จุดแข็งของความสัมพันธ์</div>
+      <div style="font-size:13px; color:var(--text-mid); line-height:2;">
+        ${strengths.map(s => `• ${s}`).join('<br>')}
       </div>
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-        <div style="width:70px;font-size:12px;color:var(--text-mid);">☯️ ฝ่ายรับ</div>
-        <div style="flex:1;height:8px;background:rgba(180,160,130,0.15);border-radius:4px;"><div style="width:${receptivePct}%;height:100%;background:linear-gradient(90deg,#8a6fa8,#c9b3dd);border-radius:4px;"></div></div>
-        <div style="width:36px;text-align:right;font-size:12px;color:var(--gold);font-weight:600;">${receptivePct}%</div>
+    </div>
+
+    <div style="background:rgba(255,248,235,0.8); border:1px solid rgba(201,168,76,0.2); border-radius:16px; padding:16px; margin-bottom:20px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:10px;">⚠️ สิ่งที่ควรระวัง</div>
+      <div style="font-size:13px; color:var(--text-mid); line-height:2;">
+        ${cautions.map(c => `• ${c}`).join('<br>')}
       </div>
-      <div style="font-size:13px;color:var(--text-mid);line-height:1.8;">${balanceDesc}</div>
-    </div>
-
-    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">💍 ศักยภาพชีวิตคู่</div>
-      <div style="font-size:14px; color:var(--text-mid); line-height:1.8;">${marriagePotential}</div>
-    </div>
-
-    <div style="background:rgba(255,248,235,0.8); border:1px solid rgba(201,168,76,0.2); border-radius:16px; padding:16px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🔥 จุดที่ควรระวัง</div>
-      <div style="font-size:14px; color:var(--text-mid); line-height:1.8;">${challenge}</div>
-    </div>
-
-    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🪐 อิทธิพลของดาวเคราะห์</div>
-      <div style="font-size:14px; color:var(--text-mid); line-height:1.8;">${planetInfluence}</div>
     </div>
 
     <div style="background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.25); border-radius:16px; padding:16px; margin-bottom:24px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--gold); margin-bottom:8px;">⏳ แนวโน้มในอนาคต</div>
-      <div style="font-size:14px; color:var(--text-mid); line-height:1.8;">${futureTrend}</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--gold); margin-bottom:8px;">🪔 คำแนะนำจากโหราศาสตร์เวท</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.8;">${finalAdvice}</div>
     </div>
 
     <button class="reset-btn" onclick="resetInFlow()">ทำนายใหม่อีกครั้ง</button>
