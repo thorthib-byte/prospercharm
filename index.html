@@ -508,7 +508,7 @@
     </div>
 
     <!-- STEP 1.7: แตะคริสตัลบอล / กำลังวิเคราะห์ -->
-    <div id="daily-step17" style="display:none; min-height:100vh; position:relative; overflow:hidden;">
+    <div id="daily-step17" style="display:none; position:fixed; inset:0; width:100vw; height:100vh; z-index:500; overflow:hidden;">
       <!-- full screen background image, tappable -->
       <img src="images/daily/downloadstill.png" id="daily-bg-still" onclick="tapCrystalBall()" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;cursor:pointer;" onerror="this.style.display='none';">
       <video id="daily-crystal-video" muted playsinline style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
@@ -516,12 +516,12 @@
       </video>
 
       <!-- tap label overlay (only on still state) — วางใกล้ฐานลูกแก้ว ไม่ทับดาว/เมฆ -->
-      <div id="daily-tap-prompt-wrap" onclick="tapCrystalBall()" style="position:absolute;top:62%;left:0;right:0;z-index:2;display:flex;justify-content:center;cursor:pointer;">
+      <div id="daily-tap-prompt-wrap" onclick="tapCrystalBall()" style="position:absolute;top:67%;left:0;right:0;z-index:2;display:flex;justify-content:center;cursor:pointer;">
         <div id="daily-tap-prompt" style="font-family:'Noto Sans Thai',sans-serif;font-size:16px;font-weight:600;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.5), 0 0 16px rgba(0,0,0,0.3);animation:pulseTap 1.6s infinite;">แตะที่คริสตัลบอล 1 ครั้ง</div>
       </div>
 
-      <!-- progress bar (เฉพาะตอนเล่น video) — วางตำแหน่งเดียวกัน -->
-      <div id="daily-progress-wrap" style="display:none;position:absolute;top:62%;left:0;right:0;z-index:2;padding:0 40px;">
+      <!-- progress bar (เฉพาะตอนเล่น video) — วางตำแหน่งเดียวกัน ขยับลงเล็กน้อยให้พ้นลูกแก้วช่วง video เคลื่อนไหว -->
+      <div id="daily-progress-wrap" style="display:none;position:absolute;top:72%;left:0;right:0;z-index:2;padding:0 40px;">
         <div style="max-width:280px;margin:0 auto;">
           <div style="height:7px;background:rgba(255,255,255,0.3);border-radius:4px;overflow:hidden;">
             <div id="daily-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#e8a8bc,#f5c4d3);border-radius:4px;transition:width 3.2s ease-out;"></div>
@@ -1659,6 +1659,7 @@ function showDailyTopicSelect() {
   document.getElementById('daily-step15').style.display = 'block';
   document.getElementById('daily-step16').style.display = 'none';
   document.getElementById('daily-step17').style.display = 'none';
+  document.body.style.overflow = '';
   document.getElementById('daily-step2').style.display = 'none';
   document.getElementById('daily-header-title').textContent = '🎯 เลือกหัวข้อ';
   window.scrollTo(0,0);
@@ -1724,6 +1725,7 @@ function showDailyCtxForm(topic) {
   document.getElementById('daily-step15').style.display = 'none';
   document.getElementById('daily-step16').style.display = 'block';
   document.getElementById('daily-step17').style.display = 'none';
+  document.body.style.overflow = '';
   document.getElementById('daily-step2').style.display = 'none';
   document.getElementById('daily-header-title').textContent = '✨ บอกเราเพิ่มเติม';
   window.scrollTo(0,0);
@@ -1831,6 +1833,7 @@ function checkAndGenerateDaily() {
   setDailyHeader(false);
   document.getElementById('daily-step16').style.display = 'none';
   document.getElementById('daily-step17').style.display = 'block';
+  document.body.style.overflow = 'hidden';
   document.getElementById('daily-bg-still').style.display = 'block';
   document.getElementById('daily-crystal-video').style.display = 'none';
   document.getElementById('daily-tap-prompt-wrap').style.display = 'flex';
@@ -1872,6 +1875,7 @@ function tapCrystalBall() {
     const remain = Math.max(0, minWait - elapsed);
     setTimeout(() => {
       document.getElementById('daily-step17').style.display = 'none';
+      document.body.style.overflow = '';
       document.getElementById('daily-step2').style.display = 'block';
       setDailyHeader(true);
       document.getElementById('daily-header-title').textContent = '🌟 ดวงของคุณวันนี้';
@@ -1897,19 +1901,17 @@ function generateDaily(dob, topic, deferDisplay) {
   const tagsEl = document.getElementById('daily-theme-tags');
   tagsEl.innerHTML = theme.tags.map(t => `<span style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.25);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--gold);">${t}</span>`).join('');
 
-  // priority order based on topic
-  const orders = { love:['love','work','money','health'], work:['work','money','love','health'], money:['money','work','love','health'], health:['health','love','work','money'] };
-  const order = orders[topic] || orders.love;
+  // แสดงผลเฉพาะ topic ที่เลือกเท่านั้น ไม่รวมหัวข้ออื่น
   const scoreLabels = { love:'❤️ ความรัก', work:'💼 การงาน', money:'💰 การเงิน', health:'🩺 สุขภาพ' };
 
-  document.getElementById('daily-scores').innerHTML = order.map(k => `
+  document.getElementById('daily-scores').innerHTML = `
     <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
-      <div style="width:90px;font-size:13px;color:var(--text-mid);font-family:'Noto Sans Thai',sans-serif;">${scoreLabels[k]}</div>
+      <div style="width:90px;font-size:13px;color:var(--text-mid);font-family:'Noto Sans Thai',sans-serif;">${scoreLabels[topic]}</div>
       <div style="flex:1;height:8px;background:rgba(180,160,130,0.15);border-radius:4px;">
-        <div style="width:${scores[k]*10}%;height:100%;background:linear-gradient(90deg,#c9a84c,#e8c87a);border-radius:4px;"></div>
+        <div style="width:${scores[topic]*10}%;height:100%;background:linear-gradient(90deg,#c9a84c,#e8c87a);border-radius:4px;"></div>
       </div>
-      <div style="width:30px;text-align:right;font-size:13px;color:var(--gold);font-weight:600;">${scores[k]}/10</div>
-    </div>`).join('');
+      <div style="width:30px;text-align:right;font-size:13px;color:var(--gold);font-weight:600;">${scores[topic]}/10</div>
+    </div>`;
 
   // adjusted text by context
   const loveAdj = { single:'มีโอกาสพบคนน่าสนใจผ่านการสื่อสารหรือเพื่อนแนะนำ', unclear:'ความชัดเจนกำลังจะมา เปิดใจรับสิ่งที่เกิดขึ้น', dating:'เหมาะกับการพูดคุยและสร้างความเข้าใจซึ่งกันและกัน', married:'ใช้เวลาดีๆ ร่วมกัน ความสัมพันธ์จะแน่นแฟ้นขึ้น' };
@@ -1922,11 +1924,11 @@ function generateDaily(dob, topic, deferDisplay) {
   const icons = { love:'❤️', work:'💼', money:'💰', health:'🩺' };
   const titles = { love:'ความรัก', work:'การงาน', money:'การเงิน', health:'สุขภาพ' };
 
-  document.getElementById('daily-readings').innerHTML = order.map(k => `
+  document.getElementById('daily-readings').innerHTML = `
     <div style="background:var(--white);border:1px solid rgba(180,160,130,0.25);border-radius:16px;padding:16px;margin-bottom:12px;">
-      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:600;color:var(--brown-dark);margin-bottom:8px;">${icons[k]} ${titles[k]}</div>
-      <div style="font-size:14px;color:var(--text-mid);line-height:1.8;">${readings[k]}</div>
-    </div>`).join('');
+      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:600;color:var(--brown-dark);margin-bottom:8px;">${icons[topic]} ${titles[topic]}</div>
+      <div style="font-size:14px;color:var(--text-mid);line-height:1.8;">${readings[topic]}</div>
+    </div>`;
 
   document.getElementById('daily-do').innerHTML = dailyContent.do[topic].map(t => `• ${t}`).join('<br>');
   document.getElementById('daily-avoid').innerHTML = dailyContent.avoid[topic].map(t => `• ${t}`).join('<br>');
@@ -1956,6 +1958,7 @@ function resetDaily() {
   document.getElementById('daily-step15').style.display = 'none';
   document.getElementById('daily-step16').style.display = 'none';
   document.getElementById('daily-step17').style.display = 'none';
+  document.body.style.overflow = '';
   document.getElementById('daily-step2').style.display = 'none';
   document.getElementById('daily-header-title').textContent = '🌟 ดวงรายวัน';
   // clear saved profile
@@ -1971,6 +1974,7 @@ function dailyEditProfile() {
   document.getElementById('daily-step15').style.display = 'none';
   document.getElementById('daily-step16').style.display = 'none';
   document.getElementById('daily-step17').style.display = 'none';
+  document.body.style.overflow = '';
   document.getElementById('daily-header-title').textContent = '🌟 ดวงรายวัน';
   window.scrollTo(0, 0);
   if (!profile) return;
@@ -2046,6 +2050,7 @@ function onEnterDailyPage() {
     document.getElementById('daily-step15').style.display = 'none';
     document.getElementById('daily-step16').style.display = 'none';
     document.getElementById('daily-step17').style.display = 'none';
+    document.body.style.overflow = '';
     document.getElementById('daily-step2').style.display = 'none';
   }
 }
