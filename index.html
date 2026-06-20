@@ -1393,8 +1393,6 @@
       <div class="dob-month"><select class="dob-select" id="in-dob1-m"><option value="">เดือน</option></select></div>
       <div class="dob-year"><select class="dob-select" id="in-dob1-y"><option value="">ปี พ.ศ.</option></select></div>
     </div>
-    <label class="form-label">เวลาเกิดของคุณ <span style="color:var(--text-light);font-weight:400;">(ถ้ามี)</span></label>
-    <input type="time" id="in-time1" style="width:100%;padding:12px 14px;border:1px solid rgba(180,160,130,0.3);border-radius:12px;background:var(--white);font-family:'Noto Sans Thai',sans-serif;font-size:14px;color:var(--text);box-sizing:border-box;outline:none;margin-bottom:16px;">
 
     <label class="form-label">วันเกิดของอีกฝ่าย</label>
     <div class="dob-hint">กรุณากรอกวันเกิดเป็น พ.ศ. เช่น 16 สิงหาคม 2547</div>
@@ -1403,8 +1401,6 @@
       <div class="dob-month"><select class="dob-select" id="in-dob2-m"><option value="">เดือน</option></select></div>
       <div class="dob-year"><select class="dob-select" id="in-dob2-y"><option value="">ปี พ.ศ.</option></select></div>
     </div>
-    <label class="form-label">เวลาเกิดของอีกฝ่าย <span style="color:var(--text-light);font-weight:400;">(ถ้ามี)</span></label>
-    <input type="time" id="in-time2" style="width:100%;padding:12px 14px;border:1px solid rgba(180,160,130,0.3);border-radius:12px;background:var(--white);font-family:'Noto Sans Thai',sans-serif;font-size:14px;color:var(--text);box-sizing:border-box;outline:none;margin-bottom:16px;">
 
     <button class="cta-btn" onclick="inDobNext()">ถัดไป →</button>
     <button class="reset-btn" style="margin-top:10px;" onclick="soulmateBackToScience()">← เปลี่ยนศาสตร์</button>
@@ -1413,26 +1409,36 @@
   <!-- IN-STEP2: ถวายดอกไม้แห่งความสัมพันธ์ (fullscreen drag interaction) -->
   <div id="in-step2" style="display:none; position:fixed; inset:0; width:100%; height:100%; overflow:hidden; background:#f3e3d3; z-index:50; touch-action:none;">
     <!-- full screen background image -->
-    <img src="images/soulmate/indiaflowerstill.png" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
-
-    <div style="position:absolute;top:5%;left:0;right:0;text-align:center;z-index:5;pointer-events:none;padding:0 16px;">
-      <div style="font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:#7a3a2e;text-shadow:0 1px 4px rgba(255,255,255,0.6);">มอบดอกไม้เพื่อเปิดการอ่านชะตาคู่</div>
-      <div style="font-size:12px;color:#8b5a45;margin-top:6px;text-shadow:0 1px 3px rgba(255,255,255,0.5);">ลากดอกไม้ไปวางบนแท่นบูชาตรงกลาง</div>
-    </div>
+    <img id="in-step2-bg-still" src="images/soulmate/indiaflowerstill.png" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
+    <!-- full screen loading video (เล่นหลังวางดอกบัวสำเร็จ) -->
+    <video id="in-loading-video" muted playsinline loop style="display:none;position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
+      <source src="images/soulmate/circlelotusmove.mp4" type="video/mp4">
+    </video>
 
     <!-- แท่นบูชา — ตำแหน่งตรงกับวงกลมในรูปพื้นหลัง -->
-    <div id="in-altar" style="position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);width:170px;height:170px;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;font-size:13px;color:#a8694f;font-family:'Noto Sans Thai',sans-serif;text-align:center;">วางดอกไม้<br>ที่นี่</div>
+    <div id="in-altar" style="position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);width:170px;height:170px;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;font-size:13px;color:#a8694f;font-family:'Noto Sans Thai',sans-serif;text-align:center;">วางดอกไม้ที่นี่</div>
 
     <!-- ดอกบัวลากได้ -->
     <img id="in-flower" draggable="false" src="images/soulmate/indialotus.png"
-      style="position:absolute;top:75%;left:50%;transform:translate(-50%,-50%);width:80px;cursor:grab;z-index:10;filter:drop-shadow(0 4px 10px rgba(200,100,60,0.3));touch-action:none;"
-      onmousedown="inFlowerStart(event)" ontouchstart="inFlowerStart(event)" onerror="this.outerHTML='<div id=&quot;in-flower&quot; style=&quot;position:absolute;top:75%;left:50%;transform:translate(-50%,-50%);font-size:56px;cursor:grab;z-index:10;&quot; onmousedown=&quot;inFlowerStart(event)&quot; ontouchstart=&quot;inFlowerStart(event)&quot;>🪷</div>';">
+      style="position:absolute;top:78%;left:50%;transform:translate(-50%,-50%);width:56px;cursor:grab;z-index:10;filter:drop-shadow(0 4px 10px rgba(200,100,60,0.3));touch-action:none;"
+      onmousedown="inFlowerStart(event)" ontouchstart="inFlowerStart(event)" onerror="this.outerHTML='<div id=&quot;in-flower&quot; style=&quot;position:absolute;top:78%;left:50%;transform:translate(-50%,-50%);font-size:40px;cursor:grab;z-index:10;&quot; onmousedown=&quot;inFlowerStart(event)&quot; ontouchstart=&quot;inFlowerStart(event)&quot;>🪷</div>';">
 
     <!-- กลีบดอกไม้โปรย (โผล่หลังวางสำเร็จ) -->
     <div id="in-petals" style="position:absolute;inset:0;pointer-events:none;display:none;"></div>
 
+    <div id="in-flower-hint" style="position:absolute;top:58%;left:0;right:0;text-align:center;font-size:12px;color:#a8694f;animation:pulseTap 1.6s infinite;">แตะค้างแล้วลากดอกไม้ขึ้นไปวางบนแท่น</div>
 
-    <div id="in-flower-hint" style="position:absolute;bottom:10%;left:0;right:0;text-align:center;font-size:12px;color:#a8694f;animation:pulseTap 1.6s infinite;">👆 แตะค้างแล้วลากดอกไม้ขึ้นไปวางบนแท่น</div>
+    <!-- Loading overlay: ข้อความวิเคราะห์ 6 ข้อความ + progress bar -->
+    <div id="in-loading-overlay" style="display:none;position:absolute;top:62%;left:0;right:0;z-index:20;padding:0 36px;text-align:center;">
+      <div id="in-loading-text" style="font-family:'Noto Sans Thai',sans-serif;font-size:14px;font-weight:600;color:#7a3a2e;text-shadow:0 1px 3px rgba(255,255,255,0.7);min-height:40px;line-height:1.6;"></div>
+      <div style="margin-top:14px;max-width:260px;margin-left:auto;margin-right:auto;">
+        <div style="font-family:'Noto Sans Thai',sans-serif;font-size:11px;color:#8b5a45;letter-spacing:1px;margin-bottom:6px;">LOADING...</div>
+        <div style="height:6px;background:rgba(160,110,70,0.2);border-radius:4px;overflow:hidden;">
+          <div id="in-loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#c9a84c,#e8c87a);border-radius:4px;transition:width 10s linear;"></div>
+        </div>
+        <div id="in-loading-pct" style="font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:600;color:#7a3a2e;margin-top:6px;">0%</div>
+      </div>
+    </div>
   </div>
 
   <!-- IN-STEP3: 10 คำถามความสัมพันธ์ -->
@@ -4775,14 +4781,13 @@ function inDobNext() {
   if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('soulmate'); return; }
   inState.dob1 = dob1;
   inState.dob2 = dob2;
-  inState.time1 = document.getElementById('in-time1').value || '';
-  inState.time2 = document.getElementById('in-time2').value || '';
   soulmateState.dob1 = dob1; soulmateState.dob2 = dob2;
   showSoulmateStep('in-step2');
 }
 
 // ---- IN-STEP2: drag-to-altar flower interaction ----
 let inFlowerDragging = false;
+let inFlowerInCircle = false;
 let inFlowerOffset = { x: 0, y: 0 };
 
 function inFlowerStart(e) {
@@ -4802,11 +4807,29 @@ function inFlowerMove(e) {
   e.preventDefault();
   const point = e.touches ? e.touches[0] : e;
   const flower = document.getElementById('in-flower');
+  const altar = document.getElementById('in-altar');
   const container = document.getElementById('in-step2').getBoundingClientRect();
   const x = point.clientX - container.left;
   const y = point.clientY - container.top;
-  flower.style.left = x + 'px';
-  flower.style.top = y + 'px';
+
+  // เช็คระยะห่างจากจุดศูนย์กลางวงกลม (แท่นบูชา)
+  const aRect = altar.getBoundingClientRect();
+  const aCenterX = (aRect.left + aRect.width / 2) - container.left;
+  const aCenterY = (aRect.top + aRect.height / 2) - container.top;
+  const dist = Math.hypot(x - aCenterX, y - aCenterY);
+
+  if (dist < 90) {
+    // แม่เหล็กดูดเข้ากึ่งกลางวงกลมทันที ไม่ว่าจะลากมาจากมุมไหน
+    flower.style.transition = 'left 0.15s ease-out, top 0.15s ease-out';
+    flower.style.left = aCenterX + 'px';
+    flower.style.top = aCenterY + 'px';
+    inFlowerInCircle = true;
+  } else {
+    flower.style.transition = 'none';
+    flower.style.left = x + 'px';
+    flower.style.top = y + 'px';
+    inFlowerInCircle = false;
+  }
 }
 
 function inFlowerEnd(e) {
@@ -4818,17 +4841,9 @@ function inFlowerEnd(e) {
   document.removeEventListener('touchend', inFlowerEnd);
 
   const flower = document.getElementById('in-flower');
-  const altar = document.getElementById('in-altar');
-  const fRect = flower.getBoundingClientRect();
-  const aRect = altar.getBoundingClientRect();
-  const fCenterX = fRect.left + fRect.width / 2;
-  const fCenterY = fRect.top + fRect.height / 2;
-  const aCenterX = aRect.left + aRect.width / 2;
-  const aCenterY = aRect.top + aRect.height / 2;
-  const dist = Math.hypot(fCenterX - aCenterX, fCenterY - aCenterY);
 
-  if (dist < 90) {
-    // สำเร็จ — วางบนแท่นได้
+  if (inFlowerInCircle) {
+    // สำเร็จ — ดอกไม้ถูกดูดเข้ากึ่งกลางวงกลมแล้วตั้งแต่ตอนลาก
     inFlowerSuccess();
   } else {
     // ยังไม่ถึงแท่น — เด้งคืนตำแหน่งเดิม
@@ -4836,7 +4851,7 @@ function inFlowerEnd(e) {
     flower.style.cursor = 'grab';
     setTimeout(() => {
       flower.style.left = '50%';
-      flower.style.top = '75%';
+      flower.style.top = '78%';
       flower.style.transform = 'translate(-50%,-50%)';
     }, 10);
   }
@@ -4863,7 +4878,7 @@ function inFlowerSuccess() {
   // ลอยขึ้นเล็กน้อย
   setTimeout(() => {
     flower.style.top = '36%';
-    flower.style.width = '92px';
+    flower.style.width = '68px';
   }, 200);
 
   // กลีบดอกบัวโปรย
@@ -4883,14 +4898,76 @@ function inFlowerSuccess() {
     petalsWrap.appendChild(p);
   }
 
+  // หลังกลีบโปรยจบ → สลับเป็น video วิเคราะห์ + loading 10 วิ
+  setTimeout(inStartCircleAnalysis, 1800);
+}
+
+// ---- Loading sequence: circlelotusmove.mp4 + 10s progress with rotating messages ----
+const inLoadingTexts = [
+  '🌸 กำลังวิเคราะห์ความสมพงษ์ของดวงกำเนิด (Ashtakoota)',
+  '🔥 กำลังตรวจสอบพลังปะทะในความสัมพันธ์ (Manglik)',
+  '💍 กำลังอ่านดวงคู่ครองและชีวิตสมรส (Navamsa)',
+  '🤝 กำลังวิเคราะห์เรือนคู่ครอง (ภพที่ 7)',
+  '⏳ กำลังตรวจสอบจังหวะเวลาแห่งความรัก (Dasha)',
+  '✨ กำลังสรุปผลดวงสมพงษ์ของทั้งสอง',
+];
+
+function inStartCircleAnalysis() {
+  const bgStill = document.getElementById('in-step2-bg-still');
+  const video = document.getElementById('in-loading-video');
+  const altar = document.getElementById('in-altar');
+  const flower = document.getElementById('in-flower');
+  const petalsWrap = document.getElementById('in-petals');
+  const overlay = document.getElementById('in-loading-overlay');
+  const textEl = document.getElementById('in-loading-text');
+  const barEl = document.getElementById('in-loading-bar');
+  const pctEl = document.getElementById('in-loading-pct');
+
+  // สลับพื้นหลังเป็น video
+  if (bgStill) bgStill.style.display = 'none';
+  if (altar) altar.style.display = 'none';
+  if (flower) flower.style.display = 'none';
+  if (petalsWrap) petalsWrap.style.display = 'none';
+  video.style.display = 'block';
+  video.currentTime = 0;
+  video.play().catch(()=>{});
+
+  overlay.style.display = 'block';
+  textEl.textContent = inLoadingTexts[0];
+  barEl.style.transition = 'none';
+  barEl.style.width = '0%';
+  pctEl.textContent = '0%';
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      barEl.style.transition = 'width 10s linear';
+      barEl.style.width = '100%';
+    }, 50);
+  });
+
+  const totalDuration = 10000;
+  const startTime = Date.now();
+  const pctInterval = setInterval(() => {
+    const elapsed = Date.now() - startTime;
+    const pct = Math.min(100, Math.round((elapsed / totalDuration) * 100));
+    pctEl.textContent = pct + '%';
+    if (pct >= 100) clearInterval(pctInterval);
+  }, 100);
+
+  // ข้อความหมุนทุก ~1.67 วิ (6 ข้อความ ใน 10 วิ)
+  inLoadingTexts.forEach((txt, i) => {
+    if (i === 0) return;
+    setTimeout(() => { textEl.textContent = txt; }, i * (totalDuration / inLoadingTexts.length));
+  });
+
   setTimeout(() => {
+    clearInterval(pctInterval);
     showSoulmateStep('in-step3');
     inQIdx = 0;
     inState.answers = [];
     inState.receptiveScore = 0;
     inState.activeScore = 0;
     inShowQuestion();
-  }, 1800);
+  }, totalDuration);
 }
 
 // ---- IN-STEP3: 10 questions ----
@@ -5147,17 +5224,19 @@ function resetInFlow() {
   // reset flower interaction
   const flower = document.getElementById('in-flower');
   if (flower) {
+    flower.style.display = 'block';
     flower.style.transition = 'none';
     flower.style.left = '50%';
-    flower.style.top = '75%';
+    flower.style.top = '78%';
     flower.style.transform = 'translate(-50%,-50%)';
-    flower.style.width = '80px';
+    flower.style.width = '56px';
     flower.style.cursor = 'grab';
     flower.onmousedown = inFlowerStart;
     flower.ontouchstart = inFlowerStart;
   }
   const altar = document.getElementById('in-altar');
   if (altar) {
+    altar.style.display = 'flex';
     altar.style.background = 'transparent';
     altar.textContent = 'วางดอกไม้ที่นี่';
   }
@@ -5165,6 +5244,14 @@ function resetInFlow() {
   if (hint) hint.style.display = 'block';
   const petals = document.getElementById('in-petals');
   if (petals) { petals.innerHTML = ''; petals.style.display = 'none'; }
+  // reset video/loading overlay กลับเป็นสถานะเริ่มต้น
+  const bgStill = document.getElementById('in-step2-bg-still');
+  if (bgStill) bgStill.style.display = 'block';
+  const video = document.getElementById('in-loading-video');
+  if (video) { video.pause(); video.style.display = 'none'; }
+  const overlay = document.getElementById('in-loading-overlay');
+  if (overlay) overlay.style.display = 'none';
+  inFlowerInCircle = false;
   // เคลียร์ฟอร์มกรอกวันเกิด
   clearDob('in-dob1');
   clearDob('in-dob2');
