@@ -5142,7 +5142,7 @@ function inGenerateResult() {
 }
 
 function resetInFlow() {
-  inState = { dob1: inState.dob1, dob2: inState.dob2, time1: '', time2: '', answers: [], receptiveScore: 0, activeScore: 0 };
+  inState = { dob1: '', dob2: '', time1: '', time2: '', answers: [], receptiveScore: 0, activeScore: 0 };
   inQIdx = 0;
   const in5 = document.getElementById('in-step5');
   if (in5) in5.innerHTML = '';
@@ -5168,7 +5168,12 @@ function resetInFlow() {
   if (hint) hint.style.display = 'block';
   const petals = document.getElementById('in-petals');
   if (petals) { petals.innerHTML = ''; petals.style.display = 'none'; }
-  showSoulmateStep('in-step2');
+  // เคลียร์ฟอร์มกรอกวันเกิด/เวลาเกิด
+  clearDob('in-dob1');
+  clearDob('in-dob2');
+  const t1 = document.getElementById('in-time1'); if (t1) t1.value = '';
+  const t2 = document.getElementById('in-time2'); if (t2) t2.value = '';
+  showSoulmateStep('in-step1');
 }
 
 // ===== END INDIAN SCIENCE =====
