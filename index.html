@@ -1409,36 +1409,20 @@
   <!-- IN-STEP2: ถวายดอกไม้แห่งความสัมพันธ์ (fullscreen drag interaction) -->
   <div id="in-step2" style="display:none; position:fixed; inset:0; width:100%; height:100%; overflow:hidden; background:#f3e3d3; z-index:50; touch-action:none;">
     <!-- full screen background image -->
-    <img id="in-step2-bg-still" src="images/soulmate/indiaflowerstill.png" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
-    <!-- full screen loading video (เล่นหลังวางดอกบัวสำเร็จ) -->
-    <video id="in-loading-video" muted playsinline loop style="display:none;position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
-      <source src="images/soulmate/circlelotusmove.mp4" type="video/mp4">
-    </video>
+    <img src="images/soulmate/indiaflowerstill.png" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
 
     <!-- แท่นบูชา — ตำแหน่งตรงกับวงกลมในรูปพื้นหลัง -->
     <div id="in-altar" style="position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);width:170px;height:170px;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;font-size:13px;color:#a8694f;font-family:'Noto Sans Thai',sans-serif;text-align:center;">วางดอกไม้ที่นี่</div>
 
     <!-- ดอกบัวลากได้ -->
     <img id="in-flower" draggable="false" src="images/soulmate/indialotus.png"
-      style="position:absolute;top:78%;left:50%;transform:translate(-50%,-50%);width:56px;cursor:grab;z-index:10;filter:drop-shadow(0 4px 10px rgba(200,100,60,0.3));touch-action:none;"
-      onmousedown="inFlowerStart(event)" ontouchstart="inFlowerStart(event)" onerror="this.outerHTML='<div id=&quot;in-flower&quot; style=&quot;position:absolute;top:78%;left:50%;transform:translate(-50%,-50%);font-size:40px;cursor:grab;z-index:10;&quot; onmousedown=&quot;inFlowerStart(event)&quot; ontouchstart=&quot;inFlowerStart(event)&quot;>🪷</div>';">
+      style="position:absolute;top:78%;left:50%;transform:translate(-50%,-50%);width:120px;cursor:grab;z-index:10;filter:drop-shadow(0 4px 10px rgba(200,100,60,0.3));touch-action:none;"
+      onmousedown="inFlowerStart(event)" ontouchstart="inFlowerStart(event)" onerror="this.outerHTML='<div id=&quot;in-flower&quot; style=&quot;position:absolute;top:78%;left:50%;transform:translate(-50%,-50%);font-size:80px;cursor:grab;z-index:10;&quot; onmousedown=&quot;inFlowerStart(event)&quot; ontouchstart=&quot;inFlowerStart(event)&quot;>🪷</div>';">
 
     <!-- กลีบดอกไม้โปรย (โผล่หลังวางสำเร็จ) -->
     <div id="in-petals" style="position:absolute;inset:0;pointer-events:none;display:none;"></div>
 
     <div id="in-flower-hint" style="position:absolute;top:58%;left:0;right:0;text-align:center;font-size:12px;color:#a8694f;animation:pulseTap 1.6s infinite;">แตะค้างแล้วลากดอกไม้ขึ้นไปวางบนแท่น</div>
-
-    <!-- Loading overlay: ข้อความวิเคราะห์ 6 ข้อความ + progress bar -->
-    <div id="in-loading-overlay" style="display:none;position:absolute;top:62%;left:0;right:0;z-index:20;padding:0 36px;text-align:center;">
-      <div id="in-loading-text" style="font-family:'Noto Sans Thai',sans-serif;font-size:14px;font-weight:600;color:#7a3a2e;text-shadow:0 1px 3px rgba(255,255,255,0.7);min-height:40px;line-height:1.6;"></div>
-      <div style="margin-top:14px;max-width:260px;margin-left:auto;margin-right:auto;">
-        <div style="font-family:'Noto Sans Thai',sans-serif;font-size:11px;color:#8b5a45;letter-spacing:1px;margin-bottom:6px;">LOADING...</div>
-        <div style="height:6px;background:rgba(160,110,70,0.2);border-radius:4px;overflow:hidden;">
-          <div id="in-loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#c9a84c,#e8c87a);border-radius:4px;transition:width 10s linear;"></div>
-        </div>
-        <div id="in-loading-pct" style="font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:600;color:#7a3a2e;margin-top:6px;">0%</div>
-      </div>
-    </div>
   </div>
 
   <!-- IN-STEP3: 10 คำถามความสัมพันธ์ -->
@@ -1455,14 +1439,21 @@
   </div>
 
   <!-- IN-STEP4: กำลังวิเคราะห์ชะตาคู่ (fullscreen loading) -->
-  <div id="in-step4" style="display:none; position:fixed; inset:0; width:100%; height:100%; overflow:hidden; background:linear-gradient(160deg,#3a1f4d,#5c2e63); z-index:50;">
-    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:0 30px;">
-      <div style="font-size:48px;" id="in-loading-icon">🪐</div>
-      <div id="in-loading-text" style="font-family:'Noto Serif Thai',serif;font-size:16px;font-weight:600;color:#f5d9a8;text-align:center;line-height:2;text-shadow:0 2px 8px rgba(0,0,0,0.5);min-height:48px;"></div>
-      <div style="width:100%;max-width:260px;">
-        <div style="height:6px;background:rgba(255,255,255,0.15);border-radius:4px;overflow:hidden;">
-          <div id="in-loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#d4af37,#f5d9a8);border-radius:4px;transition:width 0.4s;"></div>
+  <div id="in-step4" style="display:none; position:fixed; inset:0; width:100%; height:100%; overflow:hidden; background:#f3e3d3; z-index:50;">
+    <!-- full screen looping video -->
+    <video id="in-step4-video" muted playsinline loop style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
+      <source src="images/soulmate/circlelotusmove.mp4" type="video/mp4">
+    </video>
+
+    <!-- loading overlay: ข้อความวิเคราะห์ 6 ข้อความ + progress bar -->
+    <div style="position:absolute;top:62%;left:0;right:0;z-index:20;padding:0 36px;text-align:center;">
+      <div id="in-loading-text" style="font-family:'Noto Sans Thai',sans-serif;font-size:14px;font-weight:600;color:#7a3a2e;text-shadow:0 1px 3px rgba(255,255,255,0.7);min-height:40px;line-height:1.6;"></div>
+      <div style="margin-top:14px;max-width:260px;margin-left:auto;margin-right:auto;">
+        <div style="font-family:'Noto Sans Thai',sans-serif;font-size:11px;color:#8b5a45;letter-spacing:1px;margin-bottom:6px;">LOADING...</div>
+        <div style="height:6px;background:rgba(160,110,70,0.2);border-radius:4px;overflow:hidden;">
+          <div id="in-loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#c9a84c,#e8c87a);border-radius:4px;transition:width 10s linear;"></div>
         </div>
+        <div id="in-loading-pct" style="font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:600;color:#7a3a2e;margin-top:6px;">0%</div>
       </div>
     </div>
   </div>
@@ -3876,7 +3867,7 @@ function soulmateNextToEnergy() {
     cnState.dob1 = dob1; cnState.dob2 = dob2;
     calcCnZodiac();
     fillCnZodiacDisplay();
-    showCnStep('cn-step2');
+    showSoulmateStep('soulmate-step2'); // หน้าพลังงานความสัมพันธ์ก่อนเข้าสู่ flow จีน
   } else {
     showSoulmateStep('soulmate-step2');
   }
@@ -3887,10 +3878,22 @@ function selectRelationEnergy(el, energy) {
   el.classList.add('selected');
   soulmateState.relationEnergy = energy;
   setTimeout(() => {
-    currentQuestion = 0; dayScore = 0;
-    soulmateState.questionAnswers = [];
-    showSoulmateStep('soulmate-step3');
-    renderSoulmateQuestion();
+    if (selectedSoulmateScience === 'chinese') {
+      showCnStep('cn-step2'); // ไปต่อ flow จีนเดิม หลังเลือกพลังงานแล้ว
+    } else if (selectedSoulmateScience === 'indian') {
+      // ไปต่อ flow อินเดียเดิม (คำถาม 10 ข้อ) หลังเลือกพลังงานแล้ว
+      inQIdx = 0;
+      inState.answers = [];
+      inState.receptiveScore = 0;
+      inState.activeScore = 0;
+      showSoulmateStep('in-step3');
+      inShowQuestion();
+    } else {
+      currentQuestion = 0; dayScore = 0;
+      soulmateState.questionAnswers = [];
+      showSoulmateStep('soulmate-step3');
+      renderSoulmateQuestion();
+    }
   }, 400);
 }
 
@@ -4782,7 +4785,8 @@ function inDobNext() {
   inState.dob1 = dob1;
   inState.dob2 = dob2;
   soulmateState.dob1 = dob1; soulmateState.dob2 = dob2;
-  showSoulmateStep('in-step2');
+  // ไปหน้าเลือกพลังงานความสัมพันธ์ก่อน แล้วค่อยไปคำถาม 10 ข้อ
+  showSoulmateStep('soulmate-step2');
 }
 
 // ---- IN-STEP2: drag-to-altar flower interaction ----
@@ -4878,7 +4882,7 @@ function inFlowerSuccess() {
   // ลอยขึ้นเล็กน้อย
   setTimeout(() => {
     flower.style.top = '36%';
-    flower.style.width = '68px';
+    flower.style.width = '145px';
   }, 200);
 
   // กลีบดอกบัวโปรย
@@ -4898,11 +4902,42 @@ function inFlowerSuccess() {
     petalsWrap.appendChild(p);
   }
 
-  // หลังกลีบโปรยจบ → สลับเป็น video วิเคราะห์ + loading 10 วิ
-  setTimeout(inStartCircleAnalysis, 1800);
+  // หลังกลีบโปรยจบ → เข้า video loading + วิเคราะห์
+  setTimeout(inStartAnalysis, 1800);
 }
 
-// ---- Loading sequence: circlelotusmove.mp4 + 10s progress with rotating messages ----
+// ---- IN-STEP3: 10 questions ----
+function inShowQuestion() {
+  const q = inQuestions[inQIdx];
+  document.getElementById('in-question-num').textContent = `คำถามที่ ${inQIdx + 1} / ${inQuestions.length}`;
+  document.getElementById('in-question-text').textContent = q.q;
+  document.getElementById('in-ans-a').textContent = q.a[0];
+  document.getElementById('in-ans-b').textContent = q.a[1];
+  document.getElementById('in-progress-bar').style.width = `${((inQIdx) / inQuestions.length) * 100}%`;
+}
+
+function inAnswerQuestion(idx) {
+  const q = inQuestions[inQIdx];
+  const key = q.keys[idx];
+  inState.answers.push(key);
+  if (key === 'active') inState.activeScore++;
+  else inState.receptiveScore++;
+
+  inQIdx++;
+  document.getElementById('in-progress-bar').style.width = `${(inQIdx / inQuestions.length) * 100}%`;
+
+  if (inQIdx < inQuestions.length) {
+    setTimeout(inShowQuestion, 150);
+  } else {
+    setTimeout(inGoToFlowerStep, 300);
+  }
+}
+
+function inGoToFlowerStep() {
+  showSoulmateStep('in-step2');
+}
+
+// ---- IN-STEP4: loading/analysis (video + 10s progress with rotating messages) ----
 const inLoadingTexts = [
   '🌸 กำลังวิเคราะห์ความสมพงษ์ของดวงกำเนิด (Ashtakoota)',
   '🔥 กำลังตรวจสอบพลังปะทะในความสัมพันธ์ (Manglik)',
@@ -4912,27 +4947,18 @@ const inLoadingTexts = [
   '✨ กำลังสรุปผลดวงสมพงษ์ของทั้งสอง',
 ];
 
-function inStartCircleAnalysis() {
-  const bgStill = document.getElementById('in-step2-bg-still');
-  const video = document.getElementById('in-loading-video');
-  const altar = document.getElementById('in-altar');
-  const flower = document.getElementById('in-flower');
-  const petalsWrap = document.getElementById('in-petals');
-  const overlay = document.getElementById('in-loading-overlay');
+function inStartAnalysis() {
+  showSoulmateStep('in-step4');
+  const video = document.getElementById('in-step4-video');
   const textEl = document.getElementById('in-loading-text');
   const barEl = document.getElementById('in-loading-bar');
   const pctEl = document.getElementById('in-loading-pct');
 
-  // สลับพื้นหลังเป็น video
-  if (bgStill) bgStill.style.display = 'none';
-  if (altar) altar.style.display = 'none';
-  if (flower) flower.style.display = 'none';
-  if (petalsWrap) petalsWrap.style.display = 'none';
-  video.style.display = 'block';
-  video.currentTime = 0;
-  video.play().catch(()=>{});
+  if (video) {
+    video.currentTime = 0;
+    video.play().catch(()=>{});
+  }
 
-  overlay.style.display = 'block';
   textEl.textContent = inLoadingTexts[0];
   barEl.style.transition = 'none';
   barEl.style.width = '0%';
@@ -4961,73 +4987,9 @@ function inStartCircleAnalysis() {
 
   setTimeout(() => {
     clearInterval(pctInterval);
-    showSoulmateStep('in-step3');
-    inQIdx = 0;
-    inState.answers = [];
-    inState.receptiveScore = 0;
-    inState.activeScore = 0;
-    inShowQuestion();
+    if (video) video.pause();
+    inGenerateResult();
   }, totalDuration);
-}
-
-// ---- IN-STEP3: 10 questions ----
-function inShowQuestion() {
-  const q = inQuestions[inQIdx];
-  document.getElementById('in-question-num').textContent = `คำถามที่ ${inQIdx + 1} / ${inQuestions.length}`;
-  document.getElementById('in-question-text').textContent = q.q;
-  document.getElementById('in-ans-a').textContent = q.a[0];
-  document.getElementById('in-ans-b').textContent = q.a[1];
-  document.getElementById('in-progress-bar').style.width = `${((inQIdx) / inQuestions.length) * 100}%`;
-}
-
-function inAnswerQuestion(idx) {
-  const q = inQuestions[inQIdx];
-  const key = q.keys[idx];
-  inState.answers.push(key);
-  if (key === 'active') inState.activeScore++;
-  else inState.receptiveScore++;
-
-  inQIdx++;
-  document.getElementById('in-progress-bar').style.width = `${(inQIdx / inQuestions.length) * 100}%`;
-
-  if (inQIdx < inQuestions.length) {
-    setTimeout(inShowQuestion, 150);
-  } else {
-    setTimeout(inStartAnalysis, 300);
-  }
-}
-
-// ---- IN-STEP4: loading/analysis ----
-const inLoadingMessages = [
-  '🪐 กำลังคำนวณตำแหน่งดาวเคราะห์...',
-  '💍 วิเคราะห์ศักยภาพคู่ครองตามหลักเวท...',
-  '🔥 ตรวจสอบจุดท้าทายในดวงคู่...',
-  '⏳ คำนวณจังหวะเวลาความรัก...',
-];
-
-function inStartAnalysis() {
-  showSoulmateStep('in-step4');
-  let step = 0;
-  const textEl = document.getElementById('in-loading-text');
-  const barEl = document.getElementById('in-loading-bar');
-  const iconEl = document.getElementById('in-loading-icon');
-  const icons = ['🪐','💍','🔥','⏳'];
-
-  textEl.textContent = inLoadingMessages[0];
-  iconEl.textContent = icons[0];
-  barEl.style.width = '10%';
-
-  const interval = setInterval(() => {
-    step++;
-    if (step < inLoadingMessages.length) {
-      textEl.textContent = inLoadingMessages[step];
-      iconEl.textContent = icons[step];
-      barEl.style.width = `${((step + 1) / inLoadingMessages.length) * 100}%`;
-    } else {
-      clearInterval(interval);
-      setTimeout(inGenerateResult, 600);
-    }
-  }, 1300);
 }
 
 // ---- IN-STEP5: result generation ----
@@ -5229,7 +5191,7 @@ function resetInFlow() {
     flower.style.left = '50%';
     flower.style.top = '78%';
     flower.style.transform = 'translate(-50%,-50%)';
-    flower.style.width = '56px';
+    flower.style.width = '120px';
     flower.style.cursor = 'grab';
     flower.onmousedown = inFlowerStart;
     flower.ontouchstart = inFlowerStart;
@@ -5244,13 +5206,9 @@ function resetInFlow() {
   if (hint) hint.style.display = 'block';
   const petals = document.getElementById('in-petals');
   if (petals) { petals.innerHTML = ''; petals.style.display = 'none'; }
-  // reset video/loading overlay กลับเป็นสถานะเริ่มต้น
-  const bgStill = document.getElementById('in-step2-bg-still');
-  if (bgStill) bgStill.style.display = 'block';
-  const video = document.getElementById('in-loading-video');
-  if (video) { video.pause(); video.style.display = 'none'; }
-  const overlay = document.getElementById('in-loading-overlay');
-  if (overlay) overlay.style.display = 'none';
+  // หยุด video ของ step4 เผื่อยังเล่นอยู่
+  const step4Video = document.getElementById('in-step4-video');
+  if (step4Video) step4Video.pause();
   inFlowerInCircle = false;
   // เคลียร์ฟอร์มกรอกวันเกิด
   clearDob('in-dob1');
