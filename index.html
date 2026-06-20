@@ -538,6 +538,7 @@
     </div>
     <style>
       @keyframes pulseTap { 0%,100%{opacity:1;} 50%{opacity:0.5;} }
+      @keyframes inPetalFall { 0%{transform:translateY(0) rotate(0deg);opacity:0.9;} 100%{transform:translateY(420px) rotate(360deg);opacity:0;} }
     </style>
 
     <!-- STEP 2: ผลลัพธ์ -->
@@ -1378,6 +1379,93 @@
 
   <!-- CN-STEP7: คำทำนาย -->
   <div id="cn-step7" style="display:none; padding:20px 16px 40px; background:var(--cream);"></div>
+
+  <!-- ===== INDIAN SCIENCE STEPS (Vedic Astrology) ===== -->
+
+  <!-- IN-STEP1: กรอกวันเกิด+เวลาเกิด ของทั้งสองคน -->
+  <div id="in-step1" style="display:none; padding:20px;">
+    <div id="in-science-label" style="font-family:'Noto Serif Thai',serif; font-size:14px; color:var(--gold); margin-bottom:12px; text-align:center;">ศาสตร์อินเดีย — โหราศาสตร์เวท</div>
+
+    <label class="form-label">วันเกิดของคุณ</label>
+    <div class="dob-hint">กรุณากรอกวันเกิดเป็น พ.ศ. เช่น 16 สิงหาคม 2547</div>
+    <div class="dob-row">
+      <div class="dob-day"><select class="dob-select" id="in-dob1-d"><option value="">วัน</option></select></div>
+      <div class="dob-month"><select class="dob-select" id="in-dob1-m"><option value="">เดือน</option></select></div>
+      <div class="dob-year"><select class="dob-select" id="in-dob1-y"><option value="">ปี พ.ศ.</option></select></div>
+    </div>
+    <label class="form-label">เวลาเกิดของคุณ <span style="color:var(--text-light);font-weight:400;">(ถ้ามี)</span></label>
+    <input type="time" id="in-time1" style="width:100%;padding:12px 14px;border:1px solid rgba(180,160,130,0.3);border-radius:12px;background:var(--white);font-family:'Noto Sans Thai',sans-serif;font-size:14px;color:var(--text);box-sizing:border-box;outline:none;margin-bottom:16px;">
+
+    <label class="form-label">วันเกิดของอีกฝ่าย</label>
+    <div class="dob-hint">กรุณากรอกวันเกิดเป็น พ.ศ. เช่น 16 สิงหาคม 2547</div>
+    <div class="dob-row">
+      <div class="dob-day"><select class="dob-select" id="in-dob2-d"><option value="">วัน</option></select></div>
+      <div class="dob-month"><select class="dob-select" id="in-dob2-m"><option value="">เดือน</option></select></div>
+      <div class="dob-year"><select class="dob-select" id="in-dob2-y"><option value="">ปี พ.ศ.</option></select></div>
+    </div>
+    <label class="form-label">เวลาเกิดของอีกฝ่าย <span style="color:var(--text-light);font-weight:400;">(ถ้ามี)</span></label>
+    <input type="time" id="in-time2" style="width:100%;padding:12px 14px;border:1px solid rgba(180,160,130,0.3);border-radius:12px;background:var(--white);font-family:'Noto Sans Thai',sans-serif;font-size:14px;color:var(--text);box-sizing:border-box;outline:none;margin-bottom:16px;">
+
+    <button class="cta-btn" onclick="inDobNext()">ถัดไป →</button>
+    <button class="reset-btn" style="margin-top:10px;" onclick="soulmateBackToScience()">← เปลี่ยนศาสตร์</button>
+  </div>
+
+  <!-- IN-STEP2: ถวายดอกไม้แห่งความสัมพันธ์ (fullscreen drag interaction) -->
+  <div id="in-step2" style="display:none; position:fixed; inset:0; width:100%; height:100%; overflow:hidden; background:linear-gradient(160deg,#fff4e8,#ffe4d6); z-index:50; touch-action:none;">
+    <!-- decorative -->
+    <div style="position:absolute;top:8%;left:10%;font-size:14px;opacity:0.4;">✦</div>
+    <div style="position:absolute;top:12%;right:12%;font-size:18px;opacity:0.4;">✧</div>
+    <div style="position:absolute;top:5%;right:30%;font-size:20px;opacity:0.5;">🪔</div>
+    <div style="position:absolute;top:5%;left:30%;font-size:20px;opacity:0.5;">🪔</div>
+
+    <div style="position:absolute;top:6%;left:0;right:0;text-align:center;z-index:5;pointer-events:none;">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:#8b4a3a;text-shadow:0 1px 4px rgba(255,255,255,0.5);">มอบดอกไม้เพื่อเปิดการอ่านชะตาคู่</div>
+      <div style="font-size:12px;color:#a8694f;margin-top:6px;">ลากดอกไม้ไปวางบนแท่นบูชาตรงกลาง</div>
+    </div>
+
+    <!-- แท่นบูชา -->
+    <div id="in-altar" style="position:absolute;top:52%;left:50%;transform:translate(-50%,-50%);width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(255,200,140,0.35),rgba(255,200,140,0.05));border:2px dashed rgba(200,120,60,0.4);display:flex;align-items:center;justify-content:center;font-size:13px;color:#a8694f;font-family:'Noto Sans Thai',sans-serif;text-align:center;">วางดอกไม้<br>ที่นี่</div>
+
+    <!-- ดอกไม้ลากได้ -->
+    <div id="in-flower" draggable="false"
+      style="position:absolute;top:78%;left:50%;transform:translate(-50%,-50%);font-size:56px;cursor:grab;z-index:10;filter:drop-shadow(0 4px 10px rgba(200,100,60,0.3));touch-action:none;"
+      onmousedown="inFlowerStart(event)" ontouchstart="inFlowerStart(event)">🌸</div>
+
+    <!-- กลีบดอกไม้โปรย (โผล่หลังวางสำเร็จ) -->
+    <div id="in-petals" style="position:absolute;inset:0;pointer-events:none;display:none;"></div>
+
+    <div id="in-flower-hint" style="position:absolute;bottom:10%;left:0;right:0;text-align:center;font-size:12px;color:#a8694f;animation:pulseTap 1.6s infinite;">👆 แตะค้างแล้วลากดอกไม้ขึ้นไปวางบนแท่น</div>
+  </div>
+
+  <!-- IN-STEP3: 10 คำถามความสัมพันธ์ -->
+  <div id="in-step3" style="display:none; padding:20px; padding-top:48px;">
+    <div style="background:var(--cream-dark); border-radius:20px; height:6px; overflow:hidden; margin-bottom:20px;">
+      <div id="in-progress-bar" style="background:var(--gold); height:100%; width:10%; border-radius:20px; transition:width 0.3s ease;"></div>
+    </div>
+    <div id="in-question-num" style="font-size:12px; color:var(--text-light); text-align:center; margin-bottom:8px;"></div>
+    <div id="in-question-text" style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:28px; line-height:1.5;"></div>
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <button id="in-ans-a" onclick="inAnswerQuestion(0)" class="soulmate-answer-btn"></button>
+      <button id="in-ans-b" onclick="inAnswerQuestion(1)" class="soulmate-answer-btn"></button>
+    </div>
+  </div>
+
+  <!-- IN-STEP4: กำลังวิเคราะห์ชะตาคู่ (fullscreen loading) -->
+  <div id="in-step4" style="display:none; position:fixed; inset:0; width:100%; height:100%; overflow:hidden; background:linear-gradient(160deg,#3a1f4d,#5c2e63); z-index:50;">
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:0 30px;">
+      <div style="font-size:48px;" id="in-loading-icon">🪐</div>
+      <div id="in-loading-text" style="font-family:'Noto Serif Thai',serif;font-size:16px;font-weight:600;color:#f5d9a8;text-align:center;line-height:2;text-shadow:0 2px 8px rgba(0,0,0,0.5);min-height:48px;"></div>
+      <div style="width:100%;max-width:260px;">
+        <div style="height:6px;background:rgba(255,255,255,0.15);border-radius:4px;overflow:hidden;">
+          <div id="in-loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#d4af37,#f5d9a8);border-radius:4px;transition:width 0.4s;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- IN-STEP5: ผลดวงสมพงษ์ศาสตร์อินเดีย -->
+  <div id="in-step5" style="display:none; padding:20px 16px 40px; background:var(--cream);"></div>
+
   <!-- PAYMENT MODAL -->
   </div>
 </div>
@@ -2099,9 +2187,9 @@ const thaiMonths = ['มกราคม','กุมภาพันธ์','ม�
 
 function initDobSelects() {
   // Populate all dob selects
-  const ids = ['siam','tarot','energy','soulmate-dob1','soulmate-dob2','daily-dob1'];
+  const ids = ['siam','tarot','energy','soulmate-dob1','soulmate-dob2','daily-dob1','in-dob1','in-dob2'];
   ids.forEach(id => {
-    const isRaw = id === 'soulmate-dob1' || id === 'soulmate-dob2' || id === 'daily-dob1';
+    const isRaw = id === 'soulmate-dob1' || id === 'soulmate-dob2' || id === 'daily-dob1' || id === 'in-dob1' || id === 'in-dob2';
     const prefix = isRaw ? id : id + '-dob';
     const dSel = document.getElementById(prefix + '-d') || document.getElementById(id + '-d');
     const mSel = document.getElementById(prefix + '-m') || document.getElementById(id + '-m');
@@ -4170,15 +4258,20 @@ function showSoulmateStep(stepId) {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
   });
+  // ซ่อน indian steps ด้วย
+  ['in-step1','in-step2','in-step3','in-step4','in-step5','in-step6'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
   const target = document.getElementById(stepId);
   if (target) {
     target.style.display = 'block';
-    if (stepId === 'soulmate-step4c' || stepId === 'soulmate-step5') {
+    if (stepId === 'soulmate-step4c' || stepId === 'soulmate-step5' || stepId === 'in-step2' || stepId === 'in-step4') {
       hidePageHeader('page-soulmate');
     } else {
       showPageHeader('page-soulmate');
     }
-    if (stepId !== 'soulmate-step4c' && stepId !== 'soulmate-step5') {
+    if (stepId !== 'soulmate-step4c' && stepId !== 'soulmate-step5' && stepId !== 'in-step2' && stepId !== 'in-step4') {
       window.scrollTo(0,0);
     }
   }
@@ -4196,7 +4289,9 @@ function selectSoulmateScience(science) {
     western: 'ศาสตร์ตะวันตก — Numerology & Astrology',
   };
   document.getElementById('soulmate-science-label').textContent = labels[science] || '';
-  if (science === 'chinese') {
+  if (science === 'indian') {
+    showSoulmateStep('in-step1'); // flow อินเดียแยกของตัวเอง
+  } else if (science === 'chinese') {
     showSoulmateStep('soulmate-step1'); // ใช้ step1 เดิม (กรอกวันเกิด)
   } else {
     showSoulmateStep('soulmate-step1');
@@ -4654,6 +4749,346 @@ function resetCnFlow() {
 }
 
 // ===== END CHINESE SCIENCE =====
+
+// ===== INDIAN SCIENCE FLOW (Vedic Astrology) =====
+let inState = {
+  dob1: '', dob2: '', time1: '', time2: '',
+  answers: [], receptiveScore: 0, activeScore: 0,
+};
+let inQIdx = 0;
+
+const inQuestions = [
+  { q:'เวลาตัดสินใจสำคัญในความสัมพันธ์ ใครมักเป็นคนเริ่มก่อน?', a:['ฉันเป็นคนเริ่ม','อีกฝ่ายเป็นคนเริ่ม'], keys:['active','receptive'] },
+  { q:'เมื่อมีปัญหาเกิดขึ้น คุณสองคนมักจัดการแบบไหน?', a:['พูดตรงๆ ทันที','ค่อยๆ ฟังและเข้าใจ'], keys:['active','receptive'] },
+  { q:'ความสัมพันธ์นี้ให้ความรู้สึกแบบไหนกับคุณมากกว่า?', a:['ตื่นเต้น มีพลัง','สงบ อบอุ่น'], keys:['active','receptive'] },
+  { q:'ใครมักเป็นฝ่ายวางแผนเรื่องอนาคตของทั้งคู่?', a:['ฉันวางแผนเป็นหลัก','เราคุยกันแล้วค่อยตัดสินใจ'], keys:['active','receptive'] },
+  { q:'เวลาอีกฝ่ายเครียด คุณมักทำอย่างไร?', a:['ลงมือช่วยแก้ปัญหา','อยู่เป็นกำลังใจ รับฟัง'], keys:['active','receptive'] },
+  { q:'ในความสัมพันธ์นี้ คุณรู้สึกเป็นฝ่ายไหนมากกว่า?', a:['ฝ่ายให้ ฝ่ายดูแล','ฝ่ายรับ ฝ่ายได้รับการดูแล'], keys:['active','receptive'] },
+  { q:'เวลาตัดสินใจเรื่องเงินร่วมกัน ใครมีบทบาทมากกว่า?', a:['ฉันมีบทบาทหลัก','แบ่งกันตัดสินใจเท่าๆ กัน'], keys:['active','receptive'] },
+  { q:'ความสัมพันธ์นี้เปลี่ยนแปลงชีวิตคุณอย่างไร?', a:['ทำให้ฉันกล้าและมั่นใจขึ้น','ทำให้ฉันสงบและมีที่พักใจ'], keys:['active','receptive'] },
+  { q:'เวลาทะเลาะกัน ใครมักเป็นฝ่ายง้อก่อน?', a:['ฉันมักเป็นฝ่ายเริ่มคุยก่อน','อีกฝ่ายมักเป็นฝ่ายเริ่มคุยก่อน'], keys:['active','receptive'] },
+  { q:'คุณมองความสัมพันธ์นี้เป็นแบบไหน?', a:['การเดินทางที่ต้องผลักดันไปข้างหน้า','พื้นที่ปลอดภัยให้พักพิงใจ'], keys:['active','receptive'] },
+];
+
+function inDobNext() {
+  const dob1 = getDobValue('in-dob1');
+  const dob2 = getDobValue('in-dob2');
+  if (!dob1 || !dob2) { alert('กรุณากรอกวันเกิดทั้งสองคนก่อนนะคะ'); return; }
+  if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('soulmate'); return; }
+  inState.dob1 = dob1;
+  inState.dob2 = dob2;
+  inState.time1 = document.getElementById('in-time1').value || '';
+  inState.time2 = document.getElementById('in-time2').value || '';
+  soulmateState.dob1 = dob1; soulmateState.dob2 = dob2;
+  showSoulmateStep('in-step2');
+}
+
+// ---- IN-STEP2: drag-to-altar flower interaction ----
+let inFlowerDragging = false;
+let inFlowerOffset = { x: 0, y: 0 };
+
+function inFlowerStart(e) {
+  e.preventDefault();
+  inFlowerDragging = true;
+  const flower = document.getElementById('in-flower');
+  flower.style.cursor = 'grabbing';
+  flower.style.transition = 'none';
+  document.addEventListener('mousemove', inFlowerMove);
+  document.addEventListener('touchmove', inFlowerMove, { passive: false });
+  document.addEventListener('mouseup', inFlowerEnd);
+  document.addEventListener('touchend', inFlowerEnd);
+}
+
+function inFlowerMove(e) {
+  if (!inFlowerDragging) return;
+  e.preventDefault();
+  const point = e.touches ? e.touches[0] : e;
+  const flower = document.getElementById('in-flower');
+  const container = document.getElementById('in-step2').getBoundingClientRect();
+  const x = point.clientX - container.left;
+  const y = point.clientY - container.top;
+  flower.style.left = x + 'px';
+  flower.style.top = y + 'px';
+}
+
+function inFlowerEnd(e) {
+  if (!inFlowerDragging) return;
+  inFlowerDragging = false;
+  document.removeEventListener('mousemove', inFlowerMove);
+  document.removeEventListener('touchmove', inFlowerMove);
+  document.removeEventListener('mouseup', inFlowerEnd);
+  document.removeEventListener('touchend', inFlowerEnd);
+
+  const flower = document.getElementById('in-flower');
+  const altar = document.getElementById('in-altar');
+  const fRect = flower.getBoundingClientRect();
+  const aRect = altar.getBoundingClientRect();
+  const fCenterX = fRect.left + fRect.width / 2;
+  const fCenterY = fRect.top + fRect.height / 2;
+  const aCenterX = aRect.left + aRect.width / 2;
+  const aCenterY = aRect.top + aRect.height / 2;
+  const dist = Math.hypot(fCenterX - aCenterX, fCenterY - aCenterY);
+
+  if (dist < 90) {
+    // สำเร็จ — วางบนแท่นได้
+    inFlowerSuccess();
+  } else {
+    // ยังไม่ถึงแท่น — เด้งคืนตำแหน่งเดิม
+    flower.style.transition = 'left 0.4s ease, top 0.4s ease';
+    flower.style.cursor = 'grab';
+    setTimeout(() => {
+      flower.style.left = '50%';
+      flower.style.top = '78%';
+      flower.style.transform = 'translate(-50%,-50%)';
+    }, 10);
+  }
+}
+
+function inFlowerSuccess() {
+  const flower = document.getElementById('in-flower');
+  const altar = document.getElementById('in-altar');
+  const hint = document.getElementById('in-flower-hint');
+  const petalsWrap = document.getElementById('in-petals');
+
+  flower.removeEventListener('mousedown', inFlowerStart);
+  flower.onmousedown = null;
+  flower.ontouchstart = null;
+  flower.style.transition = 'all 0.5s ease';
+  flower.style.left = '50%';
+  flower.style.top = '52%';
+  flower.style.transform = 'translate(-50%,-50%) scale(1.3)';
+  flower.style.cursor = 'default';
+  altar.style.background = 'radial-gradient(circle, rgba(255,180,100,0.55), rgba(255,180,100,0.1))';
+  altar.style.border = '2px solid rgba(200,120,60,0.6)';
+  altar.textContent = '';
+  if (hint) hint.style.display = 'none';
+
+  // ลอยขึ้นเล็กน้อย
+  setTimeout(() => {
+    flower.style.top = '46%';
+    flower.style.fontSize = '64px';
+  }, 200);
+
+  // กลีบดอกไม้โปรย
+  petalsWrap.style.display = 'block';
+  petalsWrap.innerHTML = '';
+  for (let i = 0; i < 16; i++) {
+    const p = document.createElement('div');
+    p.textContent = '🌸';
+    p.style.position = 'absolute';
+    p.style.left = (40 + Math.random() * 20) + '%';
+    p.style.top = '-30px';
+    p.style.fontSize = (12 + Math.random() * 10) + 'px';
+    p.style.opacity = '0.85';
+    p.style.animation = `inPetalFall ${2 + Math.random() * 1.5}s ease-in forwards`;
+    p.style.animationDelay = (Math.random() * 0.8) + 's';
+    petalsWrap.appendChild(p);
+  }
+
+  setTimeout(() => {
+    showSoulmateStep('in-step3');
+    inQIdx = 0;
+    inState.answers = [];
+    inState.receptiveScore = 0;
+    inState.activeScore = 0;
+    inShowQuestion();
+  }, 1800);
+}
+
+// ---- IN-STEP3: 10 questions ----
+function inShowQuestion() {
+  const q = inQuestions[inQIdx];
+  document.getElementById('in-question-num').textContent = `คำถามที่ ${inQIdx + 1} / ${inQuestions.length}`;
+  document.getElementById('in-question-text').textContent = q.q;
+  document.getElementById('in-ans-a').textContent = q.a[0];
+  document.getElementById('in-ans-b').textContent = q.a[1];
+  document.getElementById('in-progress-bar').style.width = `${((inQIdx) / inQuestions.length) * 100}%`;
+}
+
+function inAnswerQuestion(idx) {
+  const q = inQuestions[inQIdx];
+  const key = q.keys[idx];
+  inState.answers.push(key);
+  if (key === 'active') inState.activeScore++;
+  else inState.receptiveScore++;
+
+  inQIdx++;
+  document.getElementById('in-progress-bar').style.width = `${(inQIdx / inQuestions.length) * 100}%`;
+
+  if (inQIdx < inQuestions.length) {
+    setTimeout(inShowQuestion, 150);
+  } else {
+    setTimeout(inStartAnalysis, 300);
+  }
+}
+
+// ---- IN-STEP4: loading/analysis ----
+const inLoadingMessages = [
+  '🪐 กำลังคำนวณตำแหน่งดาวเคราะห์...',
+  '💍 วิเคราะห์ศักยภาพคู่ครองตามหลักเวท...',
+  '🔥 ตรวจสอบจุดท้าทายในดวงคู่...',
+  '⏳ คำนวณจังหวะเวลาความรัก...',
+];
+
+function inStartAnalysis() {
+  showSoulmateStep('in-step4');
+  let step = 0;
+  const textEl = document.getElementById('in-loading-text');
+  const barEl = document.getElementById('in-loading-bar');
+  const iconEl = document.getElementById('in-loading-icon');
+  const icons = ['🪐','💍','🔥','⏳'];
+
+  textEl.textContent = inLoadingMessages[0];
+  iconEl.textContent = icons[0];
+  barEl.style.width = '10%';
+
+  const interval = setInterval(() => {
+    step++;
+    if (step < inLoadingMessages.length) {
+      textEl.textContent = inLoadingMessages[step];
+      iconEl.textContent = icons[step];
+      barEl.style.width = `${((step + 1) / inLoadingMessages.length) * 100}%`;
+    } else {
+      clearInterval(interval);
+      setTimeout(inGenerateResult, 600);
+    }
+  }, 1300);
+}
+
+// ---- IN-STEP5: result generation ----
+function inGetMoonSign(dob) {
+  // คำนวณราศีจันทร์แบบง่าย จาก seed วันเกิด (placeholder logic จนกว่าจะมีข้อมูล Excel)
+  const signs = ['เมษ','พฤษภ','เมถุน','กรกฎ','สิงห์','กันย์','ตุลย์','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+  const d = new Date(dob);
+  const seed = (d.getDate() + (d.getMonth() + 1) * 3 + d.getFullYear()) % 12;
+  return signs[seed];
+}
+
+function inGenerateResult() {
+  const sign1 = inGetMoonSign(inState.dob1);
+  const sign2 = inGetMoonSign(inState.dob2);
+  const totalQ = inQuestions.length;
+  const activePct = Math.round((inState.activeScore / totalQ) * 100);
+  const receptivePct = 100 - activePct;
+
+  // คะแนนความเข้ากันโดยรวม — สุ่มจาก seed วันเกิดทั้งคู่ + ความสมดุล active/receptive
+  const seed = (new Date(inState.dob1).getDate() + new Date(inState.dob2).getDate() + inState.activeScore) % 100;
+  const balanceScore = 100 - Math.abs(activePct - receptivePct); // ยิ่งสมดุล ยิ่งสูง
+  const overallScore = Math.max(55, Math.min(98, Math.round((balanceScore * 0.6) + (seed * 0.4))));
+
+  let scoreLabel = '', scoreDesc = '';
+  if (overallScore >= 85) { scoreLabel = 'คู่แท้ตามหลักเวท'; scoreDesc = 'ดวงดาวทั้งสองโคจรเสริมกันอย่างหาคู่เทียบยาก'; }
+  else if (overallScore >= 70) { scoreLabel = 'คู่ที่เสริมพลังกันดีมาก'; scoreDesc = 'พลังฝ่ายรับและฝ่ายรุกในความสัมพันธ์นี้สมดุลกันดี'; }
+  else if (overallScore >= 55) { scoreLabel = 'คู่ที่ต้องเรียนรู้กันมากขึ้น'; scoreDesc = 'มีพื้นฐานที่ดี แต่ต้องอาศัยความเข้าใจเพิ่มเติม'; }
+  else { scoreLabel = 'คู่ท้าทายแต่มีโอกาส'; scoreDesc = 'ความแตกต่างคือบทเรียนสำคัญของความสัมพันธ์นี้'; }
+
+  let balanceDesc = '';
+  if (activePct >= 65) balanceDesc = `ความสัมพันธ์นี้มีพลังฝ่ายรุก (${activePct}%) เด่นกว่าพลังฝ่ายรับ (${receptivePct}%) แสดงถึงพลวัตที่ตื่นตัว มุ่งไปข้างหน้า แต่ควรเปิดพื้นที่ให้การรับฟังมากขึ้น`;
+  else if (receptivePct >= 65) balanceDesc = `ความสัมพันธ์นี้มีพลังฝ่ายรับ (${receptivePct}%) เด่นกว่าพลังฝ่ายรุก (${activePct}%) แสดงถึงความสงบ อ่อนโยน และเข้าใจกัน แต่ควรมีจังหวะที่กล้าแสดงออกบ้าง`;
+  else balanceDesc = `พลังฝ่ายรุก (${activePct}%) และพลังฝ่ายรับ (${receptivePct}%) ในความสัมพันธ์นี้ค่อนข้างสมดุล ทำให้ทั้งสองเสริมกันได้ดีในหลายสถานการณ์`;
+
+  const marriagePotential = overallScore >= 75
+    ? 'ดวงคู่นี้มีศักยภาพสูงในการสร้างชีวิตคู่ที่มั่นคง ทั้งสองมีแนวโน้มเข้าใจบทบาทของกันและกันได้ดี เหมาะกับการวางแผนระยะยาวร่วมกัน'
+    : 'ดวงคู่นี้มีศักยภาพในการสร้างชีวิตคู่ได้ แต่ต้องอาศัยการสื่อสารและปรับตัวเข้าหากันมากขึ้น ความอดทนจะเป็นกุญแจสำคัญ';
+
+  const challenge = activePct >= 60
+    ? 'จุดที่ควรระวังคือทั้งสองอาจแก่งแย่งการนำในบางสถานการณ์ ลองฝึกถอยให้กันบ้างเพื่อความกลมเกลียว'
+    : receptivePct >= 60
+    ? 'จุดที่ควรระวังคือทั้งสองอาจรอให้อีกฝ่ายเริ่มก่อนจนเกิดความเข้าใจผิด ลองกล้าแสดงความต้องการของตัวเองมากขึ้น'
+    : 'จุดที่ควรระวังคือบางครั้งอาจสื่อสารกันไม่ตรงจุด ลองใช้เวลาทำความเข้าใจความต้องการของกันและกันให้มากขึ้น';
+
+  const planetInfluence = `ดวงจันทร์ของคุณอยู่ราศี${sign1} และดวงจันทร์ของอีกฝ่ายอยู่ราศี${sign2} ความสัมพันธ์ระหว่างราศีจันทร์ทั้งสองส่งผลต่ออารมณ์และความรู้สึกลึกๆ ในใจของทั้งคู่ หากราศีทั้งสองมีธาตุที่ใกล้เคียงกัน จะช่วยให้เข้าใจอารมณ์กันได้ง่ายขึ้น`;
+
+  const futureTrend = overallScore >= 80
+    ? 'แนวโน้มในอนาคตของความสัมพันธ์นี้สดใส มีโอกาสพัฒนาไปสู่ความผูกพันที่มั่นคงและยาวนาน หากทั้งสองยังคงดูแลและให้เวลากันอย่างสม่ำเสมอ'
+    : 'แนวโน้มในอนาคตขึ้นอยู่กับความพยายามของทั้งสองฝ่าย หากเปิดใจปรับตัวเข้าหากันอย่างต่อเนื่อง ความสัมพันธ์จะมีทิศทางที่ดีขึ้นตามลำดับ';
+
+  document.getElementById('in-step5').innerHTML = `
+    <div style="text-align:center; padding:24px 0 16px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:700; color:var(--brown-dark); margin-bottom:4px;">❤️ ความเข้ากันโดยรวม</div>
+      <div style="font-family:'Playfair Display',serif; font-size:52px; font-weight:700; color:var(--gold); line-height:1;">${overallScore}%</div>
+      <div style="margin:12px auto; max-width:240px; height:6px; background:rgba(180,140,130,0.2); border-radius:4px;">
+        <div style="height:100%; background:linear-gradient(90deg,#c9a84c,#e8c87a); border-radius:4px; width:${overallScore}%; transition:width 1s;"></div>
+      </div>
+      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:600;color:var(--brown-dark);margin-top:8px;">${scoreLabel}</div>
+      <div style="font-size:13px; color:var(--text-light); margin-top:4px;">${scoreDesc}</div>
+    </div>
+
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:10px;">☯️ พลังฝ่ายรับ vs ☀️ พลังฝ่ายรุก</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px;">
+        <div style="width:70px;font-size:12px;color:var(--text-mid);">☀️ ฝ่ายรุก</div>
+        <div style="flex:1;height:8px;background:rgba(180,160,130,0.15);border-radius:4px;"><div style="width:${activePct}%;height:100%;background:linear-gradient(90deg,#d4af37,#f5d9a8);border-radius:4px;"></div></div>
+        <div style="width:36px;text-align:right;font-size:12px;color:var(--gold);font-weight:600;">${activePct}%</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
+        <div style="width:70px;font-size:12px;color:var(--text-mid);">☯️ ฝ่ายรับ</div>
+        <div style="flex:1;height:8px;background:rgba(180,160,130,0.15);border-radius:4px;"><div style="width:${receptivePct}%;height:100%;background:linear-gradient(90deg,#8a6fa8,#c9b3dd);border-radius:4px;"></div></div>
+        <div style="width:36px;text-align:right;font-size:12px;color:var(--gold);font-weight:600;">${receptivePct}%</div>
+      </div>
+      <div style="font-size:13px;color:var(--text-mid);line-height:1.8;">${balanceDesc}</div>
+    </div>
+
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">💍 ศักยภาพชีวิตคู่</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.8;">${marriagePotential}</div>
+    </div>
+
+    <div style="background:rgba(255,248,235,0.8); border:1px solid rgba(201,168,76,0.2); border-radius:16px; padding:16px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🔥 จุดที่ควรระวัง</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.8;">${challenge}</div>
+    </div>
+
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:14px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">🪐 อิทธิพลของดาวเคราะห์</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.8;">${planetInfluence}</div>
+    </div>
+
+    <div style="background:rgba(201,168,76,0.08); border:1px solid rgba(201,168,76,0.25); border-radius:16px; padding:16px; margin-bottom:24px;">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--gold); margin-bottom:8px;">⏳ แนวโน้มในอนาคต</div>
+      <div style="font-size:14px; color:var(--text-mid); line-height:1.8;">${futureTrend}</div>
+    </div>
+
+    <button class="reset-btn" onclick="resetInFlow()">ทำนายใหม่อีกครั้ง</button>
+  `;
+
+  useCredit();
+  showPageHeader('page-soulmate');
+  showCreditsBar('soulmate');
+  showSoulmateStep('in-step5');
+}
+
+function resetInFlow() {
+  inState = { dob1: inState.dob1, dob2: inState.dob2, time1: '', time2: '', answers: [], receptiveScore: 0, activeScore: 0 };
+  inQIdx = 0;
+  const in5 = document.getElementById('in-step5');
+  if (in5) in5.innerHTML = '';
+  // reset flower interaction
+  const flower = document.getElementById('in-flower');
+  if (flower) {
+    flower.style.transition = 'none';
+    flower.style.left = '50%';
+    flower.style.top = '78%';
+    flower.style.transform = 'translate(-50%,-50%)';
+    flower.style.fontSize = '56px';
+    flower.style.cursor = 'grab';
+    flower.onmousedown = inFlowerStart;
+    flower.ontouchstart = inFlowerStart;
+  }
+  const altar = document.getElementById('in-altar');
+  if (altar) {
+    altar.style.background = 'radial-gradient(circle,rgba(255,200,140,0.35),rgba(255,200,140,0.05))';
+    altar.style.border = '2px dashed rgba(200,120,60,0.4)';
+    altar.textContent = 'วางดอกไม้ที่นี่';
+  }
+  const hint = document.getElementById('in-flower-hint');
+  if (hint) hint.style.display = 'block';
+  const petals = document.getElementById('in-petals');
+  if (petals) { petals.innerHTML = ''; petals.style.display = 'none'; }
+  showSoulmateStep('in-step2');
+}
+
+// ===== END INDIAN SCIENCE =====
 
 
 const soulmateData = [
