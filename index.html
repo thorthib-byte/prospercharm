@@ -515,9 +515,19 @@
         <source src="images/daily/downloadmove.mp4" type="video/mp4">
       </video>
 
-      <!-- tap label overlay (only on still state) -->
-      <div id="daily-tap-prompt-wrap" onclick="tapCrystalBall()" style="position:absolute;bottom:120px;left:0;right:0;z-index:2;display:flex;justify-content:center;cursor:pointer;">
+      <!-- tap label overlay (only on still state) — วางใกล้ฐานลูกแก้ว ไม่ทับดาว/เมฆ -->
+      <div id="daily-tap-prompt-wrap" onclick="tapCrystalBall()" style="position:absolute;top:62%;left:0;right:0;z-index:2;display:flex;justify-content:center;cursor:pointer;">
         <div id="daily-tap-prompt" style="font-family:'Noto Sans Thai',sans-serif;font-size:16px;font-weight:600;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.5), 0 0 16px rgba(0,0,0,0.3);animation:pulseTap 1.6s infinite;">แตะที่คริสตัลบอล 1 ครั้ง</div>
+      </div>
+
+      <!-- progress bar (เฉพาะตอนเล่น video) — วางตำแหน่งเดียวกัน -->
+      <div id="daily-progress-wrap" style="display:none;position:absolute;top:62%;left:0;right:0;z-index:2;padding:0 40px;">
+        <div style="max-width:280px;margin:0 auto;">
+          <div style="height:7px;background:rgba(255,255,255,0.3);border-radius:4px;overflow:hidden;">
+            <div id="daily-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#e8a8bc,#f5c4d3);border-radius:4px;transition:width 3.2s ease-out;"></div>
+          </div>
+          <div style="text-align:center;margin-top:8px;font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.5);">กำลังอ่านพลังงานของคุณ...</div>
+        </div>
       </div>
     </div>
     <style>
@@ -1647,6 +1657,9 @@ function showDailyTopicSelect() {
 
   document.getElementById('daily-step1').style.display = 'none';
   document.getElementById('daily-step15').style.display = 'block';
+  document.getElementById('daily-step16').style.display = 'none';
+  document.getElementById('daily-step17').style.display = 'none';
+  document.getElementById('daily-step2').style.display = 'none';
   document.getElementById('daily-header-title').textContent = '🎯 เลือกหัวข้อ';
   window.scrollTo(0,0);
 }
@@ -1710,6 +1723,8 @@ function showDailyCtxForm(topic) {
   container.innerHTML = `<div style="background:var(--white);border:1px solid rgba(180,160,130,0.25);border-radius:16px;padding:20px;margin-bottom:16px;">${forms[topic]}</div>`;
   document.getElementById('daily-step15').style.display = 'none';
   document.getElementById('daily-step16').style.display = 'block';
+  document.getElementById('daily-step17').style.display = 'none';
+  document.getElementById('daily-step2').style.display = 'none';
   document.getElementById('daily-header-title').textContent = '✨ บอกเราเพิ่มเติม';
   window.scrollTo(0,0);
 }
@@ -1813,11 +1828,14 @@ function checkAndGenerateDaily() {
   useCredit();
   markDailyTopicUsed(topic);
   // ไปหน้าแตะคริสตัลบอลก่อน
+  setDailyHeader(false);
   document.getElementById('daily-step16').style.display = 'none';
   document.getElementById('daily-step17').style.display = 'block';
   document.getElementById('daily-bg-still').style.display = 'block';
   document.getElementById('daily-crystal-video').style.display = 'none';
   document.getElementById('daily-tap-prompt-wrap').style.display = 'flex';
+  document.getElementById('daily-progress-wrap').style.display = 'none';
+  document.getElementById('daily-progress-bar').style.width = '0%';
   window.scrollTo(0,0);
 }
 
@@ -1825,11 +1843,18 @@ function tapCrystalBall() {
   const stillEl = document.getElementById('daily-bg-still');
   const videoEl = document.getElementById('daily-crystal-video');
   const tapWrap = document.getElementById('daily-tap-prompt-wrap');
+  const progressWrap = document.getElementById('daily-progress-wrap');
   stillEl.style.display = 'none';
   videoEl.style.display = 'block';
   tapWrap.style.display = 'none';
+  progressWrap.style.display = 'block';
   videoEl.currentTime = 0;
   videoEl.play().catch(()=>{});
+
+  // animate progress bar สีชมพู 0 → 100%
+  const bar = document.getElementById('daily-progress-bar');
+  bar.style.width = '0%';
+  requestAnimationFrame(() => { setTimeout(() => { bar.style.width = '100%'; }, 50); });
 
   // generate ผลลัพธ์เบื้องหลังทันที (เร็ว, sync)
   const profile = getDailyProfile();
@@ -1848,6 +1873,7 @@ function tapCrystalBall() {
     setTimeout(() => {
       document.getElementById('daily-step17').style.display = 'none';
       document.getElementById('daily-step2').style.display = 'block';
+      setDailyHeader(true);
       document.getElementById('daily-header-title').textContent = '🌟 ดวงของคุณวันนี้';
       window.scrollTo(0,0);
     }, remain);
