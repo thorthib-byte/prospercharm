@@ -508,25 +508,31 @@
     </div>
 
     <!-- STEP 1.7: แตะคริสตัลบอล / กำลังวิเคราะห์ -->
-    <div id="daily-step17" style="display:none; position:fixed; inset:0; width:100vw; height:100vh; z-index:500; overflow:hidden;">
+    <div id="daily-step17" style="display:none; position:fixed; inset:0; width:100%; height:100%; z-index:500; background:#ead9d8;">
       <!-- full screen background image, tappable -->
-      <img src="images/daily/downloadstill.png" id="daily-bg-still" onclick="tapCrystalBall()" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;cursor:pointer;" onerror="this.style.display='none';">
-      <video id="daily-crystal-video" muted playsinline style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
+      <img src="images/daily/downloadstill.png" id="daily-bg-still" onclick="tapCrystalBall()" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;cursor:pointer;" onerror="this.style.display='none';">
+      <video id="daily-crystal-video" muted playsinline style="display:none;position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
         <source src="images/daily/downloadmove.mp4" type="video/mp4">
       </video>
 
       <!-- tap label overlay (only on still state) — วางใกล้ฐานลูกแก้ว ไม่ทับดาว/เมฆ -->
-      <div id="daily-tap-prompt-wrap" onclick="tapCrystalBall()" style="position:absolute;top:67%;left:0;right:0;z-index:2;display:flex;justify-content:center;cursor:pointer;">
+      <div id="daily-tap-prompt-wrap" onclick="tapCrystalBall()" style="position:fixed;top:73%;left:0;right:0;z-index:2;display:flex;justify-content:center;cursor:pointer;">
         <div id="daily-tap-prompt" style="font-family:'Noto Sans Thai',sans-serif;font-size:16px;font-weight:600;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.5), 0 0 16px rgba(0,0,0,0.3);animation:pulseTap 1.6s infinite;">แตะที่คริสตัลบอล 1 ครั้ง</div>
       </div>
 
       <!-- progress bar (เฉพาะตอนเล่น video) — วางตำแหน่งเดียวกัน ขยับลงเล็กน้อยให้พ้นลูกแก้วช่วง video เคลื่อนไหว -->
-      <div id="daily-progress-wrap" style="display:none;position:absolute;top:72%;left:0;right:0;z-index:2;padding:0 40px;">
+      <div id="daily-progress-wrap" style="display:none;position:fixed;top:73%;left:0;right:0;z-index:2;padding:0 40px;">
         <div style="max-width:280px;margin:0 auto;">
+          <div style="text-align:center;margin-bottom:8px;font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:600;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.5);">กำลังอ่านพลังงานของคุณ...</div>
           <div style="height:7px;background:rgba(255,255,255,0.3);border-radius:4px;overflow:hidden;">
-            <div id="daily-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#e8a8bc,#f5c4d3);border-radius:4px;transition:width 3.2s ease-out;"></div>
+            <div id="daily-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#e8a8bc,#f5c4d3);border-radius:4px;transition:width 10s linear;"></div>
           </div>
-          <div style="text-align:center;margin-top:8px;font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.5);">กำลังอ่านพลังงานของคุณ...</div>
+          <div style="text-align:center;margin-top:6px;font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:600;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.5);" id="daily-progress-pct">0%</div>
+          <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px;">
+            <div class="daily-loading-step" id="daily-loading-step-1" style="opacity:0;transition:opacity 0.5s;display:flex;align-items:center;gap:6px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.5);">✦ วิเคราะห์ตำแหน่งดวงดาว</div>
+            <div class="daily-loading-step" id="daily-loading-step-2" style="opacity:0;transition:opacity 0.5s;display:flex;align-items:center;gap:6px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.5);">✦ เชื่อมโยงพลังงานประจำวัน</div>
+            <div class="daily-loading-step" id="daily-loading-step-3" style="opacity:0;transition:opacity 0.5s;display:flex;align-items:center;gap:6px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.5);">✦ สรุปคำทำนายเฉพาะคุณ</div>
+          </div>
         </div>
       </div>
     </div>
@@ -1838,7 +1844,13 @@ function checkAndGenerateDaily() {
   document.getElementById('daily-crystal-video').style.display = 'none';
   document.getElementById('daily-tap-prompt-wrap').style.display = 'flex';
   document.getElementById('daily-progress-wrap').style.display = 'none';
+  document.getElementById('daily-progress-bar').style.transition = 'none';
   document.getElementById('daily-progress-bar').style.width = '0%';
+  document.getElementById('daily-progress-pct').textContent = '0%';
+  ['daily-loading-step-1','daily-loading-step-2','daily-loading-step-3'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.opacity = '0';
+  });
   window.scrollTo(0,0);
 }
 
@@ -1852,25 +1864,52 @@ function tapCrystalBall() {
   tapWrap.style.display = 'none';
   progressWrap.style.display = 'block';
   videoEl.currentTime = 0;
+  videoEl.loop = true;
   videoEl.play().catch(()=>{});
 
-  // animate progress bar สีชมพู 0 → 100%
+  // animate progress bar สีชมพู 0 → 100% ใน 10 วินาที พร้อมเปอร์เซ็นต์
   const bar = document.getElementById('daily-progress-bar');
+  const pctEl = document.getElementById('daily-progress-pct');
+  bar.style.transition = 'width 10s linear';
   bar.style.width = '0%';
+  pctEl.textContent = '0%';
   requestAnimationFrame(() => { setTimeout(() => { bar.style.width = '100%'; }, 50); });
+
+  const totalDuration = 10000;
+  const pctStart = Date.now();
+  const pctInterval = setInterval(() => {
+    const elapsed = Date.now() - pctStart;
+    const pct = Math.min(100, Math.round((elapsed / totalDuration) * 100));
+    pctEl.textContent = pct + '%';
+    if (pct >= 100) clearInterval(pctInterval);
+  }, 100);
+
+  // checklist ขึ้นทีละข้อ ระหว่างโหลด
+  const steps = [
+    { id: 'daily-loading-step-1', at: 500 },
+    { id: 'daily-loading-step-2', at: 3800 },
+    { id: 'daily-loading-step-3', at: 7000 },
+  ];
+  steps.forEach(s => {
+    setTimeout(() => {
+      const el = document.getElementById(s.id);
+      if (el) el.style.opacity = '1';
+    }, s.at);
+  });
 
   // generate ผลลัพธ์เบื้องหลังทันที (เร็ว, sync)
   const profile = getDailyProfile();
   const topic = dailySelectedTopic;
   generateDaily(profile.dob, topic, true); // true = แค่ build ข้อมูล ไม่เปลี่ยนหน้า
 
-  // รอ video เล่นจบ หรืออย่างน้อย 3.5 วิ ค่อยไป step2
-  const minWait = 3500;
+  // รอ video เล่นจบ หรืออย่างน้อย 10 วิ (เท่ากับ progress bar) ค่อยไป step2
+  const minWait = totalDuration;
   const startTime = Date.now();
   let navigated = false;
   const goNext = () => {
     if (navigated) return;
     navigated = true;
+    clearInterval(pctInterval);
     const elapsed = Date.now() - startTime;
     const remain = Math.max(0, minWait - elapsed);
     setTimeout(() => {
@@ -1882,10 +1921,9 @@ function tapCrystalBall() {
       window.scrollTo(0,0);
     }, remain);
   };
-  videoEl.onended = goNext;
-  // fallback เผื่อ video โหลดไม่ได้
+  // video loop ไปเรื่อยๆ ระหว่างโหลด ไม่ใช้ onended เป็นตัวกำหนดจบ
   videoEl.onerror = goNext;
-  setTimeout(goNext, 8000); // safety timeout
+  setTimeout(goNext, totalDuration + 500); // เมื่อ progress bar ครบ 10 วิ ไปต่อ
 }
 
 function generateDaily(dob, topic, deferDisplay) {
