@@ -508,49 +508,47 @@
     </div>
 
     <!-- STEP 1.7: แตะคริสตัลบอล / กำลังวิเคราะห์ -->
-    <div id="daily-step17" style="display:none; min-height:100vh; background:linear-gradient(160deg,#f5e6e0,#ead9d8); position:relative; overflow:hidden; padding:40px 20px;">
-      <!-- decorative stars -->
-      <div style="position:absolute;top:8%;left:12%;font-size:14px;color:rgba(201,168,76,0.5);">✦</div>
-      <div style="position:absolute;top:14%;right:15%;font-size:18px;color:rgba(201,168,76,0.5);">✧</div>
-      <div style="position:absolute;top:24%;left:25%;font-size:10px;color:rgba(201,168,76,0.4);">✦</div>
-      <div style="position:absolute;top:6%;right:35%;font-size:24px;">🌙</div>
-
-      <div style="text-align:center;margin-bottom:28px;position:relative;z-index:2;">
-        <div style="font-family:'Noto Serif Thai',serif;font-size:21px;font-weight:700;color:var(--brown-dark);" id="daily-tap-title">แตะคริสตัลบอลเพื่อดูดวงของคุณ</div>
-        <div style="font-size:13px;color:var(--text-light);margin-top:8px;line-height:1.8;" id="daily-tap-subtitle">โปรดรอสักครู่ ระบบกำลังวิเคราะห์ดวงดาว<br>เพื่อส่งคำทำนายที่แม่นยำที่สุดให้คุณ</div>
-      </div>
-
-      <!-- Crystal ball: still (tap to start) -->
-      <div id="daily-crystal-still" style="display:flex;flex-direction:column;align-items:center;position:relative;z-index:2;">
-        <button onclick="tapCrystalBall()" style="border:none;background:transparent;padding:0;cursor:pointer;display:block;width:240px;">
-          <img src="images/daily/downloadstill.png" style="width:100%;display:block;filter:drop-shadow(0 8px 24px rgba(150,100,90,0.25));" onerror="this.style.display='none';">
-        </button>
-        <div id="daily-tap-prompt" style="margin-top:18px;font-size:13px;color:var(--brown-dark);background:rgba(255,255,255,0.7);padding:8px 18px;border-radius:20px;animation:pulseTap 1.6s infinite;">👆 แตะที่คริสตัลบอล</div>
-      </div>
-
-      <!-- Crystal ball: video (analyzing) -->
-      <video id="daily-crystal-video" muted playsinline style="display:none;width:240px;margin:0 auto;display:block;border-radius:16px;filter:drop-shadow(0 8px 24px rgba(150,100,90,0.25));" onerror="this.style.display='none';">
+    <div id="daily-step17" style="display:none; min-height:100vh; position:relative; overflow:hidden;">
+      <!-- full screen background image -->
+      <img src="images/daily/downloadstill.png" id="daily-bg-still" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
+      <video id="daily-crystal-video" muted playsinline style="display:none;position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
         <source src="images/daily/downloadmove.mp4" type="video/mp4">
       </video>
 
-      <!-- checklist -->
-      <div style="max-width:300px;margin:32px auto 0;position:relative;z-index:2;">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-          <span style="font-size:13px;color:var(--text-mid);">✦ วิเคราะห์ตำแหน่งดวงดาว</span>
-          <span class="daily-check-dot" id="daily-check-1">○</span>
+      <div style="position:relative;z-index:2;padding:40px 20px;min-height:100vh;display:flex;flex-direction:column;">
+
+        <div style="text-align:center;margin-bottom:28px;">
+          <div style="font-family:'Noto Serif Thai',serif;font-size:21px;font-weight:700;color:var(--brown-dark);" id="daily-tap-title">กำลังอ่านพลังงานของคุณ</div>
+          <div style="font-size:13px;color:var(--text-light);margin-top:8px;line-height:1.8;" id="daily-tap-subtitle">โปรดรอสักครู่ ระบบกำลังวิเคราะห์ดวงดาว<br>เพื่อส่งคำทำนายที่แม่นยำที่สุดให้คุณ</div>
         </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
-          <span style="font-size:13px;color:var(--text-mid);">✦ เชื่อมโยงพลังงานประจำวัน</span>
-          <span class="daily-check-dot" id="daily-check-2">○</span>
+
+        <!-- spacer pushes content to bottom, leaving room for crystal ball bg -->
+        <div style="flex:1;"></div>
+
+        <!-- tap button overlay (only on still state) -->
+        <div id="daily-tap-prompt-wrap" style="display:flex;justify-content:center;margin-bottom:28px;">
+          <button onclick="tapCrystalBall()" id="daily-tap-prompt" style="border:none;background:rgba(255,255,255,0.92);padding:10px 22px;border-radius:24px;font-size:14px;color:var(--brown-dark);cursor:pointer;box-shadow:0 4px 16px rgba(150,100,90,0.2);animation:pulseTap 1.6s infinite;">👆 แตะที่คริสตัลบอล</button>
         </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
-          <span style="font-size:13px;color:var(--text-mid);">✦ สรุปคำทำนายเฉพาะคุณ</span>
-          <span class="daily-check-dot" id="daily-check-3">○</span>
+
+        <!-- checklist -->
+        <div style="max-width:300px;width:100%;margin:0 auto;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+            <span style="font-size:13px;color:var(--text-mid);">✦ วิเคราะห์ตำแหน่งดวงดาว</span>
+            <span class="daily-check-dot" id="daily-check-1">○</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+            <span style="font-size:13px;color:var(--text-mid);">✦ เชื่อมโยงพลังงานประจำวัน</span>
+            <span class="daily-check-dot" id="daily-check-2">○</span>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;">
+            <span style="font-size:13px;color:var(--text-mid);">✦ สรุปคำทำนายเฉพาะคุณ</span>
+            <span class="daily-check-dot" id="daily-check-3">○</span>
+          </div>
+          <div style="height:8px;background:rgba(180,140,130,0.15);border-radius:4px;overflow:hidden;">
+            <div id="daily-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#c98a9a,#e0a8b5);border-radius:4px;transition:width 0.4s;"></div>
+          </div>
+          <div style="text-align:center;margin-top:8px;font-size:13px;color:var(--text-light);font-weight:600;" id="daily-progress-pct">0%</div>
         </div>
-        <div style="height:8px;background:rgba(180,140,130,0.15);border-radius:4px;overflow:hidden;">
-          <div id="daily-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#c98a9a,#e0a8b5);border-radius:4px;transition:width 0.4s;"></div>
-        </div>
-        <div style="text-align:center;margin-top:8px;font-size:13px;color:var(--text-light);font-weight:600;" id="daily-progress-pct">0%</div>
       </div>
     </div>
     <style>
@@ -1615,12 +1613,14 @@ function getTodayKey() {
 }
 
 function getDailyUsedTopics() {
+  if (window._devMode) return {}; // dev mode: ไม่จำกัดการดูซ้ำ
   const raw = localStorage.getItem('pc_daily_used');
   if (!raw) return {};
   try { const data = JSON.parse(raw); return data.date === getTodayKey() ? data.topics : {}; } catch { return {}; }
 }
 
 function markDailyTopicUsed(topic) {
+  if (window._devMode) return; // dev mode: ไม่บันทึกว่าใช้แล้ว
   const used = getDailyUsedTopics();
   used[topic] = true;
   localStorage.setItem('pc_daily_used', JSON.stringify({ date: getTodayKey(), topics: used }));
@@ -1848,8 +1848,9 @@ function checkAndGenerateDaily() {
   // ไปหน้าแตะคริสตัลบอลก่อน
   document.getElementById('daily-step16').style.display = 'none';
   document.getElementById('daily-step17').style.display = 'block';
-  document.getElementById('daily-crystal-still').style.display = 'flex';
+  document.getElementById('daily-bg-still').style.display = 'block';
   document.getElementById('daily-crystal-video').style.display = 'none';
+  document.getElementById('daily-tap-prompt-wrap').style.display = 'flex';
   document.getElementById('daily-progress-bar').style.width = '0%';
   document.getElementById('daily-progress-pct').textContent = '0%';
   ['daily-check-1','daily-check-2','daily-check-3'].forEach(id => {
@@ -1860,10 +1861,12 @@ function checkAndGenerateDaily() {
 }
 
 function tapCrystalBall() {
-  const stillEl = document.getElementById('daily-crystal-still');
+  const stillEl = document.getElementById('daily-bg-still');
   const videoEl = document.getElementById('daily-crystal-video');
+  const tapWrap = document.getElementById('daily-tap-prompt-wrap');
   stillEl.style.display = 'none';
   videoEl.style.display = 'block';
+  tapWrap.style.display = 'none';
   videoEl.currentTime = 0;
   videoEl.play().catch(()=>{});
 
