@@ -1412,7 +1412,7 @@
     <img src="images/soulmate/indiaflowerstill.png" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
 
     <!-- แท่นบูชา — ตำแหน่งตรงกับวงกลมในรูปพื้นหลัง -->
-    <div id="in-altar" style="position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);width:170px;height:170px;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;font-size:13px;color:#a8694f;font-family:'Noto Sans Thai',sans-serif;text-align:center;">วางดอกไม้ที่นี่</div>
+    <div id="in-altar" style="position:absolute;top:38.8%;left:50%;transform:translate(-50%,-50%);width:170px;height:170px;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;font-size:13px;color:#a8694f;font-family:'Noto Sans Thai',sans-serif;text-align:center;">วางดอกไม้ที่นี่</div>
 
     <!-- ดอกบัวลากได้ -->
     <img id="in-flower" draggable="false" src="images/soulmate/indialotus.png"
@@ -4940,7 +4940,32 @@ function inAnswerQuestion(idx) {
 
 function inGoToFlowerStep() {
   showSoulmateStep('in-step2');
+  inAdjustAltarPosition();
 }
+
+// คำนวณตำแหน่งแนวนอน (X) ของวงกลมให้ตรงกับรูปจริงหลังโดน object-fit:cover crop
+// รูปอ้างอิงต้นฉบับ: 1080x1920px, จุดศูนย์กลางวงกลมอยู่ที่ x=400px (37% ของความกว้างรูป), y=745px (38.8% ของความสูงรูป)
+function inAdjustAltarPosition() {
+  const altar = document.getElementById('in-altar');
+  if (!altar) return;
+  const IMG_W = 1080, IMG_H = 1920;
+  const CIRCLE_X_RATIO = 400 / IMG_W; // 37%
+  const screenW = window.innerWidth;
+  const screenH = window.innerHeight;
+  // object-fit:cover ที่นี่ scale ตามความสูง (เพราะจอมือถือสูงกว่าสัดส่วนรูปต้นฉบับเสมอ)
+  const scale = screenH / IMG_H;
+  const renderedImgWidth = IMG_W * scale;
+  const cropX = (renderedImgWidth - screenW) / 2; // ส่วนที่ถูก crop ออกจากซ้าย-ขวา (รูปกว้างกว่าจอ)
+  const circleXOnScreen = (CIRCLE_X_RATIO * renderedImgWidth) - cropX;
+  const leftPct = (circleXOnScreen / screenW) * 100;
+  altar.style.left = leftPct + '%';
+}
+
+window.addEventListener('resize', () => {
+  if (document.getElementById('in-step2').style.display === 'block') {
+    inAdjustAltarPosition();
+  }
+});
 
 // ---- IN-STEP4: loading/analysis (video + 10s progress with rotating messages) ----
 const inLoadingTexts = [
