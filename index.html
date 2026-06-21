@@ -1416,8 +1416,8 @@
 
     <!-- ดอกบัวลากได้ -->
     <img id="in-flower" draggable="false" src="images/soulmate/indialotus.png"
-      style="position:absolute;top:78%;left:50%;transform:translate(-50%,-50%);width:120px;cursor:grab;z-index:10;filter:drop-shadow(0 4px 10px rgba(200,100,60,0.3));touch-action:none;"
-      onmousedown="inFlowerStart(event)" ontouchstart="inFlowerStart(event)" onerror="this.outerHTML='<div id=&quot;in-flower&quot; style=&quot;position:absolute;top:78%;left:50%;transform:translate(-50%,-50%);font-size:80px;cursor:grab;z-index:10;&quot; onmousedown=&quot;inFlowerStart(event)&quot; ontouchstart=&quot;inFlowerStart(event)&quot;>🪷</div>';">
+      style="position:absolute;top:78%;left:50%;transform:translate(-50%,-50%);width:75px;cursor:grab;z-index:10;filter:drop-shadow(0 4px 10px rgba(200,100,60,0.3));touch-action:none;"
+      onmousedown="inFlowerStart(event)" ontouchstart="inFlowerStart(event)" onerror="this.outerHTML='<div id=&quot;in-flower&quot; style=&quot;position:absolute;top:78%;left:50%;transform:translate(-50%,-50%);font-size:50px;cursor:grab;z-index:10;&quot; onmousedown=&quot;inFlowerStart(event)&quot; ontouchstart=&quot;inFlowerStart(event)&quot;>🪷</div>';">
 
     <!-- กลีบดอกไม้โปรย (โผล่หลังวางสำเร็จ) -->
     <div id="in-petals" style="position:absolute;inset:0;pointer-events:none;display:none;"></div>
@@ -4879,16 +4879,15 @@ function inFlowerSuccess() {
   flower.style.transition = 'all 0.5s ease';
   flower.style.left = aCenterX + 'px';
   flower.style.top = aCenterY + 'px';
-  flower.style.transform = 'translate(-50%,-50%) scale(1.3)';
+  flower.style.transform = 'translate(-50%,-50%)';
   flower.style.cursor = 'default';
   altar.style.background = 'radial-gradient(circle, rgba(255,180,100,0.4), rgba(255,180,100,0.05))';
   altar.textContent = '';
   if (hint) hint.style.display = 'none';
 
-  // ลอยขึ้นเล็กน้อย (จากจุดศูนย์กลางวงกลมเดิม)
+  // คงอยู่ตรงกึ่งกลางวงกลมเดิม แค่ขยายขนาดขึ้นเล็กน้อย ไม่ขยับตำแหน่ง
   setTimeout(() => {
-    flower.style.top = (aCenterY - 24) + 'px';
-    flower.style.width = '145px';
+    flower.style.width = '95px';
   }, 200);
 
   // กลีบดอกบัวโปรย
@@ -5197,7 +5196,7 @@ function resetInFlow() {
     flower.style.left = '50%';
     flower.style.top = '78%';
     flower.style.transform = 'translate(-50%,-50%)';
-    flower.style.width = '120px';
+    flower.style.width = '75px';
     flower.style.cursor = 'grab';
     flower.onmousedown = inFlowerStart;
     flower.ontouchstart = inFlowerStart;
