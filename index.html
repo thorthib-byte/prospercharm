@@ -1412,7 +1412,8 @@
     <img src="images/soulmate/indiaflowerstill.png" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
 
     <!-- แท่นบูชา — ตำแหน่งตรงกับวงกลมในรูปพื้นหลัง -->
-    <div id="in-altar" style="position:absolute;top:38.8%;left:50%;transform:translate(-50%,-50%);width:170px;height:170px;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;font-size:13px;color:#a8694f;font-family:'Noto Sans Thai',sans-serif;text-align:center;">วางดอกไม้ที่นี่</div>
+    <div id="in-altar" style="position:absolute;top:38.8%;left:50%;transform:translate(-50%,-50%);width:170px;height:170px;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;"></div>
+    <div id="in-altar-label" style="position:absolute;top:38.8%;left:50%;transform:translate(-50%,-50%);font-size:13px;color:#a8694f;font-family:'Noto Sans Thai',sans-serif;text-align:center;pointer-events:none;z-index:3;">วางดอกไม้ที่นี่</div>
 
     <!-- ดอกบัวลากได้ -->
     <img id="in-flower" draggable="false" src="images/soulmate/indialotus.png"
@@ -1422,7 +1423,7 @@
     <!-- กลีบดอกไม้โปรย (โผล่หลังวางสำเร็จ) -->
     <div id="in-petals" style="position:absolute;inset:0;pointer-events:none;display:none;"></div>
 
-    <div id="in-flower-hint" style="position:absolute;top:58%;left:0;right:0;text-align:center;font-size:12px;color:#a8694f;animation:pulseTap 1.6s infinite;">แตะค้างแล้วลากดอกไม้ขึ้นไปวางบนแท่น</div>
+    <div id="in-flower-hint" style="position:absolute;top:67%;left:0;right:0;text-align:center;font-size:12px;color:#a8694f;animation:pulseTap 1.6s infinite;">แตะค้างแล้วลากดอกไม้ขึ้นไปวางบนแท่น</div>
   </div>
 
   <!-- IN-STEP3: 10 คำถามความสัมพันธ์ -->
@@ -4882,7 +4883,8 @@ function inFlowerSuccess() {
   flower.style.transform = 'translate(-50%,-50%)';
   flower.style.cursor = 'default';
   altar.style.background = 'radial-gradient(circle, rgba(255,180,100,0.4), rgba(255,180,100,0.05))';
-  altar.textContent = '';
+  const label = document.getElementById('in-altar-label');
+  if (label) label.style.display = 'none';
   if (hint) hint.style.display = 'none';
 
   // คงอยู่ตรงกึ่งกลางวงกลมเดิม แค่ขยายขนาดขึ้นเล็กน้อย ไม่ขยับตำแหน่ง
@@ -4947,9 +4949,10 @@ function inGoToFlowerStep() {
 // รูปอ้างอิงต้นฉบับ: 1080x1920px, จุดศูนย์กลางวงกลมอยู่ที่ x=400px (37% ของความกว้างรูป), y=745px (38.8% ของความสูงรูป)
 function inAdjustAltarPosition() {
   const altar = document.getElementById('in-altar');
+  const label = document.getElementById('in-altar-label');
   if (!altar) return;
   const IMG_W = 1080, IMG_H = 1920;
-  const CIRCLE_X_RATIO = 400 / IMG_W; // 37%
+  const CIRCLE_X_RATIO = 411 / IMG_W; // ตำแหน่งจริงที่วัดจากรูป (38%)
   const screenW = window.innerWidth;
   const screenH = window.innerHeight;
   // object-fit:cover ที่นี่ scale ตามความสูง (เพราะจอมือถือสูงกว่าสัดส่วนรูปต้นฉบับเสมอ)
@@ -4959,6 +4962,7 @@ function inAdjustAltarPosition() {
   const circleXOnScreen = (CIRCLE_X_RATIO * renderedImgWidth) - cropX;
   const leftPct = (circleXOnScreen / screenW) * 100;
   altar.style.left = leftPct + '%';
+  if (label) label.style.left = leftPct + '%';
 }
 
 window.addEventListener('resize', () => {
@@ -5230,8 +5234,9 @@ function resetInFlow() {
   if (altar) {
     altar.style.display = 'flex';
     altar.style.background = 'transparent';
-    altar.textContent = 'วางดอกไม้ที่นี่';
   }
+  const label = document.getElementById('in-altar-label');
+  if (label) label.style.display = 'block';
   const hint = document.getElementById('in-flower-hint');
   if (hint) hint.style.display = 'block';
   const petals = document.getElementById('in-petals');
