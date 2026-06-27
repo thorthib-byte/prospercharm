@@ -5975,6 +5975,27 @@ window.addEventListener('load', () => {
   }
   // เริ่ม LINE Auth
   initLineAuth();
+
+  // ===== AUTO-SYNC ตอนกลับมาที่แท็บ =====
+  // เคสที่พบบ่อยฝั่งมือถือ: จ่ายด้วย PromptPay แล้วแอป/หน้าจำลองธนาคารไม่ redirect กลับมาที่เว็บเราเอง
+  // (เพราะ Stripe เปลี่ยนหน้าในแท็บเดิมไปเลย ไม่เหลือหน้า Checkout ไว้คอย redirect)
+  // เลยให้เว็บเช็คเองทุกครั้งที่กลับมาที่แท็บนี้ ไม่ต้องให้ user กด refresh เอง
+  let lastVisibilitySync = 0;
+  document.addEventListener('visibilitychange', function () {
+    if (document.visibilityState !== 'visible') return;
+    if (!localStorage.getItem('pc_line_token')) return;
+    const now = Date.now();
+    if (now - lastVisibilitySync < 5000) return; // กันยิงถี่เกินไปตอนสลับแท็บไปมาเร็วๆ
+    lastVisibilitySync = now;
+    const creditsBefore = userState.credits;
+    const planBefore = userState.plan;
+    syncCoinsFromServer().then(function () {
+      if (userState.credits !== creditsBefore || userState.plan !== planBefore) {
+        updateStatusBar();
+        showToast('✅ อัปเดตเครดิตล่าสุดแล้วค่ะ');
+      }
+    });
+  });
 });
 </script>
 <!-- LOGIN GATE — บังคับ login ก่อนใช้งาน -->
