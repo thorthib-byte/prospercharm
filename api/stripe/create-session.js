@@ -72,6 +72,7 @@ export default async function handler(req, res) {
       customer: customerId,
       payment_method_types: paymentMethodTypes,
       mode: 'payment',
+      locale: 'th', // บังคับให้หน้า Stripe Checkout (รวมหน้า PromptPay QR) เป็นภาษาไทยเสมอ ไม่ต้องพึ่ง browser เดา
       line_items: [
         {
           price_data: {
