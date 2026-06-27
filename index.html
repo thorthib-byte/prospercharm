@@ -2256,7 +2256,7 @@ function clearDob(prefix) {
 let userState={plan:'free',credits:0,planExpiry:null};
 function loadState(){try{const s=localStorage.getItem('pc_state');if(s){userState=JSON.parse(s);if(userState.planExpiry&&new Date()>new Date(userState.planExpiry)){userState={plan:'free',credits:0,planExpiry:null};saveState();}}}catch(e){}updateStatusBar();}
 function saveState(){localStorage.setItem('pc_state',JSON.stringify(userState));}
-function updateStatusBar(){const icons={free:'🌙',single:'💫',basic:'🌙',pro:'⭐',unlimited:'👑'};const names={free:'ยังไม่ได้สมัคร',single:'รายครั้ง',basic:'Basic',pro:'Pro',unlimited:'Unlimited'};document.getElementById('plan-icon').textContent=icons[userState.plan];document.getElementById('plan-name').textContent=names[userState.plan];document.getElementById('credits-display').textContent=userState.plan!=='free'?(userState.credits>=999?'ไม่จำกัด':userState.credits+' ครั้ง'):'';}
+function updateStatusBar(){const icons={free:'🌙',single:'💫',basic:'🌙',pro:'⭐',unlimited:'👑'};const names={free:'ยังไม่ได้สมัคร',single:'รายครั้ง',basic:'Basic',pro:'Pro',unlimited:'Unlimited'};if(!lineSession){document.getElementById('plan-icon').textContent=icons[userState.plan];document.getElementById('plan-name').textContent=names[userState.plan];}document.getElementById('credits-display').textContent=userState.plan!=='free'?(userState.credits>=999?'ไม่จำกัด':userState.credits+' ครั้ง'):'';}
 function goTo(pageId){
   // Cleanup thread zoom blocker when navigating away
   cnThreadCleanup();
