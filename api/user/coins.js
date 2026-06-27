@@ -23,10 +23,10 @@ export default async function handler(req) {
     });
   }
 
-  // GET — ดึงข้อมูล coins
+  // GET — ดึงข้อมูล coins + credits/plan (เครดิตดูดวงที่จ่ายเงินซื้อ)
   if (req.method === 'GET') {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/users?line_user_id=eq.${session.userId}&select=coins,coins_month,streak,last_checkin,checkin_history`,
+      `${SUPABASE_URL}/rest/v1/users?line_user_id=eq.${session.userId}&select=coins,coins_month,streak,last_checkin,checkin_history,credits,plan,plan_expiry`,
       {
         headers: {
           'apikey': SUPABASE_SECRET,
@@ -44,13 +44,32 @@ export default async function handler(req) {
       streak: user.streak || 0,
       lastCheckin: user.last_checkin,
       checkinHistory: user.checkin_history || {},
+      credits: user.credits || 0,
+      plan: user.plan || 'free',
+      planExpiry: user.plan_expiry || null,
     }), { headers: { 'Content-Type': 'application/json' } });
   }
 
-  // POST — บันทึก coins หลัง check-in
+  // POST — บันทึก coins หลัง check-in และ/หรือ credits หลังใช้ดูดวง (ส่งมาเฉพาะ field ที่ต้องการอัปเดตก็ได้)
   if (req.method === 'POST') {
     const body = await req.json();
-    const { coins, coinsMonth, streak, lastCheckin, checkinHistory } = body;
+    const { coins, coinsMonth, streak, lastCheckin, checkinHistory, credits, plan, planExpiry } = body;
+
+    const updatePayload = {
+      coins,
+      coins_month: coinsMonth,
+      streak,
+      last_checkin: lastCheckin,
+      checkin_history: checkinHistory,
+      credits,
+      plan,
+      plan_expiry: planExpiry,
+      updated_at: new Date().toISOString(),
+    };
+    // ตัด field ที่เป็น undefined ออก กัน Supabase เขียนทับด้วย null โดยไม่ตั้งใจ
+    Object.keys(updatePayload).forEach((k) => {
+      if (updatePayload[k] === undefined) delete updatePayload[k];
+    });
 
     await fetch(
       `${SUPABASE_URL}/rest/v1/users?line_user_id=eq.${session.userId}`,
@@ -61,14 +80,7 @@ export default async function handler(req) {
           'apikey': SUPABASE_SECRET,
           'Authorization': `Bearer ${SUPABASE_SECRET}`,
         },
-        body: JSON.stringify({
-          coins,
-          coins_month: coinsMonth,
-          streak,
-          last_checkin: lastCheckin,
-          checkin_history: checkinHistory,
-          updated_at: new Date().toISOString(),
-        }),
+        body: JSON.stringify(updatePayload),
       }
     );
 
