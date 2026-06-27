@@ -1393,6 +1393,8 @@
       <div class="dob-month"><select class="dob-select" id="in-dob1-m"><option value="">เดือน</option></select></div>
       <div class="dob-year"><select class="dob-select" id="in-dob1-y"><option value="">ปี พ.ศ.</option></select></div>
     </div>
+    <label class="form-label">เวลาเกิดของคุณ <span style="color:var(--text-light);font-weight:400;">(ถ้ามี)</span></label>
+    <input type="time" id="in-time1" style="width:100%;padding:12px 14px;border:1px solid rgba(180,160,130,0.3);border-radius:12px;background:var(--white);font-family:'Noto Sans Thai',sans-serif;font-size:14px;color:var(--text);box-sizing:border-box;outline:none;margin-bottom:16px;">
 
     <label class="form-label">วันเกิดของอีกฝ่าย</label>
     <div class="dob-hint">กรุณากรอกวันเกิดเป็น พ.ศ. เช่น 16 สิงหาคม 2547</div>
@@ -1401,29 +1403,38 @@
       <div class="dob-month"><select class="dob-select" id="in-dob2-m"><option value="">เดือน</option></select></div>
       <div class="dob-year"><select class="dob-select" id="in-dob2-y"><option value="">ปี พ.ศ.</option></select></div>
     </div>
+    <label class="form-label">เวลาเกิดของอีกฝ่าย <span style="color:var(--text-light);font-weight:400;">(ถ้ามี)</span></label>
+    <input type="time" id="in-time2" style="width:100%;padding:12px 14px;border:1px solid rgba(180,160,130,0.3);border-radius:12px;background:var(--white);font-family:'Noto Sans Thai',sans-serif;font-size:14px;color:var(--text);box-sizing:border-box;outline:none;margin-bottom:16px;">
 
     <button class="cta-btn" onclick="inDobNext()">ถัดไป →</button>
     <button class="reset-btn" style="margin-top:10px;" onclick="soulmateBackToScience()">← เปลี่ยนศาสตร์</button>
   </div>
 
   <!-- IN-STEP2: ถวายดอกไม้แห่งความสัมพันธ์ (fullscreen drag interaction) -->
-  <div id="in-step2" style="display:none; position:fixed; inset:0; width:100%; height:100%; overflow:hidden; background:#f3e3d3; z-index:50; touch-action:none;">
-    <!-- full screen background image -->
-    <img src="images/soulmate/indiaflowerstill.png" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
+  <div id="in-step2" style="display:none; position:fixed; inset:0; width:100%; height:100%; overflow:hidden; background:linear-gradient(160deg,#fff4e8,#ffe4d6); z-index:50; touch-action:none;">
+    <!-- decorative -->
+    <div style="position:absolute;top:8%;left:10%;font-size:14px;opacity:0.4;">✦</div>
+    <div style="position:absolute;top:12%;right:12%;font-size:18px;opacity:0.4;">✧</div>
+    <div style="position:absolute;top:5%;right:30%;font-size:20px;opacity:0.5;">🪔</div>
+    <div style="position:absolute;top:5%;left:30%;font-size:20px;opacity:0.5;">🪔</div>
 
-    <!-- แท่นบูชา — ตำแหน่งตรงกับวงกลมในรูปพื้นหลัง -->
-    <div id="in-altar" style="position:absolute;top:51.8%;left:50%;transform:translate(-50%,-50%);width:170px;height:170px;border-radius:50%;background:transparent;display:flex;align-items:center;justify-content:center;"></div>
-    <div id="in-altar-label" style="position:absolute;top:51.8%;left:50%;transform:translate(-50%,-50%);font-size:13px;color:#a8694f;font-family:'Noto Sans Thai',sans-serif;text-align:center;pointer-events:none;z-index:3;">วางดอกไม้ที่นี่</div>
+    <div style="position:absolute;top:6%;left:0;right:0;text-align:center;z-index:5;pointer-events:none;">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:#8b4a3a;text-shadow:0 1px 4px rgba(255,255,255,0.5);">มอบดอกไม้เพื่อเปิดการอ่านชะตาคู่</div>
+      <div style="font-size:12px;color:#a8694f;margin-top:6px;">ลากดอกไม้ไปวางบนแท่นบูชาตรงกลาง</div>
+    </div>
 
-    <!-- ดอกบัวลากได้ -->
-    <img id="in-flower" draggable="false" src="images/soulmate/indialotus.png"
-      style="position:absolute;top:78%;left:50%;transform:translate(-50%,-50%);width:75px;cursor:grab;z-index:10;filter:drop-shadow(0 4px 10px rgba(200,100,60,0.3));touch-action:none;"
-      onmousedown="inFlowerStart(event)" ontouchstart="inFlowerStart(event)" onerror="this.outerHTML='<div id=&quot;in-flower&quot; style=&quot;position:absolute;top:78%;left:50%;transform:translate(-50%,-50%);font-size:50px;cursor:grab;z-index:10;&quot; onmousedown=&quot;inFlowerStart(event)&quot; ontouchstart=&quot;inFlowerStart(event)&quot;>🪷</div>';">
+    <!-- แท่นบูชา -->
+    <div id="in-altar" style="position:absolute;top:52%;left:50%;transform:translate(-50%,-50%);width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(255,200,140,0.35),rgba(255,200,140,0.05));border:2px dashed rgba(200,120,60,0.4);display:flex;align-items:center;justify-content:center;font-size:13px;color:#a8694f;font-family:'Noto Sans Thai',sans-serif;text-align:center;">วางดอกไม้<br>ที่นี่</div>
+
+    <!-- ดอกไม้ลากได้ -->
+    <div id="in-flower" draggable="false"
+      style="position:absolute;top:78%;left:50%;transform:translate(-50%,-50%);font-size:56px;cursor:grab;z-index:10;filter:drop-shadow(0 4px 10px rgba(200,100,60,0.3));touch-action:none;"
+      onmousedown="inFlowerStart(event)" ontouchstart="inFlowerStart(event)">🌸</div>
 
     <!-- กลีบดอกไม้โปรย (โผล่หลังวางสำเร็จ) -->
     <div id="in-petals" style="position:absolute;inset:0;pointer-events:none;display:none;"></div>
 
-    <div id="in-flower-hint" style="position:absolute;top:72%;left:0;right:0;text-align:center;font-size:12px;color:#a8694f;animation:pulseTap 1.6s infinite;">ลากดอกไม้ขึ้นไปวางบนแท่น</div>
+    <div id="in-flower-hint" style="position:absolute;bottom:10%;left:0;right:0;text-align:center;font-size:12px;color:#a8694f;animation:pulseTap 1.6s infinite;">👆 แตะค้างแล้วลากดอกไม้ขึ้นไปวางบนแท่น</div>
   </div>
 
   <!-- IN-STEP3: 10 คำถามความสัมพันธ์ -->
@@ -1440,21 +1451,14 @@
   </div>
 
   <!-- IN-STEP4: กำลังวิเคราะห์ชะตาคู่ (fullscreen loading) -->
-  <div id="in-step4" style="display:none; position:fixed; inset:0; width:100%; height:100%; overflow:hidden; background:#f3e3d3; z-index:50;">
-    <!-- full screen looping video -->
-    <video id="in-step4-video" muted playsinline loop style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;" onerror="this.style.display='none';">
-      <source src="images/soulmate/circlelotusmove.mp4" type="video/mp4">
-    </video>
-
-    <!-- loading overlay: ข้อความวิเคราะห์ 6 ข้อความ + progress bar -->
-    <div style="position:absolute;top:62%;left:0;right:0;z-index:20;padding:0 36px;text-align:center;">
-      <div id="in-loading-text" style="font-family:'Noto Sans Thai',sans-serif;font-size:14px;font-weight:600;color:#7a3a2e;text-shadow:0 1px 3px rgba(255,255,255,0.7);min-height:40px;line-height:1.6;"></div>
-      <div style="margin-top:14px;max-width:260px;margin-left:auto;margin-right:auto;">
-        <div style="font-family:'Noto Sans Thai',sans-serif;font-size:11px;color:#8b5a45;letter-spacing:1px;margin-bottom:6px;">LOADING...</div>
-        <div style="height:6px;background:rgba(160,110,70,0.2);border-radius:4px;overflow:hidden;">
-          <div id="in-loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#c9a84c,#e8c87a);border-radius:4px;transition:width 10s linear;"></div>
+  <div id="in-step4" style="display:none; position:fixed; inset:0; width:100%; height:100%; overflow:hidden; background:linear-gradient(160deg,#3a1f4d,#5c2e63); z-index:50;">
+    <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:0 30px;">
+      <div style="font-size:48px;" id="in-loading-icon">🪐</div>
+      <div id="in-loading-text" style="font-family:'Noto Serif Thai',serif;font-size:16px;font-weight:600;color:#f5d9a8;text-align:center;line-height:2;text-shadow:0 2px 8px rgba(0,0,0,0.5);min-height:48px;"></div>
+      <div style="width:100%;max-width:260px;">
+        <div style="height:6px;background:rgba(255,255,255,0.15);border-radius:4px;overflow:hidden;">
+          <div id="in-loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#d4af37,#f5d9a8);border-radius:4px;transition:width 0.4s;"></div>
         </div>
-        <div id="in-loading-pct" style="font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:600;color:#7a3a2e;margin-top:6px;">0%</div>
       </div>
     </div>
   </div>
@@ -1473,12 +1477,10 @@
     <div class="modal-subtitle" id="modal-subtitle"></div>
     <div class="modal-price" id="modal-price">29 บาท</div>
     <div class="modal-methods">
-      <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">📱</span> พร้อมเพย์</button>
-      <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">💳</span> บัตรเครดิต/เดบิต</button>
-      <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">🐰</span> Rabbit LINE Pay</button>
-      <button class="method-btn" onclick="simulatePayment()"><span class="method-icon">💚</span> TrueMoney Wallet</button>
+      <button class="method-btn" id="pay-promptpay-btn" onclick="startStripeCheckout('promptpay')"><span class="method-icon">📱</span> พร้อมเพย์</button>
+      <button class="method-btn" id="pay-card-btn" onclick="startStripeCheckout('card')"><span class="method-icon">💳</span> บัตรเครดิต/เดบิต</button>
     </div>
-    <div class="modal-note">* ระบบชำระเงินจริงจะเชื่อมต่อเร็วๆ นี้</div>
+    <div class="modal-note" id="payment-modal-note">* ชำระเงินปลอดภัยผ่าน Stripe</div>
     <button class="modal-close" onclick="closePayment()">ยกเลิก</button>
   </div>
 </div>
@@ -2280,7 +2282,60 @@ function resetPage(type){document.getElementById(type+'-result').classList.remov
 let pendingPayment={};
 function openPayment(type,price,credits){pendingPayment={type,price,credits};const titles={single:'จ่ายรายครั้ง',basic:'แพ็กเกจ Basic',pro:'แพ็กเกจ Pro',unlimited:'แพ็กเกจ Unlimited'};const subs={single:'ใช้ได้ 1 ครั้ง',basic:'5 ครั้ง/เดือน',pro:'12 ครั้ง/เดือน',unlimited:'ไม่จำกัด/เดือน'};document.getElementById('modal-title').textContent=titles[type];document.getElementById('modal-subtitle').textContent=subs[type];document.getElementById('modal-price').textContent=price+' บาท';document.getElementById('payment-modal').classList.add('show');}
 function closePayment(){document.getElementById('payment-modal').classList.remove('show');}
-function simulatePayment(){closePayment();const{type,credits}=pendingPayment;const expiry=new Date();expiry.setMonth(expiry.getMonth()+1);if(type==='single'){userState.plan='single';userState.credits=(userState.credits||0)+1;}else{userState.plan=type;userState.credits=(userState.credits||0)+credits;userState.planExpiry=expiry.toISOString();}saveState();updateStatusBar();document.querySelectorAll('.lock-wall').forEach(l=>l.classList.remove('show'));showToast('✅ ชำระเงินสำเร็จ! ขอบคุณค่ะ');goTo('page-home');}
+
+// ===== STRIPE CHECKOUT =====
+async function startStripeCheckout(method) {
+  const { type, price, credits } = pendingPayment;
+  const token = localStorage.getItem('pc_line_token');
+  if (!token) { showToast('กรุณาเข้าสู่ระบบด้วย LINE ก่อนนะคะ'); return; }
+
+  // ปิดปุ่มกันกดซ้ำระหว่างรอ
+  const btns = document.querySelectorAll('#payment-modal .method-btn');
+  btns.forEach(b => b.disabled = true);
+  const noteEl = document.getElementById('payment-modal-note');
+  if (noteEl) noteEl.textContent = 'กำลังเชื่อมต่อไปยังหน้าชำระเงิน...';
+
+  try {
+    const res = await fetch('/api/stripe/create-session', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ planType: type, price, credits, method }),
+    });
+    if (!res.ok) throw new Error('สร้าง session ไม่สำเร็จ');
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url; // ไปหน้า Stripe Checkout จริง
+    } else {
+      throw new Error('ไม่พบ URL ชำระเงิน');
+    }
+  } catch (err) {
+    console.log('Stripe checkout error', err);
+    showToast('เกิดข้อผิดพลาด กรุณาลองใหม่นะคะ 🙏');
+    btns.forEach(b => b.disabled = false);
+    if (noteEl) noteEl.textContent = '* ชำระเงินปลอดภัยผ่าน Stripe';
+  }
+}
+
+// เรียกหลัง redirect กลับมาจาก Stripe (success_url มี ?stripe_success=1)
+async function checkStripeSuccess() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('stripe_success') !== '1') return;
+  const token = localStorage.getItem('pc_line_token');
+  if (!token) return;
+  showToast('กำลังตรวจสอบการชำระเงิน...');
+  try {
+    await syncCoinsFromServer(); // ดึง credits ล่าสุดจาก Supabase (webhook อัปเดตไว้แล้ว)
+    updateStatusBar();
+    showToast('✅ ชำระเงินสำเร็จ! ขอบคุณค่ะ');
+  } catch (e) {
+    console.log('post-payment sync error', e);
+  }
+  // ล้าง query param ออกจาก URL ไม่ให้ trigger ซ้ำตอน refresh
+  const cleanUrl = window.location.origin + window.location.pathname + window.location.hash;
+  window.history.replaceState({}, document.title, cleanUrl);
+}
+// ===== END STRIPE CHECKOUT =====
+
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 let selectedTopic=null;
 const tarotQuestions = {
@@ -3868,7 +3923,7 @@ function soulmateNextToEnergy() {
     cnState.dob1 = dob1; cnState.dob2 = dob2;
     calcCnZodiac();
     fillCnZodiacDisplay();
-    showSoulmateStep('soulmate-step2'); // หน้าพลังงานความสัมพันธ์ก่อนเข้าสู่ flow จีน
+    showCnStep('cn-step2');
   } else {
     showSoulmateStep('soulmate-step2');
   }
@@ -3879,22 +3934,10 @@ function selectRelationEnergy(el, energy) {
   el.classList.add('selected');
   soulmateState.relationEnergy = energy;
   setTimeout(() => {
-    if (selectedSoulmateScience === 'chinese') {
-      showCnStep('cn-step2'); // ไปต่อ flow จีนเดิม หลังเลือกพลังงานแล้ว
-    } else if (selectedSoulmateScience === 'indian') {
-      // ไปต่อ flow อินเดียเดิม (คำถาม 10 ข้อ) หลังเลือกพลังงานแล้ว
-      inQIdx = 0;
-      inState.answers = [];
-      inState.receptiveScore = 0;
-      inState.activeScore = 0;
-      showSoulmateStep('in-step3');
-      inShowQuestion();
-    } else {
-      currentQuestion = 0; dayScore = 0;
-      soulmateState.questionAnswers = [];
-      showSoulmateStep('soulmate-step3');
-      renderSoulmateQuestion();
-    }
+    currentQuestion = 0; dayScore = 0;
+    soulmateState.questionAnswers = [];
+    showSoulmateStep('soulmate-step3');
+    renderSoulmateQuestion();
   }, 400);
 }
 
@@ -4785,14 +4828,14 @@ function inDobNext() {
   if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('soulmate'); return; }
   inState.dob1 = dob1;
   inState.dob2 = dob2;
+  inState.time1 = document.getElementById('in-time1').value || '';
+  inState.time2 = document.getElementById('in-time2').value || '';
   soulmateState.dob1 = dob1; soulmateState.dob2 = dob2;
-  // ไปหน้าเลือกพลังงานความสัมพันธ์ก่อน แล้วค่อยไปคำถาม 10 ข้อ
-  showSoulmateStep('soulmate-step2');
+  showSoulmateStep('in-step2');
 }
 
 // ---- IN-STEP2: drag-to-altar flower interaction ----
 let inFlowerDragging = false;
-let inFlowerInCircle = false;
 let inFlowerOffset = { x: 0, y: 0 };
 
 function inFlowerStart(e) {
@@ -4812,29 +4855,11 @@ function inFlowerMove(e) {
   e.preventDefault();
   const point = e.touches ? e.touches[0] : e;
   const flower = document.getElementById('in-flower');
-  const altar = document.getElementById('in-altar');
   const container = document.getElementById('in-step2').getBoundingClientRect();
   const x = point.clientX - container.left;
   const y = point.clientY - container.top;
-
-  // เช็คระยะห่างจากจุดศูนย์กลางวงกลม (แท่นบูชา)
-  const aRect = altar.getBoundingClientRect();
-  const aCenterX = (aRect.left + aRect.width / 2) - container.left;
-  const aCenterY = (aRect.top + aRect.height / 2) - container.top;
-  const dist = Math.hypot(x - aCenterX, y - aCenterY);
-
-  if (dist < 90) {
-    // แม่เหล็กดูดเข้ากึ่งกลางวงกลมทันที ไม่ว่าจะลากมาจากมุมไหน
-    flower.style.transition = 'left 0.15s ease-out, top 0.15s ease-out';
-    flower.style.left = aCenterX + 'px';
-    flower.style.top = aCenterY + 'px';
-    inFlowerInCircle = true;
-  } else {
-    flower.style.transition = 'none';
-    flower.style.left = x + 'px';
-    flower.style.top = y + 'px';
-    inFlowerInCircle = false;
-  }
+  flower.style.left = x + 'px';
+  flower.style.top = y + 'px';
 }
 
 function inFlowerEnd(e) {
@@ -4846,9 +4871,17 @@ function inFlowerEnd(e) {
   document.removeEventListener('touchend', inFlowerEnd);
 
   const flower = document.getElementById('in-flower');
+  const altar = document.getElementById('in-altar');
+  const fRect = flower.getBoundingClientRect();
+  const aRect = altar.getBoundingClientRect();
+  const fCenterX = fRect.left + fRect.width / 2;
+  const fCenterY = fRect.top + fRect.height / 2;
+  const aCenterX = aRect.left + aRect.width / 2;
+  const aCenterY = aRect.top + aRect.height / 2;
+  const dist = Math.hypot(fCenterX - aCenterX, fCenterY - aCenterY);
 
-  if (inFlowerInCircle) {
-    // สำเร็จ — ดอกไม้ถูกดูดเข้ากึ่งกลางวงกลมแล้วตั้งแต่ตอนลาก
+  if (dist < 90) {
+    // สำเร็จ — วางบนแท่นได้
     inFlowerSuccess();
   } else {
     // ยังไม่ถึงแท่น — เด้งคืนตำแหน่งเดิม
@@ -4867,50 +4900,50 @@ function inFlowerSuccess() {
   const altar = document.getElementById('in-altar');
   const hint = document.getElementById('in-flower-hint');
   const petalsWrap = document.getElementById('in-petals');
-  const container = document.getElementById('in-step2').getBoundingClientRect();
-
-  // คำนวณตำแหน่งจริงของจุดศูนย์กลางวงกลม (ไม่ใช้ % เพื่อความแม่นยำ)
-  const aRect = altar.getBoundingClientRect();
-  const aCenterX = (aRect.left + aRect.width / 2) - container.left;
-  const aCenterY = (aRect.top + aRect.height / 2) - container.top;
 
   flower.removeEventListener('mousedown', inFlowerStart);
   flower.onmousedown = null;
   flower.ontouchstart = null;
   flower.style.transition = 'all 0.5s ease';
-  flower.style.left = aCenterX + 'px';
-  flower.style.top = aCenterY + 'px';
-  flower.style.transform = 'translate(-50%,-50%)';
+  flower.style.left = '50%';
+  flower.style.top = '52%';
+  flower.style.transform = 'translate(-50%,-50%) scale(1.3)';
   flower.style.cursor = 'default';
-  altar.style.background = 'radial-gradient(circle, rgba(255,180,100,0.4), rgba(255,180,100,0.05))';
-  const label = document.getElementById('in-altar-label');
-  if (label) label.style.display = 'none';
+  altar.style.background = 'radial-gradient(circle, rgba(255,180,100,0.55), rgba(255,180,100,0.1))';
+  altar.style.border = '2px solid rgba(200,120,60,0.6)';
+  altar.textContent = '';
   if (hint) hint.style.display = 'none';
 
-  // คงอยู่ตรงกึ่งกลางวงกลมเดิม แค่ขยายขนาดขึ้นเล็กน้อย ไม่ขยับตำแหน่ง
+  // ลอยขึ้นเล็กน้อย
   setTimeout(() => {
-    flower.style.width = '95px';
+    flower.style.top = '46%';
+    flower.style.fontSize = '64px';
   }, 200);
 
-  // กลีบดอกบัวโปรย
+  // กลีบดอกไม้โปรย
   petalsWrap.style.display = 'block';
   petalsWrap.innerHTML = '';
   for (let i = 0; i < 16; i++) {
-    const p = document.createElement('img');
-    p.src = 'images/soulmate/indialotus.png';
-    p.onerror = function() { this.outerHTML = '🪷'; };
+    const p = document.createElement('div');
+    p.textContent = '🌸';
     p.style.position = 'absolute';
     p.style.left = (40 + Math.random() * 20) + '%';
     p.style.top = '-30px';
-    p.style.width = (12 + Math.random() * 14) + 'px';
+    p.style.fontSize = (12 + Math.random() * 10) + 'px';
     p.style.opacity = '0.85';
     p.style.animation = `inPetalFall ${2 + Math.random() * 1.5}s ease-in forwards`;
     p.style.animationDelay = (Math.random() * 0.8) + 's';
     petalsWrap.appendChild(p);
   }
 
-  // หลังกลีบโปรยจบ → เข้า video loading + วิเคราะห์
-  setTimeout(inStartAnalysis, 1800);
+  setTimeout(() => {
+    showSoulmateStep('in-step3');
+    inQIdx = 0;
+    inState.answers = [];
+    inState.receptiveScore = 0;
+    inState.activeScore = 0;
+    inShowQuestion();
+  }, 1800);
 }
 
 // ---- IN-STEP3: 10 questions ----
@@ -4936,94 +4969,41 @@ function inAnswerQuestion(idx) {
   if (inQIdx < inQuestions.length) {
     setTimeout(inShowQuestion, 150);
   } else {
-    setTimeout(inGoToFlowerStep, 300);
+    setTimeout(inStartAnalysis, 300);
   }
 }
 
-function inGoToFlowerStep() {
-  showSoulmateStep('in-step2');
-  inAdjustAltarPosition();
-}
-
-// คำนวณตำแหน่งแนวนอน (X) ของวงกลมให้ตรงกับรูปจริงหลังโดน object-fit:cover crop
-// รูปอ้างอิงต้นฉบับ: 1080x1920px, จุดศูนย์กลางวงกลมอยู่ที่ x=400px (37% ของความกว้างรูป), y=745px (38.8% ของความสูงรูป)
-function inAdjustAltarPosition() {
-  const altar = document.getElementById('in-altar');
-  const label = document.getElementById('in-altar-label');
-  if (!altar) return;
-  const IMG_W = 1080, IMG_H = 1920;
-  const CIRCLE_X_RATIO = 547 / IMG_W; // ตำแหน่งจริงที่วัดจากรูป (50.6%)
-  const screenW = window.innerWidth;
-  const screenH = window.innerHeight;
-  // object-fit:cover ที่นี่ scale ตามความสูง (เพราะจอมือถือสูงกว่าสัดส่วนรูปต้นฉบับเสมอ)
-  const scale = screenH / IMG_H;
-  const renderedImgWidth = IMG_W * scale;
-  const cropX = (renderedImgWidth - screenW) / 2; // ส่วนที่ถูก crop ออกจากซ้าย-ขวา (รูปกว้างกว่าจอ)
-  const circleXOnScreen = (CIRCLE_X_RATIO * renderedImgWidth) - cropX;
-  const leftPct = (circleXOnScreen / screenW) * 100;
-  altar.style.left = leftPct + '%';
-  if (label) label.style.left = leftPct + '%';
-}
-
-window.addEventListener('resize', () => {
-  if (document.getElementById('in-step2').style.display === 'block') {
-    inAdjustAltarPosition();
-  }
-});
-
-// ---- IN-STEP4: loading/analysis (video + 10s progress with rotating messages) ----
-const inLoadingTexts = [
-  '🌸 กำลังวิเคราะห์ความสมพงษ์ของดวงกำเนิด (Ashtakoota)',
-  '🔥 กำลังตรวจสอบพลังปะทะในความสัมพันธ์ (Manglik)',
-  '💍 กำลังอ่านดวงคู่ครองและชีวิตสมรส (Navamsa)',
-  '🤝 กำลังวิเคราะห์เรือนคู่ครอง (ภพที่ 7)',
-  '⏳ กำลังตรวจสอบจังหวะเวลาแห่งความรัก (Dasha)',
-  '✨ กำลังสรุปผลดวงสมพงษ์ของทั้งสอง',
+// ---- IN-STEP4: loading/analysis ----
+const inLoadingMessages = [
+  '🪐 กำลังคำนวณตำแหน่งดาวเคราะห์...',
+  '💍 วิเคราะห์ศักยภาพคู่ครองตามหลักเวท...',
+  '🔥 ตรวจสอบจุดท้าทายในดวงคู่...',
+  '⏳ คำนวณจังหวะเวลาความรัก...',
 ];
 
 function inStartAnalysis() {
   showSoulmateStep('in-step4');
-  const video = document.getElementById('in-step4-video');
+  let step = 0;
   const textEl = document.getElementById('in-loading-text');
   const barEl = document.getElementById('in-loading-bar');
-  const pctEl = document.getElementById('in-loading-pct');
+  const iconEl = document.getElementById('in-loading-icon');
+  const icons = ['🪐','💍','🔥','⏳'];
 
-  if (video) {
-    video.currentTime = 0;
-    video.play().catch(()=>{});
-  }
+  textEl.textContent = inLoadingMessages[0];
+  iconEl.textContent = icons[0];
+  barEl.style.width = '10%';
 
-  textEl.textContent = inLoadingTexts[0];
-  barEl.style.transition = 'none';
-  barEl.style.width = '0%';
-  pctEl.textContent = '0%';
-  requestAnimationFrame(() => {
-    setTimeout(() => {
-      barEl.style.transition = 'width 10s linear';
-      barEl.style.width = '100%';
-    }, 50);
-  });
-
-  const totalDuration = 10000;
-  const startTime = Date.now();
-  const pctInterval = setInterval(() => {
-    const elapsed = Date.now() - startTime;
-    const pct = Math.min(100, Math.round((elapsed / totalDuration) * 100));
-    pctEl.textContent = pct + '%';
-    if (pct >= 100) clearInterval(pctInterval);
-  }, 100);
-
-  // ข้อความหมุนทุก ~1.67 วิ (6 ข้อความ ใน 10 วิ)
-  inLoadingTexts.forEach((txt, i) => {
-    if (i === 0) return;
-    setTimeout(() => { textEl.textContent = txt; }, i * (totalDuration / inLoadingTexts.length));
-  });
-
-  setTimeout(() => {
-    clearInterval(pctInterval);
-    if (video) video.pause();
-    inGenerateResult();
-  }, totalDuration);
+  const interval = setInterval(() => {
+    step++;
+    if (step < inLoadingMessages.length) {
+      textEl.textContent = inLoadingMessages[step];
+      iconEl.textContent = icons[step];
+      barEl.style.width = `${((step + 1) / inLoadingMessages.length) * 100}%`;
+    } else {
+      clearInterval(interval);
+      setTimeout(inGenerateResult, 600);
+    }
+  }, 1300);
 }
 
 // ---- IN-STEP5: result generation ----
@@ -5220,34 +5200,30 @@ function resetInFlow() {
   // reset flower interaction
   const flower = document.getElementById('in-flower');
   if (flower) {
-    flower.style.display = 'block';
     flower.style.transition = 'none';
     flower.style.left = '50%';
     flower.style.top = '78%';
     flower.style.transform = 'translate(-50%,-50%)';
-    flower.style.width = '75px';
+    flower.style.fontSize = '56px';
     flower.style.cursor = 'grab';
     flower.onmousedown = inFlowerStart;
     flower.ontouchstart = inFlowerStart;
   }
   const altar = document.getElementById('in-altar');
   if (altar) {
-    altar.style.display = 'flex';
-    altar.style.background = 'transparent';
+    altar.style.background = 'radial-gradient(circle,rgba(255,200,140,0.35),rgba(255,200,140,0.05))';
+    altar.style.border = '2px dashed rgba(200,120,60,0.4)';
+    altar.textContent = 'วางดอกไม้ที่นี่';
   }
-  const label = document.getElementById('in-altar-label');
-  if (label) label.style.display = 'block';
   const hint = document.getElementById('in-flower-hint');
   if (hint) hint.style.display = 'block';
   const petals = document.getElementById('in-petals');
   if (petals) { petals.innerHTML = ''; petals.style.display = 'none'; }
-  // หยุด video ของ step4 เผื่อยังเล่นอยู่
-  const step4Video = document.getElementById('in-step4-video');
-  if (step4Video) step4Video.pause();
-  inFlowerInCircle = false;
-  // เคลียร์ฟอร์มกรอกวันเกิด
+  // เคลียร์ฟอร์มกรอกวันเกิด/เวลาเกิด
   clearDob('in-dob1');
   clearDob('in-dob2');
+  const t1 = document.getElementById('in-time1'); if (t1) t1.value = '';
+  const t2 = document.getElementById('in-time2'); if (t2) t2.value = '';
   showSoulmateStep('in-step1');
 }
 
@@ -5925,6 +5901,8 @@ window.addEventListener('load', () => {
   initCheckinBtn();
   // Handle URL hash
   handleHash();
+  // ตรวจสอบว่ากลับมาจาก Stripe Checkout สำเร็จไหม
+  checkStripeSuccess();
   // Handle ?dev=true param
   const urlParams = new URLSearchParams(window.location.search);
   if (urlParams.get('dev') === 'true') {
