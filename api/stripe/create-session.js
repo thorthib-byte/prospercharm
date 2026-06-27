@@ -25,9 +25,10 @@ export default async function handler(req, res) {
     const authHeader = req.headers.authorization || '';
     const token = authHeader.replace('Bearer ', '');
     const session = decodeToken(token);
-    if (!session || !session.line_user_id) {
+    if (!session || !session.userId) {
       return res.status(401).json({ error: 'Unauthorized' });
     }
+    const lineUserId = session.userId; // token เก็บเป็น "userId" ไม่ใช่ "line_user_id"
 
     const { planType, price, credits, method } = req.body;
     if (!planType || !price || !credits) {
@@ -38,7 +39,7 @@ export default async function handler(req, res) {
     const { data: userRow } = await supabase
       .from('users')
       .select('id, stripe_customer_id, display_name')
-      .eq('line_user_id', session.line_user_id)
+      .eq('line_user_id', lineUserId)
       .single();
 
     if (!userRow) {
@@ -49,7 +50,7 @@ export default async function handler(req, res) {
     if (!customerId) {
       const customer = await stripe.customers.create({
         name: userRow.display_name || undefined,
-        metadata: { line_user_id: session.line_user_id },
+        metadata: { line_user_id: lineUserId },
       });
       customerId = customer.id;
       await supabase.from('users').update({ stripe_customer_id: customerId }).eq('id', userRow.id);
@@ -82,7 +83,7 @@ export default async function handler(req, res) {
         },
       ],
       metadata: {
-        line_user_id: session.line_user_id,
+        line_user_id: lineUserId,
         plan_type: planType,
         credits: String(credits),
       },
