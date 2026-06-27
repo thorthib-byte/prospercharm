@@ -31,6 +31,9 @@ export default async function handler(req, res) {
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object;
     const { line_user_id, plan_type, credits } = session.metadata || {};
+    // Stripe Checkout เก็บอีเมลลูกค้าให้อัตโนมัติทุกครั้ง เอามาเก็บไว้ใน Supabase ด้วย
+    // เพื่อให้หา user ที่จ่ายเงินเจอง่ายๆ ไม่ต้องไล่ดูทีละแถว
+    const customerEmail = session.customer_details?.email || session.customer_email || null;
 
     if (!line_user_id) {
       console.error('Webhook missing line_user_id in metadata');
@@ -59,14 +62,17 @@ export default async function handler(req, res) {
 
         const newCredits = (currentRow?.credits || 0) + creditsToAdd;
 
+        const updatePayload = {
+          credits: newCredits,
+          plan: plan_type,
+          plan_expiry: plan_type === 'single' ? null : expiry.toISOString(),
+          updated_at: new Date().toISOString(),
+        };
+        if (customerEmail) updatePayload.email = customerEmail;
+
         await supabase
           .from('users')
-          .update({
-            credits: newCredits,
-            plan: plan_type,
-            plan_expiry: plan_type === 'single' ? null : expiry.toISOString(),
-            updated_at: new Date().toISOString(),
-          })
+          .update(updatePayload)
           .eq('id', userRow.id);
 
         console.log(`✅ Credits added for ${line_user_id}: +${creditsToAdd} (total: ${newCredits})`);
