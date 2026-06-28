@@ -1489,6 +1489,35 @@
 // Global zoom blocker handle for cn-step3 thread drawing
 var cnZoomBlocker = null;
 
+// ===== VISITOR TRACKING (สำหรับสถิติคนเข้าเว็บใน admin panel) =====
+function getVisitorId() {
+  let vid = localStorage.getItem('pc_visitor_id');
+  if (!vid) {
+    vid = 'v_' + Date.now().toString(36) + '_' + Math.random().toString(36).slice(2, 10);
+    localStorage.setItem('pc_visitor_id', vid);
+  }
+  return vid;
+}
+function trackVisit() {
+  try {
+    let lineUserId = null, displayName = null;
+    const token = localStorage.getItem('pc_line_token');
+    if (token) {
+      try {
+        const session = JSON.parse(decodeURIComponent(escape(atob(token))));
+        lineUserId = session.userId || null;
+        displayName = session.displayName || null;
+      } catch (e) {}
+    }
+    fetch('/api/track-visit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ visitorId: getVisitorId(), lineUserId, displayName }),
+    }).catch(() => {});
+  } catch (e) {}
+}
+trackVisit();
+
 // ===== LINE LOGIN =====
 var lineSession = null;
 const LINE_CHANNEL_ID = '2010281868';
@@ -6050,6 +6079,16 @@ window.addEventListener('load', () => {
       <button onclick="document.getElementById('admin-panel').style.display='none'" style="background:transparent; border:1px solid rgba(180,140,130,0.4); color:var(--text-mid); padding:6px 16px; border-radius:20px; cursor:pointer; font-family:'Noto Sans Thai',sans-serif; font-size:13px;">ปิด</button>
     </div>
 
+    <!-- Visitor Stats -->
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:16px; box-shadow:0 2px 12px rgba(180,140,120,0.08);">
+      <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
+        <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">📊 สถิติผู้เข้าชม (วันนี้)</div>
+        <button onclick="adminLoadStats()" style="background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.4); color:var(--gold); padding:5px 14px; border-radius:20px; cursor:pointer; font-family:'Noto Sans Thai',sans-serif; font-size:12px;">โหลด</button>
+      </div>
+      <div id="admin-stats-summary" style="display:flex; gap:10px; margin-bottom:12px;"></div>
+      <div id="admin-stats-list" style="font-size:12px; color:var(--text-light); line-height:1.9; font-family:'Noto Sans Thai',sans-serif; max-height:200px; overflow-y:auto;"></div>
+    </div>
+
     <!-- Set Coins -->
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:16px; box-shadow:0 2px 12px rgba(180,140,120,0.08);">
       <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:14px;">🪙 แก้ไขเหรียญ</div>
@@ -6057,6 +6096,15 @@ window.addEventListener('load', () => {
       <input id="admin-coins-val" type="number" placeholder="จำนวนเหรียญ" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(180,160,130,0.3); background:var(--cream); color:var(--text); font-family:'Noto Sans Thai',sans-serif; font-size:13px; margin-bottom:14px; box-sizing:border-box; outline:none;">
       <button onclick="adminSetCoins()" style="width:100%; padding:14px; background:linear-gradient(135deg,#c9a84c,#e8c87a); border:none; border-radius:12px; font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:700; color:#fff; cursor:pointer; box-shadow:0 4px 16px rgba(201,168,76,0.3);">อัปเดตเหรียญ</button>
       <div id="admin-coins-result" style="margin-top:10px; font-size:13px; color:var(--gold); text-align:center; font-family:'Noto Sans Thai',sans-serif;"></div>
+    </div>
+
+    <!-- Set Credits -->
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:16px; box-shadow:0 2px 12px rgba(180,140,120,0.08);">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:14px;">💎 แก้ไขเครดิต (ดูดวง)</div>
+      <input id="admin-line-id-2" placeholder="LINE User ID (Uc...)" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(180,160,130,0.3); background:var(--cream); color:var(--text); font-family:'Noto Sans Thai',sans-serif; font-size:13px; margin-bottom:10px; box-sizing:border-box; outline:none;">
+      <input id="admin-credits-val" type="number" placeholder="จำนวนเครดิต" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(180,160,130,0.3); background:var(--cream); color:var(--text); font-family:'Noto Sans Thai',sans-serif; font-size:13px; margin-bottom:14px; box-sizing:border-box; outline:none;">
+      <button onclick="adminSetCredits()" style="width:100%; padding:14px; background:linear-gradient(135deg,#a8694f,#c9a8b8); border:none; border-radius:12px; font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:700; color:#fff; cursor:pointer; box-shadow:0 4px 16px rgba(168,105,79,0.3);">อัปเดตเครดิต</button>
+      <div id="admin-credits-result" style="margin-top:10px; font-size:13px; color:var(--gold); text-align:center; font-family:'Noto Sans Thai',sans-serif;"></div>
     </div>
 
     <!-- User List -->
@@ -6078,6 +6126,8 @@ window.addEventListener('load', () => {
     document.getElementById('login-gate').style.display = 'none';
     document.getElementById('admin-panel').style.display = 'block';
     window.history.replaceState({}, '', '/');
+    adminLoadStats();
+    adminLoadUsers();
   }
 })();
 
@@ -6096,10 +6146,64 @@ async function adminSetCoins() {
     const data = await res.json();
     if (data.ok || data.status === 204) {
       result.style.color='#4caf50'; result.textContent = `✅ อัปเดต ${coins} เหรียญ สำเร็จ!`;
+      adminLoadUsers();
     } else {
       result.style.color='#f44336'; result.textContent = 'Error: ' + JSON.stringify(data);
     }
   } catch(e) { result.style.color='#f44336'; result.textContent = 'Error: ' + e.message; }
+}
+
+async function adminSetCredits() {
+  const lineId = document.getElementById('admin-line-id-2').value.trim();
+  const credits = parseInt(document.getElementById('admin-credits-val').value);
+  const result = document.getElementById('admin-credits-result');
+  if (!lineId || isNaN(credits)) { result.style.color='#f44336'; result.textContent = 'กรอกข้อมูลให้ครบก่อนนะ'; return; }
+  result.style.color='#aaa'; result.textContent = 'กำลังอัปเดต...';
+  try {
+    const res = await fetch('/api/admin/users?pass=prospercharm2026', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ lineId, credits }),
+    });
+    const data = await res.json();
+    if (data.ok || data.status === 204) {
+      result.style.color='#4caf50'; result.textContent = `✅ อัปเดต ${credits} เครดิต สำเร็จ!`;
+      adminLoadUsers();
+    } else {
+      result.style.color='#f44336'; result.textContent = 'Error: ' + JSON.stringify(data);
+    }
+  } catch(e) { result.style.color='#f44336'; result.textContent = 'Error: ' + e.message; }
+}
+
+async function adminLoadStats() {
+  const summary = document.getElementById('admin-stats-summary');
+  const list = document.getElementById('admin-stats-list');
+  summary.innerHTML = ''; list.textContent = 'กำลังโหลด...';
+  try {
+    const res = await fetch('/api/admin/stats?pass=prospercharm2026');
+    const data = await res.json();
+    if (data.error) { list.textContent = 'โหลดไม่ได้: ' + JSON.stringify(data); return; }
+    summary.innerHTML = `
+      <div style="flex:1; background:rgba(201,168,76,0.08); border-radius:12px; padding:12px; text-align:center;">
+        <div style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--gold);">${data.totalVisitsToday}</div>
+        <div style="font-size:11px; color:var(--text-light);">ครั้งที่เข้าวันนี้</div>
+      </div>
+      <div style="flex:1; background:rgba(168,105,79,0.08); border-radius:12px; padding:12px; text-align:center;">
+        <div style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:var(--brown-dark);">${data.uniqueVisitorsToday}</div>
+        <div style="font-size:11px; color:var(--text-light);">คนวันนี้ (unique)</div>
+      </div>
+      <div style="flex:1; background:rgba(76,140,201,0.08); border-radius:12px; padding:12px; text-align:center;">
+        <div style="font-family:'Playfair Display',serif; font-size:22px; font-weight:700; color:#5a7fa8;">${data.uniqueLoggedInToday}</div>
+        <div style="font-size:11px; color:var(--text-light);">Login แล้ว</div>
+      </div>
+    `;
+    if (!data.recentVisits || !data.recentVisits.length) { list.textContent = 'ยังไม่มีคนเข้าเว็บวันนี้'; return; }
+    list.innerHTML = data.recentVisits.map(v => {
+      const t = new Date(v.visited_at).toLocaleTimeString('th-TH', { hour:'2-digit', minute:'2-digit', timeZone:'Asia/Bangkok' });
+      const who = v.display_name || (v.line_user_id ? 'ไม่มีชื่อ' : 'ผู้เยี่ยมชม (ยังไม่ login)');
+      return `<div style="border-bottom:1px solid rgba(180,160,130,0.15); padding:4px 0;">${t} น. — ${who}</div>`;
+    }).join('');
+  } catch(e) { list.textContent = 'โหลดไม่ได้: ' + e.message; }
 }
 
 async function adminLoadUsers() {
@@ -6113,8 +6217,12 @@ async function adminLoadUsers() {
       <div style="border-bottom:1px solid rgba(180,160,130,0.2); padding:10px 0;">
         <div style="font-family:'Noto Serif Thai',serif; font-weight:600; color:var(--brown-dark);">${u.display_name || 'ไม่มีชื่อ'}</div>
         <div style="color:var(--text-light); font-size:11px; word-break:break-all; margin:2px 0;">ID: ${u.line_user_id}</div>
-        <div style="color:var(--gold); font-size:13px;">🪙 ${u.coins} เหรียญ &nbsp;|&nbsp; 🔥 ${u.streak} วัน &nbsp;|&nbsp; เช็คอินล่าสุด: ${u.last_checkin || '-'}</div>
-        <button onclick="document.getElementById('admin-line-id').value='${u.line_user_id}'" style="margin-top:6px; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.3); color:var(--gold); padding:4px 12px; border-radius:10px; cursor:pointer; font-family:'Noto Sans Thai',sans-serif; font-size:11px;">เลือก</button>
+        <div style="color:var(--gold); font-size:13px;">🪙 ${u.coins} เหรียญ &nbsp;|&nbsp; 💎 ${u.credits||0} เครดิต (${u.plan||'free'}) &nbsp;|&nbsp; 🔥 ${u.streak} วัน</div>
+        <div style="color:var(--text-light); font-size:11px; margin-top:2px;">เช็คอินล่าสุด: ${u.last_checkin || '-'}</div>
+        <div style="display:flex; gap:8px; margin-top:6px;">
+          <button onclick="document.getElementById('admin-line-id').value='${u.line_user_id}'" style="background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.3); color:var(--gold); padding:4px 12px; border-radius:10px; cursor:pointer; font-family:'Noto Sans Thai',sans-serif; font-size:11px;">เลือก (เหรียญ)</button>
+          <button onclick="document.getElementById('admin-line-id-2').value='${u.line_user_id}'" style="background:rgba(168,105,79,0.1); border:1px solid rgba(168,105,79,0.3); color:#a8694f; padding:4px 12px; border-radius:10px; cursor:pointer; font-family:'Noto Sans Thai',sans-serif; font-size:11px;">เลือก (เครดิต)</button>
+        </div>
       </div>
     `).join('');
   } catch(e) { list.textContent = 'โหลดไม่ได้: ' + e.message; }
