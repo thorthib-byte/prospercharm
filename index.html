@@ -525,7 +525,7 @@
         <div style="max-width:280px;margin:0 auto;">
           <div style="text-align:center;margin-bottom:8px;font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:600;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.5);">กำลังอ่านพลังงานของคุณ...</div>
           <div style="height:7px;background:rgba(255,255,255,0.3);border-radius:4px;overflow:hidden;">
-            <div id="daily-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#e8a8bc,#f5c4d3);border-radius:4px;transition:width 10s linear;"></div>
+            <div id="daily-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#e8a8bc,#f5c4d3);border-radius:4px;transition:width 8s linear;"></div>
           </div>
           <div style="text-align:center;margin-top:6px;font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:600;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.5);" id="daily-progress-pct">0%</div>
           <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px;">
@@ -1987,15 +1987,15 @@ function tapCrystalBall() {
   videoEl.loop = true;
   videoEl.play().catch(()=>{});
 
-  // animate progress bar สีชมพู 0 → 100% ใน 10 วินาที พร้อมเปอร์เซ็นต์
+  // animate progress bar สีชมพู 0 → 100% ใน 8 วินาที พร้อมเปอร์เซ็นต์
   const bar = document.getElementById('daily-progress-bar');
   const pctEl = document.getElementById('daily-progress-pct');
-  bar.style.transition = 'width 10s linear';
+  bar.style.transition = 'width 8s linear';
   bar.style.width = '0%';
   pctEl.textContent = '0%';
   requestAnimationFrame(() => { setTimeout(() => { bar.style.width = '100%'; }, 50); });
 
-  const totalDuration = 10000;
+  const totalDuration = 8000;
   const pctStart = Date.now();
   const pctInterval = setInterval(() => {
     const elapsed = Date.now() - pctStart;
@@ -2004,11 +2004,11 @@ function tapCrystalBall() {
     if (pct >= 100) clearInterval(pctInterval);
   }, 100);
 
-  // checklist ขึ้นทีละข้อ ระหว่างโหลด
+  // checklist ขึ้นทีละข้อ ระหว่างโหลด (ปรับสัดส่วนให้พอดีกับ 8 วินาที)
   const steps = [
-    { id: 'daily-loading-step-1', at: 500 },
-    { id: 'daily-loading-step-2', at: 3800 },
-    { id: 'daily-loading-step-3', at: 7000 },
+    { id: 'daily-loading-step-1', at: 400 },
+    { id: 'daily-loading-step-2', at: 3000 },
+    { id: 'daily-loading-step-3', at: 5600 },
   ];
   steps.forEach(s => {
     setTimeout(() => {
