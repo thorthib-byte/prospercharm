@@ -60,10 +60,10 @@ export default async function handler(req, res) {
     const paymentMethodTypes = method === 'promptpay' ? ['promptpay'] : ['card'];
 
     const titles = {
-      single: 'จ่ายรายครั้ง — ดูดวงรายวัน',
-      basic: 'แพ็กเกจ Basic (5 ครั้ง/เดือน)',
-      pro: 'แพ็กเกจ Pro (12 ครั้ง/เดือน)',
-      unlimited: 'แพ็กเกจ Unlimited (ไม่จำกัด/เดือน)',
+      single: 'เนื้อหาเพื่อความเพลิดเพลิน — รายครั้ง',
+      basic: 'แพ็กเกจ Basic — Self-Reflection Content (5 ครั้ง/เดือน)',
+      pro: 'แพ็กเกจ Pro — Self-Reflection Content (12 ครั้ง/เดือน)',
+      unlimited: 'แพ็กเกจ Unlimited — Self-Reflection Content (ไม่จำกัด/เดือน)',
     };
 
     const origin = `https://${req.headers.host}`;
@@ -72,7 +72,6 @@ export default async function handler(req, res) {
       customer: customerId,
       payment_method_types: paymentMethodTypes,
       mode: 'payment',
-      locale: 'th', // บังคับให้หน้า Stripe Checkout (รวมหน้า PromptPay QR) เป็นภาษาไทยเสมอ ไม่ต้องพึ่ง browser เดา
       line_items: [
         {
           price_data: {
