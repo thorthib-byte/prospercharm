@@ -6107,6 +6107,15 @@ window.addEventListener('load', () => {
       <div id="admin-credits-result" style="margin-top:10px; font-size:13px; color:var(--gold); text-align:center; font-family:'Noto Sans Thai',sans-serif;"></div>
     </div>
 
+    <!-- Set Streak -->
+    <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:16px; box-shadow:0 2px 12px rgba(180,140,120,0.08);">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:14px;">🔥 แก้ไขวันสตรีค (Streak)</div>
+      <input id="admin-line-id-3" placeholder="LINE User ID (Uc...)" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(180,160,130,0.3); background:var(--cream); color:var(--text); font-family:'Noto Sans Thai',sans-serif; font-size:13px; margin-bottom:10px; box-sizing:border-box; outline:none;">
+      <input id="admin-streak-val" type="number" placeholder="จำนวนวัน" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(180,160,130,0.3); background:var(--cream); color:var(--text); font-family:'Noto Sans Thai',sans-serif; font-size:13px; margin-bottom:14px; box-sizing:border-box; outline:none;">
+      <button onclick="adminSetStreak()" style="width:100%; padding:14px; background:linear-gradient(135deg,#e8804f,#f5b87a); border:none; border-radius:12px; font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:700; color:#fff; cursor:pointer; box-shadow:0 4px 16px rgba(232,128,79,0.3);">อัปเดตวันสตรีค</button>
+      <div id="admin-streak-result" style="margin-top:10px; font-size:13px; color:var(--gold); text-align:center; font-family:'Noto Sans Thai',sans-serif;"></div>
+    </div>
+
     <!-- User List -->
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:16px; box-shadow:0 2px 12px rgba(180,140,120,0.08);">
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
@@ -6175,6 +6184,28 @@ async function adminSetCredits() {
   } catch(e) { result.style.color='#f44336'; result.textContent = 'Error: ' + e.message; }
 }
 
+async function adminSetStreak() {
+  const lineId = document.getElementById('admin-line-id-3').value.trim();
+  const streak = parseInt(document.getElementById('admin-streak-val').value);
+  const result = document.getElementById('admin-streak-result');
+  if (!lineId || isNaN(streak)) { result.style.color='#f44336'; result.textContent = 'กรอกข้อมูลให้ครบก่อนนะ'; return; }
+  result.style.color='#aaa'; result.textContent = 'กำลังอัปเดต...';
+  try {
+    const res = await fetch('/api/admin/users?pass=prospercharm2026', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ lineId, streak }),
+    });
+    const data = await res.json();
+    if (data.ok || data.status === 204) {
+      result.style.color='#4caf50'; result.textContent = `✅ อัปเดต ${streak} วัน สำเร็จ!`;
+      adminLoadUsers();
+    } else {
+      result.style.color='#f44336'; result.textContent = 'Error: ' + JSON.stringify(data);
+    }
+  } catch(e) { result.style.color='#f44336'; result.textContent = 'Error: ' + e.message; }
+}
+
 async function adminLoadStats() {
   const summary = document.getElementById('admin-stats-summary');
   const list = document.getElementById('admin-stats-list');
@@ -6222,6 +6253,7 @@ async function adminLoadUsers() {
         <div style="display:flex; gap:8px; margin-top:6px;">
           <button onclick="document.getElementById('admin-line-id').value='${u.line_user_id}'" style="background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.3); color:var(--gold); padding:4px 12px; border-radius:10px; cursor:pointer; font-family:'Noto Sans Thai',sans-serif; font-size:11px;">เลือก (เหรียญ)</button>
           <button onclick="document.getElementById('admin-line-id-2').value='${u.line_user_id}'" style="background:rgba(168,105,79,0.1); border:1px solid rgba(168,105,79,0.3); color:#a8694f; padding:4px 12px; border-radius:10px; cursor:pointer; font-family:'Noto Sans Thai',sans-serif; font-size:11px;">เลือก (เครดิต)</button>
+          <button onclick="document.getElementById('admin-line-id-3').value='${u.line_user_id}'" style="background:rgba(232,128,79,0.1); border:1px solid rgba(232,128,79,0.3); color:#e8804f; padding:4px 12px; border-radius:10px; cursor:pointer; font-family:'Noto Sans Thai',sans-serif; font-size:11px;">เลือก (วัน)</button>
         </div>
       </div>
     `).join('');
