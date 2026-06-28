@@ -11,10 +11,10 @@ export default async function handler(req) {
     return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 });
   }
 
-  // GET — ดึง users ทั้งหมด
+  // GET — ดึง users ทั้งหมด (รวม credits/plan ด้วย)
   if (req.method === 'GET') {
     const res = await fetch(
-      `${SUPABASE_URL}/rest/v1/users?select=line_user_id,display_name,coins,streak,last_checkin&order=updated_at.desc`,
+      `${SUPABASE_URL}/rest/v1/users?select=line_user_id,display_name,coins,streak,last_checkin,credits,plan,plan_expiry&order=updated_at.desc`,
       {
         headers: {
           'apikey': SUPABASE_SECRET,
@@ -28,13 +28,18 @@ export default async function handler(req) {
     });
   }
 
-  // PATCH — update coins
+  // PATCH — update coins และ/หรือ credits/plan (ส่งมาแค่ field ที่ต้องการแก้ก็ได้ ไม่กระทบ field อื่น)
   if (req.method === 'PATCH') {
     const body = await req.json();
-    const { lineId, coins } = body;
-    if (!lineId || coins === undefined) {
-      return new Response(JSON.stringify({ error: 'Missing lineId or coins' }), { status: 400 });
+    const { lineId, coins, credits, plan } = body;
+    if (!lineId || (coins === undefined && credits === undefined && plan === undefined)) {
+      return new Response(JSON.stringify({ error: 'Missing lineId or value to update' }), { status: 400 });
     }
+    const updatePayload = { coins, credits, plan, updated_at: new Date().toISOString() };
+    Object.keys(updatePayload).forEach((k) => {
+      if (updatePayload[k] === undefined) delete updatePayload[k];
+    });
+
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/users?line_user_id=eq.${lineId}`,
       {
@@ -44,7 +49,7 @@ export default async function handler(req) {
           'apikey': SUPABASE_SECRET,
           'Authorization': `Bearer ${SUPABASE_SECRET}`,
         },
-        body: JSON.stringify({ coins, updated_at: new Date().toISOString() }),
+        body: JSON.stringify(updatePayload),
       }
     );
     return new Response(JSON.stringify({ ok: res.ok, status: res.status }), {
