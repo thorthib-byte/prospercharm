@@ -28,14 +28,14 @@ export default async function handler(req) {
     });
   }
 
-  // PATCH — update coins และ/หรือ credits/plan (ส่งมาแค่ field ที่ต้องการแก้ก็ได้ ไม่กระทบ field อื่น)
+  // PATCH — update coins/credits/plan/streak (ส่งมาแค่ field ที่ต้องการแก้ก็ได้ ไม่กระทบ field อื่น)
   if (req.method === 'PATCH') {
     const body = await req.json();
-    const { lineId, coins, credits, plan } = body;
-    if (!lineId || (coins === undefined && credits === undefined && plan === undefined)) {
+    const { lineId, coins, credits, plan, streak } = body;
+    if (!lineId || (coins === undefined && credits === undefined && plan === undefined && streak === undefined)) {
       return new Response(JSON.stringify({ error: 'Missing lineId or value to update' }), { status: 400 });
     }
-    const updatePayload = { coins, credits, plan, updated_at: new Date().toISOString() };
+    const updatePayload = { coins, credits, plan, streak, updated_at: new Date().toISOString() };
     Object.keys(updatePayload).forEach((k) => {
       if (updatePayload[k] === undefined) delete updatePayload[k];
     });
