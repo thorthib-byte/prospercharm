@@ -2428,7 +2428,7 @@ function initDobSelects() {
 }
 
 function getDobValue(prefix) {
- // prefix e.g. 'siam-dob', 'energy-dob', 'soulmate-dob1' const d = document.getElementById(prefix + '-d');
+ const d = document.getElementById(prefix + '-d');
  const m = document.getElementById(prefix + '-m');
  const y = document.getElementById(prefix + '-y');
  if (!d || !m || !y || !d.value || !m.value || !y.value) return '';
@@ -2436,6 +2436,22 @@ function getDobValue(prefix) {
  const mm = String(m.value).padStart(2, '0');
  const dd = String(d.value).padStart(2, '0');
  return yearCE + '-' + mm + '-' + dd; // returns YYYY-MM-DD (CE)
+}
+
+function fillDobSelects(prefix, dob) {
+ // dob format: YYYY-MM-DD (CE) → convert to BE for display
+ if (!dob) return;
+ const parts = dob.split('-');
+ if (parts.length < 3) return;
+ const yearBE = parseInt(parts[0]) + 543;
+ const month = parseInt(parts[1]);
+ const day = parseInt(parts[2]);
+ const dSel = document.getElementById(prefix + '-d');
+ const mSel = document.getElementById(prefix + '-m');
+ const ySel = document.getElementById(prefix + '-y');
+ if (dSel) dSel.value = day;
+ if (mSel) mSel.value = month;
+ if (ySel) ySel.value = yearBE;
 }
 
 function clearDob(prefix) {
