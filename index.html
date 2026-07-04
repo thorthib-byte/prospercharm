@@ -1585,8 +1585,12 @@ async function syncCoinsFromServer() {
       userState.credits = data.credits;
       userState.plan = data.plan || 'free';
       userState.planExpiry = data.planExpiry || null;
+      // หมดอายุเฉพาะถ้า planExpiry มีค่าจริงๆ แล้วเลยวันนั้นไปแล้วเท่านั้น
+      // null หมายถึง "ไม่มีกำหนดหมดอายุ" ไม่ใช่ "หมดอายุแล้ว"
       if (userState.planExpiry && new Date() > new Date(userState.planExpiry)) {
-        userState = { plan: 'free', credits: 0, planExpiry: null };
+        userState.credits = 0;
+        userState.plan = 'free';
+        userState.planExpiry = null;
       }
       saveState();
       updateStatusBar();
@@ -5565,12 +5569,43 @@ function claimCheckin() {
     syncCoinsToServer(state);
     userState.credits = (userState.credits || 0) + 1;
     if (userState.plan === 'free') userState.plan = 'single';
+
+    // ตั้ง planExpiry = สิ้นเดือนถัดไป (เครดิตฟรีจากเหรียญอยู่ได้ถึงสิ้นเดือนถัดไปเสมอ)
+    // ถ้ามี expiry เดิมอยู่แล้ว ให้เลือกวันที่ไกลกว่าไว้ก่อน (กันเครดิตหมดอายุก่อนใช้)
+    const nextMonthEnd = (() => {
+      const now = new Date();
+      const y = now.getMonth() === 11 ? now.getFullYear() + 1 : now.getFullYear();
+      const m = (now.getMonth() + 2) % 12 || 12;
+      return new Date(y, m, 0, 23, 59, 59).toISOString(); // วันสุดท้ายของเดือนถัดไป
+    })();
+    const existingExpiry = userState.planExpiry ? new Date(userState.planExpiry) : null;
+    const newExpiry = new Date(nextMonthEnd);
+    userState.planExpiry = (existingExpiry && existingExpiry > newExpiry)
+      ? existingExpiry.toISOString()
+      : nextMonthEnd;
+
     saveState();
     updateStatusBar();
     syncCreditsToServer();
-    showToast('🎉 ครบ 99 เหรียญ! ได้รับ 1 ครั้งฟรีค่ะ');
+
+    // แสดงวันหมดอายุให้ user รู้ชัดๆ
+    const expiryDate = new Date(userState.planExpiry);
+    const expiryStr = expiryDate.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Bangkok' });
+    showToast('🎉 ครบ 99 เหรียญ! ได้รับ 1 ครั้งฟรีค่ะ\n⏳ ใช้ได้ถึง ' + expiryStr);
   } else {
-    showToast('🪙 รับ +' + reward + ' เหรียญแล้ว! (รวม ' + newCoins + '/99)');
+    // เตือนตอนเหรียญครบ 98 (เหลืออีกแค่ 1 ก่อนแปลงเป็นเครดิต)
+    if (newCoins === 98) {
+      const nextMonthEnd = (() => {
+        const now = new Date();
+        const y = now.getMonth() === 11 ? now.getFullYear() + 1 : now.getFullYear();
+        const m = (now.getMonth() + 2) % 12 || 12;
+        return new Date(y, m, 0, 23, 59, 59);
+      })();
+      const expiryStr = nextMonthEnd.toLocaleDateString('th-TH', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'Asia/Bangkok' });
+      showToast('🪙 รับ +' + reward + ' เหรียญแล้ว! (รวม ' + newCoins + '/99)\n💡 เช็คอินพรุ่งนี้จะได้ 1 ครั้งฟรี ใช้ได้ถึง ' + expiryStr);
+    } else {
+      showToast('🪙 รับ +' + reward + ' เหรียญแล้ว! (รวม ' + newCoins + '/99)');
+    }
   }
 
   renderCheckin();
