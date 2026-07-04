@@ -83,6 +83,18 @@
   .dob-row { display:flex; gap:8px; margin-bottom:16px; }
   .dob-select { padding:10px 4px; background:var(--white); border:1px solid rgba(180,160,130,0.4); border-radius:12px; color:var(--text); font-size:15px; font-family:'Noto Sans Thai',sans-serif; outline:none; appearance:none; -webkit-appearance:none; text-align:center; cursor:pointer; width:100%; }
   .dob-select:focus { border-color:var(--gold); }
+  /* Profile popup: focus = dusty pink ไม่ใช่ทอง */
+  #profile-nickname:focus, #profile-gender-other:focus,
+  #profile-province-birth-other:focus, #profile-province-now-other:focus {
+    border-color: #d4a8b8;
+    box-shadow: 0 0 0 3px rgba(212,168,184,0.18);
+  }
+  #profile-nickname:-webkit-autofill, #profile-nickname:-webkit-autofill:focus,
+  #profile-gender-other:-webkit-autofill, #profile-gender-other:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 1000px #F5EFE6 inset;
+    -webkit-text-fill-color: #3D3028;
+    border-color: #d4a8b8 !important;
+  }
   .dob-day { flex:0.7; }
   .dob-month { flex:1.6; }
   .dob-year { flex:1; }
