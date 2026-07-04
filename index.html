@@ -1710,6 +1710,11 @@ function selectProfileGender(btn) {
 }
 function showProfilePopup(isEdit) {
   isEdit = !!isEdit;
+  // ซ่อน active page ด้วย display:none (ไม่ใช่ visibility:hidden)
+  // เพราะ display:none บังคับ evict GPU compositor layers ทั้งหมดรวมถึง position:fixed children
+  // visibility:hidden ไม่รับประกันบน iOS Safari
+  window._ppActivePage = document.querySelector('.page.active');
+  if (window._ppActivePage) window._ppActivePage.style.display = 'none';
   // ซ่อน position:fixed elements ที่อาจโผล่ผ่าน popup บน iOS Safari compositor
   const _fixedEls = ['daily-bg-still','daily-crystal-video','daily-tap-prompt-wrap','daily-progress-wrap','offering-still-img','offering-video'];
   window._ppHidden = _fixedEls.map(id => {
@@ -1754,6 +1759,11 @@ function closeProfilePopup() {
   document.getElementById('profile-popup').style.display = 'none';
   document.body.style.overflow = '';
   document.documentElement.style.backgroundColor = '';
+  // คืน active page — ใช้ '' เพื่อให้ CSS .page.active { display:block } ทำงานเอง
+  if (window._ppActivePage) {
+    window._ppActivePage.style.display = '';
+    window._ppActivePage = null;
+  }
   // คืน fixed elements ที่ซ่อนไว้
   if (window._ppHidden) {
     window._ppHidden.forEach(({el, prev}) => { el.style.visibility = prev; });
@@ -6007,7 +6017,7 @@ window.addEventListener('load', () => {
 </script>
 
 <!-- USER PROFILE POPUP -->
-<div id="profile-popup" style="display:none;position:fixed;inset:0;z-index:10000;background:var(--cream);overflow-y:auto;padding-bottom:max(60px,env(safe-area-inset-bottom,60px));min-height:100vh;-webkit-overflow-scrolling:touch;isolation:isolate;">
+<div id="profile-popup" style="display:none;position:fixed;inset:0;z-index:10000;background:var(--cream);overflow-y:auto;overscroll-behavior:none;padding-bottom:max(60px,env(safe-area-inset-bottom,60px));min-height:100vh;-webkit-overflow-scrolling:touch;">
   <div style="max-width:420px;margin:0 auto;padding:24px 16px;">
 
     <!-- Header -->
