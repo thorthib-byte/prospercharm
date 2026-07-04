@@ -50,10 +50,11 @@ export default async function handler(req) {
     }), { headers: { 'Content-Type': 'application/json' } });
   }
 
-  // POST — บันทึก coins หลัง check-in และ/หรือ credits หลังใช้ดูดวง (ส่งมาเฉพาะ field ที่ต้องการอัปเดตก็ได้)
+  // POST — บันทึก coins/credits และ/หรือ profile fields (nickname, gender, birthdate ฯลฯ)
   if (req.method === 'POST') {
     const body = await req.json();
-    const { coins, coinsMonth, streak, lastCheckin, checkinHistory, credits, plan, planExpiry } = body;
+    const { coins, coinsMonth, streak, lastCheckin, checkinHistory, credits, plan, planExpiry,
+            nickname, gender, birthdate, birthtime, birthplace, location } = body;
 
     const updatePayload = {
       coins,
@@ -64,9 +65,14 @@ export default async function handler(req) {
       credits,
       plan,
       plan_expiry: planExpiry,
+      nickname,
+      gender,
+      birthdate,
+      birthtime,
+      birthplace,
+      location,
       updated_at: new Date().toISOString(),
     };
-    // ตัด field ที่เป็น undefined ออก กัน Supabase เขียนทับด้วย null โดยไม่ตั้งใจ
     Object.keys(updatePayload).forEach((k) => {
       if (updatePayload[k] === undefined) delete updatePayload[k];
     });
