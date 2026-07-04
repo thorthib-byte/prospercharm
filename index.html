@@ -313,7 +313,7 @@
   </div>
     <div style="text-align:center;padding:12px 0 4px;font-family:'Noto Serif Thai',serif;font-size:13px;color:var(--text-light);">✦ เลือกบริการที่ต้องการ ✦</div>
     <div class="menu-grid">
-      <div class="menu-card" onclick="goTo('page-daily')"><img class="menu-icon" src="images/icons/daily.png"><span class="menu-title">ดวงรายวัน</span><span class="menu-desc">ชวนคิด ทบทวนวันนี้</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" onclick="goTo('page-daily');onDailyPageOpen();"><img class="menu-icon" src="images/icons/daily.png"><span class="menu-title">ดวงรายวัน</span><span class="menu-desc">ชวนคิด ทบทวนวันนี้</span><span class="menu-price">29 บาท/ครั้ง</span></div>
       <div class="menu-card" onclick="goTo('page-siam')"><img class="menu-icon" src="images/icons/siemsi.png"><span class="menu-title">เซียมซี</span><span class="menu-desc">สนุกกับความเชื่อแบบไทยๆ</span><span class="menu-price">29 บาท/ครั้ง</span></div>
       <div class="menu-card" onclick="goTo('page-tarot')"><img class="menu-icon" src="images/icons/tarot.png"><span class="menu-title">ไพ่ทาโรต์</span><span class="menu-desc">สำรวจมุมมองผ่านไพ่</span><span class="menu-price">29 บาท/ครั้ง</span></div>
       <div class="menu-card" onclick="goTo('page-energy')"><img class="menu-icon" src="images/icons/energy.png"><span class="menu-title">เลขพลังงาน</span><span class="menu-desc">หาแรงบันดาลใจประจำวัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
@@ -1652,6 +1652,135 @@ async function syncCreditsToServer() {
  } catch(e) { console.log('[credits sync] error', e); }
 }
 
+
+// ===== USER PROFILE SYSTEM =====
+function loadUserProfile() {
+  try { const raw = localStorage.getItem('pc_user_profile'); return raw ? JSON.parse(raw) : null; } catch { return null; }
+}
+function saveUserProfile(data) {
+  localStorage.setItem('pc_user_profile', JSON.stringify(data));
+  syncUserProfileToServer(data);
+}
+async function syncUserProfileToServer(data) {
+  const token = localStorage.getItem('pc_line_token');
+  if (!token) return;
+  try {
+    const btime = (data.birthHour !== '' && data.birthMin !== '')
+      ? String(data.birthHour).padStart(2,'0') + ':' + String(data.birthMin).padStart(2,'0') : null;
+    const birthplace = data.birthCountry === 'TH' ? (data.birthProvince||'') : (data.birthCity||'');
+    const location = data.nowCountry === 'TH' ? (data.nowProvince||'') : (data.nowCity||'');
+    await fetch('/api/user/coins', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer '+token, 'Content-Type':'application/json' },
+      body: JSON.stringify({ nickname: data.nickname||null, gender: data.gender||null,
+        birthdate: data.dob||null, birthtime: btime, birthplace: birthplace||null, location: location||null }),
+    });
+  } catch(e) { console.log('profile sync error', e); }
+}
+function updateProfileProvinces(type) {
+  const countryEl = document.getElementById('profile-country-'+type);
+  const provinceEl = document.getElementById('profile-province-'+type);
+  const otherEl = document.getElementById('profile-province-'+type+'-other');
+  const val = countryEl.value;
+  provinceEl.innerHTML = '<option value="">-- เลือกจังหวัด --</option>';
+  if (val === 'TH') {
+    thaiProvinces.forEach(p => { const o = document.createElement('option'); o.value=p; o.textContent=p; provinceEl.appendChild(o); });
+    provinceEl.style.display='block'; otherEl.style.display='none';
+  } else if (val === 'OTHER') {
+    provinceEl.style.display='none'; otherEl.style.display='block';
+  } else { provinceEl.style.display='block'; otherEl.style.display='none'; }
+}
+function selectProfileGender(btn) {
+  document.querySelectorAll('.profile-gender-btn').forEach(b => {
+    b.style.background='var(--cream)'; b.style.color='var(--text)'; b.style.border='1px solid rgba(180,160,130,0.35)';
+  });
+  btn.style.background='var(--brown-dark)'; btn.style.color='#fff'; btn.style.border='1px solid var(--brown-dark)';
+  document.getElementById('profile-gender-other').style.display = btn.dataset.val==='other' ? 'block' : 'none';
+}
+function showProfilePopup(isEdit) {
+  isEdit = !!isEdit;
+  // populate hour/min
+  const hSel = document.getElementById('profile-birth-h');
+  const mSel = document.getElementById('profile-birth-min');
+  if (hSel.options.length <= 1) {
+    for (let h=0;h<24;h++) { const o=document.createElement('option'); o.value=h; o.textContent=String(h).padStart(2,'0')+' นาฬิกา'; hSel.appendChild(o); }
+  }
+  if (mSel.options.length <= 1) {
+    for (let m=0;m<60;m+=5) { const o=document.createElement('option'); o.value=m; o.textContent=String(m).padStart(2,'0')+' นาที'; mSel.appendChild(o); }
+  }
+  initDobSelects('profile-dob');
+  document.getElementById('profile-skip-btn').style.display = isEdit ? 'none' : 'block';
+  // pre-fill from existing profile
+  const existing = loadUserProfile();
+  if (existing) {
+    if (existing.nickname) document.getElementById('profile-nickname').value = existing.nickname;
+    if (existing.gender) {
+      const btn = document.querySelector('.profile-gender-btn[data-val="'+existing.gender+'"]');
+      if (btn) selectProfileGender(btn);
+      if (existing.gender==='other' && existing.genderOther) document.getElementById('profile-gender-other').value=existing.genderOther;
+    }
+    if (existing.dob) fillDobSelects('profile-dob', existing.dob);
+    if (existing.birthHour!==undefined && existing.birthHour!=='') hSel.value=existing.birthHour;
+    if (existing.birthMin!==undefined && existing.birthMin!=='') mSel.value=existing.birthMin;
+    if (existing.birthCountry) {
+      document.getElementById('profile-country-birth').value=existing.birthCountry; updateProfileProvinces('birth');
+      if (existing.birthCountry==='TH' && existing.birthProvince) document.getElementById('profile-province-birth').value=existing.birthProvince;
+      if (existing.birthCountry==='OTHER' && existing.birthCity) document.getElementById('profile-province-birth-other').value=existing.birthCity;
+    }
+    if (existing.nowCountry) {
+      document.getElementById('profile-country-now').value=existing.nowCountry; updateProfileProvinces('now');
+      if (existing.nowCountry==='TH' && existing.nowProvince) document.getElementById('profile-province-now').value=existing.nowProvince;
+      if (existing.nowCountry==='OTHER' && existing.nowCity) document.getElementById('profile-province-now-other').value=existing.nowCity;
+    }
+  }
+  document.getElementById('profile-popup').style.display='block';
+  window.scrollTo(0,0);
+  document.getElementById('profile-save-msg').textContent='';
+}
+function closeProfilePopup() { document.getElementById('profile-popup').style.display='none'; }
+function submitUserProfile() {
+  const nickname = document.getElementById('profile-nickname').value.trim();
+  const genderBtn = document.querySelector('.profile-gender-btn[style*="var(--brown-dark)"]');
+  const gender = genderBtn ? genderBtn.dataset.val : '';
+  const genderOther = document.getElementById('profile-gender-other').value.trim();
+  const dob = getDobValue('profile-dob');
+  const birthHour = document.getElementById('profile-birth-h').value;
+  const birthMin = document.getElementById('profile-birth-min').value;
+  const birthCountry = document.getElementById('profile-country-birth').value;
+  const birthProvince = birthCountry==='TH' ? document.getElementById('profile-province-birth').value : '';
+  const birthCity = birthCountry==='OTHER' ? document.getElementById('profile-province-birth-other').value.trim() : '';
+  const nowCountry = document.getElementById('profile-country-now').value;
+  const nowProvince = nowCountry==='TH' ? document.getElementById('profile-province-now').value : '';
+  const nowCity = nowCountry==='OTHER' ? document.getElementById('profile-province-now-other').value.trim() : '';
+  if (!gender) { showToast('กรุณาเลือกเพศก่อนนะคะ'); return; }
+  if (!dob) { showToast('กรุณากรอกวันเกิดให้ครบก่อนนะคะ'); return; }
+  if (!birthCountry||(!birthProvince&&!birthCity)) { showToast('กรุณาเลือกสถานที่เกิดก่อนนะคะ'); return; }
+  if (!nowCountry||(!nowProvince&&!nowCity)) { showToast('กรุณาเลือกที่อยู่ปัจจุบันก่อนนะคะ'); return; }
+  const profile = { nickname, gender, genderOther, dob, birthHour, birthMin,
+    birthCountry, birthProvince, birthCity, nowCountry, nowProvince, nowCity, complete:true };
+  saveUserProfile(profile);
+  saveDailyProfile({ dob, countryBirth:birthCountry, provinceBirth:birthProvince||birthCity, countryNow:nowCountry, provinceNow:nowProvince||nowCity });
+  document.getElementById('profile-save-msg').textContent = '✦ บันทึกเรียบร้อยแล้วค่ะ';
+  setTimeout(() => closeProfilePopup(), 900);
+  showToast('✦ บันทึกโปรไฟล์เรียบร้อยแล้วค่ะ');
+}
+function prefillDailyFromProfile() {
+  const profile = loadUserProfile();
+  if (!profile||!profile.complete) return false;
+  if (profile.dob) fillDobSelects('daily-dob1', profile.dob);
+  if (profile.birthCountry) {
+    const cb=document.getElementById('daily-country-birth'); if(cb){cb.value=profile.birthCountry; updateDailyProvinces('birth');}
+    if (profile.birthCountry==='TH'&&profile.birthProvince) { const pb=document.getElementById('daily-province-birth'); if(pb) pb.value=profile.birthProvince; }
+    if (profile.birthCountry==='OTHER'&&profile.birthCity) { const ob=document.getElementById('daily-province-birth-other'); if(ob) ob.value=profile.birthCity; }
+  }
+  if (profile.nowCountry) {
+    const cn=document.getElementById('daily-country-now'); if(cn){cn.value=profile.nowCountry; updateDailyProvinces('now');}
+    if (profile.nowCountry==='TH'&&profile.nowProvince) { const pn=document.getElementById('daily-province-now'); if(pn) pn.value=profile.nowProvince; }
+    if (profile.nowCountry==='OTHER'&&profile.nowCity) { const on=document.getElementById('daily-province-now-other'); if(on) on.value=profile.nowCity; }
+  }
+  return true;
+}
+
 function updateLineUI() {
  const gate = document.getElementById('login-gate');
  if (lineSession) {
@@ -1659,8 +1788,12 @@ function updateLineUI() {
  // แสดง user pic ใน plan area
  const planIcon = document.getElementById('plan-icon');
  const planName = document.getElementById('plan-name');
- if (planIcon) planIcon.innerHTML = `<img src="${lineSession.pictureUrl||''}" style="width:20px;height:20px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:2px;">`;
- if (planName) planName.textContent = lineSession.displayName || 'สมาชิก';
+ if (planIcon) planIcon.innerHTML = `<img src="${lineSession.pictureUrl||''}" style="width:20px;height:20px;border-radius:50%;object-fit:cover;vertical-align:middle;margin-right:2px;cursor:pointer;" onclick="showProfilePopup(true)">`;
+ if (planName) {
+   const _prof = loadUserProfile();
+   const _dname = (_prof&&_prof.nickname) ? _prof.nickname : (lineSession.displayName||'สมาชิก');
+   planName.innerHTML = `<span onclick="showProfilePopup(true)" style="cursor:pointer;">${_dname} <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px;opacity:0.5"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span>`;
+ }
  } else {
  if (gate) gate.style.display = 'flex';
  }
@@ -1692,6 +1825,10 @@ async function initLineAuth() {
  if (Date.now() < session.exp) {
  lineSession = session;
  updateLineUI();
+ // แสดง profile popup ถ้ายังไม่เคยกรอก (first-time login)
+ if (!loadUserProfile() || !loadUserProfile().complete) {
+   setTimeout(() => showProfilePopup(false), 600);
+ }
  // ซ่อน login gate
  const gate = document.getElementById('login-gate');
  if (gate) gate.style.display = 'none';
@@ -1961,6 +2098,11 @@ function getScores(seed, sign) {
  money: Math.min(10, Math.max(5, base[(signIdx+seed+4)%12])),
  health: Math.min(10, Math.max(5, base[(signIdx+seed+6)%12])),
  };
+}
+
+// called when user opens daily page - auto-fill profile data
+function onDailyPageOpen() {
+  prefillDailyFromProfile();
 }
 
 function checkAndGenerateDaily() {
@@ -5822,6 +5964,96 @@ window.addEventListener('load', () => {
  if (!isValid) gate.style.display = 'flex';
 })();
 </script>
+
+<!-- USER PROFILE POPUP -->
+<div id="profile-popup" style="display:none;position:fixed;inset:0;z-index:10000;background:var(--cream);overflow-y:auto;padding-bottom:60px;">
+  <div style="max-width:420px;margin:0 auto;padding:24px 16px;">
+
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+      <div>
+        <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--brown-dark);">โปรไฟล์ของฉัน</div>
+        <div style="font-size:12px;color:var(--text-light);margin-top:3px;">ข้อมูลนี้ช่วยให้คำทำนายแม่นยำยิ่งขึ้นค่ะ</div>
+      </div>
+      <button id="profile-skip-btn" onclick="closeProfilePopup()" style="background:transparent;border:1px solid rgba(180,160,130,0.4);color:var(--text-mid);padding:6px 16px;border-radius:20px;cursor:pointer;font-family:'Noto Sans Thai',sans-serif;font-size:13px;">ข้าม</button>
+    </div>
+    <div style="height:1px;background:rgba(180,160,130,0.2);margin:16px 0 20px;"></div>
+
+    <!-- ชื่อที่เรียก -->
+    <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;">ชื่อที่เรียก</div>
+      <input id="profile-nickname" type="text" placeholder="เช่น มิ้ว, ตูน, Alex..." autocomplete="off" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:14px;box-sizing:border-box;outline:none;">
+    </div>
+
+    <!-- เพศ -->
+    <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:12px;">เพศ <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" id="profile-gender-btns">
+        <button class="profile-gender-btn" data-val="female" onclick="selectProfileGender(this)" style="padding:10px;border-radius:12px;border:1px solid rgba(180,160,130,0.35);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">หญิง</button>
+        <button class="profile-gender-btn" data-val="male" onclick="selectProfileGender(this)" style="padding:10px;border-radius:12px;border:1px solid rgba(180,160,130,0.35);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">ชาย</button>
+        <button class="profile-gender-btn" data-val="nonbinary" onclick="selectProfileGender(this)" style="padding:10px;border-radius:12px;border:1px solid rgba(180,160,130,0.35);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">นอนไบนารี</button>
+        <button class="profile-gender-btn" data-val="other" onclick="selectProfileGender(this)" style="padding:10px;border-radius:12px;border:1px solid rgba(180,160,130,0.35);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">อื่นๆ</button>
+      </div>
+      <input id="profile-gender-other" type="text" placeholder="ระบุเพศ..." style="display:none;width:100%;margin-top:10px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
+    </div>
+
+    <!-- วันเกิด -->
+    <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;">วันเกิด <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
+      <div style="display:grid;grid-template-columns:1fr 2fr 2fr;gap:8px;">
+        <select id="profile-dob-d" class="dob-select"><option value="">วัน</option></select>
+        <select id="profile-dob-m" class="dob-select"><option value="">เดือน</option></select>
+        <select id="profile-dob-y" class="dob-select"><option value="">ปี (พ.ศ.)</option></select>
+      </div>
+    </div>
+
+    <!-- เวลาเกิด (ไม่บังคับ) -->
+    <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:4px;">เวลาเกิด <span style="color:var(--text-light);font-size:11px;font-weight:400;">(ไม่บังคับ แต่ช่วยให้แม่นขึ้น)</span></div>
+      <div style="font-size:11px;color:var(--text-light);margin-bottom:10px;">ดูจากสูติบัตร หรือถามผู้ปกครอง</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <select id="profile-birth-h" class="dob-select">
+          <option value="">ชั่วโมง</option>
+        </select>
+        <select id="profile-birth-min" class="dob-select">
+          <option value="">นาที</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- สถานที่เกิด -->
+    <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;">สถานที่เกิด <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <select id="profile-country-birth" class="dob-select" onchange="updateProfileProvinces('birth')">
+          <option value="">ประเทศ</option>
+          <option value="TH">🇹🇭 ไทย</option>
+          <option value="OTHER">อื่นๆ</option>
+        </select>
+        <select id="profile-province-birth" class="dob-select"><option value="">จังหวัด</option></select>
+      </div>
+      <input id="profile-province-birth-other" placeholder="ระบุเมืองที่เกิด" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
+    </div>
+
+    <!-- ที่อยู่ปัจจุบัน -->
+    <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:24px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;">ที่อยู่ปัจจุบัน <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+        <select id="profile-country-now" class="dob-select" onchange="updateProfileProvinces('now')">
+          <option value="">ประเทศ</option>
+          <option value="TH">🇹🇭 ไทย</option>
+          <option value="OTHER">อื่นๆ</option>
+        </select>
+        <select id="profile-province-now" class="dob-select"><option value="">จังหวัด</option></select>
+      </div>
+      <input id="profile-province-now-other" placeholder="ระบุเมืองที่อยู่ปัจจุบัน" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
+    </div>
+
+    <!-- ปุ่มบันทึก -->
+    <button onclick="submitUserProfile()" style="width:100%;padding:16px;background:linear-gradient(135deg,#6b4c3b,#8b5e4a);color:#fff;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(107,76,59,0.35);">บันทึกโปรไฟล์</button>
+    <div id="profile-save-msg" style="text-align:center;margin-top:12px;font-size:13px;color:var(--gold);font-family:'Noto Sans Thai',sans-serif;"></div>
+  </div>
+</div>
 
 <!-- ADMIN PANEL -->
 <div id="admin-panel" style="display:none; position:fixed; inset:0; z-index:99999; background:var(--cream); overflow-y:auto; padding:24px 20px;">
