@@ -1710,12 +1710,7 @@ function selectProfileGender(btn) {
 }
 function showProfilePopup(isEdit) {
   isEdit = !!isEdit;
-  // iOS Safari body-lock: prevents ANY background element from painting through
-  window._ppScrollY = window.scrollY || window.pageYOffset || 0;
-  document.body.style.position = 'fixed';
   document.body.style.overflow = 'hidden';
-  document.body.style.width = '100%';
-  document.body.style.top = '-' + window._ppScrollY + 'px';
   // populate hour/min
   initDobSelects('profile-dob');
   document.getElementById('profile-skip-btn').style.display = isEdit ? 'none' : 'block';
@@ -1745,14 +1740,14 @@ function showProfilePopup(isEdit) {
   document.getElementById('profile-save-msg').textContent='';
 }
 function closeProfilePopup() {
-  document.getElementById('profile-popup').style.display='none';
-  // คืน body ให้ scroll ได้ตามปกติ
-  const scrollY = window._ppScrollY || 0;
-  document.body.style.position = '';
+  document.getElementById('profile-popup').style.display = 'none';
   document.body.style.overflow = '';
-  document.body.style.width = '';
-  document.body.style.top = '';
-  window.scrollTo(0, scrollY);
+  // ตรวจว่าตอนนี้อยู่หน้าไหน ถ้าไม่มี active page ให้กลับหน้าโฮม
+  const activePage = document.querySelector('.page.active');
+  if (!activePage || activePage.id === 'page-home') {
+    const home = document.getElementById('page-home');
+    if (home) home.style.display = 'block';
+  }
 }
 function submitUserProfile() {
   const nickname = document.getElementById('profile-nickname').value.trim();
