@@ -1700,14 +1700,6 @@ function selectProfileGender(btn) {
 function showProfilePopup(isEdit) {
   isEdit = !!isEdit;
   // populate hour/min
-  const hSel = document.getElementById('profile-birth-h');
-  const mSel = document.getElementById('profile-birth-min');
-  if (hSel.options.length <= 1) {
-    for (let h=0;h<24;h++) { const o=document.createElement('option'); o.value=h; o.textContent=String(h).padStart(2,'0')+' นาฬิกา'; hSel.appendChild(o); }
-  }
-  if (mSel.options.length <= 1) {
-    for (let m=0;m<60;m+=5) { const o=document.createElement('option'); o.value=m; o.textContent=String(m).padStart(2,'0')+' นาที'; mSel.appendChild(o); }
-  }
   initDobSelects('profile-dob');
   document.getElementById('profile-skip-btn').style.display = isEdit ? 'none' : 'block';
   // pre-fill from existing profile
@@ -1720,8 +1712,6 @@ function showProfilePopup(isEdit) {
       if (existing.gender==='other' && existing.genderOther) document.getElementById('profile-gender-other').value=existing.genderOther;
     }
     if (existing.dob) fillDobSelects('profile-dob', existing.dob);
-    if (existing.birthHour!==undefined && existing.birthHour!=='') hSel.value=existing.birthHour;
-    if (existing.birthMin!==undefined && existing.birthMin!=='') mSel.value=existing.birthMin;
     if (existing.birthCountry) {
       document.getElementById('profile-country-birth').value=existing.birthCountry; updateProfileProvinces('birth');
       if (existing.birthCountry==='TH' && existing.birthProvince) document.getElementById('profile-province-birth').value=existing.birthProvince;
@@ -1744,8 +1734,7 @@ function submitUserProfile() {
   const gender = genderBtn ? genderBtn.dataset.val : '';
   const genderOther = document.getElementById('profile-gender-other').value.trim();
   const dob = getDobValue('profile-dob');
-  const birthHour = document.getElementById('profile-birth-h').value;
-  const birthMin = document.getElementById('profile-birth-min').value;
+  const birthHour = ''; const birthMin = '';
   const birthCountry = document.getElementById('profile-country-birth').value;
   const birthProvince = birthCountry==='TH' ? document.getElementById('profile-province-birth').value : '';
   const birthCity = birthCountry==='OTHER' ? document.getElementById('profile-province-birth-other').value.trim() : '';
@@ -2384,9 +2373,9 @@ const thaiMonths = ['มกราคม','กุมภาพันธ์','ม�
 
 function initDobSelects() {
  // Populate all dob selects
- const ids = ['siam','tarot','energy','soulmate-dob1','soulmate-dob2','daily-dob1','in-dob1','in-dob2'];
+ const ids = ['siam','tarot','energy','soulmate-dob1','soulmate-dob2','daily-dob1','in-dob1','in-dob2','profile-dob'];
  ids.forEach(id => {
- const isRaw = id === 'soulmate-dob1' || id === 'soulmate-dob2' || id === 'daily-dob1' || id === 'in-dob1' || id === 'in-dob2';
+ const isRaw = id === 'soulmate-dob1' || id === 'soulmate-dob2' || id === 'daily-dob1' || id === 'in-dob1' || id === 'in-dob2' || id === 'profile-dob';
  const prefix = isRaw ? id : id + '-dob';
  const dSel = document.getElementById(prefix + '-d') || document.getElementById(id + '-d');
  const mSel = document.getElementById(prefix + '-m') || document.getElementById(id + '-m');
@@ -5982,7 +5971,7 @@ window.addEventListener('load', () => {
     <!-- ชื่อที่เรียก -->
     <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
       <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;">ชื่อที่เรียก</div>
-      <input id="profile-nickname" type="text" placeholder="เช่น มิ้ว, ตูน, Alex..." autocomplete="off" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:14px;box-sizing:border-box;outline:none;">
+      <input id="profile-nickname" type="text" placeholder="เช่น พลอย, ตูน, Alex..." autocomplete="off" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:14px;box-sizing:border-box;outline:none;">
     </div>
 
     <!-- เพศ -->
@@ -6004,20 +5993,6 @@ window.addEventListener('load', () => {
         <select id="profile-dob-d" class="dob-select"><option value="">วัน</option></select>
         <select id="profile-dob-m" class="dob-select"><option value="">เดือน</option></select>
         <select id="profile-dob-y" class="dob-select"><option value="">ปี (พ.ศ.)</option></select>
-      </div>
-    </div>
-
-    <!-- เวลาเกิด (ไม่บังคับ) -->
-    <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
-      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:4px;">เวลาเกิด <span style="color:var(--text-light);font-size:11px;font-weight:400;">(ไม่บังคับ แต่ช่วยให้แม่นขึ้น)</span></div>
-      <div style="font-size:11px;color:var(--text-light);margin-bottom:10px;">ดูจากสูติบัตร หรือถามผู้ปกครอง</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <select id="profile-birth-h" class="dob-select">
-          <option value="">ชั่วโมง</option>
-        </select>
-        <select id="profile-birth-min" class="dob-select">
-          <option value="">นาที</option>
-        </select>
       </div>
     </div>
 
