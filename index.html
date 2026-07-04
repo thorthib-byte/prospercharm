@@ -827,7 +827,7 @@
     </div>
 
     <!-- STEP 2: เลือกของบูชา -->
-    <div id="energy-step2" style="display:none; position:fixed; inset:0; width:100%; height:100%; background:#0a1a0a;">
+    <div id="energy-step2" style="display:none; position:fixed; inset:0; width:100%; height:100%; background:#0a1a0a; contain:layout paint style;">
       <!-- bg fullscreen -->
       <img src="images/energy/buchanaga.png" style="position:fixed;inset:0;width:100%;height:100%;object-fit:cover;z-index:48;">
       <!-- ข้อความบน -->
@@ -846,7 +846,7 @@
     </div>
 
     <!-- STEP 2B: ถวายของ -->
-    <div id="energy-step2b" style="display:none; position:fixed; inset:0; width:100%; height:100%; background:#0a1a0a;">
+    <div id="energy-step2b" style="display:none; position:fixed; inset:0; width:100%; height:100%; background:#0a1a0a; contain:layout paint style;">
       <!-- loading background ระหว่างรอรูปโหลด -->
       <img src="images/energy/buchanaga.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;filter:brightness(0.6);">
       <div id="offering-loading-text" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;text-align:center;">
@@ -1699,10 +1699,12 @@ function selectProfileGender(btn) {
 }
 function showProfilePopup(isEdit) {
   isEdit = !!isEdit;
-  // ซ่อน position:fixed elements ที่อาจโผล่ทะลุ popup บน iOS Safari
-  const fixedHideIds = ['offering-still-img','offering-video','daily-bg-still','daily-crystal-video','daily-tap-prompt-wrap','daily-progress-wrap'];
-  fixedHideIds.forEach(id => { const el=document.getElementById(id); if(el) el.dataset.ppHidden = el.style.display||''; if(el) el.style.setProperty('display','none','important'); });
+  // iOS Safari body-lock: prevents ANY background element from painting through
+  window._ppScrollY = window.scrollY || window.pageYOffset || 0;
+  document.body.style.position = 'fixed';
   document.body.style.overflow = 'hidden';
+  document.body.style.width = '100%';
+  document.body.style.top = '-' + window._ppScrollY + 'px';
   // populate hour/min
   initDobSelects('profile-dob');
   document.getElementById('profile-skip-btn').style.display = isEdit ? 'none' : 'block';
@@ -1733,10 +1735,13 @@ function showProfilePopup(isEdit) {
 }
 function closeProfilePopup() {
   document.getElementById('profile-popup').style.display='none';
+  // คืน body ให้ scroll ได้ตามปกติ
+  const scrollY = window._ppScrollY || 0;
+  document.body.style.position = '';
   document.body.style.overflow = '';
-  // คืนสถานะ position:fixed elements ที่ซ่อนไว้
-  const fixedHideIds = ['offering-still-img','offering-video','daily-bg-still','daily-crystal-video','daily-tap-prompt-wrap','daily-progress-wrap'];
-  fixedHideIds.forEach(id => { const el=document.getElementById(id); if(el && el.dataset.ppHidden !== undefined) { el.style.display = el.dataset.ppHidden; delete el.dataset.ppHidden; } });
+  document.body.style.width = '';
+  document.body.style.top = '';
+  window.scrollTo(0, scrollY);
 }
 function submitUserProfile() {
   const nickname = document.getElementById('profile-nickname').value.trim();
