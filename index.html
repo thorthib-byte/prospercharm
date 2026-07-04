@@ -1699,11 +1699,13 @@ function updateProfileProvinces(type) {
     provinceEl.style.display='none'; otherEl.style.display='block';
   } else { provinceEl.style.display='block'; otherEl.style.display='none'; }
 }
+let _selectedProfileGender = '';
 function selectProfileGender(btn) {
   document.querySelectorAll('.profile-gender-btn').forEach(b => {
     b.style.background='var(--cream)'; b.style.color='var(--text)'; b.style.border='1px solid rgba(180,160,130,0.35)';
   });
   btn.style.background='#4A3F30'; btn.style.color='#fff'; btn.style.border='1px solid #4A3F30';
+  _selectedProfileGender = btn.dataset.val;
   document.getElementById('profile-gender-other').style.display = btn.dataset.val==='other' ? 'block' : 'none';
 }
 function showProfilePopup(isEdit) {
@@ -1754,8 +1756,7 @@ function closeProfilePopup() {
 }
 function submitUserProfile() {
   const nickname = document.getElementById('profile-nickname').value.trim();
-  const genderBtn = document.querySelector('.profile-gender-btn[style*="var(--brown-dark)"]');
-  const gender = genderBtn ? genderBtn.dataset.val : '';
+  const gender = _selectedProfileGender || '';
   const genderOther = document.getElementById('profile-gender-other').value.trim();
   const dob = getDobValue('profile-dob');
   const birthHour = ''; const birthMin = '';
