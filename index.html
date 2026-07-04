@@ -1774,8 +1774,8 @@ function submitUserProfile() {
     birthCountry, birthProvince, birthCity, nowCountry, nowProvince, nowCity, complete:true };
   saveUserProfile(profile);
   saveDailyProfile({ dob, countryBirth:birthCountry, provinceBirth:birthProvince||birthCity, countryNow:nowCountry, provinceNow:nowProvince||nowCity });
-  document.getElementById('profile-save-msg').textContent = '✦ บันทึกเรียบร้อยแล้วค่ะ';
-  setTimeout(() => closeProfilePopup(), 900);
+  closeProfilePopup();
+  updateLineUI();
   showToast('✦ บันทึกโปรไฟล์เรียบร้อยแล้วค่ะ');
 }
 function prefillDailyFromProfile() {
