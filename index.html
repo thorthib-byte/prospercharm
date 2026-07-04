@@ -83,6 +83,15 @@
   .dob-row { display:flex; gap:8px; margin-bottom:16px; }
   .dob-select { padding:10px 4px; background:var(--white); border:1px solid rgba(180,160,130,0.4); border-radius:12px; color:var(--text); font-size:15px; font-family:'Noto Sans Thai',sans-serif; outline:none; appearance:none; -webkit-appearance:none; text-align:center; cursor:pointer; width:100%; }
   .dob-select:focus { border-color:var(--gold); }
+  /* Override browser autofill yellow background */
+  #profile-nickname:-webkit-autofill,
+  #profile-nickname:-webkit-autofill:hover,
+  #profile-nickname:-webkit-autofill:focus,
+  #profile-nickname:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 1000px #F5EFE6 inset !important;
+    -webkit-text-fill-color: #3D3028 !important;
+    transition: background-color 9999s ease-in-out 0s;
+  }
   .dob-day { flex:0.7; }
   .dob-month { flex:1.6; }
   .dob-year { flex:1; }
