@@ -1699,6 +1699,10 @@ function selectProfileGender(btn) {
 }
 function showProfilePopup(isEdit) {
   isEdit = !!isEdit;
+  // ซ่อน position:fixed elements ที่อาจโผล่ทะลุ popup บน iOS Safari
+  const fixedHideIds = ['offering-still-img','offering-video','daily-bg-still','daily-crystal-video','daily-tap-prompt-wrap','daily-progress-wrap'];
+  fixedHideIds.forEach(id => { const el=document.getElementById(id); if(el) el.dataset.ppHidden = el.style.display||''; if(el) el.style.setProperty('display','none','important'); });
+  document.body.style.overflow = 'hidden';
   // populate hour/min
   initDobSelects('profile-dob');
   document.getElementById('profile-skip-btn').style.display = isEdit ? 'none' : 'block';
@@ -1727,7 +1731,13 @@ function showProfilePopup(isEdit) {
   window.scrollTo(0,0);
   document.getElementById('profile-save-msg').textContent='';
 }
-function closeProfilePopup() { document.getElementById('profile-popup').style.display='none'; }
+function closeProfilePopup() {
+  document.getElementById('profile-popup').style.display='none';
+  document.body.style.overflow = '';
+  // คืนสถานะ position:fixed elements ที่ซ่อนไว้
+  const fixedHideIds = ['offering-still-img','offering-video','daily-bg-still','daily-crystal-video','daily-tap-prompt-wrap','daily-progress-wrap'];
+  fixedHideIds.forEach(id => { const el=document.getElementById(id); if(el && el.dataset.ppHidden !== undefined) { el.style.display = el.dataset.ppHidden; delete el.dataset.ppHidden; } });
+}
 function submitUserProfile() {
   const nickname = document.getElementById('profile-nickname').value.trim();
   const genderBtn = document.querySelector('.profile-gender-btn[style*="var(--brown-dark)"]');
@@ -5971,7 +5981,7 @@ window.addEventListener('load', () => {
     <!-- ชื่อที่เรียก -->
     <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
       <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;">ชื่อที่เรียก</div>
-      <input id="profile-nickname" type="text" placeholder="เช่น พลอย, ตูน, Alex..." autocomplete="off" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:14px;box-sizing:border-box;outline:none;">
+      <input id="profile-nickname" autocomplete="off" type="text" placeholder="เช่น พลอย, ตูน, Alex..." autocomplete="off" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:14px;box-sizing:border-box;outline:none;">
     </div>
 
     <!-- เพศ -->
@@ -5983,16 +5993,16 @@ window.addEventListener('load', () => {
         <button class="profile-gender-btn" data-val="nonbinary" onclick="selectProfileGender(this)" style="padding:10px;border-radius:12px;border:1px solid rgba(180,160,130,0.35);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">นอนไบนารี</button>
         <button class="profile-gender-btn" data-val="other" onclick="selectProfileGender(this)" style="padding:10px;border-radius:12px;border:1px solid rgba(180,160,130,0.35);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">อื่นๆ</button>
       </div>
-      <input id="profile-gender-other" type="text" placeholder="ระบุเพศ..." style="display:none;width:100%;margin-top:10px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
+      <input id="profile-gender-other" autocomplete="off" type="text" placeholder="ระบุเพศ..." style="display:none;width:100%;margin-top:10px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
     </div>
 
     <!-- วันเกิด -->
     <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
       <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;">วันเกิด <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
       <div style="display:grid;grid-template-columns:1fr 2fr 2fr;gap:8px;">
-        <select id="profile-dob-d" class="dob-select"><option value="">วัน</option></select>
-        <select id="profile-dob-m" class="dob-select"><option value="">เดือน</option></select>
-        <select id="profile-dob-y" class="dob-select"><option value="">ปี (พ.ศ.)</option></select>
+        <select id="profile-dob-d" autocomplete="off" class="dob-select"><option value="">วัน</option></select>
+        <select id="profile-dob-m" autocomplete="off" class="dob-select"><option value="">เดือน</option></select>
+        <select id="profile-dob-y" autocomplete="off" class="dob-select"><option value="">ปี (พ.ศ.)</option></select>
       </div>
     </div>
 
@@ -6000,28 +6010,28 @@ window.addEventListener('load', () => {
     <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
       <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;">สถานที่เกิด <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <select id="profile-country-birth" class="dob-select" onchange="updateProfileProvinces('birth')">
+        <select id="profile-country-birth" autocomplete="off" class="dob-select" onchange="updateProfileProvinces('birth')">
           <option value="">ประเทศ</option>
           <option value="TH">🇹🇭 ไทย</option>
           <option value="OTHER">อื่นๆ</option>
         </select>
-        <select id="profile-province-birth" class="dob-select"><option value="">จังหวัด</option></select>
+        <select id="profile-province-birth" autocomplete="off" class="dob-select"><option value="">จังหวัด</option></select>
       </div>
-      <input id="profile-province-birth-other" placeholder="ระบุเมืองที่เกิด" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
+      <input id="profile-province-birth-other" autocomplete="off" placeholder="ระบุเมืองที่เกิด" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
     </div>
 
     <!-- ที่อยู่ปัจจุบัน -->
     <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:24px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
       <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;">ที่อยู่ปัจจุบัน <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-        <select id="profile-country-now" class="dob-select" onchange="updateProfileProvinces('now')">
+        <select id="profile-country-now" autocomplete="off" class="dob-select" onchange="updateProfileProvinces('now')">
           <option value="">ประเทศ</option>
           <option value="TH">🇹🇭 ไทย</option>
           <option value="OTHER">อื่นๆ</option>
         </select>
-        <select id="profile-province-now" class="dob-select"><option value="">จังหวัด</option></select>
+        <select id="profile-province-now" autocomplete="off" class="dob-select"><option value="">จังหวัด</option></select>
       </div>
-      <input id="profile-province-now-other" placeholder="ระบุเมืองที่อยู่ปัจจุบัน" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
+      <input id="profile-province-now-other" autocomplete="off" placeholder="ระบุเมืองที่อยู่ปัจจุบัน" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
     </div>
 
     <!-- ปุ่มบันทึก -->
