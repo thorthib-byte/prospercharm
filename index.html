@@ -1666,11 +1666,6 @@ function selectProfileGender(btn) {
 }
 function showProfilePopup(isEdit) {
   isEdit = !!isEdit;
-  // ซ่อน active page ด้วย display:none (ไม่ใช่ visibility:hidden)
-  // เพราะ display:none บังคับ evict GPU compositor layers ทั้งหมดรวมถึง position:fixed children
-  // visibility:hidden ไม่รับประกันบน iOS Safari
-  window._ppActivePage = document.querySelector('.page.active');
-  if (window._ppActivePage) window._ppActivePage.style.display = 'none';
   // ซ่อน position:fixed elements ที่อาจโผล่ผ่าน popup บน iOS Safari compositor
   const _fixedEls = ['daily-bg-still','daily-crystal-video','daily-tap-prompt-wrap','daily-progress-wrap','offering-still-img','offering-video'];
   window._ppHidden = _fixedEls.map(id => {
@@ -1715,21 +1710,12 @@ function closeProfilePopup() {
   document.getElementById('profile-popup').style.display = 'none';
   document.body.style.overflow = '';
   document.documentElement.style.backgroundColor = '';
-  // คืน active page — ใช้ '' เพื่อให้ CSS .page.active { display:block } ทำงานเอง
-  if (window._ppActivePage) {
-    window._ppActivePage.style.display = '';
-    window._ppActivePage = null;
-  }
   // คืน fixed elements ที่ซ่อนไว้
   if (window._ppHidden) {
     window._ppHidden.forEach(({el, prev}) => { el.style.visibility = prev; });
     window._ppHidden = null;
   }
-  const activePage = document.querySelector('.page.active');
-  if (!activePage || activePage.id === 'page-home') {
-    const home = document.getElementById('page-home');
-    if (home) home.style.display = 'block';
-  }
+
 }
 function submitUserProfile() {
   const nickname = document.getElementById('profile-nickname').value.trim();
