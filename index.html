@@ -423,21 +423,6 @@
 
       <div style="padding:0 16px;">
 
-        <!-- วันเกิด -->
-        <div style="background:#fff;border-radius:20px;padding:18px 18px 20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
-          <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-            <div style="width:36px;height:36px;border-radius:50%;background:rgba(180,140,120,0.12);display:flex;align-items:center;justify-content:center;font-size:18px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg></div>
-            <div>
-              <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);">วันเกิด <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
-            </div>
-          </div>
-          <div style="display:grid;grid-template-columns:1fr 2fr 2fr;gap:8px;">
-            <select id="daily-dob1-d" class="dob-select"><option value="">วัน</option></select>
-            <select id="daily-dob1-m" class="dob-select"><option value="">เดือน</option></select>
-            <select id="daily-dob1-y" class="dob-select"><option value="">ปี (พ.ศ.)</option></select>
-          </div>
-        </div>
-
         <!-- สถานที่เกิด -->
         <div style="background:#fff;border-radius:20px;padding:18px 18px 20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
@@ -1020,14 +1005,10 @@
     <!-- STEP 1: กรอกวันเกิด -->
     <div id="soulmate-step1" style="display:none;" class="form-section">
       <div id="soulmate-science-label" style="font-family:'Noto Serif Thai',serif; font-size:14px; color:var(--gold); margin-bottom:12px; text-align:center;"></div>
-      <label class="form-label">วันเกิดของคุณ</label>
-      <div class="dob-hint">กรุณากรอกวันเกิดเป็น พ.ศ. เช่น 16 สิงหาคม 2547</div>
-      <div class="dob-row">
-        <div class="dob-day"><select class="dob-select" id="soulmate-dob1-d"><option value="">วัน</option></select></div>
-        <div class="dob-month"><select class="dob-select" id="soulmate-dob1-m"><option value="">เดือน</option></select></div>
-        <div class="dob-year"><select class="dob-select" id="soulmate-dob1-y"><option value="">ปี พ.ศ.</option></select></div>
-      </div>
-      <label class="form-label">วันเกิดของอีกฝ่าย</label>
+      <label class="form-label">ชื่อของเขา/เธอ</label>
+      <div class="dob-hint">ชื่อเล่นหรือชื่อจริงก็ได้ค่ะ</div>
+      <input type="text" id="soulmate-partner-name" placeholder="เช่น ต้น, Alice..." autocomplete="off" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(180,160,130,0.4);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:14px;box-sizing:border-box;outline:none;margin-bottom:16px;">
+      <label class="form-label">วันเกิดของเขา/เธอ</label>
       <div class="dob-hint">กรุณากรอกวันเกิดเป็น พ.ศ. เช่น 16 สิงหาคม 2547</div>
       <div class="dob-row">
         <div class="dob-day"><select class="dob-select" id="soulmate-dob2-d"><option value="">วัน</option></select></div>
@@ -1943,7 +1924,9 @@ function saveDailyProfile(profile) {
 }
 
 function dailyStep1Next() {
- const dob = getDobValue('daily-dob1');
+ // ดึง DOB จาก user profile (ไม่ต้องกรอกซ้ำแล้ว)
+ const profile = loadUserProfile();
+ const dob = (profile && profile.dob) ? profile.dob : null;
  const countryBirth = document.getElementById('daily-country-birth').value;
  const provinceBirth = countryBirth === 'TH' ? document.getElementById('daily-province-birth').value
  : document.getElementById('daily-province-birth-other').value;
@@ -1951,7 +1934,7 @@ function dailyStep1Next() {
  const provinceNow = countryNow === 'TH' ? document.getElementById('daily-province-now').value
  : document.getElementById('daily-province-now-other').value;
 
- if (!dob) { alert('กรุณากรอกวันเกิดให้ครบก่อนนะคะ'); return; }
+ if (!dob) { alert('กรุณากรอกข้อมูลโปรไฟล์ก่อนนะคะ (วันเกิด)'); showProfilePopup(false); return; }
  if (!countryBirth || !provinceBirth) { alert('กรุณาเลือกประเทศและจังหวัดเกิดก่อนนะคะ'); return; }
  if (!countryNow || !provinceNow) { alert('กรุณาเลือกประเทศและจังหวัดที่อยู่ปัจจุบันก่อนนะคะ'); return; }
 
@@ -2934,7 +2917,7 @@ const tarotCards = Object.entries(tarotExcelData).map(([id, d]) => ({
  id, name: d.name, file: 'images/tarot/' + d.file,
  tone: d.tone, upright: d.upright, reversed: d.reversed,
  love_U: d.love_U, love_R: d.love_R
-}));
+})).filter(c => !c.file.endsWith('tarotdeck.png')); // กรองออกไพ่ที่ยังไม่มีรูปจริง กัน tarotdeck.png (ปกหลัง) โผล่ตอนเปิดไพ่
 
 let selectedQuestion = '';
 let pickedCards = [];
@@ -3989,11 +3972,15 @@ let dayScore = 0;
 let khanStrokes = 0;
 
 function soulmateNextToEnergy() {
- const dob1 = getDobValue('soulmate-dob1');
+ // ดึง DOB ของผู้ใช้จาก profile (ไม่ต้องกรอกแล้ว)
+ const userProfile = loadUserProfile();
+ const dob1 = (userProfile && userProfile.dob) ? userProfile.dob : null;
  const dob2 = getDobValue('soulmate-dob2');
- if (!dob1 || !dob2) { alert('กรุณากรอกวันเกิดทั้งสองคนก่อนนะคะ'); return; }
+ const partnerName = (document.getElementById('soulmate-partner-name').value || '').trim() || 'อีกฝ่าย';
+ if (!dob1) { alert('กรุณากรอกข้อมูลโปรไฟล์ก่อนนะคะ (วันเกิดของคุณ)'); showProfilePopup(false); return; }
+ if (!dob2) { alert('กรุณากรอกวันเกิดของเขา/เธอก่อนนะคะ'); return; }
  if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('soulmate'); return; }
- soulmateState.dob1 = dob1; soulmateState.dob2 = dob2;
+ soulmateState.dob1 = dob1; soulmateState.dob2 = dob2; soulmateState.partnerName = partnerName;
  hidePageHeader('page-soulmate');
  if (selectedSoulmateScience === 'chinese') {
  cnState.dob1 = dob1; cnState.dob2 = dob2;
