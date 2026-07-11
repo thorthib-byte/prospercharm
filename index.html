@@ -1527,6 +1527,8 @@ function showLineUserMenu() {
 }
 
 async function syncCoinsFromServer() {
+ // dev mode: ไม่ดึงข้อมูลจาก server มาทับ — ใช้ค่าที่ตั้งไว้แล้ว
+ if (window._devMode) return;
  const token = localStorage.getItem('pc_line_token');
  if (!token) return;
  try {
@@ -5880,25 +5882,28 @@ window.addEventListener('load', () => {
  initCheckinBtn();
  // Handle URL hash
  handleHash();
- // ตรวจสอบว่ากลับมาจาก Stripe Checkout สำเร็จไหม
- checkStripeSuccess();
- // Handle ?dev=true param
+ // Handle ?dev=true param — ต้องทำก่อน syncCoinsFromServer เพื่อกัน server data ทับ
  const urlParams = new URLSearchParams(window.location.search);
  if (urlParams.get('dev') === 'true') {
- // ทำงานแค่ใน session นี้ — ไม่บันทึกลง localStorage
  userState.plan = 'unlimited';
  userState.credits = 999;
  userState.planExpiry = null;
  window._devMode = true;
- updateStatusBar();
- // ปลดล็อค card ที่ล็อคอยู่
- document.querySelectorAll('.menu-card-locked').forEach(card => {
- card.classList.remove('menu-card-locked');
- const badge = card.querySelector('.menu-lock-badge');
- if (badge) badge.remove();
- if (card.id === 'dream-card') card.setAttribute('onclick', "showToast(' ทำนายฝัน — กำลังพัฒนาค่ะ')");
- });
- showToast('️ Dev Mode เปิดแล้ว — ใช้งานได้ไม่จำกัด');
+ }
+ // ตรวจสอบว่ากลับมาจาก Stripe Checkout สำเร็จไหม
+ checkStripeSuccess();
+ // Dev mode UI updates — ทำหลัง DOM ready
+ if (window._devMode) {
+ setTimeout(() => {
+   updateStatusBar();
+   document.querySelectorAll('.menu-card-locked').forEach(card => {
+     card.classList.remove('menu-card-locked');
+     const badge = card.querySelector('.menu-lock-badge');
+     if (badge) badge.remove();
+     if (card.id === 'dream-card') card.setAttribute('onclick', "showToast('ทำนายฝัน — กำลังพัฒนาค่ะ')");
+   });
+   showToast('Dev Mode เปิดแล้ว — ใช้งานได้ไม่จำกัด');
+ }, 800);
  }
  // Handle ?go= param
  const goTo_param = urlParams.get('go');
