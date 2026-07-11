@@ -243,7 +243,16 @@
   }
 
     .footer { text-align:center; padding:16px; color:var(--text-light); font-size:11px; border-top:1px solid rgba(180,160,130,0.2); margin-top:10px; }
+
+  /* Lucide outline icons */
+  .li { display:inline-block; vertical-align:-0.15em; flex-shrink:0; stroke-width:1.5; }
+  .li-sm { width:16px; height:16px; }
+  .li-md { width:18px; height:18px; }
+  .li-lg { width:22px; height:22px; }
+  .li-xl { width:28px; height:28px; }
+  .li-2xl { width:36px; height:36px; }
 </style>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
 </head>
 <body>
 <div class="app">
@@ -256,7 +265,7 @@
       <div class="header-title">PROSPERCHARM</div>
     </div>
     <div class="status-bar">
-      <div class="status-plan"><span id="plan-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg></span><span id="plan-name">ยังไม่ได้สมัคร</span></div>
+      <div class="status-plan"><span id="plan-icon"><i data-lucide="moon" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i></span><span id="plan-name">ยังไม่ได้สมัคร</span></div>
       <div style="display:flex;align-items:center;gap:10px;">
         <span class="status-credits" id="credits-display"></span>
         <button id="checkin-btn" onclick="openCheckin()" style="background:rgba(180,140,140,0.15);border:1px solid rgba(180,140,140,0.35);border-radius:20px;padding:5px 12px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;font-weight:500;color:var(--text-mid);cursor:pointer;">เช็คอิน</button>
@@ -328,8 +337,8 @@
       <div class="menu-card" onclick="goTo('page-energy')"><img class="menu-icon" src="images/icons/energy.png"><span class="menu-title">เลขพลังงาน</span><span class="menu-desc">หาแรงบันดาลใจประจำวัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
 
       <div class="menu-card" onclick="goTo('page-soulmate')"><img class="menu-icon" src="images/icons/soulmate.png"><span class="menu-title">ดูดวงสมพงษ์</span><span class="menu-desc">สำรวจความเข้ากันในความสัมพันธ์</span><span class="menu-price">29 บาท/ครั้ง</span></div>
-      <div class="menu-card menu-card-locked" id="healing-card" onclick="handleLockedCard()"><span class="menu-lock-badge"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg> เร็วๆ นี้</span><img class="menu-icon" src="images/icons/healing.png"><span class="menu-title">ล้างพลังงาน</span><span class="menu-desc">ผ่อนคลายความคิดลบ</span><span class="menu-price">29 บาท/ครั้ง</span></div>
-      <div class="menu-card menu-card-locked" id="dream-card" onclick="handleLockedCard()"><span class="menu-lock-badge"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg> เร็วๆ นี้</span><img class="menu-icon" src="images/icons/dream.png"><span class="menu-title">ทำนายฝัน</span><span class="menu-desc">มุมมองเชิงสร้างสรรค์ต่อฝัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card menu-card-locked" id="healing-card" onclick="handleLockedCard()"><span class="menu-lock-badge"><i data-lucide="lock" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> เร็วๆ นี้</span><img class="menu-icon" src="images/icons/healing.png"><span class="menu-title">ล้างพลังงาน</span><span class="menu-desc">ผ่อนคลายความคิดลบ</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card menu-card-locked" id="dream-card" onclick="handleLockedCard()"><span class="menu-lock-badge"><i data-lucide="lock" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> เร็วๆ นี้</span><img class="menu-icon" src="images/icons/dream.png"><span class="menu-title">ทำนายฝัน</span><span class="menu-desc">มุมมองเชิงสร้างสรรค์ต่อฝัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
     </div>
     <div style="margin:14px 16px 0; padding:12px 14px; background:rgba(180,160,130,0.08); border:1px solid rgba(180,160,130,0.25); border-radius:14px; font-family:'Noto Sans Thai',sans-serif; font-size:11.5px; line-height:1.6; color:var(--text-light); text-align:center;">
       เนื้อหาทั้งหมดในแอปนี้จัดทำขึ้นเพื่อความเพลิดเพลินและการสำรวจตัวเอง (self-reflection &amp; entertainment) เท่านั้น ไม่ใช่คำแนะนำทางการแพทย์ กฎหมาย การเงิน หรือคำพยากรณ์ที่แม่นยำ ใช้วิจารณญาณของผู้ใช้เองในการตัดสินใจ
@@ -344,18 +353,18 @@
 
   <!-- PRICING -->
   <div class="page" id="page-pricing">
-    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M6 2l-4 7 10 13L22 9l-4-7H6zm1.5 2h9l2.5 4.5H5L7.5 4zM12 18.5L5.5 10h13L12 18.5z"/></svg> เลือกแพ็กเกจ</div></div>
+    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><i data-lucide="gem" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> เลือกแพ็กเกจ</div></div>
     <div class="pricing-header"><h2>ดูดวงไม่จำกัด ราคาคุ้มค่า</h2><p>เลือกแพ็กเกจที่เหมาะกับคุณ</p></div>
     <div class="pricing-cards">
       <div class="pricing-card">
-        <div class="pricing-name"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 1L9.5 8.5 2 6l5.5 6L2 18l7.5-2.5L12 23l2.5-7.5L22 18l-5.5-6L22 6l-7.5 2.5z"/></svg> รายครั้ง</div>
+        <div class="pricing-name"><i data-lucide="sparkles" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> รายครั้ง</div>
         <div class="pricing-price">29 <span>บาท/ครั้ง</span></div>
         <div class="pricing-desc">ไม่ต้องสมัครสมาชิก จ่ายแล้วใช้ได้เลย</div>
         <ul class="pricing-features"><li>เลือกได้ทุกหมวด</li><li>ใช้งานได้ทันที</li></ul>
         <button class="pricing-btn pricing-btn-outline" onclick="openPayment('single',29,1)">จ่ายรายครั้ง 29 บาท</button>
       </div>
       <div class="pricing-card">
-        <div class="pricing-name"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg> Basic</div>
+        <div class="pricing-name"><i data-lucide="moon" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> Basic</div>
         <div class="pricing-price">99 <span>บาท/เดือน</span></div>
         <div class="pricing-desc">ดูได้ 5 ครั้ง ทุกหมวด</div>
         <ul class="pricing-features"><li>5 ครั้ง/เดือน ใช้ได้ทุกหมวด</li><li>ประหยัดกว่ารายครั้ง 32%</li></ul>
@@ -363,14 +372,14 @@
       </div>
       <div class="pricing-card featured">
         <div class="pricing-badge">ยอดนิยม</div>
-        <div class="pricing-name"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> Pro</div>
+        <div class="pricing-name"><i data-lucide="star" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> Pro</div>
         <div class="pricing-price">199 <span>บาท/เดือน</span></div>
         <div class="pricing-desc">ดูได้ 12 ครั้ง ทุกหมวด</div>
         <ul class="pricing-features"><li>12 ครั้ง/เดือน ใช้ได้ทุกหมวด</li><li>ประหยัดกว่ารายครั้ง 43%</li></ul>
         <button class="pricing-btn pricing-btn-dark" onclick="openPayment('pro',199,12)">สมัคร Pro 199 บาท</button>
       </div>
       <div class="pricing-card">
-        <div class="pricing-name"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-1h14v1z"/></svg> Unlimited</div>
+        <div class="pricing-name"><i data-lucide="crown" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> Unlimited</div>
         <div class="pricing-price">299 <span>บาท/เดือน</span></div>
         <div class="pricing-desc">ดูได้ไม่จำกัด ทุกหมวด</div>
         <ul class="pricing-features"><li>ไม่จำกัดครั้ง ทุกหมวด</li><li>ไพ่ออราเคิล (เร็วๆ นี้)</li><li>คุ้มสุดสำหรับสายมูตัวจริง</li></ul>
@@ -383,7 +392,7 @@
   <div class="page" id="page-daily">
     <div class="inner-header">
       <button class="back-btn" onclick="goTo('page-home')">←</button>
-      <div class="inner-title" id="daily-header-title"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> ดวงรายวัน</div>
+      <div class="inner-title" id="daily-header-title"><i data-lucide="star" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> ดวงรายวัน</div>
     </div>
 
     <!-- STEP 1: กรอกข้อมูลเกิด -->
@@ -426,7 +435,7 @@
         <!-- สถานที่เกิด -->
         <div style="background:#fff;border-radius:20px;padding:18px 18px 20px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-            <div style="width:36px;height:36px;border-radius:50%;background:rgba(180,140,120,0.12);display:flex;align-items:center;justify-content:center;font-size:18px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg></div>
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(180,140,120,0.12);display:flex;align-items:center;justify-content:center;font-size:18px;"><i data-lucide="map-pin" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i></div>
             <div>
               <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);">สถานที่เกิด <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
             </div>
@@ -435,7 +444,7 @@
             <select id="daily-country-birth" class="dob-select" onchange="updateDailyProvinces('birth')">
               <option value="">ประเทศ</option>
               <option value="TH">🇹🇭 ไทย</option>
-              <option value="OTHER"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg> อื่นๆ</option>
+              <option value="OTHER"><i data-lucide="circle-check" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> อื่นๆ</option>
             </select>
             <select id="daily-province-birth" class="dob-select">
               <option value="">จังหวัด</option>
@@ -447,7 +456,7 @@
         <!-- ที่อยู่ปัจจุบัน -->
         <div style="background:#fff;border-radius:20px;padding:18px 18px 20px;margin-bottom:24px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
-            <div style="width:36px;height:36px;border-radius:50%;background:rgba(180,140,120,0.12);display:flex;align-items:center;justify-content:center;font-size:18px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg></div>
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(180,140,120,0.12);display:flex;align-items:center;justify-content:center;font-size:18px;"><i data-lucide="home" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i></div>
             <div>
               <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);">ที่อยู่ปัจจุบัน <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
             </div>
@@ -456,7 +465,7 @@
             <select id="daily-country-now" class="dob-select" onchange="updateDailyProvinces('now')">
               <option value="">ประเทศ</option>
               <option value="TH">🇹🇭 ไทย</option>
-              <option value="OTHER"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg> อื่นๆ</option>
+              <option value="OTHER"><i data-lucide="circle-check" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> อื่นๆ</option>
             </select>
             <select id="daily-province-now" class="dob-select">
               <option value="">จังหวัด</option>
@@ -466,8 +475,8 @@
         </div>
 
         <!-- ปุ่ม -->
-        <button onclick="dailyStep1Next()" style="width:100%;padding:16px;background:linear-gradient(135deg,#6b4c3b,#8b5e4a);color:#fff;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:0.3px;box-shadow:0 4px 16px rgba(107,76,59,0.35);"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 1L9.5 8.5 2 6l5.5 6L2 18l7.5-2.5L12 23l2.5-7.5L22 18l-5.5-6L22 6l-7.5 2.5z"/></svg> สร้างดวงกำเนิดของฉัน</button>
-        <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--text-light);"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg> ข้อมูลของคุณปลอดภัย 100%</div>
+        <button onclick="dailyStep1Next()" style="width:100%;padding:16px;background:linear-gradient(135deg,#6b4c3b,#8b5e4a);color:#fff;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:0.3px;box-shadow:0 4px 16px rgba(107,76,59,0.35);"><i data-lucide="sparkles" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> สร้างดวงกำเนิดของฉัน</button>
+        <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--text-light);"><i data-lucide="lock" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> ข้อมูลของคุณปลอดภัย 100%</div>
 
       </div>
     </div>
@@ -481,7 +490,7 @@
       </div>
       <!-- icon วงกลม แยกออกมานอก hero ไม่โดน clip -->
       <div style="display:flex;justify-content:center;margin-top:-28px;position:relative;z-index:2;">
-        <div style="width:56px;height:56px;border-radius:50%;background:#fff;box-shadow:0 4px 16px rgba(180,140,120,0.2);display:flex;align-items:center;justify-content:center;font-size:28px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm0-12.5c-2.49 0-4.5 2.01-4.5 4.5s2.01 4.5 4.5 4.5 4.5-2.01 4.5-4.5-2.01-4.5-4.5-4.5zm0 5.5c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg></div>
+        <div style="width:56px;height:56px;border-radius:50%;background:#fff;box-shadow:0 4px 16px rgba(180,140,120,0.2);display:flex;align-items:center;justify-content:center;font-size:28px;"><i data-lucide="circle-check" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i></div>
       </div>
 
       <!-- Title -->
@@ -494,14 +503,14 @@
       <div style="display:flex;flex-direction:column;gap:12px;padding:0 16px;" id="daily-topic-btns"></div>
 
       <div style="padding:16px 16px 40px;">
-        <button onclick="dailyEditProfile()" style="width:100%;padding:12px;background:transparent;border:1px solid rgba(180,160,130,0.4);border-radius:12px;font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text-light);cursor:pointer;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg> แก้ไขข้อมูลวันเกิด / สถานที่</button>
+        <button onclick="dailyEditProfile()" style="width:100%;padding:12px;background:transparent;border:1px solid rgba(180,160,130,0.4);border-radius:12px;font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text-light);cursor:pointer;"><i data-lucide="pencil" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> แก้ไขข้อมูลวันเกิด / สถานที่</button>
       </div>
     </div>
 
     <!-- STEP 1.6: Context ตาม topic -->
     <div id="daily-step16" style="display:none; padding:20px 16px 40px;">
       <div id="daily-ctx-content"></div>
-      <button class="cta-btn" onclick="checkAndGenerateDaily()" style="margin-top:8px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> เปิดดวงรายวันของฉัน</button>
+      <button class="cta-btn" onclick="checkAndGenerateDaily()" style="margin-top:8px;"><i data-lucide="star" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> เปิดดวงรายวันของฉัน</button>
     </div>
 
     <!-- STEP 1.7: แตะคริสตัลบอล / กำลังวิเคราะห์ -->
@@ -553,17 +562,17 @@
       <div id="daily-readings"></div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;">
         <div style="background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.2); border-radius:14px; padding:14px;">
-          <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:600; color:var(--gold); margin-bottom:10px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5l-4.5-4.5 1.41-1.41L10 13.67l7.09-7.08 1.41 1.41L10 16.5z"/></svg> ควรทำ</div>
+          <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:600; color:var(--gold); margin-bottom:10px;"><i data-lucide="circle-check" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> ควรทำ</div>
           <div id="daily-do" style="font-size:12px; color:var(--text-mid); line-height:2;"></div>
         </div>
         <div style="background:rgba(180,100,100,0.05); border:1px solid rgba(180,100,100,0.15); border-radius:14px; padding:14px;">
-          <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:600; color:#a06060; margin-bottom:10px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg> ควรระวัง</div>
+          <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:600; color:#a06060; margin-bottom:10px;"><i data-lucide="triangle-alert" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> ควรระวัง</div>
           <div id="daily-avoid" style="font-size:12px; color:var(--text-mid); line-height:2;"></div>
         </div>
       </div>
       <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:14px;">
         <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:14px; padding:12px; text-align:center;">
-          <div style="font-size:10px; color:var(--text-light); margin-bottom:4px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.23-.26-.38-.61-.38-.99 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8zm-5.5 9c-.83 0-1.5-.67-1.5-1.5S5.67 9 6.5 9 8 9.67 8 10.5 7.33 12 6.5 12zm3-4C8.67 8 8 7.33 8 6.5S8.67 5 9.5 5s1.5.67 1.5 1.5S10.33 8 9.5 8zm5 0c-.83 0-1.5-.67-1.5-1.5S13.67 5 14.5 5s1.5.67 1.5 1.5S15.33 8 14.5 8zm3 4c-.83 0-1.5-.67-1.5-1.5S16.67 9 17.5 9s1.5.67 1.5 1.5S18.33 12 17.5 12z"/></svg> สีส่งเสริม</div>
+          <div style="font-size:10px; color:var(--text-light); margin-bottom:4px;"><i data-lucide="palette" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> สีส่งเสริม</div>
           <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:600; color:var(--brown-dark);" id="daily-color"></div>
         </div>
         <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:14px; padding:12px; text-align:center;">
@@ -571,12 +580,12 @@
           <div style="font-family:'Noto Serif Thai',serif; font-size:12px; font-weight:600; color:var(--brown-dark);" id="daily-time"></div>
         </div>
         <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:14px; padding:12px; text-align:center;">
-          <div style="font-size:10px; color:var(--text-light); margin-bottom:4px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M17.5 5h-1.5l-1 5h-4l1-5h-1.5l-1 5H7v1.5h2.5l-.5 3H7v1.5h1.5l-1 5h1.5l1-5h4l-1 5h1.5l1-5H17v-1.5h-1.5l.5-3H17V10h-1.5l1-5zM13 15.5H9l.5-3h4l-.5 3z"/></svg> เลขมงคล</div>
+          <div style="font-size:10px; color:var(--text-light); margin-bottom:4px;"><i data-lucide="hash" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> เลขมงคล</div>
           <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:600; color:var(--brown-dark);" id="daily-number"></div>
         </div>
       </div>
       <div style="background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(180,140,130,0.06)); border:1px solid rgba(201,168,76,0.2); border-radius:14px; padding:16px; text-align:center; margin-bottom:14px;">
-        <div style="font-size:11px; color:var(--gold); letter-spacing:1px; margin-bottom:6px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 1L9.5 8.5 2 6l5.5 6L2 18l7.5-2.5L12 23l2.5-7.5L22 18l-5.5-6L22 6l-7.5 2.5z"/></svg> AFFIRMATION</div>
+        <div style="font-size:11px; color:var(--gold); letter-spacing:1px; margin-bottom:6px;"><i data-lucide="sparkles" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> AFFIRMATION</div>
         <div style="font-family:'Noto Serif Thai',serif; font-size:15px; color:var(--brown-dark); font-style:italic; line-height:1.8;" id="daily-affirmation"></div>
       </div>
       <div style="font-size:11px; color:var(--text-light); text-align:center; margin-bottom:20px;" id="daily-sign-info"></div>
@@ -588,7 +597,7 @@
   <div class="page" id="page-siam">
     <div class="inner-header">
       <button class="back-btn" onclick="goTo('page-home')">←</button>
-      <div class="inner-title" id="siam-header-title"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20C19 20 22 3 22 3c-1 2-8 4-8 4s-3.64 4.89-4 9c-.36-4.11-3.64-9-4-9s0 0 0 0z"/></svg> เขย่าเซียมซี</div>
+      <div class="inner-title" id="siam-header-title"><i data-lucide="leaf" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> เขย่าเซียมซี</div>
       <div class="inner-header-credits" id="siam-credits-bar" style="display:none;">
         <span class="inner-header-credits-text">เครดิตคงเหลือ</span>
         <span class="inner-header-credits-num" id="siam-credits-num">∞</span>
@@ -645,7 +654,7 @@
     </div>
 
     <div class="lock-wall" id="siam-lock">
-      <span class="lock-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></span><div class="lock-title">ต้องสมัครก่อนนะคะ</div>
+      <span class="lock-icon"><i data-lucide="lock" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i></span><div class="lock-title">ต้องสมัครก่อนนะคะ</div>
       <div class="lock-desc">สมัครแพ็กเกจเพื่อดูดวง<br>หรือจ่ายรายครั้ง 29 บาท</div>
       <button class="lock-btn-gold" onclick="goTo('page-pricing')">✦ ดูแพ็กเกจทั้งหมด</button>
       <button class="lock-btn-single" onclick="openPayment('single',29,1)">จ่ายครั้งนี้ 29 บาท</button>
@@ -733,7 +742,7 @@
     </div>
 
     <div class="lock-wall" id="tarot-lock">
-      <span class="lock-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></span><div class="lock-title">ต้องสมัครก่อนนะคะ</div>
+      <span class="lock-icon"><i data-lucide="lock" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i></span><div class="lock-title">ต้องสมัครก่อนนะคะ</div>
       <div class="lock-desc">สมัครแพ็กเกจเพื่อดูดวง<br>หรือจ่ายรายครั้ง 29 บาท</div>
       <button class="lock-btn-gold" onclick="goTo('page-pricing')">✦ ดูแพ็กเกจทั้งหมด</button>
       <button class="lock-btn-single" onclick="openPayment('single',29,1)">จ่ายครั้งนี้ 29 บาท</button>
@@ -815,7 +824,7 @@
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:360px;margin:0 auto;">
           <button onclick="selectOffering('baisri','พานบายศรี','images/energy/baiseestill.png','images/energy/baiseemove.mp4')" style="padding:14px 10px;background:rgba(0,0,0,0.75);border:2px solid rgba(255,215,0,0.7);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:#FFD700;cursor:pointer;-webkit-tap-highlight-color:transparent;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 22c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9c0 2.66-1.52 4.97-3.75 6.11V17h-4.5v2.11C7.52 17.97 6 15.66 6 13c0-3.31 2.69-6 6-6s6 2.69 6 6zM9 1v2l3 2 3-2V1l-3 2-3-2zm9.61 3.39l-1.41 1.41 1.13 2.55 2.55 1.13 1.41-1.41-2.55-1.13-1.13-2.55zm-13.22 0L4.26 5.94l-1.13 2.55-2.55 1.13 1.41 1.41 2.55-1.13 1.13-2.55-1.41-1.41z"/></svg> พานบายศรี</button>
           <button onclick="selectOffering('malai','พวงมาลัย','images/energy/malaistill.png','images/energy/malaimove.mp4')" style="padding:14px 10px;background:rgba(0,0,0,0.75);border:2px solid rgba(255,215,0,0.7);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:#FFD700;cursor:pointer;-webkit-tap-highlight-color:transparent;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 22c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm6-9c0 2.66-1.52 4.97-3.75 6.11V17h-4.5v2.11C7.52 17.97 6 15.66 6 13c0-3.31 2.69-6 6-6s6 2.69 6 6zM9 1v2l3 2 3-2V1l-3 2-3-2zm9.61 3.39l-1.41 1.41 1.13 2.55 2.55 1.13 1.41-1.41-2.55-1.13-1.13-2.55zm-13.22 0L4.26 5.94l-1.13 2.55-2.55 1.13 1.41 1.41 2.55-1.13 1.13-2.55-1.41-1.41z"/></svg> พวงมาลัย</button>
-          <button onclick="selectOffering('plu','หมากพลู','images/energy/plustill.png','images/energy/plumove.mp4')" style="padding:14px 10px;background:rgba(0,0,0,0.75);border:2px solid rgba(255,215,0,0.7);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:#FFD700;cursor:pointer;-webkit-tap-highlight-color:transparent;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 0 0 8 20C19 20 22 3 22 3c-1 2-8 4-8 4s-3.64 4.89-4 9c-.36-4.11-3.64-9-4-9s0 0 0 0z"/></svg> หมากพลู</button>
+          <button onclick="selectOffering('plu','หมากพลู','images/energy/plustill.png','images/energy/plumove.mp4')" style="padding:14px 10px;background:rgba(0,0,0,0.75);border:2px solid rgba(255,215,0,0.7);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:#FFD700;cursor:pointer;-webkit-tap-highlight-color:transparent;"><i data-lucide="leaf" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> หมากพลู</button>
           <button onclick="selectOffering('fruit','ผลไม้มงคล','images/energy/fruitstill.png','images/energy/fruitmove.mp4')" style="padding:14px 10px;background:rgba(0,0,0,0.75);border:2px solid rgba(255,215,0,0.7);border-radius:14px;font-family:'Noto Serif Thai',serif;font-size:14px;color:#FFD700;cursor:pointer;-webkit-tap-highlight-color:transparent;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2a7 7 0 0 1 7 7c0 5.25-7 13-7 13S5 14.25 5 9a7 7 0 0 1 7-7zm0 9.5c1.38 0 2.5-1.12 2.5-2.5S13.38 6.5 12 6.5 9.5 7.62 9.5 9s1.12 2.5 2.5 2.5z"/></svg> ผลไม้มงคล</button>
         </div>
       </div>
@@ -1009,9 +1018,9 @@
         <div onclick="selectRelationEnergy(this,'start')" class="energy-select-btn">🌸<br><span>เริ่มต้น</span></div>
         <div onclick="selectRelationEnergy(this,'hot')" class="energy-select-btn"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M13.5.67s.74 2.65.74 4.8c0 2.06-1.35 3.73-3.41 3.73-2.07 0-3.63-1.67-3.63-3.73l.03-.36C5.21 7.51 4 10.62 4 14c0 4.42 3.58 8 8 8s8-3.58 8-8C20 8.61 17.41 3.8 13.5.67z"/></svg><br><span>แรงดึงดูดสูง</span></div>
         <div onclick="selectRelationEnergy(this,'unclear')" class="energy-select-btn"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M17 16.99c-1.35 0-2.2.42-2.95.8-.65.33-1.18.6-2.05.6-.9 0-1.4-.25-2.05-.6-.75-.38-1.57-.8-2.95-.8s-2.2.42-2.95.8c-.65.33-1.17.6-2.05.6v1.95c1.35 0 2.2-.42 2.95-.8.65-.33 1.17-.6 2.05-.6s1.4.25 2.05.6c.75.38 1.57.8 2.95.8s2.2-.42 2.95-.8c.65-.33 1.18-.6 2.05-.6.9 0 1.4.25 2.05.6.75.38 1.57.8 2.95.8v-1.95c-.9 0-1.4-.25-2.05-.6-.75-.38-1.58-.8-2.95-.8zm0-4.5c-1.35 0-2.2.43-2.95.8-.65.32-1.18.6-2.05.6-.9 0-1.4-.25-2.05-.6-.75-.38-1.57-.8-2.95-.8s-2.2.43-2.95.8c-.65.32-1.17.6-2.05.6v1.95c1.35 0 2.2-.43 2.95-.8.65-.35 1.15-.6 2.05-.6s1.4.25 2.05.6c.75.38 1.57.8 2.95.8s2.2-.43 2.95-.8c.65-.35 1.15-.6 2.05-.6.9 0 1.4.25 2.05.6.75.38 1.57.8 2.95.8v-1.95c-.9 0-1.4-.25-2.05-.6-.75-.38-1.58-.8-2.95-.8zm2.95-7.49c-.75-.38-1.57-.8-2.95-.8s-2.2.42-2.95.8c-.65.32-1.18.6-2.05.6-.9 0-1.4-.25-2.05-.6C9.2 4.42 8.37 4 7 4s-2.2.42-2.95.8C3.4 5.12 2.9 5.38 2 5.38V7.3c1.35 0 2.2-.43 2.95-.8.65-.32 1.17-.6 2.05-.6s1.4.25 2.05.6c.75.38 1.57.8 2.95.8s2.2-.43 2.95-.8c.65-.32 1.18-.6 2.05-.6.9 0 1.4.25 2.05.6.75.38 1.57.8 2.95.8s2.2-.43 2.95-.8c.65-.32 1.18-.6 2.05-.6V4.99c-.9 0-1.4.25-2.05.6-.75.38-1.58.8-2.95.8z"/></svg><br><span>ไม่ชัดเจน</span></div>
-        <div onclick="selectRelationEnergy(this,'distant')" class="energy-select-btn"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg><br><span>ห่างเหิน</span></div>
-        <div onclick="selectRelationEnergy(this,'cycle')" class="energy-select-btn"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 1L9.5 8.5 2 6l5.5 6L2 18l7.5-2.5L12 23l2.5-7.5L22 18l-5.5-6L22 6l-7.5 2.5z"/></svg><br><span>วนกลับมาเรื่อยๆ</span></div>
-        <div onclick="selectRelationEnergy(this,'serious')" class="energy-select-btn"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg><br><span>จริงจัง</span></div>
+        <div onclick="selectRelationEnergy(this,'distant')" class="energy-select-btn"><i data-lucide="moon" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i><br><span>ห่างเหิน</span></div>
+        <div onclick="selectRelationEnergy(this,'cycle')" class="energy-select-btn"><i data-lucide="sparkles" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i><br><span>วนกลับมาเรื่อยๆ</span></div>
+        <div onclick="selectRelationEnergy(this,'serious')" class="energy-select-btn"><i data-lucide="circle-check" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i><br><span>จริงจัง</span></div>
       </div>
     </div>
 
@@ -1081,12 +1090,12 @@
       <div style="font-size:13px; color:var(--text-light); margin-bottom:32px;">✦ ผลลัพธ์จากการประเมินพลังงานของคุณ ✦</div>
       <div style="display:flex; gap:20px; justify-content:center;">
         <div onclick="confirmDayNight('day')" style="flex:1; max-width:140px; padding:24px 16px; background:var(--white); border:2px solid rgba(180,160,130,0.3); border-radius:20px; cursor:pointer; transition:all 0.2s; text-align:center;">
-          <div style="font-size:52px; margin-bottom:10px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-12.37l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0zM7.05 18.36l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0z"/></svg></div>
+          <div style="font-size:52px; margin-bottom:10px;"><i data-lucide="sun" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i></div>
           <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">พลังกลางวัน</div>
           <div style="font-size:11px; color:var(--text-light); margin-top:4px;">ชัดเจน อบอุ่น มีพลัง</div>
         </div>
         <div onclick="confirmDayNight('night')" style="flex:1; max-width:140px; padding:24px 16px; background:var(--white); border:2px solid rgba(180,160,130,0.3); border-radius:20px; cursor:pointer; transition:all 0.2s; text-align:center;">
-          <div style="font-size:52px; margin-bottom:10px;"><svg width="52px" height="52px" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-3px;flex-shrink:0"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg></div>
+          <div style="font-size:52px; margin-bottom:10px;"><i data-lucide="moon" class="li" style="width:52px;height:52px;vertical-align:-8px;"></i></div>
           <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">พลังกลางคืน</div>
           <div style="font-size:11px; color:var(--text-light); margin-top:4px;">ลึกซึ้ง ลึกลับ เงียบงาม</div>
         </div>
@@ -1149,7 +1158,7 @@
         <div class="petal-glow" style="animation-delay:1.8s">🌸</div>
       </div>
     </div>
-    <div class="loading" id="soulmate-loading"><span class="loading-spinner"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></span><div class="loading-text">กำลังวิเคราะห์ดวงสมพงษ์...</div></div>
+    <div class="loading" id="soulmate-loading"><span class="loading-spinner"><i data-lucide="users" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i></span><div class="loading-text">กำลังวิเคราะห์ดวงสมพงษ์...</div></div>
     <div class="result-card" id="soulmate-result">
       <div class="result-badge">
         <div style="font-size:52px;" id="soulmate-emoji"></div>
@@ -1193,17 +1202,17 @@
     </div>
     <!-- แรงดึงดูด -->
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 1L9.5 8.5 2 6l5.5 6L2 18l7.5-2.5L12 23l2.5-7.5L22 18l-5.5-6L22 6l-7.5 2.5z"/></svg> แรงดึงดูด</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;"><i data-lucide="sparkles" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> แรงดึงดูด</div>
       <div style="font-size:14px; color:var(--text-mid); line-height:1.8;" id="s6-attract"></div>
     </div>
     <!-- สิ่งที่ควรระวัง -->
     <div style="background:rgba(255,248,235,0.8); border:1px solid rgba(201,168,76,0.2); border-radius:16px; padding:16px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg> สิ่งที่ควรระวัง</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;"><i data-lucide="triangle-alert" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> สิ่งที่ควรระวัง</div>
       <div style="font-size:14px; color:var(--text-mid); line-height:1.8;" id="s6-warning"></div>
     </div>
     <!-- แนวโน้มระยะยาว -->
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; margin-bottom:14px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm3-8c0 1.66-1.34 3-3 3s-3-1.34-3-3 1.34-3 3-3 3 1.34 3 3z"/></svg> แนวโน้มระยะยาว</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;"><i data-lucide="circle-check" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> แนวโน้มระยะยาว</div>
       <div style="font-size:14px; color:var(--text-mid); line-height:1.8;" id="s6-longterm"></div>
     </div>
     <!-- คำแนะนำ -->
@@ -1285,7 +1294,7 @@
     <div style="background:var(--white); border-radius:16px; padding:20px; border:1px solid rgba(180,160,130,0.2);">
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
         <span style="font-size:12px; color:var(--text-light);" id="cn-q-progress">คำถาม 1 / 10</span>
-        <span style="font-size:12px; color:var(--text-light);"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-4.41 3.59-8 8-8v8c-2.21 0-4 1.79-4 4s1.79 4 4 4zm0-6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm0-8c-1.1 0-2 .9-2 2s.9 2 2 2V4z"/></svg> หยิน / <svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-12.37l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0zM7.05 18.36l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0z"/></svg> หยาง</span>
+        <span style="font-size:12px; color:var(--text-light);"><i data-lucide="circle-check" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> หยิน / <i data-lucide="sun" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> หยาง</span>
       </div>
       <div style="background:var(--cream-dark); border-radius:4px; height:4px; margin-bottom:20px;"><div id="cn-q-bar" style="background:linear-gradient(to right,rgba(180,40,40,0.6),rgba(220,80,60,0.6)); height:100%; width:10%; border-radius:4px; transition:width 0.3s;"></div></div>
       <div style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark); margin-bottom:24px; line-height:1.7; text-align:center;" id="cn-q-text"></div>
@@ -1320,14 +1329,14 @@
     <div style="background:rgba(201,168,76,0.07); border:1px solid rgba(201,168,76,0.2); border-radius:14px; padding:16px; margin-bottom:14px;">
       <div style="font-size:13px; color:var(--text-light); margin-bottom:8px; text-align:center;">พลังงานรวมของความสัมพันธ์</div>
       <div style="display:flex; align-items:center; gap:10px; margin-bottom:6px;">
-        <span style="font-size:12px; color:var(--text-light); width:32px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8 0-4.41 3.59-8 8-8v8c-2.21 0-4 1.79-4 4s1.79 4 4 4zm0-6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm0-8c-1.1 0-2 .9-2 2s.9 2 2 2V4z"/></svg> หยิน</span>
+        <span style="font-size:12px; color:var(--text-light); width:32px;"><i data-lucide="circle-check" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> หยิน</span>
         <div style="flex:1; background:var(--cream-dark); border-radius:4px; height:8px; overflow:hidden;">
           <div id="cn-yin-bar" style="background:linear-gradient(to right,rgba(100,80,160,0.7),rgba(140,100,200,0.7)); height:100%; width:50%; border-radius:4px; transition:width 0.5s;"></div>
         </div>
         <span style="font-size:13px; font-weight:700; color:var(--brown-dark); width:36px;" id="cn-yin-pct">50%</span>
       </div>
       <div style="display:flex; align-items:center; gap:10px;">
-        <span style="font-size:12px; color:var(--text-light); width:32px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-12.37l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0zM7.05 18.36l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0z"/></svg> หยาง</span>
+        <span style="font-size:12px; color:var(--text-light); width:32px;"><i data-lucide="sun" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> หยาง</span>
         <div style="flex:1; background:var(--cream-dark); border-radius:4px; height:8px; overflow:hidden;">
           <div id="cn-yang-bar" style="background:linear-gradient(to right,rgba(200,100,20,0.7),rgba(230,150,40,0.7)); height:100%; width:50%; border-radius:4px; transition:width 0.5s;"></div>
         </div>
@@ -1421,7 +1430,7 @@
   <!-- IN-STEP4: กำลังวิเคราะห์ชะตาคู่ (fullscreen loading) -->
   <div id="in-step4" style="display:none; position:fixed; inset:0; width:100%; height:100%; overflow:hidden; background:linear-gradient(160deg,#3a1f4d,#5c2e63); z-index:50;">
     <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;padding:0 30px;">
-      <div style="font-size:48px;" id="in-loading-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg></div>
+      <div style="font-size:48px;" id="in-loading-icon"><i data-lucide="circle-check" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i></div>
       <div id="in-loading-text" style="font-family:'Noto Serif Thai',serif;font-size:16px;font-weight:600;color:#f5d9a8;text-align:center;line-height:2;text-shadow:0 2px 8px rgba(0,0,0,0.5);min-height:48px;"></div>
       <div style="width:100%;max-width:260px;">
         <div style="height:6px;background:rgba(255,255,255,0.15);border-radius:4px;overflow:hidden;">
@@ -1618,6 +1627,20 @@ async function syncCreditsToServer() {
 }
 
 
+
+// ===== LUCIDE ICON HELPER =====
+// สร้าง Lucide icon HTML string สำหรับใช้ใน innerHTML หรือ HTML
+// เรียกได้ทุกที่หลัง Lucide CDN โหลดแล้ว
+function li(name, size=18, extra='') {
+  return '<i data-lucide="'+name+'" class="li" style="width:'+size+'px;height:'+size+'px;'+extra+'"></i>';
+}
+// เรียก lucide.createIcons() หลัง render content ใหม่
+function liRefresh(el) {
+  if (window.lucide) {
+    try { lucide.createIcons(el ? {el: el} : {}); } catch(e) {}
+  }
+}
+
 // ===== USER PROFILE SYSTEM =====
 function loadUserProfile() {
   try { const raw = localStorage.getItem('pc_user_profile'); return raw ? JSON.parse(raw) : null; } catch { return null; }
@@ -1769,7 +1792,7 @@ function updateLineUI() {
  if (planName) {
    const _prof = loadUserProfile();
    const _dname = (_prof&&_prof.nickname) ? _prof.nickname : (lineSession.displayName||'สมาชิก');
-   planName.innerHTML = `<span onclick="showProfilePopup(true)" style="cursor:pointer;">${_dname} <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" style="vertical-align:-1px;opacity:0.5"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg></span>`;
+   planName.innerHTML = `<span onclick="showProfilePopup(true)" style="cursor:pointer;">${_dname} <i data-lucide="pencil" class="li" style="width:12px;height:12px;vertical-align:-2px;"></i></span>`;
  }
  } else {
  if (gate) gate.style.display = 'flex';
@@ -1907,10 +1930,10 @@ function dailyStep1Next() {
 function showDailyTopicSelect() {
  const used = getDailyUsedTopics();
  const topics = [
- { val: 'love', icon: '<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-5px;flex-shrink:0"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>', label: 'ความรัก', desc: 'ความรัก ความสัมพันธ์ และหัวใจ' },
- { val: 'work', icon: '<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-5px;flex-shrink:0"><path d="M20 6h-2.18c.07-.44.18-.86.18-1 0-2.21-1.79-4-4-4s-4 1.79-4 4c0 .14.11.56.18 1H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-3c1.1 0 2 .9 2 2 0 .14-.11.56-.18 1h-3.64C12.11 5.56 12 5.14 12 5c0-1.1.9-2 2-2zm6 17H8V8h12v12zm-6-6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg>', label: 'การงาน', desc: 'อาชีพ การเรียน และเป้าหมาย' },
- { val: 'money', icon: '<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-5px;flex-shrink:0"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>', label: 'การเงิน', desc: 'ทรัพย์สิน รายได้ และการลงทุน' },
- { val: 'health', icon: '<svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-5px;flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg>', label: 'สุขภาพ', desc: 'ร่างกาย จิตใจ และพลังงาน' },
+ { val: 'love', icon: '<i data-lucide="heart" class="li" style="width:26px;height:26px;vertical-align:-4px;"></i>', label: 'ความรัก', desc: 'ความรัก ความสัมพันธ์ และหัวใจ' },
+ { val: 'work', icon: '<i data-lucide="briefcase" class="li" style="width:26px;height:26px;vertical-align:-4px;"></i>', label: 'การงาน', desc: 'อาชีพ การเรียน และเป้าหมาย' },
+ { val: 'money', icon: '<i data-lucide="trending-up" class="li" style="width:26px;height:26px;vertical-align:-4px;"></i>', label: 'การเงิน', desc: 'ทรัพย์สิน รายได้ และการลงทุน' },
+ { val: 'health', icon: '<i data-lucide="circle-check" class="li" style="width:26px;height:26px;vertical-align:-4px;"></i>', label: 'สุขภาพ', desc: 'ร่างกาย จิตใจ และพลังงาน' },
  ];
  const container = document.getElementById('daily-topic-btns');
  container.innerHTML = topics.map(t => {
@@ -1933,7 +1956,7 @@ function showDailyTopicSelect() {
  document.getElementById('daily-step17').style.display = 'none';
  document.body.style.overflow = '';
  document.getElementById('daily-step2').style.display = 'none';
- document.getElementById('daily-header-title').innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-3px;flex-shrink:0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> เลือกหัวข้อ';
+ document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เลือกหัวข้อ';
  window.scrollTo(0,0);
 }
 
@@ -1948,7 +1971,7 @@ function showDailyCtxForm(topic) {
  const forms = {
  love: `
  <div style="text-align:center;margin-bottom:20px;">
- <div style="font-size:32px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-7px;flex-shrink:0"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg></div>
+ <div style="font-size:32px;"><i data-lucide="heart" class="li" style="width:36px;height:36px;vertical-align:-5px;"></i></div>
  <div style="font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:var(--brown-dark);margin-top:8px;">ความรัก</div>
  <div style="font-size:13px;color:var(--text-light);margin-top:4px;">สถานะปัจจุบันของคุณ</div>
  </div>
@@ -1960,7 +1983,7 @@ function showDailyCtxForm(topic) {
  </div>`,
  work: `
  <div style="text-align:center;margin-bottom:20px;">
- <div style="font-size:32px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-7px;flex-shrink:0"><path d="M20 6h-2.18c.07-.44.18-.86.18-1 0-2.21-1.79-4-4-4s-4 1.79-4 4c0 .14.11.56.18 1H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-3c1.1 0 2 .9 2 2 0 .14-.11.56-.18 1h-3.64C12.11 5.56 12 5.14 12 5c0-1.1.9-2 2-2zm6 17H8V8h12v12zm-6-6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg></div>
+ <div style="font-size:32px;"><i data-lucide="briefcase" class="li" style="width:36px;height:36px;vertical-align:-5px;"></i></div>
  <div style="font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:var(--brown-dark);margin-top:8px;">การงาน</div>
  <div style="font-size:13px;color:var(--text-light);margin-top:4px;">สถานะปัจจุบันของคุณ</div>
  </div>
@@ -1973,7 +1996,7 @@ function showDailyCtxForm(topic) {
  </div>`,
  money: `
  <div style="text-align:center;margin-bottom:20px;">
- <div style="font-size:32px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-7px;flex-shrink:0"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg></div>
+ <div style="font-size:32px;"><i data-lucide="trending-up" class="li" style="width:36px;height:36px;vertical-align:-5px;"></i></div>
  <div style="font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:var(--brown-dark);margin-top:8px;">การเงิน</div>
  <div style="font-size:13px;color:var(--text-light);margin-top:4px;">ช่วงนี้คุณกังวลเรื่องการเงินระดับไหน</div>
  </div>
@@ -1986,7 +2009,7 @@ function showDailyCtxForm(topic) {
  </div>`,
  health: `
  <div style="text-align:center;margin-bottom:20px;">
- <div style="font-size:32px;"><svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-7px;flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg></div>
+ <div style="font-size:32px;"><i data-lucide="circle-check" class="li" style="width:36px;height:36px;vertical-align:-5px;"></i></div>
  <div style="font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:var(--brown-dark);margin-top:8px;">สุขภาพ</div>
  <div style="font-size:13px;color:var(--text-light);margin-top:4px;">มีเรื่องใดที่คุณกังวลเป็นพิเศษหรือไม่</div>
  </div>
@@ -1999,7 +2022,7 @@ function showDailyCtxForm(topic) {
  document.getElementById('daily-step17').style.display = 'none';
  document.body.style.overflow = '';
  document.getElementById('daily-step2').style.display = 'none';
- document.getElementById('daily-header-title').innerHTML = '<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 1L9.5 8.5 2 6l5.5 6L2 18l7.5-2.5L12 23l2.5-7.5L22 18l-5.5-6L22 6l-7.5 2.5z"/></svg> บอกเราเพิ่มเติม';
+ document.getElementById('daily-header-title').innerHTML = '<i data-lucide="sparkles" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> บอกเราเพิ่มเติม';
  window.scrollTo(0,0);
 }
 
@@ -2181,7 +2204,7 @@ function tapCrystalBall() {
  document.body.style.overflow = '';
  document.getElementById('daily-step2').style.display = 'block';
  setDailyHeader(true);
- document.getElementById('daily-header-title').innerHTML = '<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> ดวงของคุณวันนี้';
+ document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> ดวงของคุณวันนี้';
  window.scrollTo(0,0);
  }, remain);
  };
@@ -2204,7 +2227,7 @@ function generateDaily(dob, topic, deferDisplay) {
  tagsEl.innerHTML = theme.tags.map(t => `<span style="background:rgba(201,168,76,0.12);border:1px solid rgba(201,168,76,0.25);border-radius:20px;padding:4px 12px;font-size:12px;color:var(--gold);">${t}</span>`).join('');
 
  // แสดงผลเฉพาะ topic ที่เลือกเท่านั้น ไม่รวมหัวข้ออื่น
- const scoreLabels = { love:'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-3px;flex-shrink:0"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg> ความรัก', work:'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-3px;flex-shrink:0"><path d="M20 6h-2.18c.07-.44.18-.86.18-1 0-2.21-1.79-4-4-4s-4 1.79-4 4c0 .14.11.56.18 1H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-3c1.1 0 2 .9 2 2 0 .14-.11.56-.18 1h-3.64C12.11 5.56 12 5.14 12 5c0-1.1.9-2 2-2zm6 17H8V8h12v12zm-6-6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2z"/></svg> การงาน', money:'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-3px;flex-shrink:0"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg> การเงิน', health:'<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-3px;flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 11h-4v4h-2v-4H7v-2h4V7h2v4h4v2z"/></svg> สุขภาพ' };
+ const scoreLabels = { love:'<i data-lucide="heart" class="li" style="width:16px;height:16px;vertical-align:-2px;"></i> ความรัก', work:'<i data-lucide="briefcase" class="li" style="width:16px;height:16px;vertical-align:-2px;"></i> การงาน', money:'<i data-lucide="trending-up" class="li" style="width:16px;height:16px;vertical-align:-2px;"></i> การเงิน', health:'<i data-lucide="circle-check" class="li" style="width:16px;height:16px;vertical-align:-2px;"></i> สุขภาพ' };
 
  document.getElementById('daily-scores').innerHTML = `
  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;">
@@ -2244,7 +2267,7 @@ function generateDaily(dob, topic, deferDisplay) {
 
  document.getElementById('daily-step16').style.display = 'none';
  document.getElementById('daily-step2').style.display = 'block';
- document.getElementById('daily-header-title').innerHTML = '<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> ดวงของคุณวันนี้';
+ document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> ดวงของคุณวันนี้';
  window.scrollTo(0,0);
 }
 
@@ -2262,7 +2285,7 @@ function resetDaily() {
  document.getElementById('daily-step17').style.display = 'none';
  document.body.style.overflow = '';
  document.getElementById('daily-step2').style.display = 'none';
- document.getElementById('daily-header-title').innerHTML = '<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> ดวงรายวัน';
+ document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> ดวงรายวัน';
  // clear saved profile
  localStorage.removeItem('pc_daily_profile');
 }
@@ -2277,7 +2300,7 @@ function dailyEditProfile() {
  document.getElementById('daily-step16').style.display = 'none';
  document.getElementById('daily-step17').style.display = 'none';
  document.body.style.overflow = '';
- document.getElementById('daily-header-title').innerHTML = '<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> ดวงรายวัน';
+ document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> ดวงรายวัน';
  window.scrollTo(0, 0);
  if (!profile) return;
  // pre-fill สถานที่เกิด
@@ -2396,7 +2419,7 @@ function clearDob(prefix) {
 let userState={plan:'free',credits:0,planExpiry:null};
 function loadState(){try{const s=localStorage.getItem('pc_state');if(s){userState=JSON.parse(s);if(userState.planExpiry&&new Date()>new Date(userState.planExpiry)){userState={plan:'free',credits:0,planExpiry:null};saveState();}}}catch(e){}updateStatusBar();}
 function saveState(){localStorage.setItem('pc_state',JSON.stringify(userState));}
-function updateStatusBar(){const icons={free:'<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>',single:'<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 1L9.5 8.5 2 6l5.5 6L2 18l7.5-2.5L12 23l2.5-7.5L22 18l-5.5-6L22 6l-7.5 2.5z"/></svg>',basic:'<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>',pro:'<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>',unlimited:'<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M5 16L3 5l5.5 5L12 4l3.5 6L21 5l-2 11H5zm14 3c0 .55-.45 1-1 1H6c-.55 0-1-.45-1-1v-1h14v1z"/></svg>'};const names={free:'ยังไม่ได้สมัคร',single:'รายครั้ง',basic:'Basic',pro:'Pro',unlimited:'Unlimited'};if(!lineSession){document.getElementById('plan-icon').innerHTML=icons[userState.plan];document.getElementById('plan-name').textContent=names[userState.plan];}document.getElementById('credits-display').textContent=userState.plan!=='free'?(userState.credits>=999?'ไม่จำกัด':userState.credits+' ครั้ง'):'';}
+function updateStatusBar(){const icons={free:'<i data-lucide="moon" class="li" style="width:16px;height:16px;vertical-align:-2px;"></i>',single:'<i data-lucide="sparkles" class="li" style="width:16px;height:16px;vertical-align:-2px;"></i>',basic:'<i data-lucide="moon" class="li" style="width:16px;height:16px;vertical-align:-2px;"></i>',pro:'<i data-lucide="star" class="li" style="width:16px;height:16px;vertical-align:-2px;"></i>',unlimited:'<i data-lucide="crown" class="li" style="width:16px;height:16px;vertical-align:-2px;"></i>'};const names={free:'ยังไม่ได้สมัคร',single:'รายครั้ง',basic:'Basic',pro:'Pro',unlimited:'Unlimited'};if(!lineSession){document.getElementById('plan-icon').innerHTML=icons[userState.plan];liRefresh(document.getElementById('plan-icon'));document.getElementById('plan-name').textContent=names[userState.plan];}document.getElementById('credits-display').textContent=userState.plan!=='free'?(userState.credits>=999?'ไม่จำกัด':userState.credits+' ครั้ง'):'';}
 function goTo(pageId){
  // Cleanup thread zoom blocker when navigating away
  cnThreadCleanup();
@@ -2411,6 +2434,7 @@ function goTo(pageId){
  }
  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
  document.getElementById(pageId).classList.add('active');
+ liRefresh(document.getElementById(pageId));
  window.scrollTo(0,0);
  const type=pageId.replace('page-','');
  if(['siam','tarot','energy','soulmate'].includes(type)) showCreditsBar(type);
@@ -3964,7 +3988,7 @@ function answerQuestion(idx) {
  if (currentQuestion >= soulmateQuestions.length) {
  // Show energy result first
  const isDay = dayScore >= 5;
- document.getElementById('s3r-icon').innerHTML = isDay ? '<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-12.37l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0zM7.05 18.36l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06c.39-.39.39-1.03 0-1.41s-1.03-.39-1.41 0z"/></svg>' : '<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 3a9 9 0 1 0 9 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 0 1-4.4 2.26 5.403 5.403 0 0 1-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>';
+ document.getElementById('s3r-icon').innerHTML = isDay ? '<i data-lucide="sun" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i>' : '<i data-lucide="moon" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i>';
  document.getElementById('s3r-title').textContent = isDay ? 'พลังงานกลางวัน' : 'พลังงานกลางคืน';
  document.getElementById('s3r-desc').textContent = isDay
  ? 'ความสัมพันธ์ของคุณมีพลังงานกลางวัน — ชัดเจน อบอุ่น และมีพลัง ทั้งสองคนมีแนวโน้มแสดงความรู้สึกออกมาตรงๆ' : 'ความสัมพันธ์ของคุณมีพลังงานกลางคืน — ลึกซึ้ง ลึกลับ และเงียบงาม ทั้งสองคนสื่อสารกันในสิ่งที่ไม่ต้องพูด';
@@ -4068,11 +4092,11 @@ function startKhanHold(e) {
  if (progress < 30) msg.textContent = 'กำลังส่งพลังงาน…';
  else if (progress < 60) msg.textContent = ' น้ำกำลังรับพลังงาน…';
  else if (progress < 90) msg.textContent = ' พลังงานกำลังสะสม…';
- else msg.innerHTML = '<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> เกือบแล้ว…';
+ else msg.innerHTML = '<i data-lucide="star" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> เกือบแล้ว…';
  }
  if (progress >= 100) {
  clearInterval(window._khanInterval);
- if (msg) msg.innerHTML = '<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg> ส่งพลังงานสู่จักรวาลแล้ว!';
+ if (msg) msg.innerHTML = '<i data-lucide="star" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> ส่งพลังงานสู่จักรวาลแล้ว!';
  setTimeout(() => soulmateGoLoading(), 600);
  }
  }, 50);
@@ -4335,7 +4359,7 @@ let cnState = {
 let cnQIdx = 0;
 
 const CN_ZODIAC = ['ชวด(หนู)','ฉลู(วัว)','ขาล(เสือ)','เถาะ(กระต่าย)','มะโรง(มังกร)','มะเส็ง(งู)','มะเมีย(ม้า)','มะแม(แพะ)','วอก(ลิง)','ระกา(ไก่)','จอ(สุนัข)','กุน(หมู)'];
-const CN_ZODIAC_ICONS = ['<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C9.24 2 7 4.24 7 7c0 1.5.66 2.84 1.7 3.78A6 6 0 0 0 6 16v3h2v-3c0-2.21 1.79-4 4-4s4 1.79 4 4v3h2v-3a6 6 0 0 0-2.7-5.22A4.99 4.99 0 0 0 17 7c0-2.76-2.24-5-5-5zm0 8c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3zm-5 11h10v2H7z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V19h8v-4.26C17.81 13.47 19 11.38 19 9c0-3.87-3.13-7-7-7zm0 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zM8 20h8v2H8z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2L2 7l2 2-2 3 4-1 1 3 5-5 5 5 1-3 4 1-2-3 2-2L12 2zm0 3l6 3-2 1-4-2-4 2-2-1 6-3zm-3 8l3-3 3 3-3 3-3-3z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C9.24 2 7 4.24 7 7c0 1.93 1.1 3.61 2.7 4.45L9 13H7v2l2-.5V19h6v-4.5l2 .5v-2h-2l-.7-1.55C15.9 10.61 17 8.93 17 7c0-2.76-2.24-5-5-5zm0 2c1.65 0 3 1.35 3 3S13.65 12 12 12s-3-1.35-3-3 1.35-3 3-3zm-2 10h4v5h-4v-5z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M6.5 10h-2c0 4.08 2.58 7.71 6.5 9.29V22h2v-2.71C16.93 17.79 19.5 14.09 19.5 10h-2c0 3-1.99 5.5-5 6.32V10c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2H9C9 5.48 10.48 4 12 4s3 1.48 3 3.48v.02c0 1.38-1.12 2.5-2.5 2.5H11C8.52 10 6.5 12.02 6.5 10z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M13 3c0-1.1-.9-2-2-2S9 1.9 9 3c0 .84.52 1.57 1.27 1.86C8.87 6.02 8 7.41 8 9v10h2v-4h4v4h2V9c0-1.59-.87-2.98-2.27-3.14C14.48 4.57 15 3.84 15 3h-2zm-2 2c1.1 0 2 .9 2 2v4h-4V7c0-1.1.9-2 2-2z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C9.24 2 7 4.24 7 7c0 1.93 1.1 3.61 2.7 4.45-.4.43-.7.94-.7 1.55 0 1.38 1.12 2.5 2.5 2.5H12c1.38 0 2.5-1.12 2.5-2.5 0-.61-.3-1.12-.7-1.55C15.9 10.61 17 8.93 17 7c0-2.76-2.24-5-5-5zm0 2c1.65 0 3 1.35 3 3S13.65 12 12 12s-3-1.35-3-3 1.35-3 3-3zm-1 12v6h2v-6h3l-4-4-4 4h3z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M19.07 4.93A10 10 0 0 0 12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10c0-2.76-1.12-5.26-2.93-7.07zm-7.07 13.07c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm2-5c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4 15H8l2-4H7l5-9 5 9h-3l2 4z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C9.24 2 7 4.24 7 7c0 1.93 1.1 3.61 2.7 4.45L9 13H7v2h2v5h6v-5h2v-2h-2l-.7-1.55C15.9 10.61 17 8.93 17 7c0-2.76-2.24-5-5-5zm0 2c1.65 0 3 1.35 3 3S13.65 12 12 12s-3-1.35-3-3 1.35-3 3-3z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C9.24 2 7 4.24 7 7c0 2.38 1.19 4.47 3 5.74V16H8v2h2v2h4v-2h2v-2h-2v-3.26C15.81 11.47 17 9.38 17 7c0-2.76-2.24-5-5-5zm0 2c1.65 0 3 1.35 3 3S13.65 12 12 12s-3-1.35-3-3 1.35-3 3-3z"/></svg>'];
+const CN_ZODIAC_ICONS = ['<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C9.24 2 7 4.24 7 7c0 1.5.66 2.84 1.7 3.78A6 6 0 0 0 6 16v3h2v-3c0-2.21 1.79-4 4-4s4 1.79 4 4v3h2v-3a6 6 0 0 0-2.7-5.22A4.99 4.99 0 0 0 17 7c0-2.76-2.24-5-5-5zm0 8c-1.65 0-3-1.35-3-3s1.35-3 3-3 3 1.35 3 3-1.35 3-3 3zm-5 11h10v2H7z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C8.13 2 5 5.13 5 9c0 2.38 1.19 4.47 3 5.74V19h8v-4.26C17.81 13.47 19 11.38 19 9c0-3.87-3.13-7-7-7zm0 12c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zM8 20h8v2H8z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2L2 7l2 2-2 3 4-1 1 3 5-5 5 5 1-3 4 1-2-3 2-2L12 2zm0 3l6 3-2 1-4-2-4 2-2-1 6-3zm-3 8l3-3 3 3-3 3-3-3z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C9.24 2 7 4.24 7 7c0 1.93 1.1 3.61 2.7 4.45L9 13H7v2l2-.5V19h6v-4.5l2 .5v-2h-2l-.7-1.55C15.9 10.61 17 8.93 17 7c0-2.76-2.24-5-5-5zm0 2c1.65 0 3 1.35 3 3S13.65 12 12 12s-3-1.35-3-3 1.35-3 3-3zm-2 10h4v5h-4v-5z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M6.5 10h-2c0 4.08 2.58 7.71 6.5 9.29V22h2v-2.71C16.93 17.79 19.5 14.09 19.5 10h-2c0 3-1.99 5.5-5 6.32V10c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2H9C9 5.48 10.48 4 12 4s3 1.48 3 3.48v.02c0 1.38-1.12 2.5-2.5 2.5H11C8.52 10 6.5 12.02 6.5 10z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M13 3c0-1.1-.9-2-2-2S9 1.9 9 3c0 .84.52 1.57 1.27 1.86C8.87 6.02 8 7.41 8 9v10h2v-4h4v4h2V9c0-1.59-.87-2.98-2.27-3.14C14.48 4.57 15 3.84 15 3h-2zm-2 2c1.1 0 2 .9 2 2v4h-4V7c0-1.1.9-2 2-2z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C9.24 2 7 4.24 7 7c0 1.93 1.1 3.61 2.7 4.45-.4.43-.7.94-.7 1.55 0 1.38 1.12 2.5 2.5 2.5H12c1.38 0 2.5-1.12 2.5-2.5 0-.61-.3-1.12-.7-1.55C15.9 10.61 17 8.93 17 7c0-2.76-2.24-5-5-5zm0 2c1.65 0 3 1.35 3 3S13.65 12 12 12s-3-1.35-3-3 1.35-3 3-3zm-1 12v6h2v-6h3l-4-4-4 4h3z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M19.07 4.93A10 10 0 0 0 12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10c0-2.76-1.12-5.26-2.93-7.07zm-7.07 13.07c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm2-5c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z"/></svg>','<i data-lucide="circle-check" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C9.24 2 7 4.24 7 7c0 1.93 1.1 3.61 2.7 4.45L9 13H7v2h2v5h6v-5h2v-2h-2l-.7-1.55C15.9 10.61 17 8.93 17 7c0-2.76-2.24-5-5-5zm0 2c1.65 0 3 1.35 3 3S13.65 12 12 12s-3-1.35-3-3 1.35-3 3-3z"/></svg>','<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C9.24 2 7 4.24 7 7c0 2.38 1.19 4.47 3 5.74V16H8v2h2v2h4v-2h2v-2h-2v-3.26C15.81 11.47 17 9.38 17 7c0-2.76-2.24-5-5-5zm0 2c1.65 0 3 1.35 3 3S13.65 12 12 12s-3-1.35-3-3 1.35-3 3-3z"/></svg>'];
 const CN_ELEMENTS = ['ไม้','ไฟ','ดิน','ทอง','น้ำ'];
 const CN_EL_ICONS = {'ไม้':'','ไฟ':'','ดิน':'','ทอง':'️','น้ำ':''};
 
@@ -5751,7 +5775,7 @@ function stopWaterReveal() { clearInterval(nagaWaterInterval); }
 function startNagaInteraction3() { showNagaStep('naga-step5'); }
 
 function openSeal(el, idx) {
- document.querySelectorAll('.naga-seal').forEach(s => { s.innerHTML = '<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-4h2v2h-2zm0-8h2v6h-2z"/></svg>'; s.style.opacity = '0.5'; });
+ document.querySelectorAll('.naga-seal').forEach(s => { s.innerHTML = '<i data-lucide="circle-check" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i>'; s.style.opacity = '0.5'; });
  el.innerHTML = '<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>';
  el.style.opacity = '1';
  el.style.borderColor = 'var(--gold)';
@@ -5843,6 +5867,7 @@ window.addEventListener('hashchange', handleHash);
 window.addEventListener('load', () => {
  // Init Thai date pickers
  initDobSelects();
+  if (window.lucide) setTimeout(()=>lucide.createIcons(), 100);
  // Init check-in button
  initCheckinBtn();
  // Handle URL hash
@@ -6032,7 +6057,7 @@ window.addEventListener('load', () => {
     <!-- Visitor Stats -->
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:16px; box-shadow:0 2px 12px rgba(180,140,120,0.08);">
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
-        <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M5 9.2h3V19H5zM10.6 5h2.8v14h-2.8zm5.6 8H19v6h-2.8z"/></svg> สถิติผู้เข้าชม (วันนี้)</div>
+        <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);"><i data-lucide="bar-chart-2" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> สถิติผู้เข้าชม (วันนี้)</div>
         <button onclick="adminLoadStats()" style="background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.4); color:var(--gold); padding:5px 14px; border-radius:20px; cursor:pointer; font-family:'Noto Sans Thai',sans-serif; font-size:12px;">โหลด</button>
       </div>
       <div id="admin-stats-summary" style="display:flex; gap:10px; margin-bottom:12px;"></div>
@@ -6041,7 +6066,7 @@ window.addEventListener('load', () => {
 
     <!-- Set Coins -->
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:16px; box-shadow:0 2px 12px rgba(180,140,120,0.08);">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:14px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/></svg> แก้ไขเหรียญ</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:14px;"><i data-lucide="circle-check" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> แก้ไขเหรียญ</div>
       <input id="admin-line-id" placeholder="LINE User ID (Uc...)" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(180,160,130,0.3); background:var(--cream); color:var(--text); font-family:'Noto Sans Thai',sans-serif; font-size:13px; margin-bottom:10px; box-sizing:border-box; outline:none;">
       <input id="admin-coins-val" type="number" placeholder="จำนวนเหรียญ" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(180,160,130,0.3); background:var(--cream); color:var(--text); font-family:'Noto Sans Thai',sans-serif; font-size:13px; margin-bottom:14px; box-sizing:border-box; outline:none;">
       <button onclick="adminSetCoins()" style="width:100%; padding:14px; background:linear-gradient(135deg,#c9a84c,#e8c87a); border:none; border-radius:12px; font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:700; color:#fff; cursor:pointer; box-shadow:0 4px 16px rgba(201,168,76,0.3);">อัปเดตเหรียญ</button>
@@ -6050,7 +6075,7 @@ window.addEventListener('load', () => {
 
     <!-- Set Credits -->
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:16px; box-shadow:0 2px 12px rgba(180,140,120,0.08);">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:14px;"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M6 2l-4 7 10 13L22 9l-4-7H6zm1.5 2h9l2.5 4.5H5L7.5 4zM12 18.5L5.5 10h13L12 18.5z"/></svg> แก้ไขเครดิต (ดูดวง)</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:14px;"><i data-lucide="gem" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> แก้ไขเครดิต (ดูดวง)</div>
       <input id="admin-line-id-2" placeholder="LINE User ID (Uc...)" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(180,160,130,0.3); background:var(--cream); color:var(--text); font-family:'Noto Sans Thai',sans-serif; font-size:13px; margin-bottom:10px; box-sizing:border-box; outline:none;">
       <input id="admin-credits-val" type="number" placeholder="จำนวนเครดิต" style="width:100%; padding:12px 14px; border-radius:12px; border:1px solid rgba(180,160,130,0.3); background:var(--cream); color:var(--text); font-family:'Noto Sans Thai',sans-serif; font-size:13px; margin-bottom:14px; box-sizing:border-box; outline:none;">
       <button onclick="adminSetCredits()" style="width:100%; padding:14px; background:linear-gradient(135deg,#a8694f,#c9a8b8); border:none; border-radius:12px; font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:700; color:#fff; cursor:pointer; box-shadow:0 4px 16px rgba(168,105,79,0.3);">อัปเดตเครดิต</button>
@@ -6069,7 +6094,7 @@ window.addEventListener('load', () => {
     <!-- User List -->
     <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:20px; margin-bottom:16px; box-shadow:0 2px 12px rgba(180,140,120,0.08);">
       <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:14px;">
-        <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg> รายชื่อ Users</div>
+        <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);"><i data-lucide="users" class="li" style="width:1px;height:1px;vertical-align:-0px;"></i> รายชื่อ Users</div>
         <button onclick="adminLoadUsers()" style="background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.4); color:var(--gold); padding:5px 14px; border-radius:20px; cursor:pointer; font-family:'Noto Sans Thai',sans-serif; font-size:12px;">โหลด</button>
       </div>
       <div id="admin-users-list" style="font-size:13px; color:var(--text-light); line-height:2; font-family:'Noto Sans Thai',sans-serif;"></div>
