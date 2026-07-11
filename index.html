@@ -5050,8 +5050,8 @@ function inDobNext() {
  if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('soulmate'); return; }
  inState.dob1 = dob1;
  inState.dob2 = dob2;
- inState.time1 = document.getElementById('in-time1').value || '';
- inState.time2 = document.getElementById('in-time2').value || '';
+ inState.time1 = '';
+ inState.time2 = '';
  soulmateState.dob1 = dob1; soulmateState.dob2 = dob2;
  showSoulmateStep('in-step2');
 }
