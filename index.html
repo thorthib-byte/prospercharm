@@ -1420,11 +1420,11 @@
 
     <!-- ดอกบัว — top:72% -->
     <img id="in-flower" src="images/soulmate/indialotus.png" draggable="false"
-      style="position:absolute;top:75%;left:50%;transform:translate(-50%,-50%);width:100px;height:100px;object-fit:contain;cursor:grab;z-index:10;filter:drop-shadow(0 6px 20px rgba(180,80,60,0.3));touch-action:none;"
+      style="position:absolute;top:79%;left:50%;transform:translate(-50%,-50%);width:100px;height:100px;object-fit:contain;cursor:grab;z-index:10;filter:drop-shadow(0 6px 20px rgba(180,80,60,0.3));touch-action:none;"
       onmousedown="inFlowerStart(event)" ontouchstart="inFlowerStart(event)">
 
     <!-- hint — ชิดใต้ดอกบัว -->
-    <div id="in-flower-hint" style="position:absolute;top:83%;left:0;right:0;text-align:center;font-size:13px;color:#a8694f;animation:pulseTap 1.6s infinite;z-index:5;">แตะค้างแล้วลากดอกบัวขึ้นวางบนแท่น</div>
+    <div id="in-flower-hint" style="position:absolute;top:87%;left:0;right:0;text-align:center;font-size:13px;color:#a8694f;animation:pulseTap 1.6s infinite;z-index:5;">แตะค้างแล้วลากดอกบัวขึ้นวางบนแท่น</div>
 
     <!-- กลีบโปรย -->
     <div id="in-petals" style="position:absolute;inset:0;pointer-events:none;display:none;z-index:6;"></div>
@@ -1432,7 +1432,7 @@
     <!-- Loading overlay (โผล่พร้อม video) -->
     <div id="in-loading-overlay" style="display:none;position:absolute;inset:0;z-index:9;display:none;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:60px;">
       <div id="in-loading-icon-v" style="font-size:28px;margin-bottom:8px;"></div>
-      <div id="in-loading-text-v" style="font-family:'Noto Serif Thai',serif;font-size:15px;color:#8b4a3a;text-align:center;padding:0 32px;text-shadow:0 1px 4px rgba(255,255,255,0.8);"></div>
+      <div id="in-loading-text-v" style="font-family:'Noto Serif Thai',serif;font-size:15px;color:#ffffff;text-align:center;padding:0 32px;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000,0 2px 8px rgba(0,0,0,0.7);font-weight:600;"></div>
       <div style="width:200px;height:4px;background:rgba(200,130,60,0.2);border-radius:2px;margin-top:16px;overflow:hidden;">
         <div id="in-loading-bar-v" style="height:100%;background:linear-gradient(90deg,#c9a84c,#e8d5a3);border-radius:2px;width:0%;transition:width 1.2s ease;"></div>
       </div>
@@ -5145,22 +5145,24 @@ function inFlowerSuccess() {
  setTimeout(() => {
    flower.style.display = 'none';
    const still = document.getElementById('in-lotus-still');
+   const barEl_ref = document.getElementById('in-loading-bar-v');
 
    const doGoNext = () => {
-     barEl_ref && (barEl_ref.style.width = '100%');
-     setTimeout(inGenerateResult, 400);
+     if (barEl_ref) barEl_ref.style.width = '100%';
+     setTimeout(inGenerateResult, 500);
    };
 
    if (video) {
      video.style.display = 'block';
-     // รอให้รู้ duration ก่อน แล้วค่อย start loading overlay
      const startAll = () => {
-       const dur = video.duration && isFinite(video.duration) ? video.duration : 5;
+       const dur = (video.duration && isFinite(video.duration) && video.duration > 0) ? video.duration : 5;
        inStartAnalysisOverlay(dur);
-       video.onended = doGoNext;
-       setTimeout(doGoNext, (dur + 0.5) * 1000); // fallback
+       // ใช้ onended + fallback ป้องกันค้าง
+       let gone = false;
+       const safeGoNext = () => { if (!gone) { gone = true; doGoNext(); } };
+       video.onended = safeGoNext;
+       setTimeout(safeGoNext, (dur + 1) * 1000);
      };
-     const barEl_ref = document.getElementById('in-loading-bar-v');
      const playPromise = video.play();
      if (playPromise !== undefined) {
        playPromise.then(() => {
@@ -5170,17 +5172,17 @@ function inFlowerSuccess() {
          video.style.display = 'none';
          if (still) still.style.display = 'block';
          inStartAnalysisOverlay(5);
-         setTimeout(doGoNext, 5500);
+         let gone = false;
+         setTimeout(() => { if (!gone) { gone = true; doGoNext(); } }, 6000);
        });
      } else {
-       inStartAnalysisOverlay(5);
-       setTimeout(doGoNext, 5500);
+       startAll();
      }
    } else {
      if (still) still.style.display = 'block';
      inStartAnalysisOverlay(5);
-     const barEl_ref = null;
-     setTimeout(doGoNext, 5500);
+     let gone = false;
+     setTimeout(() => { if (!gone) { gone = true; doGoNext(); } }, 6000);
    }
  }, 500);
 }
