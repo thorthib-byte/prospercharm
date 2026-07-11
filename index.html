@@ -1424,7 +1424,7 @@
       onmousedown="inFlowerStart(event)" ontouchstart="inFlowerStart(event)">
 
     <!-- hint — ชิดใต้ดอกบัว -->
-    <div id="in-flower-hint" style="position:absolute;top:87%;left:0;right:0;text-align:center;font-size:13px;color:#a8694f;animation:pulseTap 1.6s infinite;z-index:5;">แตะค้างแล้วลากดอกบัวขึ้นวางบนแท่น</div>
+    <div id="in-flower-hint" style="position:absolute;top:83%;left:0;right:0;text-align:center;font-size:13px;color:#a8694f;animation:pulseTap 1.6s infinite;z-index:5;">แตะค้างแล้วลากดอกบัวขึ้นวางบนแท่น</div>
 
     <!-- กลีบโปรย -->
     <div id="in-petals" style="position:absolute;inset:0;pointer-events:none;display:none;z-index:6;"></div>
@@ -5133,11 +5133,11 @@ function inFlowerSuccess() {
 
  // ล็อค drag
  flower.onmousedown = null; flower.ontouchstart = null;
- flower.style.transition = 'all 0.45s cubic-bezier(0.34,1.56,0.64,1)';
+ flower.style.transition = 'all 0.4s cubic-bezier(0.25,0.46,0.45,0.94)';
  // snap ดอกบัวไปตรงกลางวงกลมพอดี
  flower.style.left = '50%';
  flower.style.top = '44%';
- flower.style.transform = 'translate(-50%,-50%) scale(1.1)';
+ flower.style.transform = 'translate(-50%,-50%) scale(1.0)';
  flower.style.cursor = 'default';
  if (hint) hint.style.display = 'none';
 
