@@ -247,7 +247,27 @@
 
   /* Lucide outline icons — ให้ stroke inherit สีจาก parent */
   [data-lucide] svg, .li svg { stroke: currentColor !important; color: inherit; }
-  /* Lucide outline icons */
+  /* ===== WESTERN CEREMONY CSS ===== */
+  @keyframes westernRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes westernPulse { 0%,100%{box-shadow:0 0 20px #c9a84c,0 0 40px rgba(201,168,76,0.5);} 50%{box-shadow:0 0 30px #c9a84c,0 0 60px rgba(201,168,76,0.7),0 0 80px rgba(201,168,76,0.3);} }
+  @keyframes wFlame { 0%,100%{transform:scaleX(1) scaleY(1);opacity:1;} 25%{transform:scaleX(0.85) scaleY(1.1);opacity:0.9;} 75%{transform:scaleX(1.1) scaleY(0.95);opacity:0.95;} }
+  @keyframes wFlameGlow { 0%,100%{box-shadow:0 0 10px #ff8c00,0 0 20px rgba(255,140,0,0.6);} 50%{box-shadow:0 0 18px #ff8c00,0 0 35px rgba(255,140,0,0.8),0 0 50px rgba(255,200,0,0.3);} }
+  @keyframes wStarTwinkle { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
+  @keyframes wSlideIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
+  .w-candle { position:relative; display:flex; flex-direction:column; align-items:center; }
+  .w-flame { width:16px; height:28px; background:linear-gradient(180deg,#fff9c4 0%,#ffb300 40%,#ff6f00 100%); border-radius:50% 50% 20% 20%; margin-bottom:4px; animation:wFlame 1.2s ease-in-out infinite, wFlameGlow 1.5s ease-in-out infinite; transform-origin:bottom center; transition:opacity 0.4s; }
+  .w-rel-btn.selected, .w-int-btn.selected { background:rgba(201,168,76,0.2) !important; border-color:rgba(201,168,76,0.8) !important; box-shadow:0 0 0 1px rgba(201,168,76,0.4); }
+  .w-load-dot.done { background:#c9a84c !important; border-color:#c9a84c !important; }
+  .w-load-dot.done::after { content:'✓'; font-size:10px; color:#0a0615; font-weight:700; }
+  /* Score slider ala MBTI */
+  .wr-score-row { margin-bottom:18px; }
+  .wr-score-label { display:flex; justify-content:space-between; align-items:center; margin-bottom:6px; }
+  .wr-score-name { font-size:13px; color:var(--text-mid); font-family:'Noto Sans Thai',sans-serif; }
+  .wr-score-val { font-size:14px; font-weight:700; color:var(--brown-dark); font-family:'Playfair Display',serif; }
+  .wr-track { height:8px; background:rgba(180,160,130,0.15); border-radius:4px; position:relative; overflow:visible; }
+  .wr-fill { height:100%; border-radius:4px; background:linear-gradient(90deg,#c9a84c,#e8d5a3); transition:width 1.5s ease; }
+  .wr-thumb { width:18px; height:18px; border-radius:50%; background:#fff; border:3px solid #c9a84c; position:absolute; top:50%; transform:translate(-50%,-50%); box-shadow:0 2px 8px rgba(201,168,76,0.4); transition:left 1.5s ease; }
+
   .li { display:inline-block; vertical-align:-0.15em; flex-shrink:0; stroke-width:1.5; color:currentColor; }
   .li-sm { width:16px; height:16px; }
   .li-md { width:18px; height:18px; }
@@ -1633,7 +1653,234 @@ async function syncCreditsToServer() {
 
 
 
-// ===== LUCIDE ICON HELPER =====
+// ===== WESTERN SOULMATE CEREMONY =====
+const westernState = { relation:'', intention:'', prayer:'', candlesLit:0, petals:0 };
+const WESTERN_ALL_STEPS = ['western-step2','western-step3','western-step4','western-step5','western-step6','western-step7','western-result'];
+
+function westernGoTo(stepId) {
+  WESTERN_ALL_STEPS.forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  const target = document.getElementById(stepId);
+  if (target) {
+    target.style.display = 'block';
+    window.scrollTo(0,0);
+    if (stepId === 'western-step5') initWesternCandles();
+    if (stepId === 'western-step6') initRoseCanvas();
+    if (stepId === 'western-step7') startWesternLoading();
+  }
+}
+
+function westernBack() {
+  WESTERN_ALL_STEPS.forEach(id => { const el = document.getElementById(id); if (el) el.style.display='none'; });
+  showSoulmateStep('soulmate-step1');
+}
+
+function westernBackToSoulmate() {
+  WESTERN_ALL_STEPS.forEach(id => { const el = document.getElementById(id); if (el) el.style.display='none'; });
+  showSoulmateStep('soulmate-step0');
+}
+
+function selectWesternRelation(btn) {
+  document.querySelectorAll('.w-rel-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  westernState.relation = btn.dataset.val;
+  document.getElementById('western-step2-next').style.display = 'block';
+}
+
+function selectWesternIntention(btn) {
+  document.querySelectorAll('.w-int-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  westernState.intention = btn.dataset.val;
+  document.getElementById('western-step3-next').style.display = 'block';
+}
+
+function westernPrayerInput(ta) {
+  const val = ta.value.slice(0,200);
+  ta.value = val;
+  document.getElementById('western-prayer-count').textContent = val.length;
+  westernState.prayer = val;
+  const btn = document.getElementById('western-step4-next');
+  if (val.trim().length > 10) {
+    btn.style.opacity = '1'; btn.style.pointerEvents = 'auto';
+  } else {
+    btn.style.opacity = '0.4'; btn.style.pointerEvents = 'none';
+  }
+}
+
+function westernSealPrayer() {
+  const btn = document.getElementById('western-step4-next');
+  btn.style.display = 'none';
+  const anim = document.getElementById('western-seal-anim');
+  anim.style.display = 'block';
+  const env = document.getElementById('western-envelope');
+  const msg = document.getElementById('western-seal-msg');
+  setTimeout(() => { env.textContent = '📜'; env.style.transform = 'scale(1.2) rotate(-5deg)'; }, 100);
+  setTimeout(() => { env.textContent = '💌'; env.style.transform = 'scale(1) rotate(0deg)'; }, 600);
+  setTimeout(() => { env.textContent = '✉️'; env.style.filter = 'drop-shadow(0 0 12px gold)'; msg.style.opacity = '1'; }, 1200);
+  setTimeout(() => { env.style.transform = 'translateY(-20px)'; env.style.opacity = '0'; }, 1800);
+  setTimeout(() => westernGoTo('western-step5'), 2400);
+}
+
+// ===== CANDLE STEP =====
+let westernCandleCount = 0;
+function initWesternCandles() {
+  westernCandleCount = 0;
+  westernState.candlesLit = 0;
+  [1,2,3].forEach(i => {
+    document.getElementById('w-flame-'+i).style.opacity = '0';
+  });
+  document.getElementById('w-candle-msg').textContent = '';
+  document.getElementById('western-stars').style.opacity = '0';
+}
+
+function lightCandle(idx) {
+  const flame = document.getElementById('w-flame-'+idx);
+  if (flame.style.opacity === '1') return;
+  flame.style.opacity = '1';
+  westernCandleCount++;
+  const msgs = ['เทียนแรกถูกจุดแล้ว... ❤️', 'เทียนที่สองลุกโชน... 🧠', 'เปลวไฟทั้งสามรวมเป็นหนึ่ง ✨'];
+  document.getElementById('w-candle-msg').textContent = msgs[westernCandleCount-1];
+  document.getElementById('w-candle-msg').style.color = westernCandleCount === 3 ? '#c9a84c' : 'rgba(232,213,163,0.6)';
+  if (westernCandleCount === 3) {
+    document.getElementById('western-stars').style.opacity = '1';
+    setTimeout(() => westernGoTo('western-step6'), 1800);
+  }
+}
+
+// ===== ROSE PETAL CANVAS =====
+let roseCtx, rosePetals = [], roseAnimId, roseCount = 0;
+const ROSE_TARGET = 50;
+
+function initRoseCanvas() {
+  roseCount = 0; rosePetals = [];
+  if (roseAnimId) cancelAnimationFrame(roseAnimId);
+  const canvas = document.getElementById('western-rose-canvas');
+  canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
+  roseCtx = canvas.getContext('2d');
+  // Draw zodiac ring in center
+  drawZodiacRing();
+  // Touch/mouse events
+  canvas.addEventListener('touchmove', roseTouch, {passive:false});
+  canvas.addEventListener('mousemove', roseMouse);
+  roseAnimate();
+}
+
+function drawZodiacRing() {
+  const canvas = document.getElementById('western-rose-canvas');
+  const cx = canvas.width/2, cy = canvas.height/2, r = Math.min(cx,cy)*0.4;
+  roseCtx.strokeStyle = 'rgba(201,168,76,0.3)'; roseCtx.lineWidth = 1.5;
+  roseCtx.beginPath(); roseCtx.arc(cx,cy,r,0,Math.PI*2); roseCtx.stroke();
+  roseCtx.beginPath(); roseCtx.arc(cx,cy,r*0.65,0,Math.PI*2); roseCtx.stroke();
+  roseCtx.fillStyle = 'rgba(201,168,76,0.6)'; roseCtx.font = '18px serif';
+  roseCtx.textAlign = 'center'; roseCtx.textBaseline = 'middle';
+  roseCtx.fillText('♀', cx, cy);
+}
+
+function roseTouch(e) { e.preventDefault(); const t = e.touches[0]; spawnPetal(t.clientX, t.clientY - document.getElementById('western-step6').getBoundingClientRect().top); }
+function roseMouse(e) { if (e.buttons > 0) spawnPetal(e.offsetX, e.offsetY); }
+
+function spawnPetal(x, y) {
+  if (rosePetals.length > 120) return;
+  rosePetals.push({ x, y, vx:(Math.random()-0.5)*2, vy:Math.random()*2+0.5, rot:Math.random()*360, rotV:(Math.random()-0.5)*8, alpha:1, size:8+Math.random()*10, hue: Math.random()*30+340 });
+  roseCount = Math.min(roseCount+1, ROSE_TARGET);
+  const pct = roseCount/ROSE_TARGET*100;
+  document.getElementById('w-petal-progress').style.width = pct+'%';
+  document.getElementById('w-petal-count-text').textContent = roseCount+' / '+ROSE_TARGET+' กลีบ';
+  if (roseCount >= ROSE_TARGET && document.getElementById('w-petal-msg')) {
+    document.getElementById('w-petal-msg').textContent = 'วงจักรราศีกำลังหมุน... ✨';
+    setTimeout(() => westernGoTo('western-step7'), 1500);
+  }
+}
+
+function roseAnimate() {
+  roseAnimId = requestAnimationFrame(roseAnimate);
+  const canvas = document.getElementById('western-rose-canvas');
+  if (!canvas || !roseCtx) return;
+  roseCtx.clearRect(0,0,canvas.width,canvas.height);
+  drawZodiacRing();
+  rosePetals = rosePetals.filter(p => p.alpha > 0.01);
+  rosePetals.forEach(p => {
+    p.x += p.vx; p.y += p.vy; p.vy += 0.05; p.rot += p.rotV; p.alpha *= 0.985;
+    roseCtx.save(); roseCtx.globalAlpha = p.alpha; roseCtx.translate(p.x,p.y); roseCtx.rotate(p.rot*Math.PI/180);
+    roseCtx.fillStyle = `hsla(${p.hue},80%,60%,${p.alpha})`;
+    roseCtx.beginPath(); roseCtx.ellipse(0,0,p.size,p.size*0.6,0,0,Math.PI*2); roseCtx.fill();
+    roseCtx.restore();
+  });
+}
+
+// ===== LOADING + RESULT =====
+function startWesternLoading() {
+  const items = ['wl-1','wl-2','wl-3','wl-4','wl-5','wl-6'];
+  items.forEach((id,i) => {
+    const el = document.getElementById(id); if (el) { el.style.opacity='0'; el.querySelector('.w-load-dot').className='w-load-dot'; }
+  });
+  items.forEach((id,i) => {
+    setTimeout(() => {
+      const el = document.getElementById(id); if (!el) return;
+      el.style.opacity='1';
+      const dot = el.querySelector('.w-load-dot');
+      dot.style.background='rgba(201,168,76,0.3)'; dot.style.borderColor='#c9a84c';
+      setTimeout(() => { dot.classList.add('done'); dot.style.background='#c9a84c'; }, 400);
+    }, i*600+300);
+  });
+  setTimeout(() => showWesternResult(), items.length*600+800);
+}
+
+function showWesternResult() {
+  westernGoTo('western-result');
+  // Placeholder scores (ใส่ algorithm จริงทีหลัง)
+  const scores = { love:78, communication:82, attraction:71, stability:65, growth:88 };
+  const overall = Math.round(Object.values(scores).reduce((a,b)=>a+b,0)/5);
+  // Score ring
+  setTimeout(() => {
+    const ring = document.getElementById('wr-score-ring');
+    const circumference = 326.7;
+    ring.style.strokeDashoffset = circumference * (1 - overall/100);
+    document.getElementById('wr-score-num').textContent = overall;
+    const labels = {90:'คู่แท้แห่งดวงดาว',80:'ความรักที่เติบโต',70:'ความสัมพันธ์ที่ดี',60:'ต้องพัฒนาร่วมกัน',0:'ท้าทายแต่เป็นไปได้'};
+    const label = Object.entries(labels).sort((a,b)=>b[0]-a[0]).find(([k])=>overall>=parseInt(k));
+    document.getElementById('wr-score-label').textContent = label ? label[1] : '';
+  }, 300);
+  // Names
+  const partner = (soulmateState && soulmateState.partnerName) ? soulmateState.partnerName : 'อีกฝ่าย';
+  const me = (loadUserProfile() && loadUserProfile().nickname) ? loadUserProfile().nickname : 'คุณ';
+  document.getElementById('wr-names').textContent = me + ' · ' + partner;
+  // Sub-scores
+  const scoreLabels = [
+    {key:'love', emoji:'❤️', label:'ความรัก', val:scores.love},
+    {key:'communication', emoji:'💬', label:'การสื่อสาร', val:scores.communication},
+    {key:'attraction', emoji:'🔥', label:'แรงดึงดูด', val:scores.attraction},
+    {key:'stability', emoji:'🏡', label:'ความมั่นคง', val:scores.stability},
+    {key:'growth', emoji:'🌱', label:'การเติบโตร่วมกัน', val:scores.growth},
+  ];
+  const subsEl = document.getElementById('wr-subscores');
+  subsEl.innerHTML = scoreLabels.map(s=>`
+    <div class="wr-score-row">
+      <div class="wr-score-label"><span class="wr-score-name">${s.emoji} ${s.label}</span><span class="wr-score-val">${s.val}</span></div>
+      <div class="wr-track"><div class="wr-fill" style="width:0%" id="wr-fill-${s.key}"></div><div class="wr-thumb" style="left:0%" id="wr-thumb-${s.key}"></div></div>
+    </div>`).join('');
+  // Animate sliders
+  setTimeout(() => {
+    scoreLabels.forEach(s => {
+      const fill = document.getElementById('wr-fill-'+s.key);
+      const thumb = document.getElementById('wr-thumb-'+s.key);
+      if (fill) fill.style.width = s.val+'%';
+      if (thumb) thumb.style.left = s.val+'%';
+    });
+  }, 500);
+  // Placeholder text (จะ replace ด้วย AI generate ทีหลัง)
+  document.getElementById('wr-overview').textContent = 'ความสัมพันธ์นี้เต็มไปด้วยพลังงานของการเติบโตและการเรียนรู้ร่วมกัน ดวงดาวชี้ให้เห็นว่าทั้งสองคนมีพลังงานที่ส่งเสริมซึ่งกันและกันในระดับลึก ความสัมพันธ์นี้เกิดขึ้นเพื่อสอนบทเรียนสำคัญให้กับชีวิตของทั้งคู่';
+  document.getElementById('wr-house').textContent = 'อีกฝ่ายส่งอิทธิพลต่อบ้านที่ 7 (ความสัมพันธ์) และบ้านที่ 5 (ความสนุกสนานและความรัก) ของคุณ ทำให้คุณเปิดใจในเรื่องความรักมากขึ้น และกล้าแสดงออกถึงความต้องการที่แท้จริงของตัวเอง';
+  document.getElementById('wr-strength').textContent = '• การสนับสนุนซึ่งกันและกัน\n• เคมีที่ดีและเข้าใจกัน\n• แรงบันดาลใจร่วมกัน';
+  document.getElementById('wr-warning').textContent = '• อาจมีความเข้าใจผิดกัน\n• ต้องการพื้นที่ส่วนตัว\n• การสื่อสารอาจติดขัด';
+  document.getElementById('wr-advice').textContent = 'ให้ความสำคัญกับการสื่อสารอย่างตรงไปตรงมา แต่เต็มไปด้วยความเมตตา สร้างพื้นที่ปลอดภัยให้กับความรู้สึกของกันและกัน และจดจำไว้ว่าทุกความท้าทายในความสัมพันธ์นี้คือโอกาสในการเติบโต';
+}
+
+// ===== Hook western into soulmateNextToEnergy =====
+
+
 // สร้าง Lucide icon HTML string สำหรับใช้ใน innerHTML หรือ HTML
 // เรียกได้ทุกที่หลัง Lucide CDN โหลดแล้ว
 function li(name, size=18, extra='') {
@@ -3961,6 +4208,9 @@ function soulmateNextToEnergy() {
  calcCnZodiac();
  fillCnZodiacDisplay();
  showCnStep('cn-step2');
+ } else if (selectedSoulmateScience === 'western') {
+ westernState.relation = ''; westernState.intention = ''; westernState.prayer = '';
+ westernGoTo('western-step2');
  } else {
  showSoulmateStep('soulmate-step2');
  }
@@ -5982,6 +6232,270 @@ window.addEventListener('load', () => {
  if (!isValid) gate.style.display = 'flex';
 })();
 </script>
+
+
+<!-- ==================== WESTERN SOULMATE CEREMONY ==================== -->
+<!-- Step 2: ความสัมพันธ์ -->
+<div id="western-step2" style="display:none;position:fixed;inset:0;z-index:200;background:linear-gradient(160deg,#0a0615,#1a0a2e 50%,#0d1a3d);overflow-y:auto;overscroll-behavior:none;">
+  <div style="max-width:420px;margin:0 auto;padding:32px 20px 60px;">
+    <div style="text-align:center;margin-bottom:8px;">
+      <div style="font-size:11px;letter-spacing:3px;color:rgba(232,213,163,0.5);font-family:'Playfair Display',serif;text-transform:uppercase;">พิธีเปิดคำพยากรณ์</div>
+      <div style="font-size:10px;color:rgba(232,213,163,0.35);margin-top:4px;">● ● ○ ○ ○ ○</div>
+    </div>
+    <div style="text-align:center;margin:24px 0 32px;">
+      <div style="font-size:28px;margin-bottom:10px;">🌙</div>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#e8d5a3;line-height:1.3;">ความสัมพันธ์ของคุณ<br>กับอีกฝ่ายคืออะไร</div>
+    </div>
+    <div id="western-relation-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:32px;">
+      <button class="w-rel-btn" data-val="crush" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#e8d5a3;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">🌸 คนที่แอบชอบ</button>
+      <button class="w-rel-btn" data-val="talking" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#e8d5a3;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">💕 คนคุย</button>
+      <button class="w-rel-btn" data-val="partner" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#e8d5a3;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">❤️ แฟน</button>
+      <button class="w-rel-btn" data-val="spouse" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#e8d5a3;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">💍 คู่สมรส</button>
+      <button class="w-rel-btn" data-val="ex" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#e8d5a3;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">💔 คนรักเก่า</button>
+      <button class="w-rel-btn" data-val="friend" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#e8d5a3;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">🤝 เพื่อน</button>
+      <button class="w-rel-btn" data-val="colleague" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#e8d5a3;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">💼 เพื่อนร่วมงาน</button>
+      <button class="w-rel-btn" data-val="other" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#e8d5a3;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">✨ อื่น ๆ</button>
+    </div>
+    <button id="western-step2-next" onclick="westernGoTo('western-step3')" style="display:none;width:100%;padding:16px;background:linear-gradient(135deg,#c9a84c,#e8d5a3);color:#1a0a2e;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:0.5px;">ถัดไป →</button>
+    <button onclick="westernBack()" style="width:100%;margin-top:12px;padding:12px;background:transparent;border:1px solid rgba(232,213,163,0.2);border-radius:12px;color:rgba(232,213,163,0.5);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">← ย้อนกลับ</button>
+  </div>
+</div>
+
+<!-- Step 3: ตั้งเจตนา -->
+<div id="western-step3" style="display:none;position:fixed;inset:0;z-index:200;background:linear-gradient(160deg,#0a0615,#1a0a2e 50%,#0d1a3d);overflow-y:auto;overscroll-behavior:none;">
+  <div style="max-width:420px;margin:0 auto;padding:32px 20px 60px;">
+    <div style="text-align:center;margin-bottom:8px;">
+      <div style="font-size:11px;letter-spacing:3px;color:rgba(232,213,163,0.5);font-family:'Playfair Display',serif;text-transform:uppercase;">พิธีเปิดคำพยากรณ์</div>
+      <div style="font-size:10px;color:rgba(232,213,163,0.35);margin-top:4px;">● ● ● ○ ○ ○</div>
+    </div>
+    <div style="text-align:center;margin:24px 0 8px;">
+      <div style="font-size:28px;margin-bottom:10px;">🌟</div>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#e8d5a3;line-height:1.3;">ตั้งเจตนา</div>
+      <div style="font-size:13px;color:rgba(232,213,163,0.6);margin-top:8px;line-height:1.6;">ทุกคำพยากรณ์ เริ่มต้นจากเจตนาของหัวใจ<br>วันนี้คุณอยากให้ดวงดาวเปิดเผยเรื่องใดมากที่สุด</div>
+    </div>
+    <div style="margin:24px 0 32px;display:flex;flex-direction:column;gap:10px;" id="western-intention-list">
+      <button class="w-int-btn" data-val="love" onclick="selectWesternIntention(this)" style="padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#e8d5a3;font-family:'Noto Sans Thai',sans-serif;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;transition:all 0.2s;"><span style="font-size:20px;">❤️</span><span>ความรัก</span></button>
+      <button class="w-int-btn" data-val="understanding" onclick="selectWesternIntention(this)" style="padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#e8d5a3;font-family:'Noto Sans Thai',sans-serif;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;transition:all 0.2s;"><span style="font-size:20px;">💬</span><span>ความเข้าใจ</span></button>
+      <button class="w-int-btn" data-val="healing" onclick="selectWesternIntention(this)" style="padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#e8d5a3;font-family:'Noto Sans Thai',sans-serif;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;transition:all 0.2s;"><span style="font-size:20px;">🌱</span><span>การเยียวยา</span></button>
+      <button class="w-int-btn" data-val="future" onclick="selectWesternIntention(this)" style="padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#e8d5a3;font-family:'Noto Sans Thai',sans-serif;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;transition:all 0.2s;"><span style="font-size:20px;">💍</span><span>อนาคตร่วมกัน</span></button>
+      <button class="w-int-btn" data-val="truth" onclick="selectWesternIntention(this)" style="padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#e8d5a3;font-family:'Noto Sans Thai',sans-serif;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;transition:all 0.2s;"><span style="font-size:20px;">✨</span><span>ความจริงของความสัมพันธ์</span></button>
+    </div>
+    <button id="western-step3-next" onclick="westernGoTo('western-step4')" style="display:none;width:100%;padding:16px;background:linear-gradient(135deg,#c9a84c,#e8d5a3);color:#1a0a2e;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;cursor:pointer;">ตั้งเจตนา ✨</button>
+    <button onclick="westernGoTo('western-step2')" style="width:100%;margin-top:12px;padding:12px;background:transparent;border:1px solid rgba(232,213,163,0.2);border-radius:12px;color:rgba(232,213,163,0.5);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">← ย้อนกลับ</button>
+  </div>
+</div>
+
+<!-- Step 4: ผนึกคำอธิษฐาน -->
+<div id="western-step4" style="display:none;position:fixed;inset:0;z-index:200;background:linear-gradient(160deg,#0a0615,#1a0a2e 50%,#0d1a3d);overflow-y:auto;overscroll-behavior:none;">
+  <div style="max-width:420px;margin:0 auto;padding:32px 20px 60px;">
+    <div style="text-align:center;margin-bottom:8px;">
+      <div style="font-size:11px;letter-spacing:3px;color:rgba(232,213,163,0.5);font-family:'Playfair Display',serif;text-transform:uppercase;">พิธีเปิดคำพยากรณ์</div>
+      <div style="font-size:10px;color:rgba(232,213,163,0.35);margin-top:4px;">● ● ● ● ○ ○</div>
+    </div>
+    <div style="text-align:center;margin:24px 0 20px;">
+      <div style="font-size:32px;margin-bottom:10px;">✒️</div>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#e8d5a3;">ผนึกคำอธิษฐาน</div>
+      <div style="font-size:13px;color:rgba(232,213,163,0.6);margin-top:8px;line-height:1.6;">จงเขียนคำถามหรือความปรารถนาที่อยู่ลึกที่สุดในหัวใจ<br>แล้วผนึกมันไว้ เพื่อให้ดวงดาวเป็นผู้เปิดเผยคำตอบ</div>
+    </div>
+    <!-- Letter paper -->
+    <div style="background:rgba(232,213,163,0.06);border:1px solid rgba(232,213,163,0.2);border-radius:20px;padding:20px;margin-bottom:16px;">
+      <div style="font-size:11px;color:rgba(232,213,163,0.4);margin-bottom:8px;letter-spacing:1px;">ตัวอย่าง</div>
+      <div style="font-size:12px;color:rgba(232,213,163,0.4);line-height:1.8;font-style:italic;">เราสองคนมีโอกาสเติบโตไปด้วยกันหรือไม่<br>สิ่งที่ฉันควรรู้เกี่ยวกับความสัมพันธ์นี้คืออะไร</div>
+    </div>
+    <textarea id="western-prayer-text" placeholder="เขียนคำถามของคุณที่นี่..." style="width:100%;min-height:140px;background:rgba(232,213,163,0.08);border:1px solid rgba(232,213,163,0.3);border-radius:16px;padding:16px;color:#e8d5a3;font-family:'Noto Sans Thai',sans-serif;font-size:15px;line-height:1.7;resize:none;outline:none;box-sizing:border-box;margin-bottom:8px;" oninput="westernPrayerInput(this)"></textarea>
+    <div style="text-align:right;font-size:11px;color:rgba(232,213,163,0.35);margin-bottom:20px;"><span id="western-prayer-count">0</span> / 200</div>
+    <!-- Seal animation container -->
+    <div id="western-seal-anim" style="display:none;text-align:center;padding:24px 0;">
+      <div id="western-envelope" style="font-size:56px;transition:all 0.6s;">📜</div>
+      <div id="western-seal-msg" style="margin-top:12px;font-size:13px;color:#c9a84c;letter-spacing:1px;opacity:0;transition:opacity 0.5s;font-family:'Playfair Display',serif;">คำอธิษฐานถูกผนึกแล้ว...</div>
+    </div>
+    <button id="western-step4-next" onclick="westernSealPrayer()" style="width:100%;padding:16px;background:linear-gradient(135deg,#c9a84c,#e8d5a3);color:#1a0a2e;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;cursor:pointer;opacity:0.4;pointer-events:none;">ผนึกคำอธิษฐาน 🔮</button>
+    <button onclick="westernGoTo('western-step3')" style="width:100%;margin-top:12px;padding:12px;background:transparent;border:1px solid rgba(232,213,163,0.2);border-radius:12px;color:rgba(232,213,163,0.5);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">← ย้อนกลับ</button>
+  </div>
+</div>
+
+<!-- Step 5: จุดเทียน -->
+<div id="western-step5" style="display:none;position:fixed;inset:0;z-index:200;background:linear-gradient(160deg,#050310,#120822 50%,#08152a);overflow:hidden;">
+  <div style="max-width:420px;margin:0 auto;padding:32px 20px;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div style="text-align:center;margin-bottom:8px;">
+      <div style="font-size:11px;letter-spacing:3px;color:rgba(232,213,163,0.5);font-family:'Playfair Display',serif;text-transform:uppercase;">พิธีเปิดคำพยากรณ์</div>
+      <div style="font-size:10px;color:rgba(232,213,163,0.35);margin-top:4px;">● ● ● ● ● ○</div>
+    </div>
+    <div style="text-align:center;margin:24px 0;">
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#e8d5a3;margin-bottom:8px;">จุดเทียนแห่งโชคชะตา 🕯️</div>
+      <div style="font-size:13px;color:rgba(232,213,163,0.5);line-height:1.6;">แสงเทียนจะนำทางให้คำอธิษฐาน<br>เดินทางสู่ดวงดาว<br><span style="color:#c9a84c;font-weight:600;">แตะเทียนทั้ง 3 เล่ม</span></div>
+    </div>
+    <!-- 3 candles -->
+    <div style="display:flex;gap:32px;justify-content:center;align-items:flex-end;margin:32px 0;position:relative;">
+      <!-- Stars background -->
+      <div id="western-stars" style="position:absolute;inset:-40px;pointer-events:none;overflow:hidden;border-radius:50%;opacity:0;transition:opacity 1s;"></div>
+      <div class="w-candle-wrap" style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div id="w-candle-1" class="w-candle" data-idx="1" onclick="lightCandle(1)" style="cursor:pointer;">
+          <div class="w-flame" id="w-flame-1" style="opacity:0;"></div>
+          <div class="w-candle-body" style="width:28px;height:80px;background:linear-gradient(180deg,#f5e8d0,#e8d0a8);border-radius:4px 4px 2px 2px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>
+        </div>
+        <div style="font-size:11px;color:rgba(232,213,163,0.5);text-align:center;line-height:1.3;">❤️<br>หัวใจ</div>
+      </div>
+      <div class="w-candle-wrap" style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div id="w-candle-2" class="w-candle" data-idx="2" onclick="lightCandle(2)" style="cursor:pointer;">
+          <div class="w-flame" id="w-flame-2" style="opacity:0;"></div>
+          <div class="w-candle-body" style="width:28px;height:100px;background:linear-gradient(180deg,#f5e8d0,#e8d0a8);border-radius:4px 4px 2px 2px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>
+        </div>
+        <div style="font-size:11px;color:rgba(232,213,163,0.5);text-align:center;line-height:1.3;">🧠<br>ปัญญา</div>
+      </div>
+      <div class="w-candle-wrap" style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+        <div id="w-candle-3" class="w-candle" data-idx="3" onclick="lightCandle(3)" style="cursor:pointer;">
+          <div class="w-flame" id="w-flame-3" style="opacity:0;"></div>
+          <div class="w-candle-body" style="width:28px;height:88px;background:linear-gradient(180deg,#f5e8d0,#e8d0a8);border-radius:4px 4px 2px 2px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>
+        </div>
+        <div style="font-size:11px;color:rgba(232,213,163,0.5);text-align:center;line-height:1.3;">✨<br>โชคชะตา</div>
+      </div>
+    </div>
+    <div id="w-candle-msg" style="font-size:13px;color:rgba(232,213,163,0.4);text-align:center;min-height:20px;transition:all 0.4s;font-family:'Playfair Display',serif;font-style:italic;"></div>
+  </div>
+</div>
+
+<!-- Step 6: โปรยกลีบกุหลาบ -->
+<div id="western-step6" style="display:none;position:fixed;inset:0;z-index:200;background:linear-gradient(160deg,#050310,#120822 50%,#08152a);overflow:hidden;">
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <div style="text-align:center;z-index:2;position:relative;pointer-events:none;">
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#e8d5a3;margin-bottom:6px;">โปรยกลีบกุหลาบ 🌹</div>
+      <div id="w-petal-msg" style="font-size:13px;color:rgba(232,213,163,0.5);line-height:1.6;">ลากนิ้วเพื่อโปรยกลีบกุหลาบ<br>เปิดประตูแห่งหัวใจ</div>
+    </div>
+    <canvas id="western-rose-canvas" style="position:absolute;inset:0;width:100%;height:100%;touch-action:none;"></canvas>
+    <!-- Progress indicator -->
+    <div style="position:absolute;bottom:48px;left:50%;transform:translateX(-50%);text-align:center;z-index:2;pointer-events:none;">
+      <div style="width:200px;height:4px;background:rgba(232,213,163,0.15);border-radius:2px;overflow:hidden;">
+        <div id="w-petal-progress" style="height:100%;width:0%;background:linear-gradient(90deg,#c9a84c,#e8d5a3);border-radius:2px;transition:width 0.3s;"></div>
+      </div>
+      <div id="w-petal-count-text" style="font-size:11px;color:rgba(232,213,163,0.35);margin-top:6px;letter-spacing:1px;">0 / 50 กลีบ</div>
+    </div>
+  </div>
+</div>
+
+<!-- Step 7: Loading -->
+<div id="western-step7" style="display:none;position:fixed;inset:0;z-index:200;background:linear-gradient(160deg,#050310,#120822 50%,#08152a);overflow:hidden;">
+  <div style="max-width:420px;margin:0 auto;padding:32px 20px;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">
+    <!-- Zodiac wheel -->
+    <div style="position:relative;width:200px;height:200px;margin-bottom:32px;">
+      <svg id="western-zodiac-wheel" viewBox="0 0 200 200" style="width:200px;height:200px;animation:westernRotate 20s linear infinite;">
+        <defs><filter id="wGlow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+        <circle cx="100" cy="100" r="95" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="1.5"/>
+        <circle cx="100" cy="100" r="75" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="1"/>
+        <circle cx="100" cy="100" r="55" fill="none" stroke="rgba(201,168,76,0.1)" stroke-width="1"/>
+        <g fill="none" stroke="rgba(201,168,76,0.4)" stroke-width="1" filter="url(#wGlow)">
+          <line x1="100" y1="5" x2="100" y2="195"/><line x1="5" y1="100" x2="195" y2="100"/>
+          <line x1="32" y1="32" x2="168" y2="168"/><line x1="168" y1="32" x2="32" y2="168"/>
+          <line x1="100" y1="5" x2="100" y2="195" transform="rotate(22.5 100 100)"/>
+          <line x1="100" y1="5" x2="100" y2="195" transform="rotate(45 100 100)"/>
+          <line x1="100" y1="5" x2="100" y2="195" transform="rotate(67.5 100 100)"/>
+          <line x1="100" y1="5" x2="100" y2="195" transform="rotate(112.5 100 100)"/>
+          <line x1="100" y1="5" x2="100" y2="195" transform="rotate(135 100 100)"/>
+          <line x1="100" y1="5" x2="100" y2="195" transform="rotate(157.5 100 100)"/>
+        </g>
+        <text x="100" y="20" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♈</text>
+        <text x="155" y="42" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♉</text>
+        <text x="185" y="105" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♊</text>
+        <text x="155" y="168" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♋</text>
+        <text x="100" y="195" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♌</text>
+        <text x="45" y="168" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♍</text>
+        <text x="15" y="105" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♎</text>
+        <text x="45" y="42" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♏</text>
+        <text x="100" y="38" text-anchor="middle" fill="rgba(201,168,76,0.5)" font-size="8" transform="rotate(135 100 100)">♐</text>
+        <text x="100" y="38" text-anchor="middle" fill="rgba(201,168,76,0.5)" font-size="8" transform="rotate(180 100 100)">♑</text>
+        <text x="100" y="38" text-anchor="middle" fill="rgba(201,168,76,0.5)" font-size="8" transform="rotate(225 100 100)">♒</text>
+        <text x="100" y="38" text-anchor="middle" fill="rgba(201,168,76,0.5)" font-size="8" transform="rotate(270 100 100)">♓</text>
+        <circle cx="100" cy="100" r="30" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.4)" stroke-width="1.5"/>
+        <text x="100" y="107" text-anchor="middle" fill="#c9a84c" font-size="18" filter="url(#wGlow)">♀</text>
+      </svg>
+      <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
+        <div style="width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#fff,#c9a84c);box-shadow:0 0 20px #c9a84c,0 0 40px rgba(201,168,76,0.5);animation:westernPulse 2s ease-in-out infinite;"></div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-bottom:28px;">
+      <div style="font-family:'Playfair Display',serif;font-size:18px;color:#e8d5a3;margin-bottom:4px;">คำอธิษฐานของคุณได้รับการตอบรับแล้ว...</div>
+      <div style="font-size:13px;color:rgba(232,213,163,0.5);">ดวงดาวกำลังเปิดเผยเส้นทางของความสัมพันธ์นี้</div>
+    </div>
+    <div style="width:100%;max-width:300px;">
+      <div class="w-load-item" id="wl-1" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(201,168,76,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:rgba(232,213,163,0.6);font-family:'Noto Sans Thai',sans-serif;">สร้างแผนที่ดวงกำเนิด</div></div>
+      <div class="w-load-item" id="wl-2" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(201,168,76,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:rgba(232,213,163,0.6);">วิเคราะห์ Synastry</div></div>
+      <div class="w-load-item" id="wl-3" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(201,168,76,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:rgba(232,213,163,0.6);">วิเคราะห์ Composite</div></div>
+      <div class="w-load-item" id="wl-4" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(201,168,76,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:rgba(232,213,163,0.6);">วิเคราะห์ House Overlay</div></div>
+      <div class="w-load-item" id="wl-5" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(201,168,76,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:rgba(232,213,163,0.6);">วิเคราะห์ Aspect Analysis</div></div>
+      <div class="w-load-item" id="wl-6" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(201,168,76,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:rgba(232,213,163,0.6);">สรุปความเข้ากันได้</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- WESTERN RESULT PAGE -->
+<div id="western-result" style="display:none;position:fixed;inset:0;z-index:200;background:var(--cream);overflow-y:auto;overscroll-behavior:none;">
+  <div style="max-width:420px;margin:0 auto;padding:0 0 80px;">
+    <!-- Header dark strip -->
+    <div style="background:linear-gradient(160deg,#0a0615,#1a0a2e);padding:32px 20px 48px;text-align:center;position:relative;overflow:hidden;">
+      <div style="position:absolute;inset:0;opacity:0.4;">
+        <svg viewBox="0 0 400 200" style="width:100%;height:100%;"><circle cx="200" cy="100" r="120" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="1"/><circle cx="200" cy="100" r="80" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="1"/></svg>
+      </div>
+      <div style="position:relative;z-index:1;">
+        <div style="font-size:11px;letter-spacing:3px;color:rgba(201,168,76,0.7);font-family:'Playfair Display',serif;margin-bottom:12px;">ศาสตร์ตะวันตก · Synastry</div>
+        <div id="wr-names" style="font-family:'Noto Serif Thai',serif;font-size:15px;color:rgba(232,213,163,0.7);margin-bottom:20px;"></div>
+        <!-- Big score ring -->
+        <div style="position:relative;display:inline-block;">
+          <svg viewBox="0 0 120 120" style="width:140px;height:140px;">
+            <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="8"/>
+            <circle cx="60" cy="60" r="52" fill="none" stroke="url(#scoreGrad)" stroke-width="8" stroke-linecap="round" stroke-dasharray="326.7" id="wr-score-ring" style="stroke-dashoffset:326.7;transform:rotate(-90deg);transform-origin:60px 60px;transition:stroke-dashoffset 2s ease;"/>
+            <defs><linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#f0d890"/></linearGradient></defs>
+            <text x="60" y="54" text-anchor="middle" fill="#e8d5a3" font-size="28" font-family="Playfair Display" font-weight="700" id="wr-score-num">--</text>
+            <text x="60" y="72" text-anchor="middle" fill="rgba(232,213,163,0.5)" font-size="10" font-family="Noto Sans Thai">ความเข้ากัน</text>
+          </svg>
+        </div>
+        <div id="wr-score-label" style="font-family:'Playfair Display',serif;font-size:16px;color:#c9a84c;margin-top:8px;letter-spacing:1px;"></div>
+      </div>
+    </div>
+
+    <!-- Score breakdown - slider style like MBTI -->
+    <div style="background:var(--white);border-radius:20px;margin:16px 16px 0;padding:20px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);margin-bottom:18px;">⭐ คะแนนรายด้าน</div>
+      <div id="wr-subscores"></div>
+    </div>
+
+    <!-- Overview -->
+    <div style="background:var(--white);border-radius:20px;margin:12px 16px 0;padding:20px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);margin-bottom:12px;">🌙 ภาพรวมของความสัมพันธ์</div>
+      <div id="wr-overview" style="font-size:14px;color:var(--text);line-height:1.8;font-family:'Noto Sans Thai',sans-serif;"></div>
+    </div>
+
+    <!-- House overlay -->
+    <div style="background:var(--white);border-radius:20px;margin:12px 16px 0;padding:20px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);margin-bottom:12px;">🏛 อีกฝ่ายเข้ามาเปลี่ยนชีวิตคุณอย่างไร</div>
+      <div id="wr-house" style="font-size:14px;color:var(--text);line-height:1.8;font-family:'Noto Sans Thai',sans-serif;"></div>
+    </div>
+
+    <!-- Strength / Warning -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 16px 0;">
+      <div style="background:rgba(100,180,120,0.08);border:1px solid rgba(100,180,120,0.2);border-radius:20px;padding:16px;">
+        <div style="font-family:'Noto Serif Thai',serif;font-size:13px;font-weight:700;color:#4a7a5a;margin-bottom:10px;">✨ จุดแข็ง</div>
+        <div id="wr-strength" style="font-size:12.5px;color:var(--text);line-height:1.7;font-family:'Noto Sans Thai',sans-serif;"></div>
+      </div>
+      <div style="background:rgba(200,140,80,0.08);border:1px solid rgba(200,140,80,0.2);border-radius:20px;padding:16px;">
+        <div style="font-family:'Noto Serif Thai',serif;font-size:13px;font-weight:700;color:#8a5a30;margin-bottom:10px;">⚠️ ควรระวัง</div>
+        <div id="wr-warning" style="font-size:12.5px;color:var(--text);line-height:1.7;font-family:'Noto Sans Thai',sans-serif;"></div>
+      </div>
+    </div>
+
+    <!-- Advice -->
+    <div style="background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(201,168,76,0.03));border:1px solid rgba(201,168,76,0.2);border-radius:20px;margin:12px 16px 0;padding:20px;">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);margin-bottom:12px;">🌱 คำแนะนำจากดวงดาว</div>
+      <div id="wr-advice" style="font-size:14px;color:var(--text);line-height:1.8;font-family:'Noto Sans Thai',sans-serif;"></div>
+    </div>
+
+    <!-- Actions -->
+    <div style="padding:20px 16px 0;">
+      <button onclick="westernGoTo('western-step2')" style="width:100%;padding:14px;background:var(--brown-dark);color:var(--cream);border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:10px;">ดูอีกครั้ง</button>
+      <button onclick="westernBackToSoulmate()" style="width:100%;padding:14px;background:transparent;border:1px solid rgba(180,160,130,0.4);border-radius:16px;font-family:'Noto Sans Thai',sans-serif;font-size:14px;color:var(--text-mid);cursor:pointer;">← เปลี่ยนศาสตร์</button>
+    </div>
+  </div>
+</div>
+<!-- ==================== END WESTERN ==================== -->
 
 <!-- USER PROFILE POPUP -->
 <div id="profile-popup" style="display:none;position:fixed;inset:0;z-index:10000;background:var(--cream);overflow-y:auto;overscroll-behavior:none;padding-bottom:max(60px,env(safe-area-inset-bottom,60px));min-height:100vh;-webkit-overflow-scrolling:touch;">
