@@ -1409,20 +1409,22 @@
   <div id="in-step2" style="display:none; position:fixed; inset:0; width:100%; height:100%; overflow:hidden; background:#fff4e8; z-index:50; touch-action:none;">
     <!-- พื้นหลัง still -->
     <img src="images/soulmate/indiaflowerstill.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;pointer-events:none;">
-    <!-- วิดีโอ circlelotusmove — โผล่หลังวางดอกบัวสำเร็จ -->
-    <video id="in-lotus-video" src="images/soulmate/circlelotusmove.mp4" muted playsinline
-      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;display:none;pointer-events:none;"></video>
+    <!-- video + img fallback หลังวางดอกบัวสำเร็จ -->
+    <video id="in-lotus-video" src="images/soulmate/circlelotusmove.mp4" muted playsinline autoplay webkit-playsinline
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:8;display:none;pointer-events:none;"></video>
+    <img id="in-lotus-still" src="images/soulmate/circlelotusmove.png"
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:7;display:none;pointer-events:none;">
 
     <!-- วงกลมแท่นบูชา -->
     <div id="in-altar" style="position:absolute;top:44%;left:50%;transform:translate(-50%,-50%);width:170px;height:170px;border-radius:50%;background:transparent;border:none;z-index:3;pointer-events:none;"></div>
 
-    <!-- ดอกบัว — เริ่มใต้วงกลม -->
+    <!-- ดอกบัว — top:72% -->
     <img id="in-flower" src="images/soulmate/indialotus.png" draggable="false"
       style="position:absolute;top:72%;left:50%;transform:translate(-50%,-50%);width:100px;height:100px;object-fit:contain;cursor:grab;z-index:10;filter:drop-shadow(0 6px 20px rgba(180,80,60,0.3));touch-action:none;"
       onmousedown="inFlowerStart(event)" ontouchstart="inFlowerStart(event)">
 
-    <!-- hint — เหลือแค่แตะค้าง -->
-    <div id="in-flower-hint" style="position:absolute;bottom:10%;left:0;right:0;text-align:center;font-size:13px;color:#a8694f;animation:pulseTap 1.6s infinite;z-index:5;">แตะค้างแล้วลากดอกบัวขึ้นวางบนแท่น</div>
+    <!-- hint — ชิดใต้ดอกบัว -->
+    <div id="in-flower-hint" style="position:absolute;top:79%;left:0;right:0;text-align:center;font-size:13px;color:#a8694f;animation:pulseTap 1.6s infinite;z-index:5;">แตะค้างแล้วลากดอกบัวขึ้นวางบนแท่น</div>
 
     <!-- กลีบโปรย -->
     <div id="in-petals" style="position:absolute;inset:0;pointer-events:none;display:none;z-index:6;"></div>
@@ -5130,19 +5132,34 @@ function inFlowerSuccess() {
 
  // เล่น video circlelotusmove หลัง 0.5s
  setTimeout(() => {
-   flower.style.display = 'none';
-   if (video) { video.style.display = 'block'; video.play(); }
-   // ไปหน้าถัดไปหลัง video เล่นจบ หรือ timeout 4s
    const goNext = () => {
      showSoulmateStep('in-step3');
      inQIdx = 0; inState.answers = []; inState.receptiveScore = 0; inState.activeScore = 0;
      inShowQuestion();
    };
+   flower.style.display = 'none';
+   const still = document.getElementById('in-lotus-still');
    if (video) {
-     video.onended = goNext;
-     setTimeout(goNext, 5000); // fallback
+     // ลอง play video
+     video.style.display = 'block';
+     const playPromise = video.play();
+     if (playPromise !== undefined) {
+       playPromise.then(() => {
+         // video เล่นได้ — ซ่อน still, รอจบแล้วไปต่อ
+         video.onended = goNext;
+         setTimeout(goNext, 6000); // fallback
+       }).catch(() => {
+         // video ไม่เล่น — ใช้ PNG still แทน
+         video.style.display = 'none';
+         if (still) still.style.display = 'block';
+         setTimeout(goNext, 2500);
+       });
+     } else {
+       setTimeout(goNext, 2500);
+     }
    } else {
-     setTimeout(goNext, 1500);
+     if (still) still.style.display = 'block';
+     setTimeout(goNext, 2500);
    }
  }, 500);
 }
