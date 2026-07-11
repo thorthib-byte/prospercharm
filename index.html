@@ -1393,6 +1393,10 @@
   <div id="in-step1" style="display:none; padding:20px;">
     <div id="in-science-label" style="font-family:'Noto Serif Thai',serif; font-size:14px; color:var(--gold); margin-bottom:12px; text-align:center;">ศาสตร์อินเดีย — โหราศาสตร์เวท</div>
 
+    <label class="form-label">ชื่อของเขา/เธอ</label>
+    <div class="dob-hint">ชื่อเล่นหรือชื่อจริงก็ได้ค่ะ</div>
+    <input type="text" id="in-partner-name" placeholder="เช่น ต้น, Alice..." autocomplete="off" style="width:100%;padding:12px 14px;border-radius:12px;border:1px solid rgba(180,160,130,0.4);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:14px;box-sizing:border-box;outline:none;margin-bottom:16px;">
+
     <label class="form-label">วันเกิดของอีกฝ่าย</label>
     <div class="dob-hint">กรุณากรอกวันเกิดเป็น พ.ศ. เช่น 16 สิงหาคม 2547</div>
     <div class="dob-row">
@@ -5060,7 +5064,7 @@ function inDobNext() {
  inState.time1 = '';
  inState.time2 = '';
  soulmateState.dob1 = dob1; soulmateState.dob2 = dob2;
- showSoulmateStep('in-step3');
+ soulmateState.partnerName = (document.getElementById('in-partner-name') ? document.getElementById('in-partner-name').value.trim() : '') || 'อีกฝ่าย';
  inQIdx = 0; inState.answers = []; inState.receptiveScore = 0; inState.activeScore = 0;
  inShowQuestion();
 }
