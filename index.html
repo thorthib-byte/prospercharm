@@ -5994,14 +5994,27 @@ function startNagaCeremony() {
  if (!dob) { alert('กรุณากรอกข้อมูลโปรไฟล์ก่อนนะคะ'); showProfilePopup(false); return; }
  if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('naga'); return; }
 
- // คำนวณเลขล่วงหน้า
- const p = dob.split('-');
- const d = parseInt(p[2]), m = parseInt(p[1]);
+ // คำนวณเลขล่วงหน้า — parse dob แบบ defensive รองรับหลาย format
+ let d = 1, m = 1;
+ if (dob.includes('-')) {
+   const p = dob.split('-');
+   // รองรับทั้ง YYYY-MM-DD และ DD-MM-YYYY
+   if (p[0] && p[0].length === 4) { d = parseInt(p[2]) || 1; m = parseInt(p[1]) || 1; }
+   else { d = parseInt(p[0]) || 1; m = parseInt(p[1]) || 1; }
+ } else if (dob.includes('/')) {
+   const p = dob.split('/');
+   d = parseInt(p[0]) || 1; m = parseInt(p[1]) || 1;
+ }
+ // กัน NaN
+ if (!d || isNaN(d)) d = 1;
+ if (!m || isNaN(m)) m = 1;
+
  const today = new Date();
  const mainNum = ((d + m + today.getDate() + today.getMonth() + 1) % 9) + 1;
  const secondaryNums = [((d + today.getDate()) % 9) + 1, ((m + today.getMonth()) % 9) + 1];
  const moneyNum = ((d * m + today.getDate()) % 9) + 1;
- const score = (7 + (Math.abs(d * m + today.getDate()) % 25) / 10).toFixed(1);
+ const rawScore = 7 + (Math.abs(d * m + today.getDate()) % 25) / 10;
+ const score = isNaN(rawScore) ? '7.5' : rawScore.toFixed(1);
  const prophecyIdx = Math.abs(d + m + today.getDate()) % nagaProphecies.length;
 
  nagaData = { dob, mainNum, secondaryNums, moneyNum, score, prophecy: nagaProphecies[prophecyIdx] };
@@ -6111,12 +6124,12 @@ function openSeal(el, idx) {
 function showNagaResult() {
  useCredit();
  showNagaStep('naga-step6');
- const n = nagaData.mainNum;
+ const n = (nagaData.mainNum && !isNaN(nagaData.mainNum)) ? nagaData.mainNum : 1;
  document.getElementById('naga-main-num').textContent = n;
  document.getElementById('naga-main-desc').textContent = energyMeanings[n] || '';
- document.getElementById('naga-score').textContent = nagaData.score + ' / 10';
- document.getElementById('naga-secondary-nums').innerHTML = nagaData.secondaryNums.map(num =>
- `<div style="width:48px;height:48px;border-radius:50%;background:var(--brown-dark);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold);">${num}</div>`
+ document.getElementById('naga-score').textContent = (nagaData.score && nagaData.score !== 'NaN') ? nagaData.score + ' / 10' : '7.5 / 10';
+ document.getElementById('naga-secondary-nums').innerHTML = (nagaData.secondaryNums || [n,n]).map(num =>
+ `<div style="width:48px;height:48px;border-radius:50%;background:var(--brown-dark);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--gold);">${isNaN(num) ? n : num}</div>`
  ).join('');
  const color = energyColors[n] || energyColors[1];
  document.getElementById('naga-color-box').style.background = color.hex;
@@ -6124,7 +6137,7 @@ function showNagaResult() {
  const time = energyTimes[n] || energyTimes[1];
  document.getElementById('naga-time').textContent = time[0];
  document.getElementById('naga-time-desc').textContent = time[1];
- document.getElementById('naga-final-prophecy').textContent = nagaData.prophecy;
+ document.getElementById('naga-final-prophecy').textContent = nagaData.prophecy || '';
  showCreditsBar('naga');
 }
 
