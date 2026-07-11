@@ -1420,11 +1420,11 @@
 
     <!-- ดอกบัว — top:72% -->
     <img id="in-flower" src="images/soulmate/indialotus.png" draggable="false"
-      style="position:absolute;top:73%;left:50%;transform:translate(-50%,-50%);width:100px;height:100px;object-fit:contain;cursor:grab;z-index:10;filter:drop-shadow(0 6px 20px rgba(180,80,60,0.3));touch-action:none;"
+      style="position:absolute;top:75%;left:50%;transform:translate(-50%,-50%);width:100px;height:100px;object-fit:contain;cursor:grab;z-index:10;filter:drop-shadow(0 6px 20px rgba(180,80,60,0.3));touch-action:none;"
       onmousedown="inFlowerStart(event)" ontouchstart="inFlowerStart(event)">
 
     <!-- hint — ชิดใต้ดอกบัว -->
-    <div id="in-flower-hint" style="position:absolute;top:81%;left:0;right:0;text-align:center;font-size:13px;color:#a8694f;animation:pulseTap 1.6s infinite;z-index:5;">แตะค้างแล้วลากดอกบัวขึ้นวางบนแท่น</div>
+    <div id="in-flower-hint" style="position:absolute;top:83%;left:0;right:0;text-align:center;font-size:13px;color:#a8694f;animation:pulseTap 1.6s infinite;z-index:5;">แตะค้างแล้วลากดอกบัวขึ้นวางบนแท่น</div>
 
     <!-- กลีบโปรย -->
     <div id="in-petals" style="position:absolute;inset:0;pointer-events:none;display:none;z-index:6;"></div>
@@ -5143,32 +5143,44 @@ function inFlowerSuccess() {
 
  // เล่น video circlelotusmove หลัง 0.5s
  setTimeout(() => {
-   const goNext = () => {
-     inStartAnalysisOverlay();
-   };
    flower.style.display = 'none';
    const still = document.getElementById('in-lotus-still');
+
+   const doGoNext = () => {
+     barEl_ref && (barEl_ref.style.width = '100%');
+     setTimeout(inGenerateResult, 400);
+   };
+
    if (video) {
-     // ลอง play video
      video.style.display = 'block';
+     // รอให้รู้ duration ก่อน แล้วค่อย start loading overlay
+     const startAll = () => {
+       const dur = video.duration && isFinite(video.duration) ? video.duration : 5;
+       inStartAnalysisOverlay(dur);
+       video.onended = doGoNext;
+       setTimeout(doGoNext, (dur + 0.5) * 1000); // fallback
+     };
+     const barEl_ref = document.getElementById('in-loading-bar-v');
      const playPromise = video.play();
      if (playPromise !== undefined) {
        playPromise.then(() => {
-         // video เล่นได้ — ซ่อน still, รอจบแล้วไปต่อ
-         video.onended = goNext;
-         setTimeout(goNext, 6000); // fallback
+         if (video.readyState >= 1) startAll();
+         else video.onloadedmetadata = startAll;
        }).catch(() => {
-         // video ไม่เล่น — ใช้ PNG still แทน
          video.style.display = 'none';
          if (still) still.style.display = 'block';
-         setTimeout(goNext, 2500);
+         inStartAnalysisOverlay(5);
+         setTimeout(doGoNext, 5500);
        });
      } else {
-       setTimeout(goNext, 2500);
+       inStartAnalysisOverlay(5);
+       setTimeout(doGoNext, 5500);
      }
    } else {
      if (still) still.style.display = 'block';
-     setTimeout(goNext, 2500);
+     inStartAnalysisOverlay(5);
+     const barEl_ref = null;
+     setTimeout(doGoNext, 5500);
    }
  }, 500);
 }
@@ -5204,26 +5216,51 @@ function inAnswerQuestion(idx) {
 const inLoadingMessages = [ ' กำลังคำนวณตำแหน่งดาวเคราะห์...', ' วิเคราะห์ศักยภาพคู่ครองตามหลักเวท...', ' ตรวจสอบจุดท้าทายในดวงคู่...', '⏳ คำนวณจังหวะเวลาความรัก...',
 ];
 
-function inStartAnalysisOverlay() {
- // แสดง loading text ซ้อนบน video/still ใน in-step2
+function inStartAnalysisOverlay(videoDuration) {
  const overlay = document.getElementById('in-loading-overlay');
  const textEl = document.getElementById('in-loading-text-v');
  const barEl = document.getElementById('in-loading-bar-v');
  const iconEl = document.getElementById('in-loading-icon-v');
- if (overlay) { overlay.style.display = 'flex'; }
- const msgs = ['กำลังคำนวณตำแหน่งดาวเคราะห์...','วิเคราะห์ศักยภาพคู่ครองตามหลักเวท...','ตรวจสอบจุดท้าทายในดวงคู่...','คำนวณจังหวะเวลาความรัก...'];
- const icons = ['✨','🔮','⚡','⏳'];
+ if (!overlay) return;
+ overlay.style.display = 'flex';
+
+ // ข้อความเชื่อมโยงผลทำนายจริง
+ const profile = loadUserProfile();
+ const myName = (profile && profile.nickname) ? profile.nickname : 'คุณ';
+ const partnerName = (soulmateState && soulmateState.partnerName) ? soulmateState.partnerName : 'อีกฝ่าย';
+ const dob1 = soulmateState.dob1 ? new Date(soulmateState.dob1) : null;
+ const dob2 = soulmateState.dob2 ? new Date(soulmateState.dob2) : null;
+ const signs = ['เมษ','พฤษภ','เมถุน','กรกฎ','สิงห์','กันย์','ตุลย์','พิจิก','ธนู','มกร','กุมภ์','มีน'];
+ const sign1 = dob1 ? signs[dob1.getMonth()] : 'ราศี';
+ const sign2 = dob2 ? signs[dob2.getMonth()] : 'ราศี';
+ const msgs = [
+   `วิเคราะห์ดวงของ ${myName} (ราศี${sign1}) กับ ${partnerName} (ราศี${sign2})`,
+   `คำนวณแผนที่ดวงกำเนิด Synastry ของทั้งคู่`,
+   `วิเคราะห์ความสัมพันธ์เชิงลึก House Overlay`,
+   `สรุปผลดวงชะตาและคำแนะนำจากดวงดาว`,
+ ];
+ const icons = ['⭐','🔮','💫','✨'];
+
+ // คำนวณ interval ให้ sync กับ video duration (หรือ 5s ถ้าไม่รู้)
+ const totalMs = (videoDuration && videoDuration > 0 ? videoDuration * 1000 : 5000);
+ const intervalMs = totalMs / msgs.length;
+
+ textEl.textContent = msgs[0]; iconEl.textContent = icons[0]; barEl.style.width = '5%';
  let step = 0;
- if (textEl) { textEl.textContent = msgs[0]; iconEl.textContent = icons[0]; barEl.style.width = '10%'; }
+
+ // animate progress bar ต่อเนื่องตาม duration
+ barEl.style.transition = `width ${totalMs}ms linear`;
+ setTimeout(() => { barEl.style.width = '95%'; }, 50);
+
  const interval = setInterval(() => {
    step++;
    if (step < msgs.length) {
-     if (textEl) { textEl.textContent = msgs[step]; iconEl.textContent = icons[step]; barEl.style.width = ((step+1)/msgs.length*100)+'%'; }
+     textEl.textContent = msgs[step];
+     iconEl.textContent = icons[step];
    } else {
      clearInterval(interval);
-     setTimeout(inGenerateResult, 600);
    }
- }, 1300);
+ }, intervalMs);
 }
 
 function inStartAnalysis() {
