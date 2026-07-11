@@ -357,7 +357,7 @@
       <div class="menu-card" onclick="goTo('page-daily');onDailyPageOpen();"><img class="menu-icon" src="images/icons/daily.png"><span class="menu-title">ดวงรายวัน</span><span class="menu-desc">ชวนคิด ทบทวนวันนี้</span><span class="menu-price">29 บาท/ครั้ง</span></div>
       <div class="menu-card" onclick="goTo('page-siam')"><img class="menu-icon" src="images/icons/siemsi.png"><span class="menu-title">เซียมซี</span><span class="menu-desc">สนุกกับความเชื่อแบบไทยๆ</span><span class="menu-price">29 บาท/ครั้ง</span></div>
       <div class="menu-card" onclick="goTo('page-tarot')"><img class="menu-icon" src="images/icons/tarot.png"><span class="menu-title">ไพ่ทาโรต์</span><span class="menu-desc">สำรวจมุมมองผ่านไพ่</span><span class="menu-price">29 บาท/ครั้ง</span></div>
-      <div class="menu-card" onclick="goTo('page-energy')"><img class="menu-icon" src="images/icons/energy.png"><span class="menu-title">เลขพลังงาน</span><span class="menu-desc">หาแรงบันดาลใจประจำวัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" onclick="goTo('page-energy');showEnergyWelcome();"><img class="menu-icon" src="images/icons/energy.png"><span class="menu-title">เลขพลังงาน</span><span class="menu-desc">หาแรงบันดาลใจประจำวัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
 
       <div class="menu-card" onclick="goTo('page-soulmate')"><img class="menu-icon" src="images/icons/soulmate.png"><span class="menu-title">ดูดวงสมพงษ์</span><span class="menu-desc">สำรวจความเข้ากันในความสัมพันธ์</span><span class="menu-price">29 บาท/ครั้ง</span></div>
       <div class="menu-card menu-card-locked" id="healing-card" onclick="handleLockedCard()"><span class="menu-lock-badge"><i data-lucide="lock" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เร็วๆ นี้</span><img class="menu-icon" src="images/icons/healing.png"><span class="menu-title">ล้างพลังงาน</span><span class="menu-desc">ผ่อนคลายความคิดลบ</span><span class="menu-price">29 บาท/ครั้ง</span></div>
@@ -3457,27 +3457,36 @@ let currentOfferingVideo = '';
 function selectOffering(type, name, stillSrc, videoSrc) {
  buchaCurrentOffering = type;
  currentOfferingVideo = videoSrc;
- const vid = document.getElementById('offering-video');
- vid.src = videoSrc;
- vid.style.opacity = '0';
- const ring = document.getElementById('offering-ring');
- if (ring) { ring.style.strokeDashoffset = '565'; }
- offeringProgress = 0;
- document.getElementById('offering-msg').textContent = '';
 
- // เปลี่ยนหน้าทันที ไม่รอรูปโหลด
- const img = document.getElementById('offering-still-img');
- img.onload = function() {
- const t = document.getElementById('offering-loading-text');
- if (t) t.style.display = 'none';
- };
- img.src = stillSrc;
+ // ซ่อน step ก่อนหน้า เปิด step2b ทันที
  ['energy-step1','energy-step2'].forEach(id => {
  const el = document.getElementById(id);
  if (el) el.style.display = 'none';
  });
  document.getElementById('energy-step2b').style.display = 'block';
  window.scrollTo(0,0);
+
+ // เล่นวิดีโอทันที ไม่รอภาพนิ่ง
+ const vid = document.getElementById('offering-video');
+ if (vid) {
+ vid.src = videoSrc;
+ vid.style.opacity = '1';
+ vid.load();
+ vid.play().catch(() => {
+   // fallback: ถ้า autoplay ไม่ได้ ใช้รูปนิ่งแทน
+   const img = document.getElementById('offering-still-img');
+   if (img) { img.src = stillSrc; img.style.opacity = '1'; }
+ });
+ }
+
+ // ซ่อน still image (ไม่ใช้แล้ว)
+ const img = document.getElementById('offering-still-img');
+ if (img) { img.src = ''; img.style.opacity = '0'; }
+
+ const ring = document.getElementById('offering-ring');
+ if (ring) { ring.style.strokeDashoffset = '565'; }
+ offeringProgress = 0;
+ document.getElementById('offering-msg').textContent = '';
 }
 
 function confirmOffering() {
