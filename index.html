@@ -5133,11 +5133,11 @@ function inFlowerSuccess() {
 
  // ล็อค drag
  flower.onmousedown = null; flower.ontouchstart = null;
- flower.style.transition = 'all 0.4s cubic-bezier(0.25,0.46,0.45,0.94)';
- // snap ดอกบัวไปตรงกลางวงกลมพอดี
+ // animate เฉพาะ left/top ไม่รวม transform กัน browser interpolate transform ผิด
+ flower.style.transition = 'left 0.35s ease-out, top 0.35s ease-out';
+ flower.style.transform = 'translate(-50%,-50%)'; // set ก่อน ไม่ animate
  flower.style.left = '50%';
  flower.style.top = '44%';
- flower.style.transform = 'translate(-50%,-50%) scale(1.0)';
  flower.style.cursor = 'default';
  if (hint) hint.style.display = 'none';
 
