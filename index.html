@@ -1407,29 +1407,25 @@
 
   <!-- IN-STEP2: ถวายดอกไม้แห่งความสัมพันธ์ (fullscreen drag interaction) -->
   <div id="in-step2" style="display:none; position:fixed; inset:0; width:100%; height:100%; overflow:hidden; background:#fff4e8; z-index:50; touch-action:none;">
-    <!-- พื้นหลัง -->
+    <!-- พื้นหลัง still -->
     <img src="images/soulmate/indiaflowerstill.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;z-index:0;pointer-events:none;">
-    <div style="position:absolute;inset:0;background:rgba(255,244,232,0.2);z-index:1;pointer-events:none;"></div>
+    <!-- วิดีโอ circlelotusmove — โผล่หลังวางดอกบัวสำเร็จ -->
+    <video id="in-lotus-video" src="images/soulmate/circlelotusmove.mp4" muted playsinline
+      style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:2;display:none;pointer-events:none;"></video>
 
-    <!-- แท่นบูชา — กึ่งกลางจอพอดี -->
-    <div id="in-altar" style="position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);width:170px;height:170px;border-radius:50%;background:transparent;border:none;display:flex;align-items:center;justify-content:center;z-index:3;"></div>
+    <!-- วงกลมแท่นบูชา -->
+    <div id="in-altar" style="position:absolute;top:44%;left:50%;transform:translate(-50%,-50%);width:170px;height:170px;border-radius:50%;background:transparent;border:none;z-index:3;pointer-events:none;"></div>
 
-    <!-- ดอกบัว — เริ่มอยู่ตรงกลางวงกลมพอดี -->
+    <!-- ดอกบัว — เริ่มใต้วงกลม -->
     <img id="in-flower" src="images/soulmate/indialotus.png" draggable="false"
-      style="position:absolute;top:46%;left:50%;transform:translate(-50%,-50%);width:110px;height:110px;object-fit:contain;cursor:grab;z-index:10;filter:drop-shadow(0 6px 20px rgba(180,80,60,0.3));touch-action:none;"
+      style="position:absolute;top:72%;left:50%;transform:translate(-50%,-50%);width:100px;height:100px;object-fit:contain;cursor:grab;z-index:10;filter:drop-shadow(0 6px 20px rgba(180,80,60,0.3));touch-action:none;"
       onmousedown="inFlowerStart(event)" ontouchstart="inFlowerStart(event)">
 
-    <!-- ข้อความ — ใต้วงกลม ในพื้นที่ว่างด้านล่าง -->
-    <div style="position:absolute;bottom:22%;left:0;right:0;text-align:center;z-index:5;pointer-events:none;padding:0 28px;">
-      <div style="font-family:'Noto Serif Thai',serif;font-size:18px;font-weight:700;color:#8b4a3a;">มอบดอกไม้เพื่อเปิดการอ่านชะตาคู่</div>
-      <div style="font-size:13px;color:#a8694f;margin-top:6px;">ลากดอกไม้ออกจากแท่น แล้วนำกลับมาวางใหม่</div>
-    </div>
+    <!-- hint — เหลือแค่แตะค้าง -->
+    <div id="in-flower-hint" style="position:absolute;bottom:10%;left:0;right:0;text-align:center;font-size:13px;color:#a8694f;animation:pulseTap 1.6s infinite;z-index:5;">แตะค้างแล้วลากดอกบัวขึ้นวางบนแท่น</div>
 
-    <!-- กลีบดอกไม้โปรย -->
+    <!-- กลีบโปรย -->
     <div id="in-petals" style="position:absolute;inset:0;pointer-events:none;display:none;z-index:6;"></div>
-
-    <!-- hint นิ้ว -->
-    <div id="in-flower-hint" style="position:absolute;bottom:10%;left:0;right:0;text-align:center;font-size:12px;color:#a8694f;animation:pulseTap 1.6s infinite;z-index:5;"><i data-lucide="hand" class="li" style="width:16px;height:16px;vertical-align:-3px;margin-right:4px;"></i> แตะค้างแล้วลากดอกไม้วางบนแท่น</div>
   </div>
 
   <!-- IN-STEP3: 10 คำถามความสัมพันธ์ -->
@@ -5111,7 +5107,7 @@ function inFlowerEnd(e) {
  flower.style.cursor = 'grab';
  setTimeout(() => {
  flower.style.left = '50%';
- flower.style.top = '46%';
+ flower.style.top = '72%';
  flower.style.transform = 'translate(-50%,-50%)';
  }, 10);
  }
@@ -5119,57 +5115,36 @@ function inFlowerEnd(e) {
 
 function inFlowerSuccess() {
  const flower = document.getElementById('in-flower');
- const altar = document.getElementById('in-altar');
  const hint = document.getElementById('in-flower-hint');
- const petalsWrap = document.getElementById('in-petals');
+ const video = document.getElementById('in-lotus-video');
 
- flower.removeEventListener('mousedown', inFlowerStart);
- flower.onmousedown = null;
- flower.ontouchstart = null;
- flower.style.transition = 'all 0.5s ease';
+ // ล็อค drag
+ flower.onmousedown = null; flower.ontouchstart = null;
+ flower.style.transition = 'all 0.45s cubic-bezier(0.34,1.56,0.64,1)';
+ // snap ดอกบัวไปตรงกลางวงกลมพอดี
  flower.style.left = '50%';
- flower.style.top = '52%';
- flower.style.transform = 'translate(-50%,-50%) scale(1.3)';
+ flower.style.top = '44%';
+ flower.style.transform = 'translate(-50%,-50%) scale(1.1)';
  flower.style.cursor = 'default';
- altar.style.background = 'radial-gradient(circle, rgba(255,180,100,0.55), rgba(255,180,100,0.1))';
- altar.style.border = '2px solid rgba(200,120,60,0.6)';
- altar.style.boxShadow = '0 0 40px rgba(220,150,80,0.5), inset 0 0 30px rgba(255,200,140,0.2)';
- altar.textContent = '';
  if (hint) hint.style.display = 'none';
 
- // ลอยขึ้นเล็กน้อย
+ // เล่น video circlelotusmove หลัง 0.5s
  setTimeout(() => {
- flower.style.top = '46%';
- flower.style.width = '120px';
- flower.style.height = '120px';
- }, 200);
-
- // กลีบดอกไม้โปรย — ใช้รูป indialotus.png แทน emoji
- petalsWrap.style.display = 'block';
- petalsWrap.innerHTML = '';
- for (let i = 0; i < 16; i++) {
- const p = document.createElement('img');
- p.src = 'images/soulmate/indialotus.png';
- p.style.position = 'absolute';
- p.style.left = (35 + Math.random() * 30) + '%';
- p.style.top = '-40px';
- p.style.width = (18 + Math.random() * 16) + 'px';
- p.style.height = p.style.width;
- p.style.objectFit = 'contain';
- p.style.opacity = '0.85';
- p.style.animation = `inPetalFall ${2 + Math.random() * 1.5}s ease-in forwards`;
- p.style.animationDelay = (Math.random() * 0.8) + 's';
- petalsWrap.appendChild(p);
- }
-
- setTimeout(() => {
- showSoulmateStep('in-step3');
- inQIdx = 0;
- inState.answers = [];
- inState.receptiveScore = 0;
- inState.activeScore = 0;
- inShowQuestion();
- }, 1800);
+   flower.style.display = 'none';
+   if (video) { video.style.display = 'block'; video.play(); }
+   // ไปหน้าถัดไปหลัง video เล่นจบ หรือ timeout 4s
+   const goNext = () => {
+     showSoulmateStep('in-step3');
+     inQIdx = 0; inState.answers = []; inState.receptiveScore = 0; inState.activeScore = 0;
+     inShowQuestion();
+   };
+   if (video) {
+     video.onended = goNext;
+     setTimeout(goNext, 5000); // fallback
+   } else {
+     setTimeout(goNext, 1500);
+   }
+ }, 500);
 }
 
 // ---- IN-STEP3: 10 questions ----
@@ -5416,7 +5391,7 @@ function resetInFlow() {
  if (flower) {
  flower.style.transition = 'none';
  flower.style.left = '50%';
- flower.style.top = '46%';
+ flower.style.top = '72%';
  flower.style.transform = 'translate(-50%,-50%)';
  flower.style.fontSize = '56px';
  flower.style.cursor = 'grab';
