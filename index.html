@@ -244,8 +244,10 @@
 
     .footer { text-align:center; padding:16px; color:var(--text-light); font-size:11px; border-top:1px solid rgba(180,160,130,0.2); margin-top:10px; }
 
+  /* Lucide outline icons — ให้ stroke inherit สีจาก parent */
+  [data-lucide] svg, .li svg { stroke: currentColor !important; color: inherit; }
   /* Lucide outline icons */
-  .li { display:inline-block; vertical-align:-0.15em; flex-shrink:0; stroke-width:1.5; }
+  .li { display:inline-block; vertical-align:-0.15em; flex-shrink:0; stroke-width:1.5; color:currentColor; }
   .li-sm { width:16px; height:16px; }
   .li-md { width:18px; height:18px; }
   .li-lg { width:22px; height:22px; }
@@ -5213,7 +5215,7 @@ function checkAndDrawSoulmate() {
 }
 
 function drawSoulmate() {
- const dob1 = getDobValue('soulmate-dob1');
+ const _smp = loadUserProfile(); const dob1 = (_smp && _smp.dob) ? _smp.dob : null;
  const dob2 = getDobValue('soulmate-dob2');
  if (!dob1) { alert('กรุณากรอกข้อมูลโปรไฟล์ก่อนนะคะ'); showProfilePopup(false); return; } if (!dob2) { alert('กรุณากรอกวันเกิดของอีกฝ่ายก่อนนะคะ'); return; }
  document.getElementById('soulmate-result').classList.remove('show');
@@ -5237,7 +5239,7 @@ function drawSoulmate() {
 }
 
 function resetSoulmate() {
- clearDob('soulmate-dob1');
+ // dob1 from profile, no clear needed
  clearDob('soulmate-dob2');
  soulmateState = { dob1:'', dob2:'', science:'', relationEnergy:'', questionAnswers:[], candle:'', dayNight:'', candleLabel:'' };
  // reset step2 พลังงานความสัมพันธ์
@@ -5552,8 +5554,8 @@ function siamBackToTemple() {
 }
 
 function siamNext() {
- const dob = getDobValue('siam-dob');
- if (!dob) { alert('กรุณากรอกวันเกิดก่อนนะคะ'); return; }
+ const _sp = loadUserProfile(); const dob = (_sp && _sp.dob) ? _sp.dob : null;
+ if (!dob) { alert('กรุณากรอกข้อมูลโปรไฟล์ก่อนนะคะ (วันเกิด)'); showProfilePopup(false); return; }
  if (userState.plan === 'free' || userState.credits <= 0) {
  showPaymentPrompt('siam'); return;
  }
@@ -5668,8 +5670,8 @@ const nagaProphecies = [ 'พ่อปู่เห็นโชคลาภกำ
 ];
 
 function startNagaCeremony() {
- const dob = document.getElementById('naga-dob').value;
- if (!dob) { alert('กรุณากรอกวันเกิดก่อนนะคะ'); return; }
+ const _np = loadUserProfile(); const dob = (_np && _np.dob) ? _np.dob : null;
+ if (!dob) { alert('กรุณากรอกข้อมูลโปรไฟล์ก่อนนะคะ'); showProfilePopup(false); return; }
  if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('naga'); return; }
 
  // คำนวณเลขล่วงหน้า
