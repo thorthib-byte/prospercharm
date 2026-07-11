@@ -1726,6 +1726,7 @@ function showProfilePopup(isEdit) {
     }
   }
   document.getElementById('profile-popup').style.display='block';
+  liRefresh(document.getElementById('profile-popup'));
   window.scrollTo(0,0);
   document.getElementById('profile-save-msg').textContent='';
 }
@@ -1949,6 +1950,7 @@ function showDailyTopicSelect() {
  <div style="width:32px;height:32px;border-radius:50%;background:rgba(180,160,130,0.12);display:flex;align-items:center;justify-content:center;color:var(--brown-dark);font-size:16px;flex-shrink:0;">${isDone ? '✓' : '›'}</div>
  </button>`;
  }).join('');
+ liRefresh(container);
 
  document.getElementById('daily-step1').style.display = 'none';
  document.getElementById('daily-step15').style.display = 'block';
@@ -1957,6 +1959,7 @@ function showDailyTopicSelect() {
  document.body.style.overflow = '';
  document.getElementById('daily-step2').style.display = 'none';
  document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เลือกหัวข้อ';
+ liRefresh(document.getElementById('daily-header-title'));
  window.scrollTo(0,0);
 }
 
@@ -5868,6 +5871,8 @@ window.addEventListener('load', () => {
  // Init Thai date pickers
  initDobSelects();
   if (window.lucide) setTimeout(()=>lucide.createIcons(), 100);
+  // fallback: รอ Lucide CDN โหลดแล้วค่อย createIcons อีกครั้ง
+  window.addEventListener('load', () => { if (window.lucide) lucide.createIcons(); });
  // Init check-in button
  initCheckinBtn();
  // Handle URL hash
