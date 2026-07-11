@@ -3681,12 +3681,24 @@ function startEnergyCeremony() {
  if (!dob) { alert('กรุณากรอกวันเกิดก่อนนะคะ'); return; }
  if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('energy'); return; }
 
- const p = dob.split('-');
- const d = parseInt(p[2]), m = parseInt(p[1]);
+ // parse dob แบบ defensive รองรับหลาย format
+ let d = 1, m = 1;
+ if (dob.includes('-')) {
+   const p = dob.split('-');
+   if (p[0] && p[0].length === 4) { d = parseInt(p[2]) || 1; m = parseInt(p[1]) || 1; }
+   else { d = parseInt(p[0]) || 1; m = parseInt(p[1]) || 1; }
+ } else if (dob.includes('/')) {
+   const p = dob.split('/');
+   d = parseInt(p[0]) || 1; m = parseInt(p[1]) || 1;
+ }
+ if (!d || isNaN(d)) d = 1;
+ if (!m || isNaN(m)) m = 1;
+
  const today = new Date();
  const mainNum = ((d + m + today.getDate() + today.getMonth() + 1) % 9) + 1;
  const secondaryNums = [((d + today.getDate()) % 9) + 1, ((m + today.getMonth()) % 9) + 1];
- const score = (7 + (Math.abs(d * m + today.getDate()) % 25) / 10).toFixed(1);
+ const rawScore = 7 + (Math.abs(d * m + today.getDate()) % 25) / 10;
+ const score = isNaN(rawScore) ? '7.5' : rawScore.toFixed(1);
  const prophecyIdx = Math.abs(d + m + today.getDate()) % energyCeremonyProphecies.length;
  energyCeremonyData = { mainNum, secondaryNums, score, prophecy: energyCeremonyProphecies[prophecyIdx] };
 
@@ -4004,8 +4016,18 @@ const energyDailyMsgs = {
 };
 
 function calcEnergyNumbers(dob) {
- const t = new Date(), p = dob.split('-');
- const d = parseInt(p[2]), m = parseInt(p[1]);
+ const t = new Date();
+ let d = 1, m = 1;
+ if (dob && dob.includes('-')) {
+   const p = dob.split('-');
+   if (p[0] && p[0].length === 4) { d = parseInt(p[2]) || 1; m = parseInt(p[1]) || 1; }
+   else { d = parseInt(p[0]) || 1; m = parseInt(p[1]) || 1; }
+ } else if (dob && dob.includes('/')) {
+   const p = dob.split('/');
+   d = parseInt(p[0]) || 1; m = parseInt(p[1]) || 1;
+ }
+ if (!d || isNaN(d)) d = 1;
+ if (!m || isNaN(m)) m = 1;
  const mainNum = ((d + m + t.getDate() + t.getMonth() + 1) % 9) + 1;
  const secondaryNums = [
  ((d + t.getDate()) % 9) + 1,
@@ -4014,7 +4036,8 @@ function calcEnergyNumbers(dob) {
  ];
  const moneyNum = ((d * m + t.getDate()) % 9) + 1;
  const sightNums = [mainNum, ((mainNum + 2) % 9) + 1, ((mainNum + 4) % 9) + 1];
- const score = (6.5 + (seed => (Math.abs(seed) % 35) / 10)(d * m + t.getDate())).toFixed(1);
+ const rawScore = 6.5 + (seed => (Math.abs(seed) % 35) / 10)(d * m + t.getDate());
+ const score = isNaN(rawScore) ? '7.0' : rawScore.toFixed(1);
  return { mainNum, secondaryNums, moneyNum, sightNums, score };
 }
 
