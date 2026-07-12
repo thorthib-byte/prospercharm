@@ -4836,7 +4836,8 @@ function renderCnSummary() {
 
  // fill icons
  const els = { 'cn-sum-zodiac1-icon': zodiacIcon1||'<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>', 'cn-sum-zodiac2-icon': zodiacIcon2||'<svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>', 'cn-sum-zodiac1': zodiac1, 'cn-sum-zodiac2': zodiac2, 'cn-sum-el1': (CN_EL_ICONS[element1]||'')+' ธาตุ'+element1, 'cn-sum-el2': (CN_EL_ICONS[element2]||'')+' ธาตุ'+element2, 'cn-sum-yy1': yinScore>=6 ? 'หยินเด่น' : yinScore<=4 ? 'หยางเด่น' : 'สมดุล', 'cn-sum-yy2': '', 'cn-yin-pct': yinPct+'%', 'cn-yang-pct': yangPct+'%' };
- Object.entries(els).forEach(([id,val]) => { const el=document.getElementById(id); if(el) el.textContent=val; });
+ const iconIds = ['cn-sum-zodiac1-icon','cn-sum-zodiac2-icon'];
+ Object.entries(els).forEach(([id,val]) => { const el=document.getElementById(id); if(el) { if(iconIds.includes(id)) el.innerHTML=val; else el.textContent=val; } });
  const yinBar = document.getElementById('cn-yin-bar');
  const yangBar = document.getElementById('cn-yang-bar');
  if (yinBar) yinBar.style.width = yinPct+'%';
