@@ -3283,9 +3283,9 @@ function drawTarot(){
  if(userState.plan==='free'||userState.credits<=0){showPaymentPrompt('tarot');return;}
  if(pickedCards.length < 3){alert('กรุณาเลือกไพ่ให้ครบ 3 ใบก่อนนะคะ');return;}
 
- const card1 = shuffledDeck[pickedCards[0]];
- const card2 = shuffledDeck[pickedCards[1]];
- const card3 = shuffledDeck[pickedCards[2]];
+ const card1 = shuffledDeck[pickedCards[0] % shuffledDeck.length];
+ const card2 = shuffledDeck[pickedCards[1] % shuffledDeck.length];
+ const card3 = shuffledDeck[pickedCards[2] % shuffledDeck.length];
 
  // สุ่ม orientation U/R แยกแต่ละใบ
  const ori1 = randomOrientation();
