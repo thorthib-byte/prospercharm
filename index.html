@@ -5095,6 +5095,7 @@ function inDobNext() {
  soulmateState.dob1 = dob1; soulmateState.dob2 = dob2;
  soulmateState.partnerName = (document.getElementById('in-partner-name') ? document.getElementById('in-partner-name').value.trim() : '') || 'อีกฝ่าย';
  inQIdx = 0; inState.answers = []; inState.receptiveScore = 0; inState.activeScore = 0;
+ showSoulmateStep('in-step3');
  inShowQuestion();
 }
 
