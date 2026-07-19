@@ -256,7 +256,7 @@
   @keyframes wSlideIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
   .w-candle { position:relative; display:flex; flex-direction:column; align-items:center; }
   .w-flame { width:16px; height:28px; background:linear-gradient(180deg,#fff9c4 0%,#ffb300 40%,#ff6f00 100%); border-radius:50% 50% 20% 20%; margin-bottom:4px; animation:wFlame 1.2s ease-in-out infinite, wFlameGlow 1.5s ease-in-out infinite; transform-origin:bottom center; transition:opacity 0.4s; }
-  .w-rel-btn.selected, .w-int-btn.selected { background:rgba(155,153,212,0.15) !important; border:2px solid #9B99D4 !important; color:var(--text,#3D3028) !important; box-shadow:none; }
+  .w-rel-btn.selected, .w-int-btn.selected { background:rgba(201,168,76,0.1) !important; border-color:var(--gold) !important; color:var(--brown-dark) !important; font-weight:600; }
   .w-load-dot.done { background:#9B99D4 !important; border-color:var(--gold,#C9A84C) !important; }
   .w-load-dot.done::after { content:'✓'; font-size:10px; color:#0a0615; font-weight:700; }
   /* Score slider ala MBTI */
@@ -266,7 +266,7 @@
   .wr-score-val { font-size:14px; font-weight:700; color:var(--brown-dark); font-family:'Playfair Display',serif; }
   .wr-track { height:8px; background:#E8E7F5; border-radius:4px; position:relative; overflow:hidden; }
   .wr-fill { height:100%; border-radius:4px; background:#9B99D4; transition:width 1.5s ease; }
-  .wr-thumb { width:18px; height:18px; border-radius:50%; background:#fff; border:3px solid #9B99D4; position:absolute; top:50%; transform:translate(-50%,-50%); box-shadow:0 2px 8px rgba(201,168,76,0.4); transition:left 1.5s ease; }
+  .wr-thumb { display:none; }
 
   .li { display:inline-block; vertical-align:-0.15em; flex-shrink:0; stroke-width:1.5; color:currentColor; }
   .li-sm { width:16px; height:16px; }
