@@ -256,8 +256,8 @@
   @keyframes wSlideIn { from{opacity:0;transform:translateY(20px);} to{opacity:1;transform:translateY(0);} }
   .w-candle { position:relative; display:flex; flex-direction:column; align-items:center; }
   .w-flame { width:16px; height:28px; background:linear-gradient(180deg,#fff9c4 0%,#ffb300 40%,#ff6f00 100%); border-radius:50% 50% 20% 20%; margin-bottom:4px; animation:wFlame 1.2s ease-in-out infinite, wFlameGlow 1.5s ease-in-out infinite; transform-origin:bottom center; transition:opacity 0.4s; }
-  .w-rel-btn.selected, .w-int-btn.selected { background:rgba(201,168,76,0.15) !important; border-color:rgba(201,168,76,0.7) !important; box-shadow:0 0 0 1px rgba(201,168,76,0.3); }
-  .w-load-dot.done { background:#c9a84c !important; border-color:#c9a84c !important; }
+  .w-rel-btn.selected, .w-int-btn.selected { background:rgba(123,126,200,0.12) !important; border-color:#7B7EC8 !important; box-shadow:0 0 0 1px rgba(123,126,200,0.3); }
+  .w-load-dot.done { background:#7B7EC8 !important; border-color:#7B7EC8 !important; }
   .w-load-dot.done::after { content:'✓'; font-size:10px; color:#0a0615; font-weight:700; }
   /* Score slider ala MBTI */
   .wr-score-row { margin-bottom:18px; }
@@ -265,8 +265,8 @@
   .wr-score-name { font-size:13px; color:var(--text-mid); font-family:'Noto Sans Thai',sans-serif; }
   .wr-score-val { font-size:14px; font-weight:700; color:var(--brown-dark); font-family:'Playfair Display',serif; }
   .wr-track { height:8px; background:rgba(180,160,130,0.15); border-radius:4px; position:relative; overflow:visible; }
-  .wr-fill { height:100%; border-radius:4px; background:linear-gradient(90deg,#c9a84c,#e8d5a3); transition:width 1.5s ease; }
-  .wr-thumb { width:18px; height:18px; border-radius:50%; background:#fff; border:3px solid #c9a84c; position:absolute; top:50%; transform:translate(-50%,-50%); box-shadow:0 2px 8px rgba(201,168,76,0.4); transition:left 1.5s ease; }
+  .wr-fill { height:100%; border-radius:4px; background:#7B7EC8; transition:width 1.5s ease; }
+  .wr-thumb { width:18px; height:18px; border-radius:50%; background:#fff; border:3px solid #7B7EC8; position:absolute; top:50%; transform:translate(-50%,-50%); box-shadow:0 2px 8px rgba(201,168,76,0.4); transition:left 1.5s ease; }
 
   .li { display:inline-block; vertical-align:-0.15em; flex-shrink:0; stroke-width:1.5; color:currentColor; }
   .li-sm { width:16px; height:16px; }
@@ -1437,7 +1437,7 @@
       <div id="in-loading-icon-v" style="font-size:28px;margin-bottom:8px;"></div>
       <div id="in-loading-text-v" style="font-family:'Noto Serif Thai',serif;font-size:15px;color:#ffffff;text-align:center;padding:0 32px;text-shadow:-1px -1px 0 #000,1px -1px 0 #000,-1px 1px 0 #000,1px 1px 0 #000,0 2px 8px rgba(0,0,0,0.7);font-weight:600;"></div>
       <div style="width:200px;height:4px;background:rgba(200,130,60,0.2);border-radius:2px;margin-top:16px;overflow:hidden;">
-        <div id="in-loading-bar-v" style="height:100%;background:linear-gradient(90deg,#c9a84c,#e8d5a3);border-radius:2px;width:0%;transition:width 1.2s ease;"></div>
+        <div id="in-loading-bar-v" style="height:100%;background:#7B7EC8;border-radius:2px;width:0%;transition:width 1.2s ease;"></div>
       </div>
     </div>
   </div>
@@ -6341,65 +6341,65 @@ window.addEventListener('load', () => {
 
 <!-- ==================== WESTERN SOULMATE CEREMONY ==================== -->
 <!-- Step 2: ความสัมพันธ์ -->
-<div id="western-step2" style="display:none;position:fixed;inset:0;z-index:200;background:var(--cream,#FBF7F2);overflow-y:auto;overscroll-behavior:none;">
+<div id="western-step2" style="display:none;position:fixed;inset:0;z-index:200;background:#EEEDF8;overflow-y:auto;overscroll-behavior:none;">
   <div style="max-width:420px;margin:0 auto;padding:32px 20px 60px;">
     <div style="text-align:center;margin-bottom:8px;">
-      <div style="font-size:11px;letter-spacing:3px;color:var(--text-mid,#7A6B5D);font-family:'Playfair Display',serif;text-transform:uppercase;">พิธีเปิดคำพยากรณ์</div>
-      <div style="font-size:10px;color:var(--text-light,#B0998A);margin-top:4px;">● ● ○ ○ ○ ○</div>
+      <div style="font-size:11px;letter-spacing:3px;color:#6B6999;font-family:'Playfair Display',serif;text-transform:uppercase;">พิธีเปิดคำพยากรณ์</div>
+      <div style="font-size:10px;color:#9898BB;margin-top:4px;">● ● ○ ○ ○ ○</div>
     </div>
     <div style="text-align:center;margin:24px 0 32px;">
       <div style="font-size:28px;margin-bottom:10px;">🌙</div>
-      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--brown-dark,#4A3F30);line-height:1.3;">ความสัมพันธ์ของคุณ<br>กับอีกฝ่ายคืออะไร</div>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#2D2B55;line-height:1.3;">ความสัมพันธ์ของคุณ<br>กับอีกฝ่ายคืออะไร</div>
     </div>
     <div id="western-relation-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:32px;">
-      <button class="w-rel-btn" data-val="crush" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:var(--brown-dark,#4A3F30);font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">🌸 คนที่แอบชอบ</button>
-      <button class="w-rel-btn" data-val="talking" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:var(--brown-dark,#4A3F30);font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">💕 คนคุย</button>
-      <button class="w-rel-btn" data-val="partner" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:var(--brown-dark,#4A3F30);font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">❤️ แฟน</button>
-      <button class="w-rel-btn" data-val="spouse" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:var(--brown-dark,#4A3F30);font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">💍 คู่สมรส</button>
-      <button class="w-rel-btn" data-val="ex" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:var(--brown-dark,#4A3F30);font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">💔 คนรักเก่า</button>
-      <button class="w-rel-btn" data-val="friend" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:var(--brown-dark,#4A3F30);font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">🤝 เพื่อน</button>
-      <button class="w-rel-btn" data-val="colleague" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:var(--brown-dark,#4A3F30);font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">💼 เพื่อนร่วมงาน</button>
-      <button class="w-rel-btn" data-val="other" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:var(--brown-dark,#4A3F30);font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">✨ อื่น ๆ</button>
+      <button class="w-rel-btn" data-val="crush" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#2D2B55;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">🌸 คนที่แอบชอบ</button>
+      <button class="w-rel-btn" data-val="talking" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#2D2B55;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">💕 คนคุย</button>
+      <button class="w-rel-btn" data-val="partner" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#2D2B55;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">❤️ แฟน</button>
+      <button class="w-rel-btn" data-val="spouse" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#2D2B55;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">💍 คู่สมรส</button>
+      <button class="w-rel-btn" data-val="ex" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#2D2B55;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">💔 คนรักเก่า</button>
+      <button class="w-rel-btn" data-val="friend" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#2D2B55;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">🤝 เพื่อน</button>
+      <button class="w-rel-btn" data-val="colleague" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#2D2B55;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">💼 เพื่อนร่วมงาน</button>
+      <button class="w-rel-btn" data-val="other" onclick="selectWesternRelation(this)" style="padding:14px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#2D2B55;font-family:'Noto Sans Thai',sans-serif;font-size:14px;cursor:pointer;transition:all 0.2s;text-align:center;">✨ อื่น ๆ</button>
     </div>
-    <button id="western-step2-next" onclick="westernGoTo('western-step3')" style="display:none;width:100%;padding:16px;background:linear-gradient(135deg,#c9a84c,#e8d5a3);color:#1a0a2e;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:0.5px;">ถัดไป →</button>
-    <button onclick="westernBack()" style="width:100%;margin-top:12px;padding:12px;background:transparent;border:1px solid rgba(232,213,163,0.2);border-radius:12px;color:var(--text-mid,#7A6B5D);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">← ย้อนกลับ</button>
+    <button id="western-step2-next" onclick="westernGoTo('western-step3')" style="display:none;width:100%;padding:16px;background:#2D2B55;color:#EEEDF8;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:0.5px;">ถัดไป →</button>
+    <button onclick="westernBack()" style="width:100%;margin-top:12px;padding:12px;background:transparent;border:1px solid rgba(232,213,163,0.2);border-radius:12px;color:#6B6999;font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">← ย้อนกลับ</button>
   </div>
 </div>
 
 <!-- Step 3: ตั้งเจตนา -->
-<div id="western-step3" style="display:none;position:fixed;inset:0;z-index:200;background:var(--cream,#FBF7F2);overflow-y:auto;overscroll-behavior:none;">
+<div id="western-step3" style="display:none;position:fixed;inset:0;z-index:200;background:#EEEDF8;overflow-y:auto;overscroll-behavior:none;">
   <div style="max-width:420px;margin:0 auto;padding:32px 20px 60px;">
     <div style="text-align:center;margin-bottom:8px;">
-      <div style="font-size:11px;letter-spacing:3px;color:var(--text-mid,#7A6B5D);font-family:'Playfair Display',serif;text-transform:uppercase;">พิธีเปิดคำพยากรณ์</div>
-      <div style="font-size:10px;color:var(--text-light,#B0998A);margin-top:4px;">● ● ● ○ ○ ○</div>
+      <div style="font-size:11px;letter-spacing:3px;color:#6B6999;font-family:'Playfair Display',serif;text-transform:uppercase;">พิธีเปิดคำพยากรณ์</div>
+      <div style="font-size:10px;color:#9898BB;margin-top:4px;">● ● ● ○ ○ ○</div>
     </div>
     <div style="text-align:center;margin:24px 0 8px;">
       <div style="font-size:28px;margin-bottom:10px;">🌟</div>
-      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--brown-dark,#4A3F30);line-height:1.3;">ตั้งเจตนา</div>
-      <div style="font-size:13px;color:var(--text-mid,#7A6B5D);margin-top:8px;line-height:1.6;">ทุกคำพยากรณ์ เริ่มต้นจากเจตนาของหัวใจ<br>วันนี้คุณอยากให้ดวงดาวเปิดเผยเรื่องใดมากที่สุด</div>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#2D2B55;line-height:1.3;">ตั้งเจตนา</div>
+      <div style="font-size:13px;color:#6B6999;margin-top:8px;line-height:1.6;">ทุกคำพยากรณ์ เริ่มต้นจากเจตนาของหัวใจ<br>วันนี้คุณอยากให้ดวงดาวเปิดเผยเรื่องใดมากที่สุด</div>
     </div>
     <div style="margin:24px 0 32px;display:flex;flex-direction:column;gap:10px;" id="western-intention-list">
-      <button class="w-int-btn" data-val="love" onclick="selectWesternIntention(this)" style="padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:var(--brown-dark,#4A3F30);font-family:'Noto Sans Thai',sans-serif;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;transition:all 0.2s;"><span style="font-size:20px;">❤️</span><span>ความรัก</span></button>
-      <button class="w-int-btn" data-val="understanding" onclick="selectWesternIntention(this)" style="padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:var(--brown-dark,#4A3F30);font-family:'Noto Sans Thai',sans-serif;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;transition:all 0.2s;"><span style="font-size:20px;">💬</span><span>ความเข้าใจ</span></button>
-      <button class="w-int-btn" data-val="healing" onclick="selectWesternIntention(this)" style="padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:var(--brown-dark,#4A3F30);font-family:'Noto Sans Thai',sans-serif;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;transition:all 0.2s;"><span style="font-size:20px;">🌱</span><span>การเยียวยา</span></button>
-      <button class="w-int-btn" data-val="future" onclick="selectWesternIntention(this)" style="padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:var(--brown-dark,#4A3F30);font-family:'Noto Sans Thai',sans-serif;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;transition:all 0.2s;"><span style="font-size:20px;">💍</span><span>อนาคตร่วมกัน</span></button>
-      <button class="w-int-btn" data-val="truth" onclick="selectWesternIntention(this)" style="padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:var(--brown-dark,#4A3F30);font-family:'Noto Sans Thai',sans-serif;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;transition:all 0.2s;"><span style="font-size:20px;">✨</span><span>ความจริงของความสัมพันธ์</span></button>
+      <button class="w-int-btn" data-val="love" onclick="selectWesternIntention(this)" style="padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#2D2B55;font-family:'Noto Sans Thai',sans-serif;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;transition:all 0.2s;"><span style="font-size:20px;">❤️</span><span>ความรัก</span></button>
+      <button class="w-int-btn" data-val="understanding" onclick="selectWesternIntention(this)" style="padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#2D2B55;font-family:'Noto Sans Thai',sans-serif;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;transition:all 0.2s;"><span style="font-size:20px;">💬</span><span>ความเข้าใจ</span></button>
+      <button class="w-int-btn" data-val="healing" onclick="selectWesternIntention(this)" style="padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#2D2B55;font-family:'Noto Sans Thai',sans-serif;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;transition:all 0.2s;"><span style="font-size:20px;">🌱</span><span>การเยียวยา</span></button>
+      <button class="w-int-btn" data-val="future" onclick="selectWesternIntention(this)" style="padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#2D2B55;font-family:'Noto Sans Thai',sans-serif;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;transition:all 0.2s;"><span style="font-size:20px;">💍</span><span>อนาคตร่วมกัน</span></button>
+      <button class="w-int-btn" data-val="truth" onclick="selectWesternIntention(this)" style="padding:16px 20px;background:rgba(255,255,255,0.05);border:1px solid rgba(232,213,163,0.2);border-radius:16px;color:#2D2B55;font-family:'Noto Sans Thai',sans-serif;font-size:15px;cursor:pointer;text-align:left;display:flex;align-items:center;gap:12px;transition:all 0.2s;"><span style="font-size:20px;">✨</span><span>ความจริงของความสัมพันธ์</span></button>
     </div>
-    <button id="western-step3-next" onclick="westernGoTo('western-step5')" style="display:none;width:100%;padding:16px;background:linear-gradient(135deg,#c9a84c,#e8d5a3);color:#1a0a2e;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;cursor:pointer;">ตั้งเจตนา ✨</button>
-    <button onclick="westernGoTo('western-step2')" style="width:100%;margin-top:12px;padding:12px;background:transparent;border:1px solid rgba(232,213,163,0.2);border-radius:12px;color:var(--text-mid,#7A6B5D);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">← ย้อนกลับ</button>
+    <button id="western-step3-next" onclick="westernGoTo('western-step5')" style="display:none;width:100%;padding:16px;background:#2D2B55;color:#EEEDF8;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;cursor:pointer;">ตั้งเจตนา ✨</button>
+    <button onclick="westernGoTo('western-step2')" style="width:100%;margin-top:12px;padding:12px;background:transparent;border:1px solid rgba(232,213,163,0.2);border-radius:12px;color:#6B6999;font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">← ย้อนกลับ</button>
   </div>
 </div>
 
 <!-- Step 5: จุดเทียน -->
-<div id="western-step5" style="display:none;position:fixed;inset:0;z-index:200;background:var(--cream,#FBF7F2);overflow:hidden;">
+<div id="western-step5" style="display:none;position:fixed;inset:0;z-index:200;background:#EEEDF8;overflow:hidden;">
   <div style="max-width:420px;margin:0 auto;padding:32px 20px;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">
     <div style="text-align:center;margin-bottom:8px;">
-      <div style="font-size:11px;letter-spacing:3px;color:var(--text-mid,#7A6B5D);font-family:'Playfair Display',serif;text-transform:uppercase;">พิธีเปิดคำพยากรณ์</div>
-      <div style="font-size:10px;color:var(--text-light,#B0998A);margin-top:4px;">● ● ● ● ● ○</div>
+      <div style="font-size:11px;letter-spacing:3px;color:#6B6999;font-family:'Playfair Display',serif;text-transform:uppercase;">พิธีเปิดคำพยากรณ์</div>
+      <div style="font-size:10px;color:#9898BB;margin-top:4px;">● ● ● ● ● ○</div>
     </div>
     <div style="text-align:center;margin:24px 0;">
-      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--brown-dark,#4A3F30);margin-bottom:8px;">จุดเทียนแห่งโชคชะตา 🕯️</div>
-      <div style="font-size:13px;color:var(--text-mid,#7A6B5D);line-height:1.6;">แสงเทียนจะนำทางให้คำอธิษฐาน<br>เดินทางสู่ดวงดาว<br><span style="color:#c9a84c;font-weight:600;">แตะเทียนทั้ง 3 เล่ม</span></div>
+      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:#2D2B55;margin-bottom:8px;">จุดเทียนแห่งโชคชะตา 🕯️</div>
+      <div style="font-size:13px;color:#6B6999;line-height:1.6;">แสงเทียนจะนำทางให้คำอธิษฐาน<br>เดินทางสู่ดวงดาว<br><span style="color:#c9a84c;font-weight:600;">แตะเทียนทั้ง 3 เล่ม</span></div>
     </div>
     <!-- 3 candles -->
     <div style="display:flex;gap:32px;justify-content:center;align-items:flex-end;margin:32px 0;position:relative;">
@@ -6408,49 +6408,49 @@ window.addEventListener('load', () => {
       <div class="w-candle-wrap" style="display:flex;flex-direction:column;align-items:center;gap:8px;">
         <div id="w-candle-1" class="w-candle" data-idx="1" onclick="lightCandle(1)" style="cursor:pointer;">
           <div class="w-flame" id="w-flame-1" style="opacity:0;"></div>
-          <div class="w-candle-body" style="width:28px;height:80px;background:linear-gradient(180deg,#f5e8d0,#e8d0a8);border-radius:4px 4px 2px 2px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>
+          <div class="w-candle-body" style="width:28px;height:80px;background:linear-gradient(180deg,#E8E7F8,#D0CFED);border-radius:4px 4px 2px 2px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>
         </div>
-        <div style="font-size:11px;color:var(--text-mid,#7A6B5D);text-align:center;line-height:1.3;">❤️<br>หัวใจ</div>
+        <div style="font-size:11px;color:#6B6999;text-align:center;line-height:1.3;">❤️<br>หัวใจ</div>
       </div>
       <div class="w-candle-wrap" style="display:flex;flex-direction:column;align-items:center;gap:8px;">
         <div id="w-candle-2" class="w-candle" data-idx="2" onclick="lightCandle(2)" style="cursor:pointer;">
           <div class="w-flame" id="w-flame-2" style="opacity:0;"></div>
-          <div class="w-candle-body" style="width:28px;height:100px;background:linear-gradient(180deg,#f5e8d0,#e8d0a8);border-radius:4px 4px 2px 2px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>
+          <div class="w-candle-body" style="width:28px;height:100px;background:linear-gradient(180deg,#E8E7F8,#D0CFED);border-radius:4px 4px 2px 2px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>
         </div>
-        <div style="font-size:11px;color:var(--text-mid,#7A6B5D);text-align:center;line-height:1.3;">🧠<br>ปัญญา</div>
+        <div style="font-size:11px;color:#6B6999;text-align:center;line-height:1.3;">🧠<br>ปัญญา</div>
       </div>
       <div class="w-candle-wrap" style="display:flex;flex-direction:column;align-items:center;gap:8px;">
         <div id="w-candle-3" class="w-candle" data-idx="3" onclick="lightCandle(3)" style="cursor:pointer;">
           <div class="w-flame" id="w-flame-3" style="opacity:0;"></div>
-          <div class="w-candle-body" style="width:28px;height:88px;background:linear-gradient(180deg,#f5e8d0,#e8d0a8);border-radius:4px 4px 2px 2px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>
+          <div class="w-candle-body" style="width:28px;height:88px;background:linear-gradient(180deg,#E8E7F8,#D0CFED);border-radius:4px 4px 2px 2px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>
         </div>
-        <div style="font-size:11px;color:var(--text-mid,#7A6B5D);text-align:center;line-height:1.3;">✨<br>โชคชะตา</div>
+        <div style="font-size:11px;color:#6B6999;text-align:center;line-height:1.3;">✨<br>โชคชะตา</div>
       </div>
     </div>
-    <div id="w-candle-msg" style="font-size:13px;color:var(--text-light,#B0998A);text-align:center;min-height:20px;transition:all 0.4s;font-family:'Playfair Display',serif;font-style:italic;"></div>
+    <div id="w-candle-msg" style="font-size:13px;color:#9898BB;text-align:center;min-height:20px;transition:all 0.4s;font-family:'Playfair Display',serif;font-style:italic;"></div>
   </div>
 </div>
 
 <!-- Step 6: โปรยกลีบกุหลาบ -->
-<div id="western-step6" style="display:none;position:fixed;inset:0;z-index:200;background:var(--cream,#FBF7F2);overflow:hidden;">
+<div id="western-step6" style="display:none;position:fixed;inset:0;z-index:200;background:#EEEDF8;overflow:hidden;">
   <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
     <div style="text-align:center;z-index:2;position:relative;pointer-events:none;">
-      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--brown-dark,#4A3F30);margin-bottom:6px;">โปรยกลีบกุหลาบ 🌹</div>
-      <div id="w-petal-msg" style="font-size:13px;color:var(--text-mid,#7A6B5D);line-height:1.6;">ลากนิ้วเพื่อโปรยกลีบกุหลาบ<br>เปิดประตูแห่งหัวใจ</div>
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:#2D2B55;margin-bottom:6px;">โปรยกลีบกุหลาบ 🌹</div>
+      <div id="w-petal-msg" style="font-size:13px;color:#6B6999;line-height:1.6;">ลากนิ้วเพื่อโปรยกลีบกุหลาบ<br>เปิดประตูแห่งหัวใจ</div>
     </div>
     <canvas id="western-rose-canvas" style="position:absolute;inset:0;width:100%;height:100%;touch-action:none;"></canvas>
     <!-- Progress indicator -->
     <div style="position:absolute;bottom:48px;left:50%;transform:translateX(-50%);text-align:center;z-index:2;pointer-events:none;">
-      <div style="width:200px;height:4px;background:rgba(180,160,130,0.2);border-radius:2px;overflow:hidden;">
-        <div id="w-petal-progress" style="height:100%;width:0%;background:linear-gradient(90deg,#c9a84c,#e8d5a3);border-radius:2px;transition:width 0.3s;"></div>
+      <div style="width:200px;height:4px;background:rgba(123,126,200,0.15);border-radius:2px;overflow:hidden;">
+        <div id="w-petal-progress" style="height:100%;width:0%;background:#7B7EC8;border-radius:2px;transition:width 0.3s;"></div>
       </div>
-      <div id="w-petal-count-text" style="font-size:11px;color:var(--text-light,#B0998A);margin-top:6px;letter-spacing:1px;">0 / 50 กลีบ</div>
+      <div id="w-petal-count-text" style="font-size:11px;color:#9898BB;margin-top:6px;letter-spacing:1px;">0 / 50 กลีบ</div>
     </div>
   </div>
 </div>
 
 <!-- Step 7: Loading -->
-<div id="western-step7" style="display:none;position:fixed;inset:0;z-index:200;background:var(--cream,#FBF7F2);overflow:hidden;">
+<div id="western-step7" style="display:none;position:fixed;inset:0;z-index:200;background:#EEEDF8;overflow:hidden;">
   <div style="max-width:420px;margin:0 auto;padding:32px 20px;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">
     <!-- Zodiac wheel -->
     <div style="position:relative;width:200px;height:200px;margin-bottom:32px;">
@@ -6489,16 +6489,16 @@ window.addEventListener('load', () => {
       </div>
     </div>
     <div style="text-align:center;margin-bottom:28px;">
-      <div style="font-family:'Playfair Display',serif;font-size:18px;color:var(--brown-dark,#4A3F30);margin-bottom:4px;">คำอธิษฐานของคุณได้รับการตอบรับแล้ว...</div>
-      <div style="font-size:13px;color:var(--text-mid,#7A6B5D);">ดวงดาวกำลังเปิดเผยเส้นทางของความสัมพันธ์นี้</div>
+      <div style="font-family:'Playfair Display',serif;font-size:18px;color:#2D2B55;margin-bottom:4px;">คำอธิษฐานของคุณได้รับการตอบรับแล้ว...</div>
+      <div style="font-size:13px;color:#6B6999;">ดวงดาวกำลังเปิดเผยเส้นทางของความสัมพันธ์นี้</div>
     </div>
     <div style="width:100%;max-width:300px;">
-      <div class="w-load-item" id="wl-1" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(180,160,130,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:var(--text-mid,#7A6B5D);font-family:'Noto Sans Thai',sans-serif;">สร้างแผนที่ดวงกำเนิด</div></div>
-      <div class="w-load-item" id="wl-2" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(180,160,130,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:var(--text-mid,#7A6B5D);">วิเคราะห์ Synastry</div></div>
-      <div class="w-load-item" id="wl-3" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(180,160,130,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:var(--text-mid,#7A6B5D);">วิเคราะห์ Composite</div></div>
-      <div class="w-load-item" id="wl-4" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(180,160,130,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:var(--text-mid,#7A6B5D);">วิเคราะห์ House Overlay</div></div>
-      <div class="w-load-item" id="wl-5" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(180,160,130,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:var(--text-mid,#7A6B5D);">วิเคราะห์ Aspect Analysis</div></div>
-      <div class="w-load-item" id="wl-6" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(180,160,130,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:var(--text-mid,#7A6B5D);">สรุปความเข้ากันได้</div></div>
+      <div class="w-load-item" id="wl-1" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(180,160,130,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:#6B6999;font-family:'Noto Sans Thai',sans-serif;">สร้างแผนที่ดวงกำเนิด</div></div>
+      <div class="w-load-item" id="wl-2" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(180,160,130,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:#6B6999;">วิเคราะห์ Synastry</div></div>
+      <div class="w-load-item" id="wl-3" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(180,160,130,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:#6B6999;">วิเคราะห์ Composite</div></div>
+      <div class="w-load-item" id="wl-4" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(180,160,130,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:#6B6999;">วิเคราะห์ House Overlay</div></div>
+      <div class="w-load-item" id="wl-5" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(180,160,130,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:#6B6999;">วิเคราะห์ Aspect Analysis</div></div>
+      <div class="w-load-item" id="wl-6" style="display:flex;align-items:center;gap:12px;margin-bottom:12px;opacity:0;transition:opacity 0.5s;"><div class="w-load-dot" style="width:20px;height:20px;border-radius:50%;border:2px solid rgba(180,160,130,0.3);flex-shrink:0;display:flex;align-items:center;justify-content:center;"></div><div style="font-size:13px;color:#6B6999;">สรุปความเข้ากันได้</div></div>
     </div>
   </div>
 </div>
@@ -6507,7 +6507,7 @@ window.addEventListener('load', () => {
 <div id="western-result" style="display:none;position:fixed;inset:0;z-index:200;background:var(--cream);overflow-y:auto;overscroll-behavior:none;">
   <div style="max-width:420px;margin:0 auto;padding:0 0 80px;">
     <!-- Header dark strip -->
-    <div style="background:linear-gradient(160deg,#0a0615,#1a0a2e);padding:32px 20px 48px;text-align:center;position:relative;overflow:hidden;">
+    <div style="background:linear-gradient(160deg,#2D2B55,#3D3B7A);padding:32px 20px 48px;text-align:center;position:relative;overflow:hidden;">
       <div style="position:absolute;inset:0;opacity:0.4;">
         <svg viewBox="0 0 400 200" style="width:100%;height:100%;"><circle cx="200" cy="100" r="120" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="1"/><circle cx="200" cy="100" r="80" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="1"/></svg>
       </div>
@@ -6519,8 +6519,8 @@ window.addEventListener('load', () => {
           <svg viewBox="0 0 120 120" style="width:140px;height:140px;">
             <circle cx="60" cy="60" r="52" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="8"/>
             <circle cx="60" cy="60" r="52" fill="none" stroke="url(#scoreGrad)" stroke-width="8" stroke-linecap="round" stroke-dasharray="326.7" id="wr-score-ring" style="stroke-dashoffset:326.7;transform:rotate(-90deg);transform-origin:60px 60px;transition:stroke-dashoffset 2s ease;"/>
-            <defs><linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#c9a84c"/><stop offset="100%" stop-color="#f0d890"/></linearGradient></defs>
-            <text x="60" y="54" text-anchor="middle" fill="#e8d5a3" font-size="28" font-family="Playfair Display" font-weight="700" id="wr-score-num">--</text>
+            <defs><linearGradient id="scoreGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#7B7EC8"/><stop offset="100%" stop-color="#9898BB"/></linearGradient></defs>
+            <text x="60" y="54" text-anchor="middle" fill="#EEEDF8" font-size="28" font-family="Playfair Display" font-weight="700" id="wr-score-num">--</text>
             <text x="60" y="72" text-anchor="middle" fill="rgba(232,213,163,0.5)" font-size="10" font-family="Noto Sans Thai">ความเข้ากัน</text>
           </svg>
         </div>
@@ -6529,21 +6529,21 @@ window.addEventListener('load', () => {
     </div>
 
     <!-- Score breakdown - slider style like MBTI -->
-    <div style="background:var(--white);border-radius:20px;margin:16px 16px 0;padding:20px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
-      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);margin-bottom:18px;">⭐ คะแนนรายด้าน</div>
+    <div style="background:#fff;border-radius:20px;margin:16px 16px 0;padding:20px;box-shadow:0 2px 12px rgba(45,43,85,0.06);">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:#2D2B55;margin-bottom:18px;">⭐ คะแนนรายด้าน</div>
       <div id="wr-subscores"></div>
     </div>
 
     <!-- Overview -->
-    <div style="background:var(--white);border-radius:20px;margin:12px 16px 0;padding:20px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
-      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);margin-bottom:12px;">🌙 ภาพรวมของความสัมพันธ์</div>
-      <div id="wr-overview" style="font-size:14px;color:var(--text);line-height:1.8;font-family:'Noto Sans Thai',sans-serif;"></div>
+    <div style="background:#fff;border-radius:20px;margin:12px 16px 0;padding:20px;box-shadow:0 2px 12px rgba(45,43,85,0.06);">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:#2D2B55;margin-bottom:12px;">🌙 ภาพรวมของความสัมพันธ์</div>
+      <div id="wr-overview" style="font-size:14px;color:#2D2B55;line-height:1.8;font-family:'Noto Sans Thai',sans-serif;"></div>
     </div>
 
     <!-- House overlay -->
-    <div style="background:var(--white);border-radius:20px;margin:12px 16px 0;padding:20px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
-      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);margin-bottom:12px;">🏛 อีกฝ่ายเข้ามาเปลี่ยนชีวิตคุณอย่างไร</div>
-      <div id="wr-house" style="font-size:14px;color:var(--text);line-height:1.8;font-family:'Noto Sans Thai',sans-serif;"></div>
+    <div style="background:#fff;border-radius:20px;margin:12px 16px 0;padding:20px;box-shadow:0 2px 12px rgba(45,43,85,0.06);">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:#2D2B55;margin-bottom:12px;">🏛 อีกฝ่ายเข้ามาเปลี่ยนชีวิตคุณอย่างไร</div>
+      <div id="wr-house" style="font-size:14px;color:#2D2B55;line-height:1.8;font-family:'Noto Sans Thai',sans-serif;"></div>
     </div>
 
     <!-- Strength / Warning -->
@@ -6559,15 +6559,15 @@ window.addEventListener('load', () => {
     </div>
 
     <!-- Advice -->
-    <div style="background:linear-gradient(135deg,rgba(201,168,76,0.08),rgba(201,168,76,0.03));border:1px solid rgba(201,168,76,0.2);border-radius:20px;margin:12px 16px 0;padding:20px;">
-      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);margin-bottom:12px;">🌱 คำแนะนำจากดวงดาว</div>
-      <div id="wr-advice" style="font-size:14px;color:var(--text);line-height:1.8;font-family:'Noto Sans Thai',sans-serif;"></div>
+    <div style="background:linear-gradient(135deg,rgba(123,126,200,0.08),rgba(123,126,200,0.02));border:1px solid rgba(123,126,200,0.2);border-radius:20px;margin:12px 16px 0;padding:20px;">
+      <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:#2D2B55;margin-bottom:12px;">🌱 คำแนะนำจากดวงดาว</div>
+      <div id="wr-advice" style="font-size:14px;color:#2D2B55;line-height:1.8;font-family:'Noto Sans Thai',sans-serif;"></div>
     </div>
 
     <!-- Actions -->
     <div style="padding:20px 16px 0;">
-      <button onclick="westernGoTo('western-step2')" style="width:100%;padding:14px;background:var(--brown-dark);color:var(--cream);border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:10px;">ดูอีกครั้ง</button>
-      <button onclick="westernBackToSoulmate()" style="width:100%;padding:14px;background:transparent;border:1px solid rgba(180,160,130,0.4);border-radius:16px;font-family:'Noto Sans Thai',sans-serif;font-size:14px;color:var(--text-mid);cursor:pointer;">← เปลี่ยนศาสตร์</button>
+      <button onclick="westernGoTo('western-step2')" style="width:100%;padding:14px;background:#2D2B55;color:#EEEDF8;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:16px;font-weight:700;cursor:pointer;margin-bottom:10px;">ดูอีกครั้ง</button>
+      <button onclick="westernBackToSoulmate()" style="width:100%;padding:14px;background:transparent;border:1px solid rgba(123,126,200,0.35);border-radius:16px;font-family:'Noto Sans Thai',sans-serif;font-size:14px;color:#6B6999;cursor:pointer;">← เปลี่ยนศาสตร์</button>
     </div>
   </div>
 </div>
