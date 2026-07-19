@@ -249,7 +249,7 @@
   [data-lucide] svg, .li svg { stroke: currentColor !important; color: inherit; }
   /* ===== WESTERN CEREMONY CSS ===== */
   @keyframes westernRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-  @keyframes westernPulse { 0%,100%{box-shadow:0 0 20px #c9a84c,0 0 40px rgba(201,168,76,0.5);} 50%{box-shadow:0 0 30px #c9a84c,0 0 60px rgba(201,168,76,0.7),0 0 80px rgba(201,168,76,0.3);} }
+  @keyframes westernPulse { 0%,100%{box-shadow:0 0 20px #9B99D4,0 0 40px rgba(155,153,212,0.5);} 50%{box-shadow:0 0 30px #9B99D4,0 0 60px rgba(155,153,212,0.7),0 0 80px rgba(155,153,212,0.3);} }
   @keyframes wFlame { 0%,100%{transform:scaleX(1) scaleY(1);opacity:1;} 25%{transform:scaleX(0.85) scaleY(1.1);opacity:0.9;} 75%{transform:scaleX(1.1) scaleY(0.95);opacity:0.95;} }
   @keyframes wFlameGlow { 0%,100%{box-shadow:0 0 10px #ff8c00,0 0 20px rgba(255,140,0,0.6);} 50%{box-shadow:0 0 18px #ff8c00,0 0 35px rgba(255,140,0,0.8),0 0 50px rgba(255,200,0,0.3);} }
   @keyframes wStarTwinkle { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
@@ -6456,10 +6456,10 @@ window.addEventListener('load', () => {
     <div style="position:relative;width:200px;height:200px;margin-bottom:32px;">
       <svg id="western-zodiac-wheel" viewBox="0 0 200 200" style="width:200px;height:200px;animation:westernRotate 20s linear infinite;">
         <defs><filter id="wGlow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-        <circle cx="100" cy="100" r="95" fill="none" stroke="rgba(201,168,76,0.3)" stroke-width="1.5"/>
-        <circle cx="100" cy="100" r="75" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="1"/>
-        <circle cx="100" cy="100" r="55" fill="none" stroke="rgba(201,168,76,0.1)" stroke-width="1"/>
-        <g fill="none" stroke="rgba(201,168,76,0.4)" stroke-width="1" filter="url(#wGlow)">
+        <circle cx="100" cy="100" r="95" fill="none" stroke="rgba(155,153,212,0.4)" stroke-width="1.5"/>
+        <circle cx="100" cy="100" r="75" fill="none" stroke="rgba(155,153,212,0.2)" stroke-width="1"/>
+        <circle cx="100" cy="100" r="55" fill="none" stroke="rgba(155,153,212,0.15)" stroke-width="1"/>
+        <g fill="none" stroke="rgba(155,153,212,0.5)" stroke-width="1" filter="url(#wGlow)">
           <line x1="100" y1="5" x2="100" y2="195"/><line x1="5" y1="100" x2="195" y2="100"/>
           <line x1="32" y1="32" x2="168" y2="168"/><line x1="168" y1="32" x2="32" y2="168"/>
           <line x1="100" y1="5" x2="100" y2="195" transform="rotate(22.5 100 100)"/>
@@ -6469,23 +6469,23 @@ window.addEventListener('load', () => {
           <line x1="100" y1="5" x2="100" y2="195" transform="rotate(135 100 100)"/>
           <line x1="100" y1="5" x2="100" y2="195" transform="rotate(157.5 100 100)"/>
         </g>
-        <text x="100" y="20" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♈</text>
-        <text x="155" y="42" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♉</text>
-        <text x="185" y="105" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♊</text>
-        <text x="155" y="168" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♋</text>
-        <text x="100" y="195" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♌</text>
-        <text x="45" y="168" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♍</text>
-        <text x="15" y="105" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♎</text>
-        <text x="45" y="42" text-anchor="middle" fill="rgba(201,168,76,0.7)" font-size="10">♏</text>
-        <text x="100" y="38" text-anchor="middle" fill="rgba(201,168,76,0.5)" font-size="8" transform="rotate(135 100 100)">♐</text>
-        <text x="100" y="38" text-anchor="middle" fill="rgba(201,168,76,0.5)" font-size="8" transform="rotate(180 100 100)">♑</text>
-        <text x="100" y="38" text-anchor="middle" fill="rgba(201,168,76,0.5)" font-size="8" transform="rotate(225 100 100)">♒</text>
-        <text x="100" y="38" text-anchor="middle" fill="rgba(201,168,76,0.5)" font-size="8" transform="rotate(270 100 100)">♓</text>
-        <circle cx="100" cy="100" r="30" fill="rgba(201,168,76,0.08)" stroke="rgba(201,168,76,0.4)" stroke-width="1.5"/>
-        <text x="100" y="107" text-anchor="middle" fill="#c9a84c" font-size="18" filter="url(#wGlow)">♀</text>
+        <text x="100" y="20" text-anchor="middle" fill="rgba(155,153,212,0.8)" font-size="10">♈</text>
+        <text x="155" y="42" text-anchor="middle" fill="rgba(155,153,212,0.8)" font-size="10">♉</text>
+        <text x="185" y="105" text-anchor="middle" fill="rgba(155,153,212,0.8)" font-size="10">♊</text>
+        <text x="155" y="168" text-anchor="middle" fill="rgba(155,153,212,0.8)" font-size="10">♋</text>
+        <text x="100" y="195" text-anchor="middle" fill="rgba(155,153,212,0.8)" font-size="10">♌</text>
+        <text x="45" y="168" text-anchor="middle" fill="rgba(155,153,212,0.8)" font-size="10">♍</text>
+        <text x="15" y="105" text-anchor="middle" fill="rgba(155,153,212,0.8)" font-size="10">♎</text>
+        <text x="45" y="42" text-anchor="middle" fill="rgba(155,153,212,0.8)" font-size="10">♏</text>
+        <text x="100" y="38" text-anchor="middle" fill="rgba(155,153,212,0.6)" font-size="8" transform="rotate(135 100 100)">♐</text>
+        <text x="100" y="38" text-anchor="middle" fill="rgba(155,153,212,0.6)" font-size="8" transform="rotate(180 100 100)">♑</text>
+        <text x="100" y="38" text-anchor="middle" fill="rgba(155,153,212,0.6)" font-size="8" transform="rotate(225 100 100)">♒</text>
+        <text x="100" y="38" text-anchor="middle" fill="rgba(155,153,212,0.6)" font-size="8" transform="rotate(270 100 100)">♓</text>
+        <circle cx="100" cy="100" r="30" fill="rgba(155,153,212,0.08)" stroke="rgba(155,153,212,0.5)" stroke-width="1.5"/>
+        <text x="100" y="107" text-anchor="middle" fill="#9B99D4" font-size="18" filter="url(#wGlow)">♀</text>
       </svg>
       <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;">
-        <div style="width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#fff,#c9a84c);box-shadow:0 0 20px #c9a84c,0 0 40px rgba(201,168,76,0.5);animation:westernPulse 2s ease-in-out infinite;"></div>
+        <div style="width:20px;height:20px;border-radius:50%;background:radial-gradient(circle,#fff,#c9a84c);box-shadow:0 0 20px #9B99D4,0 0 40px rgba(155,153,212,0.5);animation:westernPulse 2s ease-in-out infinite;"></div>
       </div>
     </div>
     <div style="text-align:center;margin-bottom:28px;">
