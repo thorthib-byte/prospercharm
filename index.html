@@ -1740,7 +1740,8 @@ function initWesternCandles() {
   const bg = document.getElementById('w-candle-bg');
   if (bg) bg.src = W_CANDLE_IMG.no;
   [1,2,3].forEach(i => { const f = document.getElementById('w-lit-'+i); if (f) f.style.opacity = '0'; });
-  document.getElementById('w-candle-msg').textContent = '';
+  document.getElementById('w-candle-msg').innerHTML = '<span style="color:#c9a84c;font-weight:600;">แตะเทียนทั้ง 3 เล่ม</span>';
+  document.getElementById('w-candle-msg').style.color = '';
   document.getElementById('western-stars').style.opacity = '0';
 }
 
@@ -6420,12 +6421,11 @@ window.addEventListener('load', () => {
   <!-- Stars overlay (โชว์ตอนจุดครบ 3 เล่ม) -->
   <div id="western-stars" style="position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1s;background:radial-gradient(circle at 50% 70%, rgba(255,240,200,0.35), transparent 60%);"></div>
 
-  <!-- หัวข้อด้านบน -->
-  <div style="position:absolute;top:0;left:0;right:0;text-align:center;padding:28px 20px 0;">
-    <div style="font-size:11px;letter-spacing:3px;color:var(--text-mid,#7A6B5D);font-family:'Playfair Display',serif;text-transform:uppercase;">พิธีเปิดคำพยากรณ์</div>
-    <div style="font-size:10px;color:var(--text-light,#B0998A);margin-top:4px;">● ● ● ● ● ○</div>
-    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--brown-dark,#4A3F30);margin-top:14px;">จุดเทียนแห่งโชคชะตา 🕯️</div>
-    <div style="font-size:12px;color:var(--text-mid,#7A6B5D);line-height:1.6;margin-top:4px;"><span style="color:#c9a84c;font-weight:600;">แตะเทียนทั้ง 3 เล่ม</span></div>
+  <!-- หัวข้อ: อยู่ใต้พระจันทร์เสี้ยว -->
+  <div style="position:absolute;top:29%;left:0;right:0;text-align:center;padding:0 20px;">
+    <div style="font-size:11px;letter-spacing:3px;color:var(--text-mid,#7A6B5D);font-family:'Playfair Display',serif;text-transform:uppercase;text-shadow:0 1px 6px rgba(255,250,240,0.85);">พิธีเปิดคำพยากรณ์</div>
+    <div style="font-size:10px;color:var(--text-light,#B0998A);margin-top:4px;text-shadow:0 1px 6px rgba(255,250,240,0.85);">● ● ● ● ● ○</div>
+    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--brown-dark,#4A3F30);margin-top:14px;text-shadow:0 1px 6px rgba(255,250,240,0.85);">จุดเทียนแห่งโชคชะตา 🕯️</div>
   </div>
 
   <!-- Tap zones โปร่งใส ซ้อนตำแหน่งเทียนในภาพ (ซ้าย/กลาง/ขวา) -->
