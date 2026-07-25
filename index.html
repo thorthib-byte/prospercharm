@@ -1660,7 +1660,7 @@ async function syncCreditsToServer() {
 
 // ===== WESTERN SOULMATE CEREMONY =====
 const westernState = { relation:'', intention:'', prayer:'', candlesLit:0, petals:0 };
-const WESTERN_ALL_STEPS = ['western-step2','western-step3','western-step5','western-step6','western-step7','western-result'];
+const WESTERN_ALL_STEPS = ['western-step2','western-step3','western-step5','western-step5b','western-step6','western-step7','western-result'];
 
 function westernGoTo(stepId) {
   WESTERN_ALL_STEPS.forEach(id => {
@@ -1672,6 +1672,7 @@ function westernGoTo(stepId) {
     target.style.display = 'block';
     window.scrollTo(0,0);
     if (stepId === 'western-step5') initWesternCandles();
+    if (stepId === 'western-step5b') startWesternCandleVideo();
     if (stepId === 'western-step6') initRoseCanvas();
     if (stepId === 'western-step7') startWesternLoading();
   }
@@ -1730,27 +1731,46 @@ function westernSealPrayer() {
 
 // ===== CANDLE STEP =====
 let westernCandleCount = 0;
+let westernLitFlags = {1:false, 2:false, 3:false};
+const W_CANDLE_IMG = { no:'images/soulmate/candleno.png', 1:'images/soulmate/candleleft.png', 2:'images/soulmate/candlemiddle.png', 3:'images/soulmate/candleright.png', all:'images/soulmate/candleall.png' };
 function initWesternCandles() {
   westernCandleCount = 0;
   westernState.candlesLit = 0;
-  [1,2,3].forEach(i => {
-    document.getElementById('w-flame-'+i).style.opacity = '0';
-  });
+  westernLitFlags = {1:false, 2:false, 3:false};
+  const bg = document.getElementById('w-candle-bg');
+  if (bg) bg.src = W_CANDLE_IMG.no;
   document.getElementById('w-candle-msg').textContent = '';
   document.getElementById('western-stars').style.opacity = '0';
 }
 
 function lightCandle(idx) {
-  const flame = document.getElementById('w-flame-'+idx);
-  if (flame.style.opacity === '1') return;
-  flame.style.opacity = '1';
+  if (westernLitFlags[idx]) return;
+  westernLitFlags[idx] = true;
   westernCandleCount++;
+  const bg = document.getElementById('w-candle-bg');
+  if (bg) bg.src = westernCandleCount === 3 ? W_CANDLE_IMG.all : W_CANDLE_IMG[idx];
   const msgs = ['เทียนแรกถูกจุดแล้ว... ❤️', 'เทียนที่สองลุกโชน... 🧠', 'เปลวไฟทั้งสามรวมเป็นหนึ่ง ✨'];
   document.getElementById('w-candle-msg').textContent = msgs[westernCandleCount-1];
   document.getElementById('w-candle-msg').style.color = westernCandleCount === 3 ? '#c9a84c' : 'rgba(232,213,163,0.6)';
   if (westernCandleCount === 3) {
     document.getElementById('western-stars').style.opacity = '1';
-    setTimeout(() => westernGoTo('western-step6'), 1800);
+    setTimeout(() => westernGoTo('western-step5b'), 1800);
+  }
+}
+
+// ===== CANDLE VIDEO TRANSITION =====
+function startWesternCandleVideo() {
+  const vid = document.getElementById('w-candle-video');
+  const cap = document.getElementById('w-video-caption');
+  if (cap) { cap.textContent = 'เปลวไฟทั้งสามรวมเป็นหนึ่ง'; cap.style.opacity = '0'; }
+  setTimeout(() => { if (cap) cap.style.opacity = '1'; }, 200);
+  setTimeout(() => { if (cap) cap.style.opacity = '0'; }, 2400);
+  setTimeout(() => { if (cap) { cap.textContent = 'จุดเริ่มต้นของคำตอบกำลังปรากฏ'; cap.style.opacity = '1'; } }, 2900);
+  setTimeout(() => { westernGoTo('western-step6'); }, 5000);
+  if (vid) {
+    vid.currentTime = 0;
+    const playPromise = vid.play();
+    if (playPromise !== undefined) { playPromise.catch(() => {}); }
   }
 }
 
@@ -6392,42 +6412,34 @@ window.addEventListener('load', () => {
 
 <!-- Step 5: จุดเทียน -->
 <div id="western-step5" style="display:none;position:fixed;inset:0;z-index:200;background:var(--cream,#FBF7F2);overflow:hidden;">
-  <div style="max-width:420px;margin:0 auto;padding:32px 20px;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-    <div style="text-align:center;margin-bottom:8px;">
-      <div style="font-size:11px;letter-spacing:3px;color:var(--text-mid,#7A6B5D);font-family:'Playfair Display',serif;text-transform:uppercase;">พิธีเปิดคำพยากรณ์</div>
-      <div style="font-size:10px;color:var(--text-light,#B0998A);margin-top:4px;">● ● ● ● ● ○</div>
-    </div>
-    <div style="text-align:center;margin:24px 0;">
-      <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--brown-dark,#4A3F30);margin-bottom:8px;">จุดเทียนแห่งโชคชะตา 🕯️</div>
-      <div style="font-size:13px;color:var(--text-mid,#7A6B5D);line-height:1.6;">แสงเทียนจะนำทางให้คำอธิษฐาน<br>เดินทางสู่ดวงดาว<br><span style="color:#c9a84c;font-weight:600;">แตะเทียนทั้ง 3 เล่ม</span></div>
-    </div>
-    <!-- 3 candles -->
-    <div style="display:flex;gap:32px;justify-content:center;align-items:flex-end;margin:32px 0;position:relative;">
-      <!-- Stars background -->
-      <div id="western-stars" style="position:absolute;inset:-40px;pointer-events:none;overflow:hidden;border-radius:50%;opacity:0;transition:opacity 1s;"></div>
-      <div class="w-candle-wrap" style="display:flex;flex-direction:column;align-items:center;gap:8px;">
-        <div id="w-candle-1" class="w-candle" data-idx="1" onclick="lightCandle(1)" style="cursor:pointer;">
-          <div class="w-flame" id="w-flame-1" style="opacity:0;"></div>
-          <div class="w-candle-body" style="width:28px;height:80px;background:linear-gradient(180deg,#E8E7F8,#D0CFED);border-radius:4px 4px 2px 2px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>
-        </div>
-        <div style="font-size:11px;color:var(--text-mid,#7A6B5D);text-align:center;line-height:1.3;">❤️<br>หัวใจ</div>
-      </div>
-      <div class="w-candle-wrap" style="display:flex;flex-direction:column;align-items:center;gap:8px;">
-        <div id="w-candle-2" class="w-candle" data-idx="2" onclick="lightCandle(2)" style="cursor:pointer;">
-          <div class="w-flame" id="w-flame-2" style="opacity:0;"></div>
-          <div class="w-candle-body" style="width:28px;height:100px;background:linear-gradient(180deg,#E8E7F8,#D0CFED);border-radius:4px 4px 2px 2px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>
-        </div>
-        <div style="font-size:11px;color:var(--text-mid,#7A6B5D);text-align:center;line-height:1.3;">🧠<br>ปัญญา</div>
-      </div>
-      <div class="w-candle-wrap" style="display:flex;flex-direction:column;align-items:center;gap:8px;">
-        <div id="w-candle-3" class="w-candle" data-idx="3" onclick="lightCandle(3)" style="cursor:pointer;">
-          <div class="w-flame" id="w-flame-3" style="opacity:0;"></div>
-          <div class="w-candle-body" style="width:28px;height:88px;background:linear-gradient(180deg,#E8E7F8,#D0CFED);border-radius:4px 4px 2px 2px;position:relative;box-shadow:0 2px 8px rgba(0,0,0,0.3);"></div>
-        </div>
-        <div style="font-size:11px;color:var(--text-mid,#7A6B5D);text-align:center;line-height:1.3;">✨<br>โชคชะตา</div>
-      </div>
-    </div>
-    <div id="w-candle-msg" style="font-size:13px;color:var(--text-light,#B0998A);text-align:center;min-height:20px;transition:all 0.4s;font-family:'Playfair Display',serif;font-style:italic;"></div>
+  <!-- ภาพฉากเทียนประกอบ สลับตามจำนวนเทียนที่จุด -->
+  <img id="w-candle-bg" src="images/soulmate/candleno.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;">
+  <!-- Stars overlay (โชว์ตอนจุดครบ 3 เล่ม) -->
+  <div id="western-stars" style="position:absolute;inset:0;pointer-events:none;opacity:0;transition:opacity 1s;background:radial-gradient(circle at 50% 70%, rgba(255,240,200,0.35), transparent 60%);"></div>
+
+  <!-- หัวข้อด้านบน -->
+  <div style="position:absolute;top:0;left:0;right:0;text-align:center;padding:28px 20px 0;">
+    <div style="font-size:11px;letter-spacing:3px;color:var(--text-mid,#7A6B5D);font-family:'Playfair Display',serif;text-transform:uppercase;">พิธีเปิดคำพยากรณ์</div>
+    <div style="font-size:10px;color:var(--text-light,#B0998A);margin-top:4px;">● ● ● ● ● ○</div>
+    <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--brown-dark,#4A3F30);margin-top:14px;">จุดเทียนแห่งโชคชะตา 🕯️</div>
+    <div style="font-size:12px;color:var(--text-mid,#7A6B5D);line-height:1.6;margin-top:4px;"><span style="color:#c9a84c;font-weight:600;">แตะเทียนทั้ง 3 เล่ม</span></div>
+  </div>
+
+  <!-- Tap zones โปร่งใส ซ้อนตำแหน่งเทียนในภาพ (ซ้าย/กลาง/ขวา) -->
+  <div onclick="lightCandle(1)" style="position:absolute;left:20%;width:22%;top:60%;height:24%;cursor:pointer;"></div>
+  <div onclick="lightCandle(2)" style="position:absolute;left:40%;width:20%;top:55%;height:29%;cursor:pointer;"></div>
+  <div onclick="lightCandle(3)" style="position:absolute;left:58%;width:22%;top:60%;height:24%;cursor:pointer;"></div>
+
+  <!-- ข้อความสถานะด้านล่าง -->
+  <div id="w-candle-msg" style="position:absolute;left:0;right:0;bottom:8%;text-align:center;padding:0 24px;font-size:14px;color:var(--text-light,#B0998A);min-height:20px;transition:all 0.4s;font-family:'Playfair Display',serif;font-style:italic;text-shadow:0 1px 6px rgba(255,250,240,0.8);"></div>
+</div>
+
+<!-- Step 5b: วิดีโอเปลวไฟรวมเป็นหนึ่ง -->
+<div id="western-step5b" style="display:none;position:fixed;inset:0;z-index:200;background:#000;overflow:hidden;">
+  <video id="w-candle-video" src="images/soulmate/candlemove.mp4" muted playsinline autoplay webkit-playsinline
+    style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:16vh;">
+    <div id="w-video-caption" style="font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:#fff;text-align:center;line-height:1.8;padding:10px 28px;background:rgba(0,0,0,0.35);border-radius:20px;backdrop-filter:blur(4px);text-shadow:0 1px 6px rgba(0,0,0,0.6);opacity:0;transition:opacity 0.8s;max-width:320px;"></div>
   </div>
 </div>
 
