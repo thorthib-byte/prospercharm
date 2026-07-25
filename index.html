@@ -1739,6 +1739,7 @@ function initWesternCandles() {
   westernLitFlags = {1:false, 2:false, 3:false};
   const bg = document.getElementById('w-candle-bg');
   if (bg) bg.src = W_CANDLE_IMG.no;
+  [1,2,3].forEach(i => { const f = document.getElementById('w-flame-'+i); if (f) f.style.opacity = '0'; });
   document.getElementById('w-candle-msg').textContent = '';
   document.getElementById('western-stars').style.opacity = '0';
 }
@@ -1747,12 +1748,14 @@ function lightCandle(idx) {
   if (westernLitFlags[idx]) return;
   westernLitFlags[idx] = true;
   westernCandleCount++;
-  const bg = document.getElementById('w-candle-bg');
-  if (bg) bg.src = westernCandleCount === 3 ? W_CANDLE_IMG.all : W_CANDLE_IMG[idx];
+  const flame = document.getElementById('w-flame-'+idx);
+  if (flame) flame.style.opacity = '1';
   const msgs = ['เทียนแรกถูกจุดแล้ว... ❤️', 'เทียนที่สองลุกโชน... 🧠', 'เปลวไฟทั้งสามรวมเป็นหนึ่ง ✨'];
   document.getElementById('w-candle-msg').textContent = msgs[westernCandleCount-1];
   document.getElementById('w-candle-msg').style.color = westernCandleCount === 3 ? '#c9a84c' : 'rgba(232,213,163,0.6)';
   if (westernCandleCount === 3) {
+    const bg = document.getElementById('w-candle-bg');
+    if (bg) bg.src = W_CANDLE_IMG.all;
     document.getElementById('western-stars').style.opacity = '1';
     setTimeout(() => westernGoTo('western-step5b'), 1800);
   }
@@ -6425,10 +6428,16 @@ window.addEventListener('load', () => {
     <div style="font-size:12px;color:var(--text-mid,#7A6B5D);line-height:1.6;margin-top:4px;"><span style="color:#c9a84c;font-weight:600;">แตะเทียนทั้ง 3 เล่ม</span></div>
   </div>
 
-  <!-- Tap zones โปร่งใส ซ้อนตำแหน่งเทียนในภาพ (ซ้าย/กลาง/ขวา) -->
-  <div onclick="lightCandle(1)" style="position:absolute;left:20%;width:22%;top:60%;height:24%;cursor:pointer;"></div>
-  <div onclick="lightCandle(2)" style="position:absolute;left:40%;width:20%;top:55%;height:29%;cursor:pointer;"></div>
-  <div onclick="lightCandle(3)" style="position:absolute;left:58%;width:22%;top:60%;height:24%;cursor:pointer;"></div>
+  <!-- Tap zones โปร่งใส ซ้อนตำแหน่งเทียนในภาพ (ซ้าย/กลาง/ขวา) + เปลวไฟ CSS ค้างอยู่จนกว่าจะรีเซ็ต -->
+  <div onclick="lightCandle(1)" style="position:absolute;left:20%;width:22%;top:60%;height:24%;cursor:pointer;">
+    <div class="w-flame" id="w-flame-1" style="position:absolute;left:50%;top:-6%;transform:translateX(-50%);opacity:0;"></div>
+  </div>
+  <div onclick="lightCandle(2)" style="position:absolute;left:40%;width:20%;top:55%;height:29%;cursor:pointer;">
+    <div class="w-flame" id="w-flame-2" style="position:absolute;left:50%;top:-6%;transform:translateX(-50%);opacity:0;"></div>
+  </div>
+  <div onclick="lightCandle(3)" style="position:absolute;left:58%;width:22%;top:60%;height:24%;cursor:pointer;">
+    <div class="w-flame" id="w-flame-3" style="position:absolute;left:50%;top:-6%;transform:translateX(-50%);opacity:0;"></div>
+  </div>
 
   <!-- ข้อความสถานะด้านล่าง -->
   <div id="w-candle-msg" style="position:absolute;left:0;right:0;bottom:8%;text-align:center;padding:0 24px;font-size:14px;color:var(--text-light,#B0998A);min-height:20px;transition:all 0.4s;font-family:'Playfair Display',serif;font-style:italic;text-shadow:0 1px 6px rgba(255,250,240,0.8);"></div>
