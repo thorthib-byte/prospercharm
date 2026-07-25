@@ -1755,8 +1755,6 @@ function lightCandle(idx) {
   document.getElementById('w-candle-msg').textContent = msgs[westernCandleCount-1];
   document.getElementById('w-candle-msg').style.color = westernCandleCount === 3 ? '#c9a84c' : 'rgba(232,213,163,0.6)';
   if (westernCandleCount === 3) {
-    const bg = document.getElementById('w-candle-bg');
-    if (bg) bg.src = W_CANDLE_IMG.all;
     document.getElementById('western-stars').style.opacity = '1';
     setTimeout(() => westernGoTo('western-step5b'), 1800);
   }
