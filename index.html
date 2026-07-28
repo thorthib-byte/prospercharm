@@ -5636,10 +5636,25 @@ function resetSoulmate() {
 const CHECKIN_REWARDS = [1, 2, 1, 6, 1, 12, 1];
 const CHECKIN_MAX_COINS = 99;
 function getDayReward(dateStr) {
- const d = new Date(dateStr);
- const dow = d.getDay(); // 0=อา,1=จ,2=อ,3=พ,4=พฤ,5=ศ,6=ส
- const map = [1, 1, 2, 1, 6, 1, 12];
- return map[dow];
+ // ระบบเหรียญที่การันตีผลรวมทั้งเดือน = 99 เป๊ะ ไม่ว่าเดือนจะมี 28/29/30/31 วัน
+ // วันที่ 15 = mega jackpot (+15), ทุกวันที่ 7/14/21/28 = jackpot (+6), วันที่เหลือสลับ +2/+3
+ const [y, m, dNum] = dateStr.split('-').map(Number);
+ const daysInMonth = new Date(y, m, 0).getDate();
+ const MEGA_DAY = 15;
+ const JACKPOT_DAYS = [7, 14, 21, 28];
+ if (dNum === MEGA_DAY) return 15;
+ if (JACKPOT_DAYS.includes(dNum)) return 6;
+
+ const remaining = [];
+ for (let d = 1; d <= daysInMonth; d++) {
+ if (d === MEGA_DAY || JACKPOT_DAYS.includes(d)) continue;
+ remaining.push(d);
+ }
+ const R = remaining.length;
+ const x = 60 - 2 * R; // จำนวนวันที่ต้องได้ +3 (ที่เหลือได้ +2) เพื่อให้รวมพอดี 99
+ const idx = remaining.indexOf(dNum);
+ const getsThree = Math.floor((idx + 1) * x / R) > Math.floor(idx * x / R);
+ return getsThree ? 3 : 2;
 }
 
 function getCurrentMonthKey() {
