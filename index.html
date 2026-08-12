@@ -1663,6 +1663,9 @@ const westernState = { relation:'', intention:'', prayer:'', candlesLit:0, petal
 const WESTERN_ALL_STEPS = ['western-step2','western-step3','western-step5','western-step5b','western-step6','western-step6b','western-step7','western-result'];
 
 function westernGoTo(stepId) {
+  if (stepId !== 'western-step6' && typeof roseAnimId !== 'undefined' && roseAnimId) {
+    cancelAnimationFrame(roseAnimId); roseAnimId = null;
+  }
   WESTERN_ALL_STEPS.forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = 'none';
@@ -1680,11 +1683,13 @@ function westernGoTo(stepId) {
 }
 
 function westernBack() {
+  if (typeof roseAnimId !== 'undefined' && roseAnimId) { cancelAnimationFrame(roseAnimId); roseAnimId = null; }
   WESTERN_ALL_STEPS.forEach(id => { const el = document.getElementById(id); if (el) el.style.display='none'; });
   showSoulmateStep('soulmate-step1');
 }
 
 function westernBackToSoulmate() {
+  if (typeof roseAnimId !== 'undefined' && roseAnimId) { cancelAnimationFrame(roseAnimId); roseAnimId = null; }
   WESTERN_ALL_STEPS.forEach(id => { const el = document.getElementById(id); if (el) el.style.display='none'; });
   showSoulmateStep('soulmate-step0');
 }
@@ -1803,7 +1808,7 @@ function initRoseCanvas() {
 }
 
 let roseLastX = null, roseLastY = null;
-const ROSE_MIN_DIST = 18; // px ต้องลากไกลแค่นี้ถึงจะนับกลีบใหม่
+const ROSE_MIN_DIST = 30; // px ต้องลากไกลแค่นี้ถึงจะนับกลีบใหม่
 
 function roseTouch(e) { e.preventDefault(); const t = e.touches[0]; roseTrySpawn(t.clientX, t.clientY - document.getElementById('western-step6').getBoundingClientRect().top); }
 function roseMouse(e) { if (e.buttons > 0) roseTrySpawn(e.offsetX, e.offsetY); }
