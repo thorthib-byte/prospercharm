@@ -281,6 +281,30 @@
 <div class="app">
   <div class="toast" id="toast"></div>
 
+  <!-- BOTTOM NAV BAR — โชว์เฉพาะหน้าฐาน (หน้าแรก, แพ็กเกจ) -->
+  <div id="bottom-nav" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:500;background:rgba(253,250,246,0.8);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid rgba(180,160,130,0.25);padding:8px 6px max(8px,env(safe-area-inset-bottom,8px));justify-content:space-around;align-items:center;">
+    <div class="bnav-item" data-nav="home" onclick="goTo('page-home')" style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;cursor:pointer;padding:4px 0;">
+      <i data-lucide="home" class="li" style="width:20px;height:20px;"></i>
+      <span style="font-size:10px;font-family:'Noto Sans Thai',sans-serif;">หน้าแรก</span>
+    </div>
+    <div class="bnav-item" data-nav="shop" onclick="window.open('https://shopee.co.th/prospercharm','_blank')" style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;cursor:pointer;padding:4px 0;">
+      <i data-lucide="shopping-bag" class="li" style="width:20px;height:20px;"></i>
+      <span style="font-size:10px;font-family:'Noto Sans Thai',sans-serif;">ร้านค้า</span>
+    </div>
+    <div class="bnav-item" data-nav="checkin" onclick="openCheckin()" style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;cursor:pointer;padding:4px 0;">
+      <i data-lucide="calendar-check" class="li" style="width:20px;height:20px;"></i>
+      <span style="font-size:10px;font-family:'Noto Sans Thai',sans-serif;">เช็คอิน</span>
+    </div>
+    <div class="bnav-item" data-nav="pricing" onclick="goTo('page-pricing')" style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;cursor:pointer;padding:4px 0;">
+      <i data-lucide="gem" class="li" style="width:20px;height:20px;"></i>
+      <span style="font-size:10px;font-family:'Noto Sans Thai',sans-serif;">แพ็กเกจ</span>
+    </div>
+    <div class="bnav-item" data-nav="profile" onclick="showProfilePopup(true)" style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;cursor:pointer;padding:4px 0;">
+      <i data-lucide="user" class="li" style="width:20px;height:20px;"></i>
+      <span style="font-size:10px;font-family:'Noto Sans Thai',sans-serif;">โปรไฟล์</span>
+    </div>
+  </div>
+
   <!-- HOME -->
   <div class="page active" id="page-home">
     <div class="header">
@@ -295,6 +319,7 @@
         <button class="upgrade-link" onclick="goTo('page-pricing')">สมัครแพ็กเกจ →</button>
       </div>
     </div>
+    <div style="padding-bottom:64px;"></div>
 
   <!-- DAILY CHECK-IN MODAL -->
   <div id="checkin-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;align-items:flex-end;justify-content:center;">
@@ -2777,9 +2802,21 @@ function goTo(pageId){
  document.getElementById(pageId).classList.add('active');
  liRefresh(document.getElementById(pageId));
  window.scrollTo(0,0);
+ updateBottomNav(pageId);
  const type=pageId.replace('page-','');
  if(['siam','tarot','energy','soulmate'].includes(type)) showCreditsBar(type);
  if(pageId === 'page-daily') onEnterDailyPage();
+}
+function updateBottomNav(pageId) {
+ const nav = document.getElementById('bottom-nav');
+ if (!nav) return;
+ const BASE_PAGES = ['page-home','page-pricing'];
+ nav.style.display = BASE_PAGES.includes(pageId) ? 'flex' : 'none';
+ document.querySelectorAll('.bnav-item').forEach(el => el.style.color = '');
+ const activeKey = pageId === 'page-home' ? 'home' : (pageId === 'page-pricing' ? 'pricing' : null);
+ document.querySelectorAll('.bnav-item').forEach(el => {
+ el.style.color = (el.dataset.nav === activeKey) ? '#c9a84c' : 'var(--text-mid,#7A6B5D)';
+ });
 }
 function showCreditsBar(type){
  const bar = document.getElementById(type+'-credits-bar');
@@ -6331,6 +6368,8 @@ window.addEventListener('load', () => {
   window.addEventListener('load', () => { if (window.lucide) lucide.createIcons(); });
  // Init check-in button
  initCheckinBtn();
+ // Init bottom nav (เริ่มที่หน้าแรก)
+ updateBottomNav('page-home');
  // Handle URL hash
  handleHash();
  // Handle ?dev=true param — ต้องทำก่อน syncCoinsFromServer เพื่อกัน server data ทับ
