@@ -1708,18 +1708,23 @@ function westernGoTo(stepId) {
     if (stepId === 'western-step6') initRoseCanvas();
     if (stepId === 'western-step6b') startRosewallVideo();
     if (stepId === 'western-step7') startWesternLoading();
+    if (typeof showBottomNavOverride === 'function') {
+      if (stepId === 'western-result') showBottomNavOverride(); else hideBottomNavOverride();
+    }
   }
 }
 
 function westernBack() {
   if (typeof roseAnimId !== 'undefined' && roseAnimId) { cancelAnimationFrame(roseAnimId); roseAnimId = null; }
   WESTERN_ALL_STEPS.forEach(id => { const el = document.getElementById(id); if (el) el.style.display='none'; });
+  hideBottomNavOverride();
   showSoulmateStep('soulmate-step1');
 }
 
 function westernBackToSoulmate() {
   if (typeof roseAnimId !== 'undefined' && roseAnimId) { cancelAnimationFrame(roseAnimId); roseAnimId = null; }
   WESTERN_ALL_STEPS.forEach(id => { const el = document.getElementById(id); if (el) el.style.display='none'; });
+  hideBottomNavOverride();
   showSoulmateStep('soulmate-step0');
 }
 
@@ -2571,6 +2576,7 @@ function tapCrystalBall() {
  document.getElementById('daily-step2').style.display = 'block';
  setDailyHeader(true);
  document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ดวงของคุณวันนี้';
+ showBottomNavOverride();
  window.scrollTo(0,0);
  }, remain);
  };
@@ -2634,11 +2640,13 @@ function generateDaily(dob, topic, deferDisplay) {
  document.getElementById('daily-step16').style.display = 'none';
  document.getElementById('daily-step2').style.display = 'block';
  document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ดวงของคุณวันนี้';
+ showBottomNavOverride();
  window.scrollTo(0,0);
 }
 
 function dailyBackToTopics() {
  document.getElementById('daily-step2').style.display = 'none';
+ hideBottomNavOverride();
  showDailyTopicSelect();
 }
 
@@ -2651,6 +2659,7 @@ function resetDaily() {
  document.getElementById('daily-step17').style.display = 'none';
  document.body.style.overflow = '';
  document.getElementById('daily-step2').style.display = 'none';
+ hideBottomNavOverride();
  document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ดวงรายวัน';
  // clear saved profile
  localStorage.removeItem('pc_daily_profile');
@@ -2817,6 +2826,18 @@ function updateBottomNav(pageId) {
  document.querySelectorAll('.bnav-item').forEach(el => {
  el.style.color = (el.dataset.nav === activeKey) ? '#c9a84c' : 'var(--text-mid,#7A6B5D)';
  });
+}
+// โชว์/ซ่อนแถบเมนูล่างตอนอยู่หน้าผลลัพธ์ของแต่ละ section (ไม่ใช่หน้าฐาน แต่เป็นผลลัพธ์ที่ทำเสร็จแล้ว)
+function showBottomNavOverride() {
+ const nav = document.getElementById('bottom-nav');
+ if (!nav) return;
+ nav.style.display = 'flex';
+ document.querySelectorAll('.bnav-item').forEach(el => el.style.color = 'var(--text-mid,#7A6B5D)');
+}
+function hideBottomNavOverride() {
+ const nav = document.getElementById('bottom-nav');
+ if (!nav) return;
+ nav.style.display = 'none';
 }
 function showCreditsBar(type){
  const bar = document.getElementById(type+'-credits-bar');
@@ -3382,6 +3403,7 @@ function tarotBackToTopic() {
 
 function resetTarot() {
  document.getElementById('tarot-result').classList.remove('show');
+ hideBottomNavOverride();
  document.getElementById('tarot-step0').style.display = 'block';
  document.getElementById('tarot-step1').style.display = 'none';
  document.getElementById('tarot-step2').style.display = 'none';
@@ -3394,7 +3416,7 @@ function resetTarot() {
 }
 const siamData={1:{title:"ซีกมงคลที่หนึ่ง — มังกรทองพุ่งฟ้า",text:"ดวงชะตากำลังพุ่งสูงดั่งมังกรทอง สิ่งที่หวังจะสำเร็จได้ไม่ยาก โชคลาภกำลังเข้ามา",advice:"เหมาะแก่การเริ่มต้นสิ่งใหม่ ลงมือทำได้เลย ผลจะดีกว่าที่คาด"},2:{title:"ซีกมงคลที่สอง — ดอกบัวบานในบึง",text:"แม้อยู่ในสถานการณ์ท้าทาย แต่จะผ่านพ้นไปได้อย่างงดงาม",advice:"อย่าหยุดนิ่งแม้อุปสรรคจะมากมาย ความพยายามจะส่งผลในระยะยาว"},3:{title:"ซีกมงคลที่สาม — ดาวสามดวงส่องสว่าง",text:"มีผู้คนคอยช่วยเหลือสนับสนุนอยู่เสมอ มิตรภาพเป็นพลังสำคัญ",advice:"เปิดใจรับความช่วยเหลือ อย่าลืมตอบแทนน้ำใจด้วยความจริงใจ"},4:{title:"ซีกมงคลที่สี่ — ลมอ่อนพัดใบไม้",text:"เป็นเวลาแห่งการพักผ่อนสะสมพลัง ไม่จำเป็นต้องเร่งรีบ",advice:"ทบทวนตัวเอง วางแผนให้รอบคอบก่อนลงมือ ผลจะดีกว่าการรีบร้อน"},5:{title:"ซีกมงคลที่ห้า — เมฆหมอกกลายเป็นรุ้ง",text:"หลังช่วงยากลำบาก แสงสว่างกำลังจะมาถึง สิ่งที่รอคอยใกล้จะเป็นจริง",advice:"อดทนอีกเพียงเล็กน้อย ความสำเร็จอยู่แค่เอื้อม อย่าถอดใจ"},6:{title:"ซีกมงคลที่หก — น้ำใสไหลรินไม่หยุด",text:"โชคลาภและรายได้จะไหลเข้ามาอย่างต่อเนื่อง การงานราบรื่น",advice:"ช่วงดีสำหรับลงทุนหรือเริ่มโครงการใหม่ บริหารจัดการให้รอบคอบ"},7:{title:"ซีกมงคลที่เจ็ด — เจ็ดดาวมงคลนำทาง",text:"สติปัญญาและการตัดสินใจจะคมชัดเป็นพิเศษในช่วงนี้",advice:"เชื่อใจสัญชาตญาณ การตัดสินใจสำคัญในช่วงนี้มักถูกต้อง"},8:{title:"ซีกมงคลที่แปด — แปดทิศแห่งความเจริญ",text:"แปดคือเลขมงคลแห่งความเจริญรุ่งเรือง ดวงส่งสัญญาณแห่งความมั่งคั่ง",advice:"เหมาะแก่การทำธุรกิจ เจรจาต่อรอง โอกาสอยู่ตรงหน้า"},9:{title:"ซีกมงคลที่เก้า — มังกรเก้าองค์คุ้มครอง",text:"ได้รับการคุ้มครองจากสิ่งศักดิ์สิทธิ์ ภัยพิบัติจะเบี่ยงหลีก ชีวิตราบรื่น",advice:"ทำบุญกุศลเพื่อเสริมดวง พลังงานดีๆ จะตอบแทนกลับมาหลายเท่า"},10:{title:"ซีกมงคลที่สิบ — ครบบริบูรณ์",text:"สิบคือความสมบูรณ์ ชีวิตในทุกด้านกำลังเข้าสู่ความสมดุลที่ดี",advice:"ขอบคุณในสิ่งที่มี และแบ่งปันความดีให้ผู้อื่น"}};
 function getSiamNumber(dob){const today=new Date();const seed=dob.replace(/-/g,'')+today.toISOString().slice(0,10).replace(/-/g,'');let h=0;for(let c of seed)h=((h<<5)-h)+c.charCodeAt(0);return Math.abs(h%10)+1;}
-function drawSiam(){const _p=loadUserProfile();const dob=(_p&&_p.dob)?_p.dob:null;if(!dob){alert('กรุณากรอกข้อมูลโปรไฟล์ก่อนนะคะ');showProfilePopup(false);return;}if(userState.plan==='free'||userState.credits<=0){showPaymentPrompt('siam');return;}document.getElementById('siam-result').classList.remove('show');setTimeout(()=>{useCredit();const n=getSiamNumber(dob);const d=siamData[n];document.getElementById('siam-number').textContent=n;document.getElementById('siam-title').textContent=d.title;document.getElementById('siam-text').textContent=d.text;document.getElementById('siam-advice').textContent=d.advice;document.getElementById('siam-result').classList.add('show');showPageHeader('page-siam');showCreditsBar('siam');document.getElementById('siam-result').scrollIntoView({behavior:'smooth',block:'start'});},500);}
+function drawSiam(){const _p=loadUserProfile();const dob=(_p&&_p.dob)?_p.dob:null;if(!dob){alert('กรุณากรอกข้อมูลโปรไฟล์ก่อนนะคะ');showProfilePopup(false);return;}if(userState.plan==='free'||userState.credits<=0){showPaymentPrompt('siam');return;}document.getElementById('siam-result').classList.remove('show');setTimeout(()=>{useCredit();const n=getSiamNumber(dob);const d=siamData[n];document.getElementById('siam-number').textContent=n;document.getElementById('siam-title').textContent=d.title;document.getElementById('siam-text').textContent=d.text;document.getElementById('siam-advice').textContent=d.advice;document.getElementById('siam-result').classList.add('show');showBottomNavOverride();showPageHeader('page-siam');showCreditsBar('siam');document.getElementById('siam-result').scrollIntoView({behavior:'smooth',block:'start'});},500);}
 const tarotData={love:[{emoji:'',title:'The Lovers — คู่รักแห่งดวงดาว',text:'ความรักกำลังเบ่งบาน ถ้ามีคู่แล้วความสัมพันธ์จะแข็งแกร่งขึ้น ถ้าโสดอาจพบคนที่ใช่',advice:'เปิดใจรับความรักอย่างกล้าหาญ อย่ากลัวแสดงความรู้สึกที่แท้จริง'},{emoji:'',title:'The Moon — แสงจันทร์แห่งความลึก',text:'มีบางเรื่องในความสัมพันธ์ที่ยังคลุมเครือ ควรสื่อสารให้ชัดเจนขึ้น',advice:'พูดคุยกันด้วยใจเปิดกว้าง ความเข้าใจแท้จริงจะทำให้ความสัมพันธ์มั่นคง'},{emoji:'⭐',title:'The Star — ดาวนำทางแห่งความหวัง',text:'ความรักที่แท้จริงกำลังรอท่านอยู่ ไม่ว่าผ่านอะไรมา ความหวังยังสว่างไสว',advice:'วางใจในจังหวะของชีวิต สิ่งดีๆ กำลังเดินทางมาหาท่าน'}],work:[{emoji:'',title:'The Emperor — จักรพรรดิแห่งความสำเร็จ',text:'มีความสามารถในการนำและตัดสินใจที่แข็งแกร่ง เหมาะแก่การแสดงศักยภาพ',advice:'ก้าวออกมานำหน้า แสดงความสามารถให้ผู้ใหญ่มองเห็น'},{emoji:'',title:'The Chariot — รถศึกแห่งชัยชนะ',text:'ชัยชนะอยู่ตรงหน้า แม้มีอุปสรรค ถ้าไม่ยอมแพ้จะประสบความสำเร็จ',advice:'มุ่งหน้าต่อด้วยความมั่นใจ อย่าให้สิ่งรอบข้างมาเบี่ยงความสนใจ'},{emoji:'',title:'The Hermit — ฤๅษีผู้รอบรู้',text:'เป็นเวลาของการเรียนรู้และพัฒนาตัวเอง ความรู้ที่สะสมจะกลายเป็นอาวุธ',advice:'ลงทุนกับการพัฒนาทักษะ เรียนรู้สิ่งใหม่ ผลจะปรากฏในอนาคตอันใกล้'}],money:[{emoji:'',title:'Ace of Pentacles — เหรียญแห่งโชคลาภ',text:'โอกาสทางการเงินกำลังเปิดออก อาจมีรายได้ใหม่หรือโอกาสลงทุนที่ดีเข้ามา',advice:'ตรวจสอบโอกาสด้วยสติ ศึกษาให้ถ่องแท้ก่อนตัดสินใจ'},{emoji:'',title:'The Wheel — วงล้อแห่งชะตา',text:'การเงินอยู่ในช่วงเปลี่ยนแปลง มีทั้งขึ้นและลง แต่แนวโน้มโดยรวมดีขึ้น',advice:'สำรองเงินไว้บ้าง แต่อย่ากลัวจนเกินไป โอกาสที่ดีกำลังใกล้เข้ามา'},{emoji:'',title:'The Sun — ดวงอาทิตย์แห่งความรุ่งโรจน์',text:'การเงินสว่างไสว รายได้มั่นคง อาจมีโบนัสหรือรายได้พิเศษเข้ามา',advice:'ใช้ช่วงเวลาดีนี้วางรากฐานทางการเงินระยะยาว ออมและลงทุนอย่างชาญฉลาด'}],health:[{emoji:'🌸',title:'Temperance — ความสมดุลแห่งชีวิต',text:'ร่างกายและจิตใจต้องการความสมดุล ดูแลตัวเองทั้งสองด้านให้ดี',advice:'นอนหลับพักผ่อนให้เพียงพอ รับประทานอาหารดี หาเวลาผ่อนคลาย'},{emoji:'',title:'Strength — พลังแห่งจิตใจ',text:'มีพลังและความแข็งแกร่งมากกว่าที่คิด สุขภาพกายดี แต่ต้องดูแลสุขภาพจิตด้วย',advice:'ออกกำลังกายสม่ำเสมอ หาวิธีจัดการความเครียดที่เหมาะกับตัวเอง'},{emoji:'',title:'The World — โลกแห่งความสมบูรณ์',text:'สุขภาพโดยรวมอยู่ในเกณฑ์ดี ร่างกายกำลังฟื้นฟูและแข็งแรงขึ้น',advice:'รักษาสมดุลชีวิต อย่าทำงานหักโหมเกินไป จิตใจผ่อนคลายสร้างสุขภาพดี'}]};
 function getTarotIndex(dob,topic){const today=new Date();const seed=dob+topic+today.toISOString().slice(0,10);let h=0;for(let c of seed)h=((h<<5)-h)+c.charCodeAt(0);return Math.abs(h)%3;}
 function drawTarot(){
@@ -3442,6 +3464,7 @@ function drawTarot(){
  document.getElementById('tarot-luck-label').textContent = '✦ คำแนะนำ';
  document.getElementById('tarot-advice').textContent = advice;
  document.getElementById('tarot-result').classList.add('show');
+ showBottomNavOverride();
  showPageHeader('page-tarot');
  showCreditsBar('tarot');
  document.getElementById('tarot-result').scrollIntoView({behavior:'smooth',block:'start'});
@@ -4039,6 +4062,7 @@ function resetEnergyFull() {
  const el = document.getElementById(id);
  if (el) el.style.display = 'none';
  });
+ hideBottomNavOverride();
  document.getElementById('energy-step1').style.display = 'block';
  showPageHeader('page-energy');
  // dob from profile, no clear needed
@@ -4211,6 +4235,7 @@ function showEnergyResult(dob) {
  useCredit();
  document.getElementById('energy-step2').style.display = 'none';
  document.getElementById('energy-step3').style.display = 'block';
+ showBottomNavOverride();
  showPageHeader('page-energy');
  window.scrollTo(0, 0);
 
@@ -4256,6 +4281,7 @@ function resetEnergy() {
  const el = document.getElementById(id);
  if (el) el.style.display = 'none';
  });
+ hideBottomNavOverride();
  document.getElementById('energy-step1').style.display = 'block';
  document.getElementById('page-energy').style.background = '';
  // dob from profile, no clear needed
@@ -4642,6 +4668,7 @@ function showSoulmateResult() {
  if (header) header.style.display = 'flex';
  useCredit();
  showSoulmateStep('soulmate-step6');
+ showBottomNavOverride();
 
  const dob1 = new Date(soulmateState.dob1);
  const dob2 = new Date(soulmateState.dob2);
@@ -5614,6 +5641,7 @@ function inGenerateResult() {
  showPageHeader('page-soulmate');
  showCreditsBar('soulmate');
  showSoulmateStep('in-step5');
+ showBottomNavOverride();
 }
 
 function resetInFlow() {
@@ -5650,6 +5678,7 @@ function resetInFlow() {
 const t1 = document.getElementById('in-time1'); if (t1) t1.value = '';
  const t2 = document.getElementById('in-time2'); if (t2) t2.value = '';
  showSoulmateStep('in-step1');
+ hideBottomNavOverride();
 }
 
 // ===== END INDIAN SCIENCE =====
@@ -5694,6 +5723,7 @@ function drawSoulmate() {
  document.getElementById('soulmate-advice').textContent = d.advice;
  document.getElementById('soulmate-loading').classList.remove('show');
  document.getElementById('soulmate-result').classList.add('show');
+ showBottomNavOverride();
  showPageHeader('page-soulmate');
  showCreditsBar('soulmate');
  showCreditsBar('soulmate');
@@ -5722,6 +5752,7 @@ function resetSoulmate() {
  if (elemBtn) elemBtn.disabled = true;
  // reset result
  document.getElementById('soulmate-result').classList.remove('show');
+ hideBottomNavOverride();
  showSoulmateStep('soulmate-step0');
  showPageHeader('page-soulmate');
  showCreditsBar('soulmate');
@@ -6128,6 +6159,7 @@ function updateShakeUI() {
 
 function resetSiam() {
  document.getElementById('siam-result').classList.remove('show');
+ hideBottomNavOverride();
  document.getElementById('siam-step0').style.display = 'block';
  document.getElementById('siam-step1').style.display = 'none';
  document.getElementById('siam-step2').style.display = 'none';
@@ -6282,6 +6314,7 @@ function openSeal(el, idx) {
 function showNagaResult() {
  useCredit();
  showNagaStep('naga-step6');
+ showBottomNavOverride();
  const n = (nagaData.mainNum && !isNaN(nagaData.mainNum)) ? nagaData.mainNum : 1;
  document.getElementById('naga-main-num').textContent = n;
  document.getElementById('naga-main-desc').textContent = energyMeanings[n] || '';
