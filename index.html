@@ -1779,6 +1779,12 @@ function startWesternCandleVideo() {
 // ===== ROSE PETAL CANVAS =====
 let roseCtx, rosePetals = [], roseAnimId, roseCount = 0;
 const ROSE_TARGET = 50;
+const ROSE_PETAL_IMGS = [];
+for (let i = 1; i <= 20; i++) {
+  const img = new Image();
+  img.src = 'images/soulmate/R_' + String(i).padStart(2,'0') + '.png';
+  ROSE_PETAL_IMGS.push(img);
+}
 
 function initRoseCanvas() {
   roseCount = 0; rosePetals = [];
@@ -1786,23 +1792,10 @@ function initRoseCanvas() {
   const canvas = document.getElementById('western-rose-canvas');
   canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
   roseCtx = canvas.getContext('2d');
-  // Draw zodiac ring in center
-  drawZodiacRing();
   // Touch/mouse events
   canvas.addEventListener('touchmove', roseTouch, {passive:false});
   canvas.addEventListener('mousemove', roseMouse);
   roseAnimate();
-}
-
-function drawZodiacRing() {
-  const canvas = document.getElementById('western-rose-canvas');
-  const cx = canvas.width/2, cy = canvas.height/2, r = Math.min(cx,cy)*0.4;
-  roseCtx.strokeStyle = 'rgba(201,168,76,0.3)'; roseCtx.lineWidth = 1.5;
-  roseCtx.beginPath(); roseCtx.arc(cx,cy,r,0,Math.PI*2); roseCtx.stroke();
-  roseCtx.beginPath(); roseCtx.arc(cx,cy,r*0.65,0,Math.PI*2); roseCtx.stroke();
-  roseCtx.fillStyle = 'rgba(201,168,76,0.6)'; roseCtx.font = '18px serif';
-  roseCtx.textAlign = 'center'; roseCtx.textBaseline = 'middle';
-  roseCtx.fillText('♀', cx, cy);
 }
 
 function roseTouch(e) { e.preventDefault(); const t = e.touches[0]; spawnPetal(t.clientX, t.clientY - document.getElementById('western-step6').getBoundingClientRect().top); }
@@ -1810,7 +1803,8 @@ function roseMouse(e) { if (e.buttons > 0) spawnPetal(e.offsetX, e.offsetY); }
 
 function spawnPetal(x, y) {
   if (rosePetals.length > 120) return;
-  rosePetals.push({ x, y, vx:(Math.random()-0.5)*2, vy:Math.random()*2+0.5, rot:Math.random()*360, rotV:(Math.random()-0.5)*8, alpha:1, size:8+Math.random()*10, hue: Math.random()*30+340 });
+  const img = ROSE_PETAL_IMGS[Math.floor(Math.random()*ROSE_PETAL_IMGS.length)];
+  rosePetals.push({ x, y, vx:(Math.random()-0.5)*2, vy:Math.random()*2+0.5, rot:Math.random()*360, rotV:(Math.random()-0.5)*8, alpha:1, size:22+Math.random()*20, img });
   roseCount = Math.min(roseCount+1, ROSE_TARGET);
   const pct = roseCount/ROSE_TARGET*100;
   document.getElementById('w-petal-progress').style.width = pct+'%';
@@ -1826,13 +1820,13 @@ function roseAnimate() {
   const canvas = document.getElementById('western-rose-canvas');
   if (!canvas || !roseCtx) return;
   roseCtx.clearRect(0,0,canvas.width,canvas.height);
-  drawZodiacRing();
   rosePetals = rosePetals.filter(p => p.alpha > 0.01);
   rosePetals.forEach(p => {
     p.x += p.vx; p.y += p.vy; p.vy += 0.05; p.rot += p.rotV; p.alpha *= 0.985;
     roseCtx.save(); roseCtx.globalAlpha = p.alpha; roseCtx.translate(p.x,p.y); roseCtx.rotate(p.rot*Math.PI/180);
-    roseCtx.fillStyle = `hsla(${p.hue},80%,60%,${p.alpha})`;
-    roseCtx.beginPath(); roseCtx.ellipse(0,0,p.size,p.size*0.6,0,0,Math.PI*2); roseCtx.fill();
+    if (p.img && p.img.complete && p.img.naturalWidth > 0) {
+      roseCtx.drawImage(p.img, -p.size/2, -p.size/2, p.size, p.size);
+    }
     roseCtx.restore();
   });
 }
@@ -6466,19 +6460,22 @@ window.addEventListener('load', () => {
 
 <!-- Step 6: โปรยกลีบกุหลาบ -->
 <div id="western-step6" style="display:none;position:fixed;inset:0;z-index:200;background:var(--cream,#FBF7F2);overflow:hidden;">
-  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;">
-    <div style="text-align:center;z-index:2;position:relative;pointer-events:none;">
-      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--brown-dark,#4A3F30);margin-bottom:6px;">โปรยกลีบกุหลาบ 🌹</div>
-      <div id="w-petal-msg" style="font-size:13px;color:var(--text-mid,#7A6B5D);line-height:1.6;">ลากนิ้วเพื่อโปรยกลีบกุหลาบ<br>เปิดประตูแห่งหัวใจ</div>
+  <img id="w-rose-bg" src="images/soulmate/rosewall.png" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;">
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;">
+    <div style="text-align:center;z-index:2;position:relative;pointer-events:none;margin-top:34%;padding:0 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--brown-dark,#4A3F30);margin-bottom:6px;text-shadow:0 1px 6px rgba(255,250,240,0.85);">โปรยกลีบกุหลาบ 🌹</div>
+      <div id="w-petal-msg" style="font-size:13px;color:var(--text-mid,#7A6B5D);line-height:1.6;text-shadow:0 1px 6px rgba(255,250,240,0.85);">ลากนิ้วเพื่อโปรยกลีบกุหลาบ<br>เปิดประตูแห่งหัวใจ</div>
     </div>
     <canvas id="western-rose-canvas" style="position:absolute;inset:0;width:100%;height:100%;touch-action:none;"></canvas>
     <!-- Progress indicator -->
-    <div style="position:absolute;bottom:48px;left:50%;transform:translateX(-50%);text-align:center;z-index:2;pointer-events:none;">
-      <div style="width:200px;height:4px;background:rgba(201,168,76,0.1);border-radius:2px;overflow:hidden;">
-        <div id="w-petal-progress" style="height:100%;width:0%;background:#9B99D4;border-radius:2px;transition:width 0.3s;"></div>
+    <div style="position:absolute;bottom:48px;left:50%;transform:translateX(-50%);text-align:center;z-index:2;pointer-events:none;display:flex;align-items:center;gap:8px;">
+      <span style="font-size:14px;">🌹</span>
+      <div style="width:170px;height:6px;background:rgba(214,143,160,0.15);border-radius:3px;overflow:hidden;">
+        <div id="w-petal-progress" style="height:100%;width:0%;background:linear-gradient(90deg,#e8a5b5,#c9a84c);border-radius:3px;transition:width 0.3s;"></div>
       </div>
-      <div id="w-petal-count-text" style="font-size:11px;color:var(--text-light,#B0998A);margin-top:6px;letter-spacing:1px;">0 / 50 กลีบ</div>
+      <span style="font-size:14px;">🌹</span>
     </div>
+    <div id="w-petal-count-text" style="position:absolute;bottom:26px;left:0;right:0;text-align:center;font-size:11px;color:var(--text-light,#B0998A);letter-spacing:1px;z-index:2;pointer-events:none;">0 / 50 กลีบ</div>
   </div>
 </div>
 
