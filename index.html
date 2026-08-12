@@ -1789,6 +1789,7 @@ for (let i = 1; i <= 20; i++) {
 
 function initRoseCanvas() {
   roseCount = 0; rosePetals = [];
+  roseLastX = null; roseLastY = null;
   if (roseAnimId) cancelAnimationFrame(roseAnimId);
   const canvas = document.getElementById('western-rose-canvas');
   canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
@@ -1801,8 +1802,20 @@ function initRoseCanvas() {
   roseAnimate();
 }
 
-function roseTouch(e) { e.preventDefault(); const t = e.touches[0]; spawnPetal(t.clientX, t.clientY - document.getElementById('western-step6').getBoundingClientRect().top); }
-function roseMouse(e) { if (e.buttons > 0) spawnPetal(e.offsetX, e.offsetY); }
+let roseLastX = null, roseLastY = null;
+const ROSE_MIN_DIST = 18; // px ต้องลากไกลแค่นี้ถึงจะนับกลีบใหม่
+
+function roseTouch(e) { e.preventDefault(); const t = e.touches[0]; roseTrySpawn(t.clientX, t.clientY - document.getElementById('western-step6').getBoundingClientRect().top); }
+function roseMouse(e) { if (e.buttons > 0) roseTrySpawn(e.offsetX, e.offsetY); }
+
+function roseTrySpawn(x, y) {
+  if (roseLastX !== null) {
+    const dist = Math.hypot(x - roseLastX, y - roseLastY);
+    if (dist < ROSE_MIN_DIST) return;
+  }
+  roseLastX = x; roseLastY = y;
+  spawnPetal(x, y);
+}
 
 function spawnPetal(x, y) {
   if (rosePetals.length > 120) return;
@@ -1814,6 +1827,7 @@ function spawnPetal(x, y) {
   document.getElementById('w-petal-count-text').textContent = roseCount+' / '+ROSE_TARGET+' กลีบ';
   if (roseCount >= ROSE_TARGET && document.getElementById('w-petal-msg')) {
     document.getElementById('w-petal-msg').textContent = 'วงจักรราศีกำลังหมุน... ✨';
+    if (roseAnimId) { cancelAnimationFrame(roseAnimId); roseAnimId = null; }
     westernGoTo('western-step6b');
   }
 }
