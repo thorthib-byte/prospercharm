@@ -2810,12 +2810,12 @@ function goTo(pageId){
  // เคลียร์จอพิธีตะวันตก (fixed overlay แยกต่างหาก ไม่ใช่ .page ปกติ) กันค้างซ้อนทับ
  if (typeof WESTERN_ALL_STEPS !== 'undefined') {
    if (typeof roseAnimId !== 'undefined' && roseAnimId) { cancelAnimationFrame(roseAnimId); roseAnimId = null; }
+   const VIS_STEPS_CLEANUP = ['western-step6b','western-step7']; // ต้องคง display:block ไว้เพื่อให้วิดีโอ preload ได้
    WESTERN_ALL_STEPS.forEach(id => {
      const el = document.getElementById(id);
      if (!el) return;
-     el.style.display = 'none';
-     el.style.visibility = 'hidden';
-     el.style.pointerEvents = 'none';
+     if (VIS_STEPS_CLEANUP.includes(id)) { el.style.visibility = 'hidden'; el.style.pointerEvents = 'none'; }
+     else { el.style.display = 'none'; }
    });
  }
  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
