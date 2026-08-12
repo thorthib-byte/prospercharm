@@ -2807,6 +2807,17 @@ function goTo(pageId){
  else if (oldType === 'tarot') resetTarot();
  else if (oldType === 'soulmate') resetSoulmate();
  }
+ // เคลียร์จอพิธีตะวันตก (fixed overlay แยกต่างหาก ไม่ใช่ .page ปกติ) กันค้างซ้อนทับ
+ if (typeof WESTERN_ALL_STEPS !== 'undefined') {
+   if (typeof roseAnimId !== 'undefined' && roseAnimId) { cancelAnimationFrame(roseAnimId); roseAnimId = null; }
+   WESTERN_ALL_STEPS.forEach(id => {
+     const el = document.getElementById(id);
+     if (!el) return;
+     el.style.display = 'none';
+     el.style.visibility = 'hidden';
+     el.style.pointerEvents = 'none';
+   });
+ }
  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
  document.getElementById(pageId).classList.add('active');
  liRefresh(document.getElementById(pageId));
