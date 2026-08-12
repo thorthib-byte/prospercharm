@@ -1793,6 +1793,8 @@ function initRoseCanvas() {
   const canvas = document.getElementById('western-rose-canvas');
   canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
   roseCtx = canvas.getContext('2d');
+  // เริ่มโหลดวิดีโอถัดไปล่วงหน้า ให้มีเวลาบัฟเฟอร์ก่อนจะถูกเล่นจริง
+  preloadWesternVideo('w-rosewall-video');
   // Touch/mouse events
   canvas.addEventListener('touchmove', roseTouch, {passive:false});
   canvas.addEventListener('mousemove', roseMouse);
@@ -1832,9 +1834,16 @@ function roseAnimate() {
   });
 }
 
+function preloadWesternVideo(id) {
+  const v = document.getElementById(id);
+  if (v && v.readyState < 3) { try { v.load(); } catch(e) {} }
+}
+
 // ===== ROSEWALL VIDEO (after petals) =====
 function startRosewallVideo() {
   const vid = document.getElementById('w-rosewall-video');
+  // เริ่มโหลด starmove.mp4 ล่วงหน้าไว้เลย จะได้บัฟเฟอร์เสร็จก่อนถึงคิวเล่นจริง (~5 วิ)
+  preloadWesternVideo('w-star-video');
   let advanced = false;
   const advance = () => { if (advanced) return; advanced = true; westernGoTo('western-step7'); };
   if (vid) {
