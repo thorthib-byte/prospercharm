@@ -1799,6 +1799,7 @@ for (let i = 1; i <= 20; i++) {
 function initRoseCanvas() {
   roseCount = 0; rosePetals = [];
   roseLastX = null; roseLastY = null;
+  roseTransitioning = false;
   if (roseAnimId) cancelAnimationFrame(roseAnimId);
   const canvas = document.getElementById('western-rose-canvas');
   canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
@@ -1826,6 +1827,8 @@ function roseTrySpawn(x, y) {
   spawnPetal(x, y);
 }
 
+let roseTransitioning = false;
+
 function spawnPetal(x, y) {
   if (rosePetals.length > 120) return;
   const img = ROSE_PETAL_IMGS[Math.floor(Math.random()*ROSE_PETAL_IMGS.length)];
@@ -1834,7 +1837,8 @@ function spawnPetal(x, y) {
   const pct = roseCount/ROSE_TARGET*100;
   document.getElementById('w-petal-progress').style.width = pct+'%';
   document.getElementById('w-petal-count-text').textContent = roseCount+' / '+ROSE_TARGET+' กลีบ';
-  if (roseCount >= ROSE_TARGET && document.getElementById('w-petal-msg')) {
+  if (roseCount >= ROSE_TARGET && !roseTransitioning && document.getElementById('w-petal-msg')) {
+    roseTransitioning = true;
     document.getElementById('w-petal-msg').textContent = 'วงจักรราศีกำลังหมุน... ✨';
     if (roseAnimId) { cancelAnimationFrame(roseAnimId); roseAnimId = null; }
     westernGoTo('western-step6b');
