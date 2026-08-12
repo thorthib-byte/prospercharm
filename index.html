@@ -1812,7 +1812,7 @@ function spawnPetal(x, y) {
   document.getElementById('w-petal-count-text').textContent = roseCount+' / '+ROSE_TARGET+' กลีบ';
   if (roseCount >= ROSE_TARGET && document.getElementById('w-petal-msg')) {
     document.getElementById('w-petal-msg').textContent = 'วงจักรราศีกำลังหมุน... ✨';
-    setTimeout(() => westernGoTo('western-step6b'), 1500);
+    westernGoTo('western-step6b');
   }
 }
 
@@ -1835,12 +1835,17 @@ function roseAnimate() {
 // ===== ROSEWALL VIDEO (after petals) =====
 function startRosewallVideo() {
   const vid = document.getElementById('w-rosewall-video');
+  let advanced = false;
+  const advance = () => { if (advanced) return; advanced = true; westernGoTo('western-step7'); };
   if (vid) {
     vid.currentTime = 0;
     const p = vid.play();
     if (p !== undefined) p.catch(() => {});
+    vid.onended = advance;
+    setTimeout(advance, 7000); // กันเหนียวเผื่อ video เล่นไม่ขึ้น
+  } else {
+    setTimeout(advance, 4000);
   }
-  setTimeout(() => westernGoTo('western-step7'), 4000);
 }
 
 // ===== LOADING + RESULT =====
@@ -6493,13 +6498,13 @@ window.addEventListener('load', () => {
 
 <!-- Step 6b: วิดีโอกลีบกุหลาบผนึกคำอธิษฐาน -->
 <div id="western-step6b" style="display:none;position:fixed;inset:0;z-index:200;background:#000;overflow:hidden;">
-  <video id="w-rosewall-video" src="images/soulmate/rosewallmove.mp4" muted playsinline autoplay webkit-playsinline
+  <video id="w-rosewall-video" src="images/soulmate/rosewallmove.mp4" muted playsinline autoplay preload="auto" webkit-playsinline
     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>
 </div>
 
 <!-- Step 7: Loading -->
 <div id="western-step7" style="display:none;position:fixed;inset:0;z-index:200;background:#000;overflow:hidden;">
-  <video id="w-star-video" src="images/soulmate/starmove.mp4" muted playsinline autoplay webkit-playsinline
+  <video id="w-star-video" src="images/soulmate/starmove.mp4" muted playsinline autoplay preload="auto" webkit-playsinline
     style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>
   <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:14vh;text-align:center;">
     <div style="font-family:'Playfair Display',serif;font-size:17px;color:#fff;margin-bottom:4px;padding:0 24px;text-shadow:0 1px 8px rgba(0,0,0,0.6);">คำอธิษฐานของคุณได้รับการตอบรับแล้ว...</div>
