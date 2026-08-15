@@ -386,7 +386,7 @@
       <div class="menu-card" onclick="goTo('page-siam')"><img class="menu-icon" src="images/icons/siemsi.png"><span class="menu-title">เซียมซี</span><span class="menu-desc">สนุกกับความเชื่อแบบไทยๆ</span><span class="menu-price">29 บาท/ครั้ง</span></div>
       <div class="menu-card" onclick="goTo('page-energy');startEnergyWelcome();"><img class="menu-icon" src="images/icons/energy.png"><span class="menu-title">เลขพลังงาน</span><span class="menu-desc">หาแรงบันดาลใจประจำวัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
       <div class="menu-card" id="dream-card" onclick="goTo('page-dream')"><img class="menu-icon" src="images/icons/dream.png"><span class="menu-title">ทำนายฝัน</span><span class="menu-desc">มุมมองเชิงสร้างสรรค์ต่อฝัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
-      <div class="menu-card menu-card-locked" id="healing-card" onclick="handleLockedCard()"><span class="menu-lock-badge"><i data-lucide="lock" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เร็วๆ นี้</span><img class="menu-icon" src="images/icons/healing.png"><span class="menu-title">ล้างพลังงาน</span><span class="menu-desc">ผ่อนคลายความคิดลบ</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card menu-card-locked" id="healing-card" style="display:none;" onclick="handleLockedCard()"><span class="menu-lock-badge"><i data-lucide="lock" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เร็วๆ นี้</span><img class="menu-icon" src="images/icons/healing.png"><span class="menu-title">ล้างพลังงาน</span><span class="menu-desc">ผ่อนคลายความคิดลบ</span><span class="menu-price">29 บาท/ครั้ง</span></div>
     </div>
     <div style="margin:14px 16px 0; padding:12px 14px; background:rgba(180,160,130,0.08); border:1px solid rgba(180,160,130,0.25); border-radius:14px; font-family:'Noto Sans Thai',sans-serif; font-size:11.5px; line-height:1.6; color:var(--text-light); text-align:center;">
       เนื้อหาทั้งหมดในแอปนี้จัดทำขึ้นเพื่อความเพลิดเพลินและการสำรวจตัวเอง (self-reflection &amp; entertainment) เท่านั้น ไม่ใช่คำแนะนำทางการแพทย์ กฎหมาย การเงิน หรือคำพยากรณ์ที่แม่นยำ ใช้วิจารณญาณของผู้ใช้เองในการตัดสินใจ
@@ -404,14 +404,7 @@
         <span style="color:rgba(180,160,130,0.5);">·</span>
         <a href="#" onclick="goTo('page-faq'); return false;" style="color:var(--text-mid); text-decoration:none;">คำถามที่พบบ่อย</a>
         <span style="color:rgba(180,160,130,0.5);">·</span>
-        <span style="color:var(--text-mid);">ช่องทางการติดตาม</span>
-      </div>
-      <div style="display:flex; justify-content:center; gap:14px; margin-bottom:10px; font-size:12px;">
-        <a href="https://www.facebook.com/prospercharm" target="_blank" style="color:var(--text-light); text-decoration:none;">Facebook</a>
-        <span style="color:rgba(180,160,130,0.5);">·</span>
-        <a href="https://www.instagram.com/prosper_charm/" target="_blank" style="color:var(--text-light); text-decoration:none;">Instagram</a>
-        <span style="color:rgba(180,160,130,0.5);">·</span>
-        <a href="https://www.tiktok.com/@prosper_charm" target="_blank" style="color:var(--text-light); text-decoration:none;">TikTok</a>
+        <a href="#" onclick="goTo('page-social'); return false;" style="color:var(--text-mid); text-decoration:none;">ช่องทางการติดตาม</a>
       </div>
       prospercharmth.com © 2025 · เนื้อหาเพื่อความเพลิดเพลินและการสำรวจตัวเอง ไม่ใช่คำพยากรณ์ทางวิชาการ
     </div>
@@ -433,6 +426,26 @@
   <div class="page" id="page-faq">
     <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><i data-lucide="help-circle" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> คำถามที่พบบ่อย</div></div>
     <div id="faq-list" style="padding:20px;"></div>
+    <div style="padding-bottom:64px;"></div>
+  </div>
+
+  <!-- SOCIAL / ช่องทางการติดตาม -->
+  <div class="page" id="page-social">
+    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><i data-lucide="share-2" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ช่องทางการติดตาม</div></div>
+    <div style="padding:20px;">
+      <a href="https://www.facebook.com/prospercharm" target="_blank" style="display:flex; align-items:center; justify-content:space-between; padding:16px; background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:14px; margin-bottom:12px; text-decoration:none; box-shadow:0 2px 12px rgba(100,80,50,0.06);">
+        <span style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">Facebook</span>
+        <span style="color:var(--text-light);">→</span>
+      </a>
+      <a href="https://www.instagram.com/prosper_charm/" target="_blank" style="display:flex; align-items:center; justify-content:space-between; padding:16px; background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:14px; margin-bottom:12px; text-decoration:none; box-shadow:0 2px 12px rgba(100,80,50,0.06);">
+        <span style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">Instagram</span>
+        <span style="color:var(--text-light);">→</span>
+      </a>
+      <a href="https://www.tiktok.com/@prosper_charm" target="_blank" style="display:flex; align-items:center; justify-content:space-between; padding:16px; background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:14px; text-decoration:none; box-shadow:0 2px 12px rgba(100,80,50,0.06);">
+        <span style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">TikTok</span>
+        <span style="color:var(--text-light);">→</span>
+      </a>
+    </div>
     <div style="padding-bottom:64px;"></div>
   </div>
 
@@ -2949,7 +2962,7 @@ function goTo(pageId){
 function updateBottomNav(pageId) {
  const nav = document.getElementById('bottom-nav');
  if (!nav) return;
- const BASE_PAGES = ['page-home','page-pricing','page-about','page-faq'];
+ const BASE_PAGES = ['page-home','page-pricing','page-about','page-faq','page-social'];
  nav.style.display = BASE_PAGES.includes(pageId) ? 'flex' : 'none';
  document.querySelectorAll('.bnav-item').forEach(el => el.style.color = '');
  const activeKey = pageId === 'page-home' ? 'home' : (pageId === 'page-pricing' ? 'pricing' : null);
@@ -6767,6 +6780,8 @@ window.addEventListener('load', () => {
  if (window._devMode) {
  setTimeout(() => {
    updateStatusBar();
+   const healingCard = document.getElementById('healing-card');
+   if (healingCard) healingCard.style.display = '';
    document.querySelectorAll('.menu-card-locked').forEach(card => {
      card.classList.remove('menu-card-locked');
      const badge = card.querySelector('.menu-lock-badge');
