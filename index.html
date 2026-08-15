@@ -396,7 +396,40 @@
       <div class="promo-desc">เริ่มต้น 99 บาท/เดือน ประหยัดกว่าจ่ายรายครั้ง</div>
       <div class="promo-cta">ดูแพ็กเกจทั้งหมด →</div>
     </div>
-    <div class="footer">prospercharmth.com © 2025 · เนื้อหาเพื่อความเพลิดเพลินและการสำรวจตัวเอง ไม่ใช่คำพยากรณ์ทางวิชาการ</div>
+    <div class="footer">
+      <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap; font-size:12px; margin-bottom:10px;">
+        <a href="#" onclick="goTo('page-about'); return false;" style="color:var(--text-mid); text-decoration:none;">เกี่ยวกับเรา</a>
+        <span style="color:rgba(180,160,130,0.5);">·</span>
+        <a href="#" onclick="window.open('https://lin.ee/UjFfjtP','_blank'); return false;" style="color:var(--text-mid); text-decoration:none;">ติดต่อเรา</a>
+        <span style="color:rgba(180,160,130,0.5);">·</span>
+        <a href="#" onclick="goTo('page-faq'); return false;" style="color:var(--text-mid); text-decoration:none;">คำถามที่พบบ่อย</a>
+      </div>
+      <div style="display:flex; justify-content:center; gap:16px; margin-bottom:10px;">
+        <a href="https://www.facebook.com/prospercharm" target="_blank" style="color:var(--text-light);"><i data-lucide="facebook" class="li" style="width:18px;height:18px;"></i></a>
+        <a href="https://www.instagram.com/prosper_charm/" target="_blank" style="color:var(--text-light);"><i data-lucide="instagram" class="li" style="width:18px;height:18px;"></i></a>
+        <a href="https://www.tiktok.com/@prosper_charm" target="_blank" style="color:var(--text-light);text-decoration:none;font-weight:700;font-size:15px;line-height:18px;">TT</a>
+      </div>
+      prospercharmth.com © 2025 · เนื้อหาเพื่อความเพลิดเพลินและการสำรวจตัวเอง ไม่ใช่คำพยากรณ์ทางวิชาการ
+    </div>
+    <div style="padding-bottom:64px;"></div>
+  </div>
+
+  <!-- ABOUT US -->
+  <div class="page" id="page-about">
+    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><i data-lucide="info" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เกี่ยวกับเรา</div></div>
+    <div style="padding:24px 20px; font-family:'Noto Sans Thai',sans-serif; font-size:14px; line-height:2; color:var(--text-mid);">
+      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:600; color:var(--brown-dark); margin-bottom:16px; text-align:center;">เกี่ยวกับ ProsperCharm</div>
+      <p>ProsperCharm คือแอปเพื่อความบันเทิงและการสำรวจตัวเอง ที่ได้แรงบันดาลใจจากวัฒนธรรมไทยและเอเชีย เนื้อหาทั้งหมดในแอปถูกสร้างขึ้นโดยระบบที่ทีมงานพัฒนาและดูแลเอง เพื่อความสนุกสนานและแง่คิดในชีวิตประจำวัน</p>
+      <p>ไม่มีนักพยากรณ์หรือที่ปรึกษาจริงในระบบ เนื้อหาทั้งหมดจัดทำขึ้นเพื่อความบันเทิงและการพัฒนาตนเองเท่านั้น ไม่ใช่คำแนะนำทางการแพทย์ กฎหมาย หรือการเงิน</p>
+    </div>
+    <div style="padding-bottom:64px;"></div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="page" id="page-faq">
+    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><i data-lucide="help-circle" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> คำถามที่พบบ่อย</div></div>
+    <div id="faq-list" style="padding:20px;"></div>
+    <div style="padding-bottom:64px;"></div>
   </div>
 
   <!-- PRICING -->
@@ -754,9 +787,15 @@
     </div>
 
     <!-- STEP 2: กำลังตีความ -->
-    <div id="dream-step2" style="display:none; padding:60px 24px; text-align:center;">
-      <div style="font-size:48px; margin-bottom:20px; animation:dreamFloat 2.5s ease-in-out infinite;">🌙 ✨ ☁️</div>
-      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; color:var(--text-mid);">กำลังเปิดความหมายที่ซ่อนอยู่ในความฝันของคุณ…</div>
+    <div id="dream-step2" style="display:none;position:fixed;inset:0;z-index:300;background:#000;overflow:hidden;">
+      <video id="dream-loading-video" src="images/soulmate/dreammove.mp4" muted playsinline preload="auto" webkit-playsinline
+        style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;"></video>
+      <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;padding-bottom:14vh;">
+        <div style="font-family:'Noto Serif Thai',serif;font-size:12px;color:#fff;text-align:center;padding:0 32px;margin-bottom:16px;text-shadow:0 1px 6px rgba(0,0,0,0.6);">กำลังเปิดความหมายที่ซ่อนอยู่ในความฝันของคุณ…</div>
+        <div style="width:70%;max-width:220px;height:4px;background:rgba(255,255,255,0.25);border-radius:4px;overflow:hidden;">
+          <div id="dream-loading-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#d4af37,#f5d9a8);border-radius:4px;transition:width 4.6s linear;"></div>
+        </div>
+      </div>
     </div>
 
     <!-- STEP 3: ผลลัพธ์ -->
@@ -789,8 +828,6 @@
       <div class="result-divider"></div>
       <div style="text-align:center; font-family:'Noto Serif Thai',serif; font-style:italic; font-size:14px; color:var(--text-mid); margin:16px 0;">✨ <span id="dream-closing"></span></div>
 
-      <div style="text-align:center; font-size:12px; color:var(--text-light); margin-bottom:10px;">อยากค้นหาความหมายที่ลึกกว่านี้?</div>
-      <button class="cta-btn" onclick="window.open('https://lin.ee/UjFfjtP','_blank')">🔮 ดูดวงกับ ProsperCharm</button>
       <button class="reset-btn" style="margin-top:10px;" onclick="resetDream()">🌙 ทำนายความฝันอีกครั้ง</button>
     </div>
   </div>
@@ -2908,7 +2945,7 @@ function goTo(pageId){
 function updateBottomNav(pageId) {
  const nav = document.getElementById('bottom-nav');
  if (!nav) return;
- const BASE_PAGES = ['page-home','page-pricing'];
+ const BASE_PAGES = ['page-home','page-pricing','page-about','page-faq'];
  nav.style.display = BASE_PAGES.includes(pageId) ? 'flex' : 'none';
  document.querySelectorAll('.bnav-item').forEach(el => el.style.color = '');
  const activeKey = pageId === 'page-home' ? 'home' : (pageId === 'page-pricing' ? 'pricing' : null);
@@ -2917,6 +2954,39 @@ function updateBottomNav(pageId) {
  });
 }
 // โชว์/ซ่อนแถบเมนูล่างตอนอยู่หน้าผลลัพธ์ของแต่ละ section (ไม่ใช่หน้าฐาน แต่เป็นผลลัพธ์ที่ทำเสร็จแล้ว)
+// ===== FAQ =====
+const FAQ_DATA = [
+  { q:'ProsperCharm คืออะไร?', a:'ProsperCharm คือแอปเพื่อความบันเทิงและการสำรวจตัวเอง ได้แรงบันดาลใจจากวัฒนธรรมไทยและเอเชีย เนื้อหาทั้งหมดสร้างและดูแลโดยทีมงานของเราเอง ไม่ใช่การพยากรณ์จากนักโหราศาสตร์จริง' },
+  { q:'เครดิตคืออะไร ใช้ยังไง?', a:'เครดิตคือสิทธิ์ในการใช้บริการแต่ละครั้ง (ดวงรายวัน, ไพ่ทาโรต์, เซียมซี, เลขพลังงาน, ดูดวงสมพงษ์, ทำนายฝัน) จ่ายรายครั้งครั้งละ 29 บาท หรือสมัครแพ็กเกจรายเดือนเพื่อใช้ได้ไม่จำกัด' },
+  { q:'สมัครแพ็กเกจแล้วยกเลิกได้ไหม?', a:'ยกเลิกได้ทุกเมื่อผ่านหน้าจัดการสมาชิก แพ็กเกจที่จ่ายไปแล้วจะใช้งานได้จนครบรอบบิลปัจจุบัน ไม่มีการหักเงินเพิ่มหลังยกเลิก' },
+  { q:'เช็คอินรายวันได้อะไรบ้าง?', a:'เช็คอินทุกวันเพื่อสะสมเหรียญ สะสมครบ 99 เหรียญรับสิทธิ์ดูดวง 1 ครั้งฟรีทันที ระบบจะรีเซ็ตเหรียญเริ่มนับใหม่ทุกเดือน' },
+  { q:'ทำนายฝัน ใช้ AI วิเคราะห์ความฝันจริงไหม?', a:'ระบบใช้การจับคู่คำสำคัญในความฝันของคุณกับฐานข้อมูลคำทำนายที่ทีมงานเตรียมไว้ล่วงหน้า เพื่อความบันเทิงเท่านั้น ไม่ใช่การวิเคราะห์เชิงจิตวิทยาหรือการแพทย์' },
+  { q:'ข้อมูลวันเกิด/ความฝันที่กรอกไปถูกเก็บไว้ยังไง?', a:'ข้อมูลถูกเก็บไว้เพื่อใช้คำนวณผลลัพธ์ส่วนตัวของคุณเท่านั้น ไม่ถูกนำไปเปิดเผยหรือขายให้บุคคลที่สาม' },
+  { q:'จ่ายเงินไม่สำเร็จ หรือเครดิตไม่เข้า ทำยังไง?', a:'ลองรีเฟรชหน้าเว็บก่อน ถ้ายังไม่เข้าให้ติดต่อทีมงานผ่านช่องทาง "ติดต่อเรา" พร้อมแจ้งเวลาที่ทำรายการ ทีมงานจะตรวจสอบและแก้ไขให้โดยเร็วที่สุด' },
+  { q:'ผลลัพธ์ที่ได้แม่นยำแค่ไหน?', a:'เนื้อหาทั้งหมดจัดทำขึ้นเพื่อความเพลิดเพลินและการสำรวจตัวเอง (entertainment & self-reflection) เท่านั้น ไม่ใช่คำแนะนำทางการแพทย์ กฎหมาย การเงิน หรือคำพยากรณ์ที่แม่นยำ โปรดใช้วิจารณญาณของตัวเองในการตัดสินใจ' },
+];
+function renderFAQ() {
+  const list = document.getElementById('faq-list');
+  if (!list || list.dataset.rendered) return;
+  list.dataset.rendered = '1';
+  list.innerHTML = FAQ_DATA.map((item, i) => `
+    <div style="border-bottom:1px solid rgba(180,160,130,0.2); padding:14px 0;">
+      <div onclick="toggleFAQ(${i})" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-family:'Noto Serif Thai',serif; font-size:14px; font-weight:600; color:var(--brown-dark);">
+        <span>${item.q}</span>
+        <span id="faq-icon-${i}" style="color:var(--text-light); font-size:18px; transition:transform 0.2s;">+</span>
+      </div>
+      <div id="faq-a-${i}" style="display:none; font-size:13px; line-height:1.8; color:var(--text-mid); margin-top:10px;">${item.a}</div>
+    </div>
+  `).join('');
+}
+function toggleFAQ(i) {
+  const a = document.getElementById('faq-a-'+i);
+  const icon = document.getElementById('faq-icon-'+i);
+  const open = a.style.display === 'block';
+  a.style.display = open ? 'none' : 'block';
+  icon.textContent = open ? '+' : '−';
+}
+
 function showBottomNavOverride() {
  const nav = document.getElementById('bottom-nav');
  if (!nav) return;
@@ -3618,6 +3688,7 @@ function showDreamStep(stepId) {
   document.getElementById('dream-result').classList.remove('show');
   const target = document.getElementById(stepId);
   if (target) target.style.display = 'block';
+  if (stepId === 'dream-step1') preloadWesternVideo('dream-loading-video');
   window.scrollTo(0,0);
 }
 
@@ -3643,7 +3714,15 @@ function drawDream() {
   if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('dream'); return; }
 
   showDreamStep('dream-step2');
-  setTimeout(() => {
+  const vid = document.getElementById('dream-loading-video');
+  const bar = document.getElementById('dream-loading-bar');
+  if (bar) { bar.style.transition = 'none'; bar.style.width = '0%'; void bar.offsetWidth; bar.style.transition = 'width 4.6s linear'; bar.style.width = '100%'; }
+  if (vid) { vid.currentTime = 0; const p = vid.play(); if (p !== undefined) p.catch(() => {}); }
+
+  let revealed = false;
+  const reveal = () => {
+    if (revealed) return;
+    revealed = true;
     useCredit();
     const matches = scanDreamKeywords(text);
     const loveField = 'love_' + dreamSelectedStatus;
@@ -3667,7 +3746,9 @@ function drawDream() {
     showPageHeader('page-dream');
     showCreditsBar('dream');
     document.getElementById('dream-result').scrollIntoView({behavior:'smooth', block:'start'});
-  }, 1800);
+  };
+  if (vid) { vid.onended = reveal; }
+  setTimeout(reveal, 4800); // กันเหนียวเผื่อ video เล่นไม่ขึ้น
 }
 
 function resetDream() {
@@ -6665,6 +6746,7 @@ window.addEventListener('load', () => {
  initCheckinBtn();
  // Init bottom nav (เริ่มที่หน้าแรก)
  updateBottomNav('page-home');
+ renderFAQ();
  // Handle URL hash
  handleHash();
  // Handle ?dev=true param — ต้องทำก่อน syncCoinsFromServer เพื่อกัน server data ทับ
