@@ -250,6 +250,7 @@
   /* ===== WESTERN CEREMONY CSS ===== */
   @keyframes westernRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
   @keyframes westernPulse { 0%,100%{box-shadow:0 0 20px #9B99D4,0 0 40px rgba(155,153,212,0.5);} 50%{box-shadow:0 0 30px #9B99D4,0 0 60px rgba(155,153,212,0.7),0 0 80px rgba(155,153,212,0.3);} }
+  @keyframes dreamFloat { 0%,100%{transform:translateY(0);opacity:1;} 50%{transform:translateY(-8px);opacity:0.75;} }
   @keyframes wFlame { 0%,100%{transform:scaleX(1) scaleY(1);opacity:1;} 25%{transform:scaleX(0.85) scaleY(1.1);opacity:0.9;} 75%{transform:scaleX(1.1) scaleY(0.95);opacity:0.95;} }
   @keyframes wFlameGlow { 0%,100%{box-shadow:0 0 10px #ff8c00,0 0 20px rgba(255,140,0,0.6);} 50%{box-shadow:0 0 18px #ff8c00,0 0 35px rgba(255,140,0,0.8),0 0 50px rgba(255,200,0,0.3);} }
   @keyframes wStarTwinkle { 0%,100%{opacity:0.3;} 50%{opacity:1;} }
@@ -384,7 +385,7 @@
       <div class="menu-card" onclick="goTo('page-soulmate')"><img class="menu-icon" src="images/icons/soulmate.png"><span class="menu-title">ดูดวงสมพงษ์</span><span class="menu-desc">สำรวจความเข้ากันในความสัมพันธ์</span><span class="menu-price">29 บาท/ครั้ง</span></div>
       <div class="menu-card" onclick="goTo('page-siam')"><img class="menu-icon" src="images/icons/siemsi.png"><span class="menu-title">เซียมซี</span><span class="menu-desc">สนุกกับความเชื่อแบบไทยๆ</span><span class="menu-price">29 บาท/ครั้ง</span></div>
       <div class="menu-card" onclick="goTo('page-energy');startEnergyWelcome();"><img class="menu-icon" src="images/icons/energy.png"><span class="menu-title">เลขพลังงาน</span><span class="menu-desc">หาแรงบันดาลใจประจำวัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
-      <div class="menu-card menu-card-locked" id="dream-card" onclick="handleLockedCard()"><span class="menu-lock-badge"><i data-lucide="lock" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เร็วๆ นี้</span><img class="menu-icon" src="images/icons/dream.png"><span class="menu-title">ทำนายฝัน</span><span class="menu-desc">มุมมองเชิงสร้างสรรค์ต่อฝัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" id="dream-card" onclick="goTo('page-dream')"><img class="menu-icon" src="images/icons/dream.png"><span class="menu-title">ทำนายฝัน</span><span class="menu-desc">มุมมองเชิงสร้างสรรค์ต่อฝัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
       <div class="menu-card menu-card-locked" id="healing-card" onclick="handleLockedCard()"><span class="menu-lock-badge"><i data-lucide="lock" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เร็วๆ นี้</span><img class="menu-icon" src="images/icons/healing.png"><span class="menu-title">ล้างพลังงาน</span><span class="menu-desc">ผ่อนคลายความคิดลบ</span><span class="menu-price">29 บาท/ครั้ง</span></div>
     </div>
     <div style="margin:14px 16px 0; padding:12px 14px; background:rgba(180,160,130,0.08); border:1px solid rgba(180,160,130,0.25); border-radius:14px; font-family:'Noto Sans Thai',sans-serif; font-size:11.5px; line-height:1.6; color:var(--text-light); text-align:center;">
@@ -714,6 +715,83 @@
       <div class="result-text" id="siam-text"></div>
       <div class="result-luck"><div class="result-luck-label">✦ คำแนะนำ</div><div class="result-luck-text" id="siam-advice"></div></div>
       <button class="reset-btn" onclick="resetSiam()">เขย่าใหม่</button>
+    </div>
+  </div>
+
+  <!-- DREAM READING -->
+  <div class="page" id="page-dream">
+    <div class="inner-header">
+      <button class="back-btn" onclick="goTo('page-home')">←</button>
+      <div class="inner-title">🌙 ทำนายฝัน</div>
+      <div class="inner-header-credits" id="dream-credits-bar" style="display:none;">
+        <span class="inner-header-credits-text">เครดิตคงเหลือ</span>
+        <span class="inner-header-credits-num" id="dream-credits-num">∞</span>
+      </div>
+    </div>
+
+    <!-- STEP 0: หน้าเริ่มต้น -->
+    <div id="dream-step0" style="padding:48px 24px; text-align:center;">
+      <div style="font-size:52px; margin-bottom:16px;">🌙</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">ความฝันเมื่อคืนกำลังบอกอะไรคุณ?</div>
+      <div style="font-size:13px; color:var(--text-light); margin-bottom:28px;">เล่าความฝันของคุณ แล้วให้ดวงดาวช่วยตีความ</div>
+      <button class="cta-btn" onclick="showDreamStep('dream-step1')">เริ่มทำนายฝัน</button>
+    </div>
+
+    <!-- STEP 1: กรอกความฝัน -->
+    <div id="dream-step1" class="form-section" style="display:none; padding:20px;">
+      <div style="font-size:13px; color:var(--text-mid); margin-bottom:8px; font-family:'Noto Serif Thai',serif;">เล่าความฝันของคุณ</div>
+      <textarea id="dream-text-input" rows="6" placeholder="เมื่อคืนฝันว่า..." style="width:100%; box-sizing:border-box; border:1px solid rgba(180,160,130,0.3); border-radius:12px; padding:12px; font-family:'Noto Sans Thai',sans-serif; font-size:14px; color:var(--text); resize:vertical; background:var(--white);"></textarea>
+
+      <div style="font-size:13px; color:var(--text-mid); margin:16px 0 8px; font-family:'Noto Serif Thai',serif;">สถานะความสัมพันธ์ <span style="color:var(--text-light); font-size:11px;">(ไม่บังคับ)</span></div>
+      <div style="display:flex; gap:8px;">
+        <button type="button" class="dream-status-btn" data-val="single" onclick="selectDreamStatus('single')" style="flex:1; padding:10px 6px; border-radius:10px; border:1px solid rgba(180,160,130,0.3); background:var(--white); font-family:'Noto Sans Thai',sans-serif; font-size:12px; color:var(--text-mid); cursor:pointer;">โสด</button>
+        <button type="button" class="dream-status-btn" data-val="talking" onclick="selectDreamStatus('talking')" style="flex:1; padding:10px 6px; border-radius:10px; border:1px solid rgba(180,160,130,0.3); background:var(--white); font-family:'Noto Sans Thai',sans-serif; font-size:12px; color:var(--text-mid); cursor:pointer;">มีคนคุย</button>
+        <button type="button" class="dream-status-btn" data-val="taken" onclick="selectDreamStatus('taken')" style="flex:1; padding:10px 6px; border-radius:10px; border:1px solid rgba(180,160,130,0.3); background:var(--white); font-family:'Noto Sans Thai',sans-serif; font-size:12px; color:var(--text-mid); cursor:pointer;">มีแฟน</button>
+      </div>
+
+      <button class="cta-btn" style="margin-top:20px;" onclick="drawDream()">เปิดความหมายความฝัน</button>
+      <button class="reset-btn" style="margin-top:10px;" onclick="showDreamStep('dream-step0')">← ย้อนกลับ</button>
+    </div>
+
+    <!-- STEP 2: กำลังตีความ -->
+    <div id="dream-step2" style="display:none; padding:60px 24px; text-align:center;">
+      <div style="font-size:48px; margin-bottom:20px; animation:dreamFloat 2.5s ease-in-out infinite;">🌙 ✨ ☁️</div>
+      <div style="font-family:'Noto Serif Thai',serif; font-size:15px; color:var(--text-mid);">กำลังเปิดความหมายที่ซ่อนอยู่ในความฝันของคุณ…</div>
+    </div>
+
+    <!-- STEP 3: ผลลัพธ์ -->
+    <div class="result-card" id="dream-result">
+      <div style="text-align:center; margin-bottom:16px;">
+        <div style="font-family:'Noto Serif Thai',serif; font-size:17px; font-weight:600; color:var(--brown-dark);">🌙 ความหมายของความฝัน</div>
+        <div class="result-text" id="dream-meaning" style="white-space:pre-line;" style="margin-top:8px;"></div>
+      </div>
+      <div class="result-divider"></div>
+      <div style="margin-bottom:16px;">
+        <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">💕 เรื่องความรัก</div>
+        <div class="result-text" id="dream-love" style="white-space:pre-line;" style="margin-top:8px;"></div>
+      </div>
+      <div style="margin-bottom:16px;">
+        <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">💰 การงาน & การเงิน</div>
+        <div class="result-text" id="dream-money" style="white-space:pre-line;" style="margin-top:8px;"></div>
+      </div>
+      <div style="margin-bottom:16px;">
+        <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">⚠️ สิ่งที่ควรระวัง</div>
+        <div class="result-text" id="dream-warning" style="white-space:pre-line;" style="margin-top:8px;"></div>
+      </div>
+      <div style="margin-bottom:16px;">
+        <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">🧭 คำแนะนำ</div>
+        <div class="result-text" id="dream-advice" style="white-space:pre-line;" style="margin-top:8px;"></div>
+      </div>
+      <div class="result-luck">
+        <div class="result-luck-label">🍀 เลขมงคลจากความฝัน</div>
+        <div class="result-luck-text" id="dream-lucky"></div>
+      </div>
+      <div class="result-divider"></div>
+      <div style="text-align:center; font-family:'Noto Serif Thai',serif; font-style:italic; font-size:14px; color:var(--text-mid); margin:16px 0;">✨ <span id="dream-closing"></span></div>
+
+      <div style="text-align:center; font-size:12px; color:var(--text-light); margin-bottom:10px;">อยากค้นหาความหมายที่ลึกกว่านี้?</div>
+      <button class="cta-btn" onclick="goTo('page-home')">🔮 ดูดวงกับ ProsperCharm</button>
+      <button class="reset-btn" style="margin-top:10px;" onclick="resetDream()">🌙 ทำนายความฝันอีกครั้ง</button>
     </div>
   </div>
 
@@ -2824,7 +2902,7 @@ function goTo(pageId){
  window.scrollTo(0,0);
  updateBottomNav(pageId);
  const type=pageId.replace('page-','');
- if(['siam','tarot','energy','soulmate'].includes(type)) showCreditsBar(type);
+ if(['siam','tarot','energy','soulmate','dream'].includes(type)) showCreditsBar(type);
  if(pageId === 'page-daily') onEnterDailyPage();
 }
 function updateBottomNav(pageId) {
@@ -3427,6 +3505,179 @@ function resetTarot() {
 }
 const siamData={1:{title:"ซีกมงคลที่หนึ่ง — มังกรทองพุ่งฟ้า",text:"ดวงชะตากำลังพุ่งสูงดั่งมังกรทอง สิ่งที่หวังจะสำเร็จได้ไม่ยาก โชคลาภกำลังเข้ามา",advice:"เหมาะแก่การเริ่มต้นสิ่งใหม่ ลงมือทำได้เลย ผลจะดีกว่าที่คาด"},2:{title:"ซีกมงคลที่สอง — ดอกบัวบานในบึง",text:"แม้อยู่ในสถานการณ์ท้าทาย แต่จะผ่านพ้นไปได้อย่างงดงาม",advice:"อย่าหยุดนิ่งแม้อุปสรรคจะมากมาย ความพยายามจะส่งผลในระยะยาว"},3:{title:"ซีกมงคลที่สาม — ดาวสามดวงส่องสว่าง",text:"มีผู้คนคอยช่วยเหลือสนับสนุนอยู่เสมอ มิตรภาพเป็นพลังสำคัญ",advice:"เปิดใจรับความช่วยเหลือ อย่าลืมตอบแทนน้ำใจด้วยความจริงใจ"},4:{title:"ซีกมงคลที่สี่ — ลมอ่อนพัดใบไม้",text:"เป็นเวลาแห่งการพักผ่อนสะสมพลัง ไม่จำเป็นต้องเร่งรีบ",advice:"ทบทวนตัวเอง วางแผนให้รอบคอบก่อนลงมือ ผลจะดีกว่าการรีบร้อน"},5:{title:"ซีกมงคลที่ห้า — เมฆหมอกกลายเป็นรุ้ง",text:"หลังช่วงยากลำบาก แสงสว่างกำลังจะมาถึง สิ่งที่รอคอยใกล้จะเป็นจริง",advice:"อดทนอีกเพียงเล็กน้อย ความสำเร็จอยู่แค่เอื้อม อย่าถอดใจ"},6:{title:"ซีกมงคลที่หก — น้ำใสไหลรินไม่หยุด",text:"โชคลาภและรายได้จะไหลเข้ามาอย่างต่อเนื่อง การงานราบรื่น",advice:"ช่วงดีสำหรับลงทุนหรือเริ่มโครงการใหม่ บริหารจัดการให้รอบคอบ"},7:{title:"ซีกมงคลที่เจ็ด — เจ็ดดาวมงคลนำทาง",text:"สติปัญญาและการตัดสินใจจะคมชัดเป็นพิเศษในช่วงนี้",advice:"เชื่อใจสัญชาตญาณ การตัดสินใจสำคัญในช่วงนี้มักถูกต้อง"},8:{title:"ซีกมงคลที่แปด — แปดทิศแห่งความเจริญ",text:"แปดคือเลขมงคลแห่งความเจริญรุ่งเรือง ดวงส่งสัญญาณแห่งความมั่งคั่ง",advice:"เหมาะแก่การทำธุรกิจ เจรจาต่อรอง โอกาสอยู่ตรงหน้า"},9:{title:"ซีกมงคลที่เก้า — มังกรเก้าองค์คุ้มครอง",text:"ได้รับการคุ้มครองจากสิ่งศักดิ์สิทธิ์ ภัยพิบัติจะเบี่ยงหลีก ชีวิตราบรื่น",advice:"ทำบุญกุศลเพื่อเสริมดวง พลังงานดีๆ จะตอบแทนกลับมาหลายเท่า"},10:{title:"ซีกมงคลที่สิบ — ครบบริบูรณ์",text:"สิบคือความสมบูรณ์ ชีวิตในทุกด้านกำลังเข้าสู่ความสมดุลที่ดี",advice:"ขอบคุณในสิ่งที่มี และแบ่งปันความดีให้ผู้อื่น"}};
 function getSiamNumber(dob){const today=new Date();const seed=dob.replace(/-/g,'')+today.toISOString().slice(0,10).replace(/-/g,'');let h=0;for(let c of seed)h=((h<<5)-h)+c.charCodeAt(0);return Math.abs(h%10)+1;}
+// ===== DREAM READING (ทำนายฝัน) =====
+// ⚠️ ข้อมูลตัวอย่าง (placeholder) — จะแทนที่ด้วยไฟล์ Excel จริงทีหลัง
+const DREAM_DATA = {
+  snake: { keyword:'งู', synonyms:['งู','งูเห่า','งูเหลือม','งูกัด','งูใหญ่'],
+    meaning:'งูในความฝันสื่อถึงการเปลี่ยนแปลงครั้งใหญ่ที่กำลังจะเข้ามาในชีวิต อาจเป็นสัญญาณของสติปัญญาหรือภัยที่ซ่อนอยู่ ขึ้นอยู่กับบริบทของฝัน',
+    love_single:'มีโอกาสพบเจอคนที่มีเสน่ห์ดึงดูดแรง แต่ควรระวังคนที่ดูดีเกินจริง',
+    love_talking:'ความสัมพันธ์ที่คุยอยู่อาจมีจุดเปลี่ยน ลองสังเกตสัญญาณให้ดี',
+    love_taken:'อาจมีเรื่องที่ทำให้ต้องปรับตัวครั้งใหญ่ในความสัมพันธ์ แต่ไม่ใช่เรื่องร้ายเสมอไป',
+    money:'มีโอกาสทางการเงินเข้ามาแบบไม่ทันตั้งตัว ควรพิจารณาให้รอบคอบก่อนตัดสินใจ',
+    warning:'ระวังคนใกล้ตัวที่มีสองหน้า หรือสถานการณ์ที่ดูดีแต่แฝงความเสี่ยง',
+    advice:'ตั้งสติและสังเกตสถานการณ์รอบตัวให้ดีก่อนตัดสินใจเรื่องสำคัญ',
+    lucky:['09','56'] },
+  teeth: { keyword:'ฟัน', synonyms:['ฟัน','ฟันหลุด','ฟันหัก'],
+    meaning:'ฝันเห็นฟันหลุดหรือฟันหักมักสื่อถึงความกังวลเรื่องภาพลักษณ์ หรือความรู้สึกสูญเสียบางอย่างที่ควบคุมไม่ได้',
+    love_single:'อาจรู้สึกไม่มั่นใจในตัวเองเรื่องความรัก ลองเปิดใจให้มากขึ้น',
+    love_talking:'ความกังวลใจเล็กๆ น้อยๆ อาจทำให้สื่อสารกันไม่ราบรื่น ลองพูดคุยตรงๆ',
+    love_taken:'อาจมีความไม่มั่นใจแอบแฝงอยู่ ลองเปิดใจคุยกับคู่ของคุณ',
+    money:'ควรระวังเรื่องรายจ่ายที่ไม่คาดคิด วางแผนการเงินให้รัดกุมขึ้น',
+    warning:'ระวังคำพูดที่อาจทำร้ายความรู้สึกตัวเองหรือคนรอบข้างโดยไม่ตั้งใจ',
+    advice:'ให้เวลาตัวเองพักผ่อน และอย่ากดดันตัวเองมากเกินไปในช่วงนี้',
+    lucky:['15','78'] },
+  water: { keyword:'น้ำ', synonyms:['น้ำ','น้ำท่วม','ทะเล','แม่น้ำ','ฝนตก'],
+    meaning:'น้ำในความฝันมักสื่อถึงอารมณ์ความรู้สึก น้ำใสสะอาดหมายถึงความสงบสุข ส่วนน้ำขุ่นหรือท่วมท้นอาจสื่อถึงอารมณ์ที่กำลังท่วมท้นหัวใจ',
+    love_single:'หัวใจกำลังเปิดรับความรู้สึกใหม่ๆ ลองปล่อยตัวไปตามธรรมชาติ',
+    love_talking:'อารมณ์ความรู้สึกกำลังไหลลื่นไปในทางที่ดี ความสัมพันธ์มีแนวโน้มราบรื่น',
+    love_taken:'ความสัมพันธ์กำลังเข้าสู่ช่วงที่อบอุ่นและเข้าใจกันมากขึ้น',
+    money:'การเงินมีแนวโน้มไหลลื่น แต่ควรระวังการใช้จ่ายที่ไหลไปเรื่อยๆ โดยไม่ควบคุม',
+    warning:'ระวังอารมณ์ที่พาตัวเองไปไกลเกินไป ควรมีสติกำกับความรู้สึก',
+    advice:'ลองหาเวลาอยู่กับตัวเองเงียบๆ เพื่อฟังเสียงหัวใจให้ชัดเจนขึ้น',
+    lucky:['02','63'] },
+  dead: { keyword:'คนตาย', synonyms:['คนตาย','ตาย','ศพ','งานศพ'],
+    meaning:'ฝันเห็นคนตายหรือความตายมักไม่ได้หมายถึงเรื่องร้ายเสมอไป แต่สื่อถึงการสิ้นสุดของบางสิ่งเพื่อเปิดทางให้สิ่งใหม่เข้ามาแทนที่',
+    love_single:'บทหนึ่งของความรักกำลังจะปิดฉาก เพื่อเปิดทางให้โอกาสใหม่เข้ามา',
+    love_talking:'อาจถึงเวลาต้องตัดสินใจบางอย่างให้ชัดเจนเกี่ยวกับความสัมพันธ์นี้',
+    love_taken:'ความสัมพันธ์เดิมอาจกำลังเปลี่ยนผ่านไปสู่ระดับที่ลึกซึ้งกว่าเดิม',
+    money:'สถานการณ์การเงินเก่าอาจจบลง เปิดทางให้โอกาสใหม่ที่ดีกว่าเข้ามา',
+    warning:'อย่ายึดติดกับสิ่งที่ควรปล่อยวาง การเปลี่ยนแปลงอาจเป็นเรื่องดี',
+    advice:'ยอมรับการเปลี่ยนแปลงที่กำลังเกิดขึ้น และเปิดใจรับสิ่งใหม่ที่กำลังจะมา',
+    lucky:['24','91'] },
+  fire: { keyword:'ไฟ', synonyms:['ไฟ','ไฟไหม้','ไฟลุก'],
+    meaning:'ไฟในความฝันสื่อถึงพลังงาน ความหลงใหล หรือความโกรธที่กำลังก่อตัว ขึ้นอยู่กับว่าไฟนั้นให้ความอบอุ่นหรือทำลายล้าง',
+    love_single:'มีพลังดึงดูดสูงในช่วงนี้ อาจมีคนเข้ามาสนใจแบบไม่ทันตั้งตัว',
+    love_talking:'ความสัมพันธ์มีความร้อนแรงและตื่นเต้น แต่ควรระวังอารมณ์ที่พลุ่งพล่านเกินไป',
+    love_taken:'ไฟรักยังคุกรุ่นอยู่ แต่ควรระวังการทะเลาะเบาะแว้งจากอารมณ์ชั่ววูบ',
+    money:'โอกาสทางการเงินมาแรงและเร็ว แต่ต้องรีบคว้าไว้ก่อนที่จะดับลง',
+    warning:'ระวังอารมณ์โกรธที่อาจทำให้ตัดสินใจผิดพลาด ควรใจเย็นก่อนพูดหรือทำอะไร',
+    advice:'ใช้พลังงานที่มีไปในทางสร้างสรรค์ และควบคุมอารมณ์ให้อยู่ในขอบเขต',
+    lucky:['36','47'] },
+  ghost: { keyword:'ผี', synonyms:['ผี','วิญญาณ','ผีหลอก'],
+    meaning:'ผีในความฝันมักสื่อถึงความกลัวหรือความกังวลใจที่ยังค้างคาอยู่ในใจ อาจเป็นเรื่องในอดีตที่ยังไม่ได้รับการคลี่คลาย',
+    love_single:'อาจมีความกลัวเรื่องความรักในอดีตที่ยังตามหลอกหลอนอยู่ ลองปล่อยวาง',
+    love_talking:'ความกังวลใจบางอย่างอาจทำให้ไม่กล้าเปิดใจเต็มที่ ลองค่อยๆ ไว้ใจ',
+    love_taken:'อาจมีเรื่องในอดีตที่ยังไม่ได้พูดคุยกันอย่างตรงไปตรงมา',
+    money:'ความกังวลเรื่องการเงินในอดีตอาจยังส่งผลต่อการตัดสินใจในปัจจุบัน',
+    warning:'อย่าปล่อยให้ความกลัวจากอดีตมาบั่นทอนโอกาสในปัจจุบัน',
+    advice:'ลองเผชิญหน้ากับสิ่งที่กังวลใจ พูดคุยหรือระบายออกมาให้เบาลง',
+    lucky:['13','82'] },
+  money: { keyword:'เงิน', synonyms:['เงิน','เงินทอง','ถูกหวย','เก็บเงิน'],
+    meaning:'ฝันเห็นเงินทองมักสื่อถึงความมั่นคงและคุณค่าในตัวเอง ไม่จำเป็นต้องหมายถึงเรื่องการเงินโดยตรงเสมอไป',
+    love_single:'คุณค่าในตัวเองกำลังเปล่งประกาย อาจดึงดูดคนที่เห็นคุณค่าของคุณจริงๆ',
+    love_talking:'ความสัมพันธ์นี้มีแนวโน้มมั่นคงขึ้น หากทั้งสองฝ่ายให้คุณค่ากันอย่างเท่าเทียม',
+    love_taken:'ความสัมพันธ์มีความมั่นคงเป็นพื้นฐานที่ดี ควรรักษาความสมดุลนี้ไว้',
+    money:'สัญญาณที่ดีเรื่องการเงิน อาจมีรายได้พิเศษหรือโอกาสดีๆ เข้ามา',
+    warning:'ระวังการประเมินคุณค่าตัวเองจากเงินทองมากเกินไป',
+    advice:'ใช้โอกาสนี้วางแผนการเงินระยะยาว และรักษาความมั่นคงทางใจไปพร้อมกัน',
+    lucky:['08','69'] },
+  house: { keyword:'บ้าน', synonyms:['บ้าน','บ้านพัง','ย้ายบ้าน','บ้านใหม่'],
+    meaning:'บ้านในความฝันสื่อถึงตัวตนและความมั่นคงในชีวิต บ้านที่มั่นคงหมายถึงความสงบใจ ส่วนบ้านที่พังอาจสื่อถึงการเปลี่ยนแปลงในชีวิต',
+    love_single:'กำลังมองหารากฐานที่มั่นคงในความสัมพันธ์ ควรให้เวลากับตัวเองก่อนตัดสินใจ',
+    love_talking:'ความสัมพันธ์นี้กำลังค่อยๆ สร้างรากฐานที่มั่นคงขึ้นทีละน้อย',
+    love_taken:'อาจถึงเวลาพูดคุยเรื่องอนาคตหรือการวางแผนชีวิตร่วมกัน',
+    money:'ช่วงเวลาที่ดีสำหรับการวางแผนเรื่องที่อยู่อาศัยหรือการลงทุนระยะยาว',
+    warning:'อย่าละเลยการดูแลรากฐานชีวิต ทั้งสุขภาพและความสัมพันธ์ในครอบครัว',
+    advice:'ให้ความสำคัญกับการสร้างความมั่นคงในชีวิตทีละขั้นตอน',
+    lucky:['11','54'] },
+};
+const DREAM_CLOSING = [
+  'ดวงดาวได้ยินเสียงกระซิบของคุณแล้ว ทุกอย่างจะค่อยๆ ชัดเจนขึ้นตามเวลา',
+  'ความฝันคือกระจกสะท้อนใจ เชื่อในสัญชาตญาณของตัวเองให้มากขึ้นอีกนิด',
+  'ไม่ว่าฝันจะพาไปทางไหน จงจำไว้ว่าคุณคือผู้กำหนดเส้นทางของตัวเอง',
+  'จักรวาลกำลังส่งสัญญาณบางอย่างให้คุณ ลองเปิดใจรับฟังมันดู',
+  'ทุกความฝันมีความหมาย แม้บางครั้งคำตอบจะค่อยๆ ปรากฏในวันข้างหน้า',
+  'ให้ความฝันคืนนี้เป็นเพียงจุดเริ่มต้นของวันที่ดีกว่าเดิม',
+];
+const DREAM_DEFAULT = {
+  meaning:'ความฝันของคุณมีรายละเอียดที่ลึกซึ้งเฉพาะตัว แม้ระบบจะยังไม่พบสัญลักษณ์ที่คุ้นเคย แต่ทุกความฝันล้วนสะท้อนความรู้สึกภายในใจที่ควรค่าแก่การรับฟัง',
+  love_single:'หัวใจของคุณกำลังเปิดรับสิ่งใหม่ๆ ลองสังเกตความรู้สึกของตัวเองในช่วงนี้ให้ดี',
+  love_talking:'ความสัมพันธ์กำลังค่อยๆ พัฒนาไปในทิศทางของมันเอง ให้เวลากับมันบ้าง',
+  love_taken:'ความสัมพันธ์นี้ยังมีพื้นที่ให้เติบโตไปด้วยกันอีกมาก',
+  money:'ช่วงนี้เหมาะกับการวางแผนและทบทวนเป้าหมายทางการเงินของตัวเอง',
+  warning:'ไม่มีสัญญาณอันตรายชัดเจน แต่ควรใช้สติในการตัดสินใจเรื่องสำคัญ',
+  advice:'ลองจดบันทึกความฝันของคุณไว้ บางครั้งความหมายจะค่อยๆ ชัดเจนขึ้นในภายหลัง',
+  lucky:['05','77'],
+};
+
+let dreamSelectedStatus = 'single';
+function selectDreamStatus(val) {
+  dreamSelectedStatus = val;
+  document.querySelectorAll('.dream-status-btn').forEach(btn => {
+    const active = btn.dataset.val === val;
+    btn.style.background = active ? 'var(--brown-dark,#4A3F30)' : 'var(--white)';
+    btn.style.color = active ? '#fff' : 'var(--text-mid)';
+  });
+}
+
+function showDreamStep(stepId) {
+  ['dream-step0','dream-step1','dream-step2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = 'none';
+  });
+  document.getElementById('dream-result').classList.remove('show');
+  const target = document.getElementById(stepId);
+  if (target) target.style.display = 'block';
+  window.scrollTo(0,0);
+}
+
+function scanDreamKeywords(text) {
+  const found = [];
+  const lower = text.trim();
+  Object.values(DREAM_DATA).forEach(entry => {
+    const hit = entry.synonyms.some(syn => lower.includes(syn));
+    if (hit) found.push(entry);
+  });
+  return found;
+}
+
+function mergeDreamSection(matches, field, statusField) {
+  const key = statusField || field;
+  if (matches.length === 0) return DREAM_DEFAULT[key];
+  return matches.map(m => `${m.keyword}: ${m[key]}`).join('\n\n');
+}
+
+function drawDream() {
+  const text = document.getElementById('dream-text-input').value.trim();
+  if (!text) { alert('กรุณาเล่าความฝันของคุณก่อนนะคะ'); return; }
+  if (userState.plan === 'free' || userState.credits <= 0) { showPaymentPrompt('dream'); return; }
+
+  showDreamStep('dream-step2');
+  setTimeout(() => {
+    useCredit();
+    const matches = scanDreamKeywords(text);
+    const loveField = 'love_' + dreamSelectedStatus;
+
+    document.getElementById('dream-meaning').textContent = mergeDreamSection(matches, 'meaning');
+    document.getElementById('dream-love').textContent = mergeDreamSection(matches, loveField, loveField);
+    document.getElementById('dream-money').textContent = mergeDreamSection(matches, 'money');
+    document.getElementById('dream-warning').textContent = mergeDreamSection(matches, 'warning');
+    document.getElementById('dream-advice').textContent = mergeDreamSection(matches, 'advice');
+
+    let luckyNums = [];
+    if (matches.length === 0) luckyNums = DREAM_DEFAULT.lucky;
+    else { matches.forEach(m => luckyNums.push(...m.lucky)); luckyNums = [...new Set(luckyNums)].slice(0,3); }
+    document.getElementById('dream-lucky').textContent = luckyNums.join(' • ');
+
+    document.getElementById('dream-closing').textContent = DREAM_CLOSING[Math.floor(Math.random()*DREAM_CLOSING.length)];
+
+    document.getElementById('dream-step2').style.display = 'none';
+    document.getElementById('dream-result').classList.add('show');
+    showBottomNavOverride();
+    showPageHeader('page-dream');
+    showCreditsBar('dream');
+    document.getElementById('dream-result').scrollIntoView({behavior:'smooth', block:'start'});
+  }, 1800);
+}
+
+function resetDream() {
+  document.getElementById('dream-text-input').value = '';
+  dreamSelectedStatus = 'single';
+  document.querySelectorAll('.dream-status-btn').forEach(btn => { btn.style.background='var(--white)'; btn.style.color='var(--text-mid)'; });
+  hideBottomNavOverride();
+  showDreamStep('dream-step0');
+}
+
 function drawSiam(){const _p=loadUserProfile();const dob=(_p&&_p.dob)?_p.dob:null;if(!dob){alert('กรุณากรอกข้อมูลโปรไฟล์ก่อนนะคะ');showProfilePopup(false);return;}if(userState.plan==='free'||userState.credits<=0){showPaymentPrompt('siam');return;}document.getElementById('siam-result').classList.remove('show');setTimeout(()=>{useCredit();const n=getSiamNumber(dob);const d=siamData[n];document.getElementById('siam-number').textContent=n;document.getElementById('siam-title').textContent=d.title;document.getElementById('siam-text').textContent=d.text;document.getElementById('siam-advice').textContent=d.advice;document.getElementById('siam-result').classList.add('show');showBottomNavOverride();showPageHeader('page-siam');showCreditsBar('siam');document.getElementById('siam-result').scrollIntoView({behavior:'smooth',block:'start'});},500);}
 const tarotData={love:[{emoji:'',title:'The Lovers — คู่รักแห่งดวงดาว',text:'ความรักกำลังเบ่งบาน ถ้ามีคู่แล้วความสัมพันธ์จะแข็งแกร่งขึ้น ถ้าโสดอาจพบคนที่ใช่',advice:'เปิดใจรับความรักอย่างกล้าหาญ อย่ากลัวแสดงความรู้สึกที่แท้จริง'},{emoji:'',title:'The Moon — แสงจันทร์แห่งความลึก',text:'มีบางเรื่องในความสัมพันธ์ที่ยังคลุมเครือ ควรสื่อสารให้ชัดเจนขึ้น',advice:'พูดคุยกันด้วยใจเปิดกว้าง ความเข้าใจแท้จริงจะทำให้ความสัมพันธ์มั่นคง'},{emoji:'⭐',title:'The Star — ดาวนำทางแห่งความหวัง',text:'ความรักที่แท้จริงกำลังรอท่านอยู่ ไม่ว่าผ่านอะไรมา ความหวังยังสว่างไสว',advice:'วางใจในจังหวะของชีวิต สิ่งดีๆ กำลังเดินทางมาหาท่าน'}],work:[{emoji:'',title:'The Emperor — จักรพรรดิแห่งความสำเร็จ',text:'มีความสามารถในการนำและตัดสินใจที่แข็งแกร่ง เหมาะแก่การแสดงศักยภาพ',advice:'ก้าวออกมานำหน้า แสดงความสามารถให้ผู้ใหญ่มองเห็น'},{emoji:'',title:'The Chariot — รถศึกแห่งชัยชนะ',text:'ชัยชนะอยู่ตรงหน้า แม้มีอุปสรรค ถ้าไม่ยอมแพ้จะประสบความสำเร็จ',advice:'มุ่งหน้าต่อด้วยความมั่นใจ อย่าให้สิ่งรอบข้างมาเบี่ยงความสนใจ'},{emoji:'',title:'The Hermit — ฤๅษีผู้รอบรู้',text:'เป็นเวลาของการเรียนรู้และพัฒนาตัวเอง ความรู้ที่สะสมจะกลายเป็นอาวุธ',advice:'ลงทุนกับการพัฒนาทักษะ เรียนรู้สิ่งใหม่ ผลจะปรากฏในอนาคตอันใกล้'}],money:[{emoji:'',title:'Ace of Pentacles — เหรียญแห่งโชคลาภ',text:'โอกาสทางการเงินกำลังเปิดออก อาจมีรายได้ใหม่หรือโอกาสลงทุนที่ดีเข้ามา',advice:'ตรวจสอบโอกาสด้วยสติ ศึกษาให้ถ่องแท้ก่อนตัดสินใจ'},{emoji:'',title:'The Wheel — วงล้อแห่งชะตา',text:'การเงินอยู่ในช่วงเปลี่ยนแปลง มีทั้งขึ้นและลง แต่แนวโน้มโดยรวมดีขึ้น',advice:'สำรองเงินไว้บ้าง แต่อย่ากลัวจนเกินไป โอกาสที่ดีกำลังใกล้เข้ามา'},{emoji:'',title:'The Sun — ดวงอาทิตย์แห่งความรุ่งโรจน์',text:'การเงินสว่างไสว รายได้มั่นคง อาจมีโบนัสหรือรายได้พิเศษเข้ามา',advice:'ใช้ช่วงเวลาดีนี้วางรากฐานทางการเงินระยะยาว ออมและลงทุนอย่างชาญฉลาด'}],health:[{emoji:'🌸',title:'Temperance — ความสมดุลแห่งชีวิต',text:'ร่างกายและจิตใจต้องการความสมดุล ดูแลตัวเองทั้งสองด้านให้ดี',advice:'นอนหลับพักผ่อนให้เพียงพอ รับประทานอาหารดี หาเวลาผ่อนคลาย'},{emoji:'',title:'Strength — พลังแห่งจิตใจ',text:'มีพลังและความแข็งแกร่งมากกว่าที่คิด สุขภาพกายดี แต่ต้องดูแลสุขภาพจิตด้วย',advice:'ออกกำลังกายสม่ำเสมอ หาวิธีจัดการความเครียดที่เหมาะกับตัวเอง'},{emoji:'',title:'The World — โลกแห่งความสมบูรณ์',text:'สุขภาพโดยรวมอยู่ในเกณฑ์ดี ร่างกายกำลังฟื้นฟูและแข็งแรงขึ้น',advice:'รักษาสมดุลชีวิต อย่าทำงานหักโหมเกินไป จิตใจผ่อนคลายสร้างสุขภาพดี'}]};
 function getTarotIndex(dob,topic){const today=new Date();const seed=dob+topic+today.toISOString().slice(0,10);let h=0;for(let c of seed)h=((h<<5)-h)+c.charCodeAt(0);return Math.abs(h)%3;}
@@ -6393,7 +6644,7 @@ function handleHash() {
  const hash = window.location.hash.replace('#', '');
  if (!hash) return;
 
- const routes = { 'siam': () => { goTo('page-siam'); }, 'siam-chinese': () => { goTo('page-siam'); selectTemple('chinese'); }, 'siam-thai': () => { goTo('page-siam'); selectTemple('thai'); }, 'tarot': () => { goTo('page-tarot'); }, 'tarot-love': () => { goTo('page-tarot'); selectTarotTopic('love'); }, 'tarot-work': () => { goTo('page-tarot'); selectTarotTopic('work'); }, 'tarot-money': () => { goTo('page-tarot'); selectTarotTopic('money'); }, 'tarot-health': () => { goTo('page-tarot'); selectTarotTopic('health'); }, 'energy': () => { goTo('page-energy'); }, 'soulmate': () => { goTo('page-soulmate'); }, 'soulmate-thai': () => { goTo('page-soulmate'); selectSoulmateScience('thai'); }, 'soulmate-chinese': () => { goTo('page-soulmate'); selectSoulmateScience('chinese'); }, 'soulmate-indian': () => { goTo('page-soulmate'); selectSoulmateScience('indian'); }, 'soulmate-western': () => { goTo('page-soulmate'); selectSoulmateScience('western'); },
+ const routes = { 'siam': () => { goTo('page-siam'); }, 'siam-chinese': () => { goTo('page-siam'); selectTemple('chinese'); }, 'siam-thai': () => { goTo('page-siam'); selectTemple('thai'); }, 'tarot': () => { goTo('page-tarot'); }, 'tarot-love': () => { goTo('page-tarot'); selectTarotTopic('love'); }, 'tarot-work': () => { goTo('page-tarot'); selectTarotTopic('work'); }, 'tarot-money': () => { goTo('page-tarot'); selectTarotTopic('money'); }, 'tarot-health': () => { goTo('page-tarot'); selectTarotTopic('health'); }, 'energy': () => { goTo('page-energy'); }, 'soulmate': () => { goTo('page-soulmate'); }, 'soulmate-thai': () => { goTo('page-soulmate'); selectSoulmateScience('thai'); }, 'soulmate-chinese': () => { goTo('page-soulmate'); selectSoulmateScience('chinese'); }, 'soulmate-indian': () => { goTo('page-soulmate'); selectSoulmateScience('indian'); }, 'soulmate-western': () => { goTo('page-soulmate'); selectSoulmateScience('western'); }, 'dream': () => { goTo('page-dream'); }, 'pricing': () => { goTo('page-pricing'); },
  };
 
  if (routes[hash]) routes[hash]();
@@ -6434,7 +6685,6 @@ window.addEventListener('load', () => {
      card.classList.remove('menu-card-locked');
      const badge = card.querySelector('.menu-lock-badge');
      if (badge) badge.remove();
-     if (card.id === 'dream-card') card.setAttribute('onclick', "showToast('ทำนายฝัน — กำลังพัฒนาค่ะ')");
    });
    showToast('Dev Mode เปิดแล้ว — ใช้งานได้ไม่จำกัด');
  }, 800);
@@ -6447,6 +6697,7 @@ window.addEventListener('load', () => {
  else if (goTo_param === 'energy') goTo('page-energy');
  else if (goTo_param === 'pricing') goTo('page-pricing');
  else if (goTo_param === 'soulmate') goTo('page-soulmate');
+ else if (goTo_param === 'dream') goTo('page-dream');
  }
  // เริ่ม LINE Auth
  initLineAuth();
