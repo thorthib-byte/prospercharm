@@ -388,9 +388,6 @@
       <div class="menu-card" id="dream-card" onclick="goTo('page-dream')"><img class="menu-icon" src="images/icons/dream.png"><span class="menu-title">ทำนายฝัน</span><span class="menu-desc">มุมมองเชิงสร้างสรรค์ต่อฝัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
       <div class="menu-card menu-card-locked" id="healing-card" style="display:none;" onclick="handleLockedCard()"><span class="menu-lock-badge"><i data-lucide="lock" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เร็วๆ นี้</span><img class="menu-icon" src="images/icons/healing.png"><span class="menu-title">ล้างพลังงาน</span><span class="menu-desc">ผ่อนคลายความคิดลบ</span><span class="menu-price">29 บาท/ครั้ง</span></div>
     </div>
-    <div style="margin:14px 16px 0; padding:12px 14px; background:rgba(180,160,130,0.08); border:1px solid rgba(180,160,130,0.25); border-radius:14px; font-family:'Noto Sans Thai',sans-serif; font-size:11.5px; line-height:1.6; color:var(--text-light); text-align:center;">
-      เนื้อหาทั้งหมดในแอปนี้จัดทำขึ้นเพื่อความเพลิดเพลินและการสำรวจตัวเอง (self-reflection &amp; entertainment) เท่านั้น ไม่ใช่คำแนะนำทางการแพทย์ กฎหมาย การเงิน หรือคำพยากรณ์ที่แม่นยำ ใช้วิจารณญาณของผู้ใช้เองในการตัดสินใจ
-    </div>
     <div class="promo-banner" onclick="goTo('page-pricing')">
       <div class="promo-title">✦ สมัครแพ็กเกจรายเดือน ✦</div>
       <div class="promo-desc">เริ่มต้น 99 บาท/เดือน ประหยัดกว่าจ่ายรายครั้ง</div>
@@ -1644,10 +1641,11 @@
     <div class="modal-subtitle" id="modal-subtitle"></div>
     <div class="modal-price" id="modal-price">29 บาท</div>
     <div class="modal-methods">
-      <button class="method-btn" id="pay-promptpay-btn" onclick="startStripeCheckout('promptpay')"><span class="method-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></span> พร้อมเพย์</button>
-      <button class="method-btn" id="pay-card-btn" onclick="startStripeCheckout('card')"><span class="method-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></span> บัตรเครดิต/เดบิต</button>
+      <button class="method-btn" id="pay-promptpay-btn" onclick="selectPaymentMethod('promptpay')"><span class="method-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></span> พร้อมเพย์</button>
+      <button class="method-btn" id="pay-card-btn" onclick="selectPaymentMethod('card')"><span class="method-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></span> บัตรเครดิต/เดบิต</button>
+      <button class="method-btn" id="pay-truemoney-btn" onclick="selectPaymentMethod('truemoney')"><span class="method-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></span> ทรูมันนี่ วอลเล็ท</button>
     </div>
-    <div class="modal-note" id="payment-modal-note">* ชำระเงินปลอดภัยผ่าน Stripe</div>
+    <div class="modal-note" id="payment-modal-note">* เลือกช่องทางที่สะดวก</div>
     <button class="modal-close" onclick="closePayment()">ยกเลิก</button>
   </div>
 </div>
@@ -3059,12 +3057,11 @@ function useCredit(){if(userState.credits<999){userState.credits--;saveState();u
 function resetPage(type){document.getElementById(type+'-result').classList.remove('show');document.getElementById(type+'-lock').classList.remove('show');if(type==='tarot'){selectedTopic=null;document.querySelectorAll('.topic-btn').forEach(b=>b.classList.remove('selected'));document.getElementById('tarot-btn').disabled=true;}showCreditsBar(type);}
 let pendingPayment={};
 function openPayment(type,price,credits){
- // ⚠️ ปิดระบบชำระเงินชั่วคราว (รอจดทะเบียนบริษัท + เชื่อมธนาคารใหม่) — ลบ/คอมเมนต์บล็อกนี้ออกเพื่อเปิดใช้อีกครั้ง
- showToast('ขออภัยค่ะ ระบบชำระเงินปิดปรับปรุงชั่วคราว กรุณาติดตามข่าวสารเร็วๆ นี้ 🙏');
- return;
- /* เดิม (พักไว้):
  pendingPayment={type,price,credits};const titles={single:'จ่ายรายครั้ง',basic:'แพ็กเกจ Basic',pro:'แพ็กเกจ Pro',unlimited:'แพ็กเกจ Unlimited'};const subs={single:'ใช้ได้ 1 ครั้ง',basic:'5 ครั้ง/เดือน',pro:'12 ครั้ง/เดือน',unlimited:'ไม่จำกัด/เดือน'};document.getElementById('modal-title').textContent=titles[type];document.getElementById('modal-subtitle').textContent=subs[type];document.getElementById('modal-price').textContent=price+' บาท';document.getElementById('payment-modal').classList.add('show');
- */
+}
+// เลือกวิธีจ่ายเงิน — ⚠️ ยังไม่เชื่อมช่องทางจ่ายเงินจริง (รอจดทะเบียนบริษัท + เชื่อมธนาคาร) แสดง UI ไว้ก่อน กดแล้วยังจ่ายจริงไม่ได้
+function selectPaymentMethod(method){
+ showToast('ช่องทางนี้จะเปิดให้บริการเร็วๆ นี้ค่ะ 🙏');
 }
 function closePayment(){document.getElementById('payment-modal').classList.remove('show');}
 
