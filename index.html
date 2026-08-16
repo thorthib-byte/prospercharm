@@ -457,6 +457,7 @@
   <div class="page" id="page-pricing">
     <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><i data-lucide="gem" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เลือกแพ็กเกจ</div></div>
     <div class="pricing-header"><h2>ดูดวงไม่จำกัด ราคาคุ้มค่า</h2><p>เลือกแพ็กเกจที่เหมาะกับคุณ</p></div>
+    <div style="margin:0 20px 16px; padding:14px 16px; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.35); border-radius:12px; text-align:center; font-family:'Noto Sans Thai',sans-serif; font-size:13px; color:var(--brown-dark);">🙏 ระบบชำระเงินปิดปรับปรุงชั่วคราว กรุณาติดตามข่าวสารเร็วๆ นี้</div>
     <div class="pricing-cards">
       <div class="pricing-card">
         <div class="pricing-name"><i data-lucide="sparkles" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> รายครั้ง</div>
@@ -3057,7 +3058,14 @@ function handleLockedCard(){ showToast(' บริการนี้กำลั
 function useCredit(){if(userState.credits<999){userState.credits--;saveState();updateStatusBar();syncCreditsToServer();}}
 function resetPage(type){document.getElementById(type+'-result').classList.remove('show');document.getElementById(type+'-lock').classList.remove('show');if(type==='tarot'){selectedTopic=null;document.querySelectorAll('.topic-btn').forEach(b=>b.classList.remove('selected'));document.getElementById('tarot-btn').disabled=true;}showCreditsBar(type);}
 let pendingPayment={};
-function openPayment(type,price,credits){pendingPayment={type,price,credits};const titles={single:'จ่ายรายครั้ง',basic:'แพ็กเกจ Basic',pro:'แพ็กเกจ Pro',unlimited:'แพ็กเกจ Unlimited'};const subs={single:'ใช้ได้ 1 ครั้ง',basic:'5 ครั้ง/เดือน',pro:'12 ครั้ง/เดือน',unlimited:'ไม่จำกัด/เดือน'};document.getElementById('modal-title').textContent=titles[type];document.getElementById('modal-subtitle').textContent=subs[type];document.getElementById('modal-price').textContent=price+' บาท';document.getElementById('payment-modal').classList.add('show');}
+function openPayment(type,price,credits){
+ // ⚠️ ปิดระบบชำระเงินชั่วคราว (รอจดทะเบียนบริษัท + เชื่อมธนาคารใหม่) — ลบ/คอมเมนต์บล็อกนี้ออกเพื่อเปิดใช้อีกครั้ง
+ showToast('ขออภัยค่ะ ระบบชำระเงินปิดปรับปรุงชั่วคราว กรุณาติดตามข่าวสารเร็วๆ นี้ 🙏');
+ return;
+ /* เดิม (พักไว้):
+ pendingPayment={type,price,credits};const titles={single:'จ่ายรายครั้ง',basic:'แพ็กเกจ Basic',pro:'แพ็กเกจ Pro',unlimited:'แพ็กเกจ Unlimited'};const subs={single:'ใช้ได้ 1 ครั้ง',basic:'5 ครั้ง/เดือน',pro:'12 ครั้ง/เดือน',unlimited:'ไม่จำกัด/เดือน'};document.getElementById('modal-title').textContent=titles[type];document.getElementById('modal-subtitle').textContent=subs[type];document.getElementById('modal-price').textContent=price+' บาท';document.getElementById('payment-modal').classList.add('show');
+ */
+}
 function closePayment(){document.getElementById('payment-modal').classList.remove('show');}
 
 // ===== STRIPE CHECKOUT =====
