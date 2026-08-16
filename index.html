@@ -131,7 +131,7 @@
   .lock-btn-single { width:100%; padding:13px; background:transparent; border:1px solid rgba(180,160,130,0.4); border-radius:12px; color:var(--text-mid); font-family:'Noto Sans Thai',sans-serif; font-size:14px; cursor:pointer; }
 
   /* RESULT */
-  .result-card { margin:0 20px 30px; background:var(--white); border-radius:20px; padding:28px 24px; border:1px solid rgba(201,168,76,0.4); box-shadow:0 8px 32px rgba(100,80,50,0.1); display:none; animation:fadeUp 0.5s ease; }
+  .result-card { margin:0 20px 90px; background:var(--white); border-radius:20px; padding:28px 24px; border:1px solid rgba(201,168,76,0.4); box-shadow:0 8px 32px rgba(100,80,50,0.1); display:none; animation:fadeUp 0.5s ease; }
   .result-card.show { display:block; }
   @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
   .result-badge { text-align:center; margin-bottom:16px; }
@@ -175,7 +175,7 @@
   .pricing-btn:active { transform:scale(0.97); }
 
   /* MODAL */
-  .modal-overlay { position:fixed; inset:0; background:rgba(60,48,36,0.7); z-index:100; display:none; align-items:flex-end; justify-content:center; }
+  .modal-overlay { position:fixed; inset:0; background:rgba(60,48,36,0.7); z-index:600; display:none; align-items:flex-end; justify-content:center; }
   .modal-overlay.show { display:flex; }
   .modal { background:var(--white); border-radius:24px 24px 0 0; padding:28px 24px 40px; width:100%; max-width:430px; border-top:2px solid var(--gold); animation:slideUp 0.3s ease; }
   @keyframes slideUp { from{transform:translateY(100%)} to{transform:translateY(0)} }
@@ -320,7 +320,6 @@
         <button class="upgrade-link" onclick="goTo('page-pricing')">สมัครแพ็กเกจ →</button>
       </div>
     </div>
-    <div style="padding-bottom:64px;"></div>
 
   <!-- DAILY CHECK-IN MODAL -->
   <div id="checkin-overlay" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:200;align-items:flex-end;justify-content:center;">
@@ -648,7 +647,7 @@
     </style>
 
     <!-- STEP 2: ผลลัพธ์ -->
-    <div id="daily-step2" style="display:none; padding:20px 16px 40px;">
+    <div id="daily-step2" style="display:none; padding:20px 16px 90px;">
       <div style="background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(180,140,130,0.08)); border:1px solid rgba(201,168,76,0.25); border-radius:20px; padding:24px; margin-bottom:16px; text-align:center;">
         <div style="font-size:13px; color:var(--gold); letter-spacing:2px; margin-bottom:6px; font-family:'Noto Sans Thai',sans-serif;">พลังงานหลักของวันนี้</div>
         <div style="font-family:'Noto Serif Thai',serif; font-size:22px; font-weight:700; color:var(--brown-dark); margin-bottom:8px;" id="daily-theme-title"></div>
@@ -1127,7 +1126,7 @@
           <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:600;color:var(--brown-dark);margin-bottom:8px;">คำพยากรณ์จากพ่อปู่</div>
           <div id="energy-final-prophecy" style="font-size:14px;color:var(--text-mid);line-height:1.9;font-style:italic;"></div>
         </div>
-        <div style="display:flex;gap:10px;margin-bottom:32px;">
+        <div style="display:flex;gap:10px;margin-bottom:90px;">
           <button onclick="shareEnergyResult()" style="flex:1;padding:13px;background:var(--brown-dark);border:none;border-radius:12px;color:rgba(212,175,55,0.9);font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:600;cursor:pointer;">แชร์เลขมงคล</button>
           <button onclick="resetEnergy()" style="flex:1;padding:13px;background:transparent;border:1px solid rgba(180,160,130,0.4);border-radius:12px;color:var(--text-mid);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">ทำพิธีใหม่</button>
         </div>
@@ -1628,7 +1627,7 @@
   </div>
 
   <!-- IN-STEP5: ผลดวงสมพงษ์ศาสตร์อินเดีย -->
-  <div id="in-step5" style="display:none; padding:20px 16px 40px; background:var(--cream);"></div>
+  <div id="in-step5" style="display:none; padding:20px 16px 90px; background:var(--cream);"></div>
 
   <!-- PAYMENT MODAL -->
   </div>
