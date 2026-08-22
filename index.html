@@ -595,15 +595,15 @@
 
       <!-- Title -->
       <div style="text-align:center;padding:12px 20px 16px;">
-        <div style="font-family:'Noto Serif Thai',serif;font-size:22px;font-weight:700;color:var(--brown-dark);word-break:break-word;">วันนี้อยากดูเรื่องอะไร?</div>
-        <div style="font-size:13px;color:var(--text-light);margin-top:4px;">เลือกได้ 1 เรื่องต่อวัน · เรื่องที่ดูแล้วจะเปิดใหม่ไม่ได้</div>
+        <div data-i18n="dailyTopicHeadline" style="font-family:'Noto Serif Thai',serif;font-size:22px;font-weight:700;color:var(--brown-dark);word-break:break-word;">วันนี้อยากดูเรื่องอะไร?</div>
+        <div data-i18n="dailyTopicSub" style="font-size:13px;color:var(--text-light);margin-top:4px;">เลือกได้ 1 เรื่องต่อวัน · เรื่องที่ดูแล้วจะเปิดใหม่ไม่ได้</div>
       </div>
 
       <!-- Topic buttons -->
       <div style="display:flex;flex-direction:column;gap:12px;padding:0 16px;" id="daily-topic-btns"></div>
 
       <div style="padding:16px 16px 40px;">
-        <button onclick="dailyEditProfile()" style="width:100%;padding:12px;background:transparent;border:1px solid rgba(180,160,130,0.4);border-radius:12px;font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text-light);cursor:pointer;"><i data-lucide="pencil" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> แก้ไขข้อมูลวันเกิด / สถานที่</button>
+        <button onclick="dailyEditProfile()" style="width:100%;padding:12px;background:transparent;border:1px solid rgba(180,160,130,0.4);border-radius:12px;font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text-light);cursor:pointer;"><i data-lucide="pencil" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="dailyEditProfileBtn">แก้ไขข้อมูลวันเกิด / สถานที่</span></button>
       </div>
     </div>
 
@@ -706,18 +706,18 @@
 
     <!-- STEP 0: เลือกวัด -->
     <div id="siam-step0" style="padding:24px 20px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:6px;">เลือกวัดที่ต้องการ</div>
-      <div style="font-size:13px; color:var(--text-light); text-align:center; margin-bottom:24px;">เลือกสายดวงที่คุณศรัทธา</div>
+      <div data-i18n="siamChooseTemple" style="font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:6px;">เลือกวัดที่ต้องการ</div>
+      <div data-i18n="siamChooseTempleSub" style="font-size:13px; color:var(--text-light); text-align:center; margin-bottom:24px;">เลือกสายดวงที่คุณศรัทธา</div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
         <div onclick="selectTemple('chinese')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; text-align:center; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); transition:all 0.2s;">
           <img src="images/siam/chinesetemplebg.png" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; margin-bottom:10px; display:block;">
-          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">วัดจีน</div>
-          <div style="font-size:11px; color:var(--text-light); margin-top:4px;">ฮ่องกง มาเก๊า</div>
+          <div data-i18n="templeChinese" style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">วัดจีน</div>
+          <div data-i18n="templeChineseSub" style="font-size:11px; color:var(--text-light); margin-top:4px;">ฮ่องกง มาเก๊า</div>
         </div>
         <div onclick="selectTemple('thai')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:16px; text-align:center; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); transition:all 0.2s;">
           <img src="images/siam/thaitemplebg.png" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; margin-bottom:10px; display:block;">
-          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">วัดไทย</div>
-          <div style="font-size:11px; color:var(--text-light); margin-top:4px;">สายมูไทย</div>
+          <div data-i18n="templeThai" style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">วัดไทย</div>
+          <div data-i18n="templeThaiSub" style="font-size:11px; color:var(--text-light); margin-top:4px;">สายมูไทย</div>
         </div>
       </div>
     </div>
@@ -784,24 +784,24 @@
     <!-- STEP 0: หน้าเริ่มต้น -->
     <div id="dream-step0" style="padding:48px 24px; text-align:center;">
       <div style="font-size:52px; margin-bottom:16px;">🌙</div>
-      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">ความฝันเมื่อคืนกำลังบอกอะไรคุณ?</div>
-      <div style="font-size:13px; color:var(--text-light); margin-bottom:28px;">เล่าความฝันของคุณ แล้วให้ดวงดาวช่วยตีความ</div>
-      <button class="cta-btn" onclick="showDreamStep('dream-step1')">เริ่มทำนายฝัน</button>
+      <div data-i18n="dreamHeadline" style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:600; color:var(--brown-dark); margin-bottom:8px;">ความฝันเมื่อคืนกำลังบอกอะไรคุณ?</div>
+      <div data-i18n="dreamIntroSub" style="font-size:13px; color:var(--text-light); margin-bottom:28px;">เล่าความฝันของคุณ แล้วให้ดวงดาวช่วยตีความ</div>
+      <button class="cta-btn" data-i18n="dreamStartBtn" onclick="showDreamStep('dream-step1')">เริ่มทำนายฝัน</button>
     </div>
 
     <!-- STEP 1: กรอกความฝัน -->
     <div id="dream-step1" class="form-section" style="display:none; padding:20px;">
-      <div style="font-size:13px; color:var(--text-mid); margin-bottom:8px; font-family:'Noto Serif Thai',serif;">เล่าความฝันของคุณ</div>
-      <textarea id="dream-text-input" rows="6" placeholder="เมื่อคืนฝันว่า..." style="width:100%; box-sizing:border-box; border:1px solid rgba(180,160,130,0.3); border-radius:12px; padding:12px; font-family:'Noto Sans Thai',sans-serif; font-size:14px; color:var(--text); resize:vertical; background:var(--white);"></textarea>
+      <div data-i18n="dreamTellLabel" style="font-size:13px; color:var(--text-mid); margin-bottom:8px; font-family:'Noto Serif Thai',serif;">เล่าความฝันของคุณ</div>
+      <textarea id="dream-text-input" rows="6" data-i18n-ph="dreamPlaceholder" placeholder="เมื่อคืนฝันว่า..." style="width:100%; box-sizing:border-box; border:1px solid rgba(180,160,130,0.3); border-radius:12px; padding:12px; font-family:'Noto Sans Thai',sans-serif; font-size:14px; color:var(--text); resize:vertical; background:var(--white);"></textarea>
 
-      <div style="font-size:13px; color:var(--text-mid); margin:16px 0 8px; font-family:'Noto Serif Thai',serif;">สถานะความสัมพันธ์ <span style="color:var(--text-light); font-size:11px;">(ไม่บังคับ)</span></div>
+      <div style="font-size:13px; color:var(--text-mid); margin:16px 0 8px; font-family:'Noto Serif Thai',serif;"><span data-i18n="relStatusLabel">สถานะความสัมพันธ์</span> <span data-i18n="optionalLabel" style="color:var(--text-light); font-size:11px;">(ไม่บังคับ)</span></div>
       <div style="display:flex; gap:8px;">
-        <button type="button" class="dream-status-btn" data-val="single" onclick="selectDreamStatus('single')" style="flex:1; padding:10px 6px; border-radius:10px; border:1px solid rgba(180,160,130,0.3); background:var(--white); font-family:'Noto Sans Thai',sans-serif; font-size:12px; color:var(--text-mid); cursor:pointer;">โสด</button>
-        <button type="button" class="dream-status-btn" data-val="talking" onclick="selectDreamStatus('talking')" style="flex:1; padding:10px 6px; border-radius:10px; border:1px solid rgba(180,160,130,0.3); background:var(--white); font-family:'Noto Sans Thai',sans-serif; font-size:12px; color:var(--text-mid); cursor:pointer;">มีคนคุย</button>
-        <button type="button" class="dream-status-btn" data-val="taken" onclick="selectDreamStatus('taken')" style="flex:1; padding:10px 6px; border-radius:10px; border:1px solid rgba(180,160,130,0.3); background:var(--white); font-family:'Noto Sans Thai',sans-serif; font-size:12px; color:var(--text-mid); cursor:pointer;">มีแฟน</button>
+        <button type="button" class="dream-status-btn" data-val="single" data-i18n="statusSingle" onclick="selectDreamStatus('single')" style="flex:1; padding:10px 6px; border-radius:10px; border:1px solid rgba(180,160,130,0.3); background:var(--white); font-family:'Noto Sans Thai',sans-serif; font-size:12px; color:var(--text-mid); cursor:pointer;">โสด</button>
+        <button type="button" class="dream-status-btn" data-val="talking" data-i18n="statusTalking" onclick="selectDreamStatus('talking')" style="flex:1; padding:10px 6px; border-radius:10px; border:1px solid rgba(180,160,130,0.3); background:var(--white); font-family:'Noto Sans Thai',sans-serif; font-size:12px; color:var(--text-mid); cursor:pointer;">มีคนคุย</button>
+        <button type="button" class="dream-status-btn" data-val="taken" data-i18n="statusTaken" onclick="selectDreamStatus('taken')" style="flex:1; padding:10px 6px; border-radius:10px; border:1px solid rgba(180,160,130,0.3); background:var(--white); font-family:'Noto Sans Thai',sans-serif; font-size:12px; color:var(--text-mid); cursor:pointer;">มีแฟน</button>
       </div>
 
-      <button class="cta-btn" style="margin-top:20px;" onclick="drawDream()">เปิดความหมายความฝัน</button>
+      <button class="cta-btn" data-i18n="dreamCta" style="margin-top:20px;" onclick="drawDream()">เปิดความหมายความฝัน</button>
       <button class="reset-btn" style="margin-top:10px;" onclick="showDreamStep('dream-step0')">← ย้อนกลับ</button>
     </div>
 
@@ -864,24 +864,24 @@
 
     <!-- STEP 0: เลือกหัวข้อ -->
     <div id="tarot-step0" style="padding:24px 20px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:6px;">เลือกหัวข้อที่ต้องการรู้</div>
-      <div style="font-size:13px; color:var(--text-light); text-align:center; margin-bottom:24px;">ไพ่จะตอบคำถามในหัวข้อที่คุณเลือก</div>
+      <div data-i18n="tarotChooseTopic" style="font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:6px;">เลือกหัวข้อที่ต้องการรู้</div>
+      <div data-i18n="tarotChooseTopicSub" style="font-size:13px; color:var(--text-light); text-align:center; margin-bottom:24px;">ไพ่จะตอบคำถามในหัวข้อที่คุณเลือก</div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
         <div onclick="selectTarotTopic('love')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); padding:14px; text-align:center;">
           <img src="images/icons/thelovers.png" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; display:block; margin-bottom:10px;">
-          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">ความรัก</div>
+          <div data-i18n="topicLove" style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">ความรัก</div>
         </div>
         <div onclick="selectTarotTopic('work')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); padding:14px; text-align:center;">
           <img src="images/icons/theemperor.png" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; display:block; margin-bottom:10px;">
-          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">การงาน</div>
+          <div data-i18n="topicWork" style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">การงาน</div>
         </div>
         <div onclick="selectTarotTopic('money')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); padding:14px; text-align:center;">
           <img src="images/icons/kingofpentacles.png" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; display:block; margin-bottom:10px;">
-          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">การเงิน</div>
+          <div data-i18n="topicMoney" style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">การเงิน</div>
         </div>
         <div onclick="selectTarotTopic('health')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); padding:14px; text-align:center;">
           <img src="images/icons/temperance.png" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; display:block; margin-bottom:10px;">
-          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">สุขภาพ</div>
+          <div data-i18n="topicHealth" style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">สุขภาพ</div>
         </div>
       </div>
     </div>
@@ -1148,27 +1148,27 @@
 
     <!-- STEP 0: เลือกศาสตร์ -->
     <div id="soulmate-step0" style="padding:24px 20px;">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:6px;">เลือกศาสตร์ที่ต้องการ</div>
-      <div style="font-size:13px; color:var(--text-light); text-align:center; margin-bottom:24px;">แต่ละศาสตร์มีวิธีอ่านดวงที่แตกต่างกัน</div>
+      <div data-i18n="soulChooseScience" style="font-family:'Noto Serif Thai',serif; font-size:16px; font-weight:600; color:var(--brown-dark); text-align:center; margin-bottom:6px;">เลือกศาสตร์ที่ต้องการ</div>
+      <div data-i18n="soulChooseScienceSub" style="font-size:13px; color:var(--text-light); text-align:center; margin-bottom:24px;">แต่ละศาสตร์มีวิธีอ่านดวงที่แตกต่างกัน</div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px;">
         <div onclick="selectSoulmateScience('thai')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); padding:14px; text-align:center;">
           <img src="images/soulmate/elementthai.png" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; display:block; margin-bottom:10px;">
-          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">ศาสตร์ไทย</div>
-          <div style="font-size:11px; color:var(--text-light); margin-top:3px;">โหราศาสตร์ไทยโบราณ</div>
+          <div data-i18n="scienceThai" style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">ศาสตร์ไทย</div>
+          <div data-i18n="scienceThaiSub" style="font-size:11px; color:var(--text-light); margin-top:3px;">โหราศาสตร์ไทยโบราณ</div>
         </div>
         <div onclick="selectSoulmateScience('chinese')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); padding:14px; text-align:center;">
           <img src="images/soulmate/elementchinese.png" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; display:block; margin-bottom:10px;">
-          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">ศาสตร์จีน</div>
-          <div style="font-size:11px; color:var(--text-light); margin-top:3px;">ดวงสมพงษ์หยินหยาง</div>
+          <div data-i18n="scienceChinese" style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">ศาสตร์จีน</div>
+          <div data-i18n="scienceChineseSub" style="font-size:11px; color:var(--text-light); margin-top:3px;">ดวงสมพงษ์หยินหยาง</div>
         </div>
         <div onclick="selectSoulmateScience('indian')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); padding:14px; text-align:center;">
           <img src="images/soulmate/elementindia.png" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; display:block; margin-bottom:10px;">
-          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">ศาสตร์อินเดีย</div>
-          <div style="font-size:11px; color:var(--text-light); margin-top:3px;">โหราศาสตร์เวท</div>
+          <div data-i18n="scienceIndian" style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">ศาสตร์อินเดีย</div>
+          <div data-i18n="scienceIndianSub" style="font-size:11px; color:var(--text-light); margin-top:3px;">โหราศาสตร์เวท</div>
         </div>
         <div onclick="selectSoulmateScience('western')" style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; cursor:pointer; box-shadow:0 2px 12px rgba(100,80,50,0.06); padding:14px; text-align:center;">
           <img src="images/soulmate/elementwest.png" style="width:100%; aspect-ratio:1; object-fit:cover; border-radius:12px; display:block; margin-bottom:10px;">
-          <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">ศาสตร์ตะวันตก</div>
+          <div data-i18n="scienceWestern" style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">ศาสตร์ตะวันตก</div>
           <div style="font-size:11px; color:var(--text-light); margin-top:3px;">Numerology & Astrology</div>
         </div>
       </div>
@@ -2431,15 +2431,17 @@ function dailyStep1Next() {
  showDailyTopicSelect();
 }
 
-function showDailyTopicSelect() {
+function refreshDailyTopicLabels() {
  const used = getDailyUsedTopics();
+ const L = curLang();
  const topics = [
- { val: 'love', icon: '<i data-lucide="heart" class="li" style="width:26px;height:26px;vertical-align:-4px;"></i>', label: 'ความรัก', desc: 'ความรัก ความสัมพันธ์ และหัวใจ' },
- { val: 'work', icon: '<i data-lucide="briefcase" class="li" style="width:26px;height:26px;vertical-align:-4px;"></i>', label: 'การงาน', desc: 'อาชีพ การเรียน และเป้าหมาย' },
- { val: 'money', icon: '<i data-lucide="trending-up" class="li" style="width:26px;height:26px;vertical-align:-4px;"></i>', label: 'การเงิน', desc: 'ทรัพย์สิน รายได้ และการลงทุน' },
- { val: 'health', icon: '<i data-lucide="circle-check" class="li" style="width:26px;height:26px;vertical-align:-4px;"></i>', label: 'สุขภาพ', desc: 'ร่างกาย จิตใจ และพลังงาน' },
+ { val: 'love', icon: '<i data-lucide="heart" class="li" style="width:26px;height:26px;vertical-align:-4px;"></i>', label: I18N[L].topicLove, desc: I18N[L].topicLoveDesc },
+ { val: 'work', icon: '<i data-lucide="briefcase" class="li" style="width:26px;height:26px;vertical-align:-4px;"></i>', label: I18N[L].topicWork, desc: I18N[L].topicWorkDesc },
+ { val: 'money', icon: '<i data-lucide="trending-up" class="li" style="width:26px;height:26px;vertical-align:-4px;"></i>', label: I18N[L].topicMoney, desc: I18N[L].topicMoneyDesc },
+ { val: 'health', icon: '<i data-lucide="circle-check" class="li" style="width:26px;height:26px;vertical-align:-4px;"></i>', label: I18N[L].topicHealth, desc: I18N[L].topicHealthDesc },
  ];
  const container = document.getElementById('daily-topic-btns');
+ if (!container) return;
  container.innerHTML = topics.map(t => {
  const isDone = used[t.val];
  const iconBg = { love:'rgba(220,150,150,0.15)', work:'rgba(180,140,100,0.15)', money:'rgba(200,170,100,0.15)', health:'rgba(150,170,180,0.15)' };
@@ -2448,12 +2450,16 @@ function showDailyTopicSelect() {
  <div style="width:48px;height:48px;border-radius:50%;background:${iconBg[t.val]||'rgba(180,140,120,0.12)'};display:flex;align-items:center;justify-content:center;font-size:26px;flex-shrink:0;">${t.icon}</div>
  <div style="flex:1;">
  <div style="font-family:'Noto Serif Thai',serif;font-size:16px;font-weight:700;color:var(--brown-dark);">${t.label}</div>
- <div style="font-size:12px;color:var(--text-light);margin-top:3px;">${isDone ? '✓ ดูแล้ววันนี้' : t.desc}</div>
+ <div style="font-size:12px;color:var(--text-light);margin-top:3px;">${isDone ? I18N[L].doneToday : t.desc}</div>
  </div>
  <div style="width:32px;height:32px;border-radius:50%;background:rgba(180,160,130,0.12);display:flex;align-items:center;justify-content:center;color:var(--brown-dark);font-size:16px;flex-shrink:0;">${isDone ? '✓' : '›'}</div>
  </button>`;
  }).join('');
  liRefresh(container);
+}
+
+function showDailyTopicSelect() {
+ refreshDailyTopicLabels();
 
  document.getElementById('daily-step1').style.display = 'none';
  document.getElementById('daily-step15').style.display = 'block';
@@ -2987,6 +2993,30 @@ const I18N = {
     aboutP2: 'ไม่มีนักพยากรณ์หรือที่ปรึกษาจริงในระบบ เนื้อหาทั้งหมดจัดทำขึ้นเพื่อความบันเทิงและการพัฒนาตนเองเท่านั้น ไม่ใช่คำแนะนำทางการแพทย์ กฎหมาย หรือการเงิน',
     pricingTitle: 'ดูดวงไม่จำกัด ราคาคุ้มค่า', pricingSub: 'เลือกแพ็กเกจที่เหมาะกับคุณ',
     paymentNotice: '🙏 ระบบชำระเงินปิดปรับปรุงชั่วคราว กรุณาติดตามข่าวสารเร็วๆ นี้',
+    dreamIntroSub: 'เล่าความฝันของคุณ แล้วให้ดวงดาวช่วยตีความ',
+    dreamHeadline: 'ความฝันเมื่อคืนกำลังบอกอะไรคุณ?',
+    dreamStartBtn: 'เริ่มทำนายฝัน',
+    dreamTellLabel: 'เล่าความฝันของคุณ',
+    dreamPlaceholder: 'เมื่อคืนฝันว่า...',
+    relStatusLabel: 'สถานะความสัมพันธ์',
+    optionalLabel: '(ไม่บังคับ)',
+    statusSingle: 'โสด', statusTalking: 'มีคนคุย', statusTaken: 'มีแฟน',
+    dreamCta: 'เปิดความหมายความฝัน',
+    siamChooseTemple: 'เลือกวัดที่ต้องการ', siamChooseTempleSub: 'เลือกสายดวงที่คุณศรัทธา',
+    templeChinese: 'วัดจีน', templeChineseSub: 'ฮ่องกง มาเก๊า',
+    templeThai: 'วัดไทย', templeThaiSub: 'สายมูไทย',
+    soulChooseScience: 'เลือกศาสตร์ที่ต้องการ', soulChooseScienceSub: 'แต่ละศาสตร์มีวิธีอ่านดวงที่แตกต่างกัน',
+    scienceThai: 'ศาสตร์ไทย', scienceThaiSub: 'โหราศาสตร์ไทยโบราณ',
+    scienceChinese: 'ศาสตร์จีน', scienceChineseSub: 'ดวงสมพงษ์หยินหยาง',
+    scienceIndian: 'ศาสตร์อินเดีย', scienceIndianSub: 'โหราศาสตร์เวท',
+    scienceWestern: 'ศาสตร์ตะวันตก',
+    tarotChooseTopic: 'เลือกหัวข้อที่ต้องการรู้', tarotChooseTopicSub: 'ไพ่จะตอบคำถามในหัวข้อที่คุณเลือก',
+    topicLove: 'ความรัก', topicWork: 'การงาน', topicMoney: 'การเงิน', topicHealth: 'สุขภาพ',
+    topicLoveDesc: 'ความรัก ความสัมพันธ์ และหัวใจ', topicWorkDesc: 'อาชีพ การเรียน และเป้าหมาย',
+    topicMoneyDesc: 'ทรัพย์สิน รายได้ และการลงทุน', topicHealthDesc: 'ร่างกาย จิตใจ และพลังงาน',
+    doneToday: '✓ ดูแล้ววันนี้',
+    dailyTopicHeadline: 'วันนี้อยากดูเรื่องอะไร?', dailyTopicSub: 'เลือกได้ 1 เรื่องต่อวัน · เรื่องที่ดูแล้วจะเปิดใหม่ไม่ได้',
+    dailyEditProfileBtn: 'แก้ไขข้อมูลวันเกิด / สถานที่',
   },
   en: {
     chooseService: '✦ Choose a Service ✦',
@@ -3011,6 +3041,30 @@ const I18N = {
     aboutP2: 'There are no real fortune-tellers or consultants behind the results. Everything is for entertainment and personal growth only — it is not medical, legal, or financial advice.',
     pricingTitle: 'Unlimited Readings, Great Value', pricingSub: 'Choose the plan that fits you',
     paymentNotice: '🙏 Payments are temporarily unavailable. Stay tuned for updates.',
+    dreamIntroSub: 'Tell us your dream, and let the stars help interpret it.',
+    dreamHeadline: 'What is last night\u2019s dream telling you?',
+    dreamStartBtn: 'Start Dream Reading',
+    dreamTellLabel: 'Tell us your dream',
+    dreamPlaceholder: 'Last night I dreamed that...',
+    relStatusLabel: 'Relationship status',
+    optionalLabel: '(optional)',
+    statusSingle: 'Single', statusTalking: 'Talking to someone', statusTaken: 'In a relationship',
+    dreamCta: 'Reveal My Dream Meaning',
+    siamChooseTemple: 'Choose a Temple', siamChooseTempleSub: 'Choose the fortune tradition you trust',
+    templeChinese: 'Chinese Temple', templeChineseSub: 'Hong Kong / Macau style',
+    templeThai: 'Thai Temple', templeThaiSub: 'Thai fortune-stick style',
+    soulChooseScience: 'Choose a Tradition', soulChooseScienceSub: 'Each tradition reads compatibility differently',
+    scienceThai: 'Thai', scienceThaiSub: 'Ancient Thai Astrology',
+    scienceChinese: 'Chinese', scienceChineseSub: 'Yin-Yang Compatibility',
+    scienceIndian: 'Indian', scienceIndianSub: 'Vedic Astrology',
+    scienceWestern: 'Western',
+    tarotChooseTopic: 'Choose What You Want to Know', tarotChooseTopicSub: 'The cards will answer your chosen topic',
+    topicLove: 'Love', topicWork: 'Career', topicMoney: 'Money', topicHealth: 'Health',
+    topicLoveDesc: 'Love, relationships, and the heart', topicWorkDesc: 'Career, study, and goals',
+    topicMoneyDesc: 'Assets, income, and investing', topicHealthDesc: 'Body, mind, and energy',
+    doneToday: '✓ Viewed today',
+    dailyTopicHeadline: 'What would you like to look into today?', dailyTopicSub: 'Choose 1 topic per day \u00b7 once viewed, it can\u2019t be reopened',
+    dailyEditProfileBtn: 'Edit birth date / birthplace',
   },
 };
 const FAQ_DATA_EN = [
@@ -3030,6 +3084,15 @@ function applyI18n(lang) {
     const key = el.getAttribute('data-i18n');
     if (dict[key] !== undefined) el.textContent = dict[key];
   });
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.getAttribute('data-i18n-ph');
+    if (dict[key] !== undefined) el.placeholder = dict[key];
+  });
+  // เมนูหัวข้อดวงรายวันเรนเดอร์ด้วย JS ต้องรีเฟรชใหม่เมื่อเปลี่ยนภาษา (เฉพาะตอนหน้านั้นเปิดอยู่ ไม่บังคับเปลี่ยนหน้า)
+  const dailyStep15 = document.getElementById('daily-step15');
+  if (dailyStep15 && dailyStep15.style.display === 'block' && typeof refreshDailyTopicLabels === 'function') {
+    refreshDailyTopicLabels();
+  }
 }
 
 function setLanguage(lang) {
