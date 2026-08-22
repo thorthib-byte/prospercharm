@@ -311,12 +311,6 @@
     <div class="header">
       <img src="images/Logo.png" alt="Prosper Charm" class="header-logo">
       <div class="header-title">PROSPERCHARM</div>
-      <div id="lang-switcher" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);">
-        <select id="lang-select" onchange="setLanguage(this.value)" style="appearance:none;-webkit-appearance:none;background:var(--cream,#F5EFE6);border:1px solid rgba(180,160,130,0.35);border-radius:14px;padding:5px 24px 5px 10px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;color:var(--text-mid,#7A6B5D);cursor:pointer;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%2210%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%237A6B5D%22 stroke-width=%223%22><polyline points=%226 9 12 15 18 9%22/></svg>');background-repeat:no-repeat;background-position:right 8px center;background-size:10px;">
-          <option value="th">🇹🇭 ไทย</option>
-          <option value="en">🇬🇧 English</option>
-        </select>
-      </div>
     </div>
     <div class="status-bar">
       <div class="status-plan"><span id="plan-icon"><i data-lucide="moon" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i></span><span id="plan-name">ยังไม่ได้สมัคร</span></div>
@@ -324,6 +318,7 @@
         <span class="status-credits" id="credits-display"></span>
         <button id="checkin-btn" data-i18n="nav_checkin" onclick="openCheckin()" style="background:rgba(180,140,140,0.15);border:1px solid rgba(180,140,140,0.35);border-radius:20px;padding:5px 12px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;font-weight:500;color:var(--text-mid);cursor:pointer;">เช็คอิน</button>
         <button class="upgrade-link" data-i18n="upgradeLink" onclick="goTo('page-pricing')">สมัครแพ็กเกจ →</button>
+        <button id="lang-toggle" onclick="toggleLanguage()" style="background:transparent;border:1px solid rgba(180,160,130,0.4);border-radius:14px;padding:5px 9px;font-family:'Noto Sans Thai',sans-serif;font-size:11px;font-weight:600;color:var(--text-mid);cursor:pointer;">EN</button>
       </div>
     </div>
 
@@ -3042,11 +3037,16 @@ function setLanguage(lang) {
   localStorage.setItem('pc_lang', lang);
   document.documentElement.lang = lang;
   applyI18n(lang);
-  const sel = document.getElementById('lang-select');
-  if (sel) sel.value = lang;
+  const btn = document.getElementById('lang-toggle');
+  if (btn) btn.textContent = (lang === 'th') ? 'EN' : 'TH'; // ปุ่มโชว์ภาษาที่ "จะสลับไป"
   // FAQ ต้อง re-render ใหม่ทุกครั้งที่เปลี่ยนภาษา (ปกติ render ครั้งเดียวแล้วล็อกไว้)
   const list = document.getElementById('faq-list');
   if (list) { list.dataset.rendered = ''; renderFAQ(lang); }
+}
+
+function toggleLanguage() {
+  const current = localStorage.getItem('pc_lang') || 'th';
+  setLanguage(current === 'th' ? 'en' : 'th');
 }
 
 function initLanguage() {
@@ -3693,6 +3693,7 @@ function resetTarot() {
  showCreditsBar('tarot');
 }
 const siamData={1:{title:"ซีกมงคลที่หนึ่ง — มังกรทองพุ่งฟ้า",text:"ดวงชะตากำลังพุ่งสูงดั่งมังกรทอง สิ่งที่หวังจะสำเร็จได้ไม่ยาก โชคลาภกำลังเข้ามา",advice:"เหมาะแก่การเริ่มต้นสิ่งใหม่ ลงมือทำได้เลย ผลจะดีกว่าที่คาด"},2:{title:"ซีกมงคลที่สอง — ดอกบัวบานในบึง",text:"แม้อยู่ในสถานการณ์ท้าทาย แต่จะผ่านพ้นไปได้อย่างงดงาม",advice:"อย่าหยุดนิ่งแม้อุปสรรคจะมากมาย ความพยายามจะส่งผลในระยะยาว"},3:{title:"ซีกมงคลที่สาม — ดาวสามดวงส่องสว่าง",text:"มีผู้คนคอยช่วยเหลือสนับสนุนอยู่เสมอ มิตรภาพเป็นพลังสำคัญ",advice:"เปิดใจรับความช่วยเหลือ อย่าลืมตอบแทนน้ำใจด้วยความจริงใจ"},4:{title:"ซีกมงคลที่สี่ — ลมอ่อนพัดใบไม้",text:"เป็นเวลาแห่งการพักผ่อนสะสมพลัง ไม่จำเป็นต้องเร่งรีบ",advice:"ทบทวนตัวเอง วางแผนให้รอบคอบก่อนลงมือ ผลจะดีกว่าการรีบร้อน"},5:{title:"ซีกมงคลที่ห้า — เมฆหมอกกลายเป็นรุ้ง",text:"หลังช่วงยากลำบาก แสงสว่างกำลังจะมาถึง สิ่งที่รอคอยใกล้จะเป็นจริง",advice:"อดทนอีกเพียงเล็กน้อย ความสำเร็จอยู่แค่เอื้อม อย่าถอดใจ"},6:{title:"ซีกมงคลที่หก — น้ำใสไหลรินไม่หยุด",text:"โชคลาภและรายได้จะไหลเข้ามาอย่างต่อเนื่อง การงานราบรื่น",advice:"ช่วงดีสำหรับลงทุนหรือเริ่มโครงการใหม่ บริหารจัดการให้รอบคอบ"},7:{title:"ซีกมงคลที่เจ็ด — เจ็ดดาวมงคลนำทาง",text:"สติปัญญาและการตัดสินใจจะคมชัดเป็นพิเศษในช่วงนี้",advice:"เชื่อใจสัญชาตญาณ การตัดสินใจสำคัญในช่วงนี้มักถูกต้อง"},8:{title:"ซีกมงคลที่แปด — แปดทิศแห่งความเจริญ",text:"แปดคือเลขมงคลแห่งความเจริญรุ่งเรือง ดวงส่งสัญญาณแห่งความมั่งคั่ง",advice:"เหมาะแก่การทำธุรกิจ เจรจาต่อรอง โอกาสอยู่ตรงหน้า"},9:{title:"ซีกมงคลที่เก้า — มังกรเก้าองค์คุ้มครอง",text:"ได้รับการคุ้มครองจากสิ่งศักดิ์สิทธิ์ ภัยพิบัติจะเบี่ยงหลีก ชีวิตราบรื่น",advice:"ทำบุญกุศลเพื่อเสริมดวง พลังงานดีๆ จะตอบแทนกลับมาหลายเท่า"},10:{title:"ซีกมงคลที่สิบ — ครบบริบูรณ์",text:"สิบคือความสมบูรณ์ ชีวิตในทุกด้านกำลังเข้าสู่ความสมดุลที่ดี",advice:"ขอบคุณในสิ่งที่มี และแบ่งปันความดีให้ผู้อื่น"}};
+const siamData_en={"1": {"title": "First Blessed Draw — Golden Dragon Soaring", "text": "Your fortune is rising like a golden dragon. What you hope for won't be hard to achieve — good luck is on its way.", "advice": "A great time to start something new. Go for it — the results will exceed your expectations."}, "2": {"title": "Second Blessed Draw — Lotus Blooming in the Marsh", "text": "Even amid challenges, you'll come through beautifully.", "advice": "Don't stand still even when obstacles pile up — your effort will pay off in the long run."}, "3": {"title": "Third Blessed Draw — Three Stars Shining", "text": "People are always around to help and support you. Friendship is a powerful force right now.", "advice": "Open yourself to help, and remember to return kindness with sincerity."}, "4": {"title": "Fourth Blessed Draw — Gentle Breeze Through the Leaves", "text": "This is a time to rest and gather your strength — there's no need to rush.", "advice": "Reflect on yourself and plan carefully before acting; the results will be better than rushing."}, "5": {"title": "Fifth Blessed Draw — Mist Turning to Rainbow", "text": "After a hard stretch, light is on its way. What you've been waiting for is close to coming true.", "advice": "Hold on just a little longer — success is within reach. Don't give up."}, "6": {"title": "Sixth Blessed Draw — Clear Water Flowing Endlessly", "text": "Fortune and income will keep flowing in, and work will go smoothly.", "advice": "A good time to invest or start a new project — manage it carefully."}, "7": {"title": "Seventh Blessed Draw — Seven Lucky Stars Guiding the Way", "text": "Your wisdom and judgment will be especially sharp during this time.", "advice": "Trust your instincts — important decisions made now tend to be the right ones."}, "8": {"title": "Eighth Blessed Draw — Eight Directions of Prosperity", "text": "Eight is the number of prosperity — your fortune is signaling wealth ahead.", "advice": "A good time for business and negotiation — opportunity is right in front of you."}, "9": {"title": "Ninth Blessed Draw — Nine Dragons of Protection", "text": "You're under the protection of something sacred — misfortune will steer clear, and life will go smoothly.", "advice": "Do good deeds to boost your fortune — the good energy will return to you many times over."}, "10": {"title": "Tenth Blessed Draw — Complete and Whole", "text": "Ten represents completeness — every part of your life is settling into balance.", "advice": "Be grateful for what you have, and share your kindness with others."}};
 function getSiamNumber(dob){const today=new Date();const seed=dob.replace(/-/g,'')+today.toISOString().slice(0,10).replace(/-/g,'');let h=0;for(let c of seed)h=((h<<5)-h)+c.charCodeAt(0);return Math.abs(h%10)+1;}
 // ===== DREAM READING (ทำนายฝัน) =====
 // ⚠️ ข้อมูลตัวอย่าง (placeholder) — จะแทนที่ด้วยไฟล์ Excel จริงทีหลัง
@@ -3789,6 +3790,100 @@ const DREAM_DEFAULT = {
   lucky:['05','77'],
 };
 
+
+const DREAM_DATA_en = {
+  snake: { keyword:'Snake', synonyms:['snake','cobra','python','snake bite','big snake'],
+    meaning:'A snake in a dream often points to a major change coming into your life. It can signal wisdom, or a hidden danger, depending on the dream\u2019s context.',
+    love_single:'You may meet someone with a strong, magnetic charm — but be wary of anyone who seems too good to be true.',
+    love_talking:'The connection you\u2019re building may be at a turning point. Watch for the signs closely.',
+    love_taken:'There may be something that pushes you to adapt in a big way — but that\u2019s not always a bad thing.',
+    money:'A financial opportunity may show up when you least expect it. Think it through carefully before deciding.',
+    warning:'Watch out for two-faced people close to you, or situations that look good but carry hidden risk.',
+    advice:'Stay grounded and observe your surroundings carefully before making any big decisions.',
+    lucky:['09','56'] },
+  teeth: { keyword:'Teeth', synonyms:['teeth','tooth falling out','broken tooth'],
+    meaning:'Dreaming of losing or breaking teeth often reflects worry about your image, or a sense of losing something you can\u2019t control.',
+    love_single:'You may feel unsure of yourself in love right now — try to stay a little more open.',
+    love_talking:'Small worries may get in the way of smooth communication. Try talking things through directly.',
+    love_taken:'There may be some hidden insecurity — try opening up to your partner about it.',
+    money:'Watch out for unexpected expenses; tighten up your financial planning.',
+    warning:'Be careful with words that could hurt you or people around you without meaning to.',
+    advice:'Give yourself time to rest, and don\u2019t put too much pressure on yourself right now.',
+    lucky:['15','78'] },
+  water: { keyword:'Water', synonyms:['water','flood','sea','river','rain'],
+    meaning:'Water in dreams usually reflects your emotions. Clear water suggests peace of mind, while murky or overflowing water may reflect feelings that are running high.',
+    love_single:'Your heart is opening up to new feelings — let yourself go with it naturally.',
+    love_talking:'Emotions are flowing in a good direction right now, and the relationship looks set to go smoothly.',
+    love_taken:'The relationship is entering a warmer, more understanding phase.',
+    money:'Finances tend to flow easily, but watch spending that flows out just as freely.',
+    warning:'Be careful not to let your emotions carry you too far — keep a clear head.',
+    advice:'Try spending some quiet time alone to hear your own heart more clearly.',
+    lucky:['02','63'] },
+  dead: { keyword:'Someone dying', synonyms:['someone died','death','a corpse','a funeral'],
+    meaning:'Dreaming of death or someone dying doesn\u2019t always mean something bad — it often reflects an ending that clears the way for something new.',
+    love_single:'One chapter of your love life may be closing, making room for a new opportunity.',
+    love_talking:'It may be time to get clear about something in this relationship.',
+    love_taken:'An existing relationship may be transitioning into something deeper.',
+    money:'An old financial situation may be wrapping up, opening the door to something better.',
+    warning:'Don\u2019t hold on to what\u2019s better let go — change may be a good thing here.',
+    advice:'Accept the change that\u2019s happening, and stay open to what\u2019s coming next.',
+    lucky:['24','91'] },
+  fire: { keyword:'Fire', synonyms:['fire','a fire breaking out','flames'],
+    meaning:'Fire in dreams reflects energy, passion, or building anger — depending on whether the fire feels warm or destructive.',
+    love_single:'You have strong appeal right now — someone may take an interest in you out of the blue.',
+    love_talking:'The relationship feels intense and exciting, but watch for flare-ups of emotion.',
+    love_taken:'The spark is still there, but be careful of arguments from sudden bursts of temper.',
+    money:'A financial opportunity is moving fast — grab it before it cools off.',
+    warning:'Watch out for anger that could lead to a bad decision. Stay calm before you speak or act.',
+    advice:'Channel your energy into something constructive, and keep your emotions in check.',
+    lucky:['36','47'] },
+  ghost: { keyword:'Ghost', synonyms:['ghost','spirit','haunted'],
+    meaning:'A ghost in a dream often reflects fear or unresolved worry — something from the past that hasn\u2019t been settled yet.',
+    love_single:'Fear from a past relationship may still be haunting you — try to let it go.',
+    love_talking:'Some lingering worry may be holding you back from opening up fully. Trust a little at a time.',
+    love_taken:'There may be something from the past that hasn\u2019t been talked through honestly.',
+    money:'Old financial worries may still be affecting decisions you\u2019re making now.',
+    warning:'Don\u2019t let fear from the past hold back opportunities in front of you now.',
+    advice:'Try facing what\u2019s worrying you directly — talk it out or let it out to ease the weight.',
+    lucky:['13','82'] },
+  money: { keyword:'Money', synonyms:['money','cash','winning the lottery','saving money'],
+    meaning:'Dreaming of money usually reflects stability and self-worth — it doesn\u2019t always literally mean finances.',
+    love_single:'Your sense of self-worth is shining right now, which may draw in someone who truly values you.',
+    love_talking:'This relationship is trending toward stability, especially if you both value each other equally.',
+    love_taken:'Stability is a strong foundation here — keep that balance going.',
+    money:'A good sign for finances — extra income or a good opportunity may come your way.',
+    warning:'Watch out for measuring your own worth by money alone.',
+    advice:'Use this time to plan for the long term, while keeping your peace of mind balanced too.',
+    lucky:['08','69'] },
+  house: { keyword:'House', synonyms:['house','a collapsing house','moving house','a new house'],
+    meaning:'A house in dreams reflects your sense of self and stability. A sturdy house suggests peace of mind, while a collapsing one may reflect change coming into your life.',
+    love_single:'You\u2019re looking for a stable foundation in a relationship — give yourself time before deciding.',
+    love_talking:'This relationship is slowly building a stable foundation, bit by bit.',
+    love_taken:'It may be time to talk about the future or plan your life together.',
+    money:'A good time to plan around housing or a long-term investment.',
+    warning:'Don\u2019t neglect the foundations of life — your health and your family relationships.',
+    advice:'Focus on building stability in your life one step at a time.',
+    lucky:['11','54'] },
+};
+const DREAM_CLOSING_en = [
+  'The stars have heard your whisper. Everything will grow clearer with time.',
+  'A dream is a mirror of the heart — trust your instincts a little more.',
+  'Wherever the dream leads, remember: you are the one who shapes your own path.',
+  'The universe is sending you a sign — try opening yourself up to hear it.',
+  'Every dream carries meaning, even if the answer only reveals itself later.',
+  'Let tonight\u2019s dream be the start of a better day ahead.',
+];
+const DREAM_DEFAULT_en = {
+  meaning:'Your dream carries details that are deeply personal. Even though the system hasn\u2019t recognized a familiar symbol this time, every dream still reflects something inside worth listening to.',
+  love_single:'Your heart is opening up to something new — pay closer attention to how you\u2019re feeling these days.',
+  love_talking:'This relationship is slowly finding its own pace — give it a little more time.',
+  love_taken:'There\u2019s still plenty of room for this relationship to grow together.',
+  money:'This is a good time to plan and revisit your financial goals.',
+  warning:'No clear warning signs here, but use good judgment with any big decisions.',
+  advice:'Try keeping a dream journal — sometimes the meaning becomes clearer later on.',
+  lucky:['05','77'],
+};
+
 let dreamSelectedStatus = 'single';
 function selectDreamStatus(val) {
   dreamSelectedStatus = val;
@@ -3811,19 +3906,23 @@ function showDreamStep(stepId) {
   window.scrollTo(0,0);
 }
 
+function curLang() { return localStorage.getItem('pc_lang') || 'th'; }
+
 function scanDreamKeywords(text) {
+  const DATA = (curLang() === 'en') ? DREAM_DATA_en : DREAM_DATA;
   const found = [];
-  const lower = text.trim();
-  Object.values(DREAM_DATA).forEach(entry => {
-    const hit = entry.synonyms.some(syn => lower.includes(syn));
+  const lower = text.trim().toLowerCase();
+  Object.values(DATA).forEach(entry => {
+    const hit = entry.synonyms.some(syn => lower.includes(syn.toLowerCase()));
     if (hit) found.push(entry);
   });
   return found;
 }
 
 function mergeDreamSection(matches, field, statusField) {
+  const DEF = (curLang() === 'en') ? DREAM_DEFAULT_en : DREAM_DEFAULT;
   const key = statusField || field;
-  if (matches.length === 0) return DREAM_DEFAULT[key];
+  if (matches.length === 0) return DEF[key];
   return matches.map(m => `${m.keyword}: ${m[key]}`).join('\n\n');
 }
 
@@ -3853,11 +3952,13 @@ function drawDream() {
     document.getElementById('dream-advice').textContent = mergeDreamSection(matches, 'advice');
 
     let luckyNums = [];
-    if (matches.length === 0) luckyNums = DREAM_DEFAULT.lucky;
+    const DEF = (curLang() === 'en') ? DREAM_DEFAULT_en : DREAM_DEFAULT;
+    const CLOSING = (curLang() === 'en') ? DREAM_CLOSING_en : DREAM_CLOSING;
+    if (matches.length === 0) luckyNums = DEF.lucky;
     else { matches.forEach(m => luckyNums.push(...m.lucky)); luckyNums = [...new Set(luckyNums)].slice(0,3); }
     document.getElementById('dream-lucky').textContent = luckyNums.join(' • ');
 
-    document.getElementById('dream-closing').textContent = DREAM_CLOSING[Math.floor(Math.random()*DREAM_CLOSING.length)];
+    document.getElementById('dream-closing').textContent = CLOSING[Math.floor(Math.random()*CLOSING.length)];
 
     document.getElementById('dream-step2').style.display = 'none';
     document.getElementById('dream-result').classList.add('show');
@@ -3878,7 +3979,7 @@ function resetDream() {
   showDreamStep('dream-step0');
 }
 
-function drawSiam(){const _p=loadUserProfile();const dob=(_p&&_p.dob)?_p.dob:null;if(!dob){alert('กรุณากรอกข้อมูลโปรไฟล์ก่อนนะคะ');showProfilePopup(false);return;}if(userState.plan==='free'||userState.credits<=0){showPaymentPrompt('siam');return;}document.getElementById('siam-result').classList.remove('show');setTimeout(()=>{useCredit();const n=getSiamNumber(dob);const d=siamData[n];document.getElementById('siam-number').textContent=n;document.getElementById('siam-title').textContent=d.title;document.getElementById('siam-text').textContent=d.text;document.getElementById('siam-advice').textContent=d.advice;document.getElementById('siam-result').classList.add('show');showBottomNavOverride();showPageHeader('page-siam');showCreditsBar('siam');document.getElementById('siam-result').scrollIntoView({behavior:'smooth',block:'start'});},500);}
+function drawSiam(){const _p=loadUserProfile();const dob=(_p&&_p.dob)?_p.dob:null;if(!dob){alert('กรุณากรอกข้อมูลโปรไฟล์ก่อนนะคะ');showProfilePopup(false);return;}if(userState.plan==='free'||userState.credits<=0){showPaymentPrompt('siam');return;}document.getElementById('siam-result').classList.remove('show');setTimeout(()=>{useCredit();const n=getSiamNumber(dob);const d=(curLang()==='en'?siamData_en:siamData)[n];document.getElementById('siam-number').textContent=n;document.getElementById('siam-title').textContent=d.title;document.getElementById('siam-text').textContent=d.text;document.getElementById('siam-advice').textContent=d.advice;document.getElementById('siam-result').classList.add('show');showBottomNavOverride();showPageHeader('page-siam');showCreditsBar('siam');document.getElementById('siam-result').scrollIntoView({behavior:'smooth',block:'start'});},500);}
 const tarotData={love:[{emoji:'',title:'The Lovers — คู่รักแห่งดวงดาว',text:'ความรักกำลังเบ่งบาน ถ้ามีคู่แล้วความสัมพันธ์จะแข็งแกร่งขึ้น ถ้าโสดอาจพบคนที่ใช่',advice:'เปิดใจรับความรักอย่างกล้าหาญ อย่ากลัวแสดงความรู้สึกที่แท้จริง'},{emoji:'',title:'The Moon — แสงจันทร์แห่งความลึก',text:'มีบางเรื่องในความสัมพันธ์ที่ยังคลุมเครือ ควรสื่อสารให้ชัดเจนขึ้น',advice:'พูดคุยกันด้วยใจเปิดกว้าง ความเข้าใจแท้จริงจะทำให้ความสัมพันธ์มั่นคง'},{emoji:'⭐',title:'The Star — ดาวนำทางแห่งความหวัง',text:'ความรักที่แท้จริงกำลังรอท่านอยู่ ไม่ว่าผ่านอะไรมา ความหวังยังสว่างไสว',advice:'วางใจในจังหวะของชีวิต สิ่งดีๆ กำลังเดินทางมาหาท่าน'}],work:[{emoji:'',title:'The Emperor — จักรพรรดิแห่งความสำเร็จ',text:'มีความสามารถในการนำและตัดสินใจที่แข็งแกร่ง เหมาะแก่การแสดงศักยภาพ',advice:'ก้าวออกมานำหน้า แสดงความสามารถให้ผู้ใหญ่มองเห็น'},{emoji:'',title:'The Chariot — รถศึกแห่งชัยชนะ',text:'ชัยชนะอยู่ตรงหน้า แม้มีอุปสรรค ถ้าไม่ยอมแพ้จะประสบความสำเร็จ',advice:'มุ่งหน้าต่อด้วยความมั่นใจ อย่าให้สิ่งรอบข้างมาเบี่ยงความสนใจ'},{emoji:'',title:'The Hermit — ฤๅษีผู้รอบรู้',text:'เป็นเวลาของการเรียนรู้และพัฒนาตัวเอง ความรู้ที่สะสมจะกลายเป็นอาวุธ',advice:'ลงทุนกับการพัฒนาทักษะ เรียนรู้สิ่งใหม่ ผลจะปรากฏในอนาคตอันใกล้'}],money:[{emoji:'',title:'Ace of Pentacles — เหรียญแห่งโชคลาภ',text:'โอกาสทางการเงินกำลังเปิดออก อาจมีรายได้ใหม่หรือโอกาสลงทุนที่ดีเข้ามา',advice:'ตรวจสอบโอกาสด้วยสติ ศึกษาให้ถ่องแท้ก่อนตัดสินใจ'},{emoji:'',title:'The Wheel — วงล้อแห่งชะตา',text:'การเงินอยู่ในช่วงเปลี่ยนแปลง มีทั้งขึ้นและลง แต่แนวโน้มโดยรวมดีขึ้น',advice:'สำรองเงินไว้บ้าง แต่อย่ากลัวจนเกินไป โอกาสที่ดีกำลังใกล้เข้ามา'},{emoji:'',title:'The Sun — ดวงอาทิตย์แห่งความรุ่งโรจน์',text:'การเงินสว่างไสว รายได้มั่นคง อาจมีโบนัสหรือรายได้พิเศษเข้ามา',advice:'ใช้ช่วงเวลาดีนี้วางรากฐานทางการเงินระยะยาว ออมและลงทุนอย่างชาญฉลาด'}],health:[{emoji:'🌸',title:'Temperance — ความสมดุลแห่งชีวิต',text:'ร่างกายและจิตใจต้องการความสมดุล ดูแลตัวเองทั้งสองด้านให้ดี',advice:'นอนหลับพักผ่อนให้เพียงพอ รับประทานอาหารดี หาเวลาผ่อนคลาย'},{emoji:'',title:'Strength — พลังแห่งจิตใจ',text:'มีพลังและความแข็งแกร่งมากกว่าที่คิด สุขภาพกายดี แต่ต้องดูแลสุขภาพจิตด้วย',advice:'ออกกำลังกายสม่ำเสมอ หาวิธีจัดการความเครียดที่เหมาะกับตัวเอง'},{emoji:'',title:'The World — โลกแห่งความสมบูรณ์',text:'สุขภาพโดยรวมอยู่ในเกณฑ์ดี ร่างกายกำลังฟื้นฟูและแข็งแรงขึ้น',advice:'รักษาสมดุลชีวิต อย่าทำงานหักโหมเกินไป จิตใจผ่อนคลายสร้างสุขภาพดี'}]};
 function getTarotIndex(dob,topic){const today=new Date();const seed=dob+topic+today.toISOString().slice(0,10);let h=0;for(let c of seed)h=((h<<5)-h)+c.charCodeAt(0);return Math.abs(h)%3;}
 function drawTarot(){
