@@ -334,7 +334,7 @@
       <!-- Header -->
       <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 20px 8px;">
         <div>
-          <div style="font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;color:var(--brown-dark);">เช็คอินประจำวัน</div>
+          <div data-i18n="checkinTitle" style="font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;color:var(--brown-dark);">เช็คอินประจำวัน</div>
           <div style="font-size:12px;color:var(--text-light);" id="checkin-month-label"></div>
         </div>
         <div style="display:flex;align-items:center;gap:8px;">
@@ -346,32 +346,32 @@
       <div style="margin:8px 20px 16px;background:linear-gradient(135deg,rgba(201,168,76,0.1),rgba(212,175,55,0.05));border:1px solid rgba(201,168,76,0.3);border-radius:16px;padding:16px;display:flex;align-items:center;gap:14px;">
         <img src="images/icons/moonstarbg.png" style="width:80px;height:80px;border-radius:50%;object-fit:cover;flex-shrink:0;">
         <div style="flex:1;">
-          <div style="font-size:12px;color:var(--text-light);margin-bottom:2px;">รางวัลวันนี้</div>
+          <div data-i18n="todayReward" style="font-size:12px;color:var(--text-light);margin-bottom:2px;">รางวัลวันนี้</div>
           <div style="font-family:'Noto Serif Thai',serif;font-size:22px;font-weight:700;color:#a07070;" id="checkin-today-reward">+5 เหรียญ</div>
-          <div style="font-size:11px;color:var(--text-light);">เหรียญสะสมปัจจุบัน: <span id="checkin-coins-total" style="color:#a07070;font-weight:600;">0</span> / 99</div>
+          <div style="font-size:11px;color:var(--text-light);"><span data-i18n="coinsCurrentLabel">เหรียญสะสมปัจจุบัน:</span> <span id="checkin-coins-total" style="color:#a07070;font-weight:600;">0</span> / 99</div>
         </div>
-        <button id="checkin-claim-btn" onclick="claimCheckin()" style="padding:10px 18px;background:linear-gradient(135deg,#c4a4a4,#d4b8b8);border:none;border-radius:20px;font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:#5a3a3a;cursor:pointer;">รับเลย</button>
+        <button id="checkin-claim-btn" data-i18n="claimNowBtn" onclick="claimCheckin()" style="padding:10px 18px;background:linear-gradient(135deg,#c4a4a4,#d4b8b8);border:none;border-radius:20px;font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:#5a3a3a;cursor:pointer;">รับเลย</button>
       </div>
       <!-- Coins bar -->
       <div style="margin:0 20px 16px;">
-        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);margin-bottom:6px;"><span>เหรียญสะสม</span><span id="checkin-bar-label">0 / 99</span></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-light);margin-bottom:6px;"><span data-i18n="coinsBarLabel">เหรียญสะสม</span><span id="checkin-bar-label">0 / 99</span></div>
         <div style="background:var(--cream-dark);border-radius:10px;height:8px;overflow:hidden;"><div id="checkin-coins-bar" style="background:linear-gradient(to right,#c4a4a4,#d4b8b8);height:100%;width:0%;border-radius:10px;transition:width 0.5s ease;"></div></div>
         <div style="font-size:11px;color:var(--text-light);margin-top:6px;text-align:center;display:flex;align-items:center;justify-content:center;gap:4px;" id="checkin-coins-hint"><img src="images/icons/gift.png" style="width:14px;height:14px;object-fit:contain;opacity:0.6;"></div>
       </div>
       <!-- Calendar -->
       <div style="padding:0 20px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
-          <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:600;color:var(--brown-dark);">ประวัติเดือนนี้</div>
-          <div style="font-size:12px;color:var(--text-light);">พลาดแล้วรับย้อนหลังไม่ได้</div>
+          <div data-i18n="monthHistory" style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:600;color:var(--brown-dark);">ประวัติเดือนนี้</div>
+          <div data-i18n="noBackdate" style="font-size:12px;color:var(--text-light);">พลาดแล้วรับย้อนหลังไม่ได้</div>
         </div>
         <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:8px;">
-          <div style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">อา</div>
-          <div style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">จ</div>
-          <div style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">อ</div>
-          <div style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">พ</div>
-          <div style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">พฤ</div>
-          <div style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">ศ</div>
-          <div style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">ส</div>
+          <div data-i18n="daySun" style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">อา</div>
+          <div data-i18n="dayMon" style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">จ</div>
+          <div data-i18n="dayTue" style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">อ</div>
+          <div data-i18n="dayWed" style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">พ</div>
+          <div data-i18n="dayThu" style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">พฤ</div>
+          <div data-i18n="dayFri" style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">ศ</div>
+          <div data-i18n="daySat" style="text-align:center;font-size:11px;color:var(--text-light);padding:4px 0;">ส</div>
         </div>
         <div id="checkin-calendar" style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;"></div>
       </div>
@@ -452,38 +452,38 @@
 
   <!-- PRICING -->
   <div class="page" id="page-pricing">
-    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><i data-lucide="gem" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เลือกแพ็กเกจ</div></div>
+    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><i data-lucide="gem" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="choosePlanTitle">เลือกแพ็กเกจ</span></div></div>
     <div class="pricing-header"><h2 data-i18n="pricingTitle">ดูดวงไม่จำกัด ราคาคุ้มค่า</h2><p data-i18n="pricingSub">เลือกแพ็กเกจที่เหมาะกับคุณ</p></div>
     <div style="margin:0 20px 16px; padding:14px 16px; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.35); border-radius:12px; text-align:center; font-family:'Noto Sans Thai',sans-serif; font-size:13px; color:var(--brown-dark);" data-i18n="paymentNotice">🙏 ระบบชำระเงินปิดปรับปรุงชั่วคราว กรุณาติดตามข่าวสารเร็วๆ นี้</div>
     <div class="pricing-cards">
       <div class="pricing-card">
-        <div class="pricing-name"><i data-lucide="sparkles" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> รายครั้ง</div>
-        <div class="pricing-price">29 <span>บาท/ครั้ง</span></div>
-        <div class="pricing-desc">ไม่ต้องสมัครสมาชิก จ่ายแล้วใช้ได้เลย</div>
-        <ul class="pricing-features"><li>เลือกได้ทุกหมวด</li><li>ใช้งานได้ทันที</li></ul>
-        <button class="pricing-btn pricing-btn-outline" onclick="openPayment('single',29,1)">จ่ายรายครั้ง 29 บาท</button>
+        <div class="pricing-name"><i data-lucide="sparkles" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="planSingle">รายครั้ง</span></div>
+        <div class="pricing-price">29 <span data-i18n="perUse">บาท/ครั้ง</span></div>
+        <div class="pricing-desc" data-i18n="planSingleDesc">ไม่ต้องสมัครสมาชิก จ่ายแล้วใช้ได้เลย</div>
+        <ul class="pricing-features"><li data-i18n="featAllCategories">เลือกได้ทุกหมวด</li><li data-i18n="featInstant">ใช้งานได้ทันที</li></ul>
+        <button class="pricing-btn pricing-btn-outline" data-i18n="paySingleBtn" onclick="openPayment('single',29,1)">จ่ายรายครั้ง 29 บาท</button>
       </div>
       <div class="pricing-card">
         <div class="pricing-name"><i data-lucide="moon" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> Basic</div>
-        <div class="pricing-price">99 <span>บาท/เดือน</span></div>
-        <div class="pricing-desc">ดูได้ 5 ครั้ง ทุกหมวด</div>
-        <ul class="pricing-features"><li>5 ครั้ง/เดือน ใช้ได้ทุกหมวด</li><li>ประหยัดกว่ารายครั้ง 32%</li></ul>
-        <button class="pricing-btn pricing-btn-outline" onclick="openPayment('basic',99,5)">สมัคร Basic 99 บาท</button>
+        <div class="pricing-price">99 <span data-i18n="perMonth">บาท/เดือน</span></div>
+        <div class="pricing-desc" data-i18n="planBasicDesc">ดูได้ 5 ครั้ง ทุกหมวด</div>
+        <ul class="pricing-features"><li data-i18n="featBasic">5 ครั้ง/เดือน ใช้ได้ทุกหมวด</li><li data-i18n="saveBasic">ประหยัดกว่ารายครั้ง 32%</li></ul>
+        <button class="pricing-btn pricing-btn-outline" data-i18n="subscribeBasicBtn" onclick="openPayment('basic',99,5)">สมัคร Basic 99 บาท</button>
       </div>
       <div class="pricing-card featured">
-        <div class="pricing-badge">ยอดนิยม</div>
+        <div class="pricing-badge" data-i18n="popularBadge">ยอดนิยม</div>
         <div class="pricing-name"><i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> Pro</div>
-        <div class="pricing-price">199 <span>บาท/เดือน</span></div>
-        <div class="pricing-desc">ดูได้ 12 ครั้ง ทุกหมวด</div>
-        <ul class="pricing-features"><li>12 ครั้ง/เดือน ใช้ได้ทุกหมวด</li><li>ประหยัดกว่ารายครั้ง 43%</li></ul>
-        <button class="pricing-btn pricing-btn-dark" onclick="openPayment('pro',199,12)">สมัคร Pro 199 บาท</button>
+        <div class="pricing-price">199 <span data-i18n="perMonth">บาท/เดือน</span></div>
+        <div class="pricing-desc" data-i18n="planProDesc">ดูได้ 12 ครั้ง ทุกหมวด</div>
+        <ul class="pricing-features"><li data-i18n="featPro">12 ครั้ง/เดือน ใช้ได้ทุกหมวด</li><li data-i18n="savePro">ประหยัดกว่ารายครั้ง 43%</li></ul>
+        <button class="pricing-btn pricing-btn-dark" data-i18n="subscribeProBtn" onclick="openPayment('pro',199,12)">สมัคร Pro 199 บาท</button>
       </div>
       <div class="pricing-card">
         <div class="pricing-name"><i data-lucide="crown" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> Unlimited</div>
-        <div class="pricing-price">299 <span>บาท/เดือน</span></div>
-        <div class="pricing-desc">ดูได้ไม่จำกัด ทุกหมวด</div>
-        <ul class="pricing-features"><li>ไม่จำกัดครั้ง ทุกหมวด</li><li>ไพ่ออราเคิล (เร็วๆ นี้)</li><li>คุ้มสุดสำหรับสายมูตัวจริง</li></ul>
-        <button class="pricing-btn pricing-btn-outline" onclick="openPayment('unlimited',299,999)">สมัคร Unlimited 299 บาท</button>
+        <div class="pricing-price">299 <span data-i18n="perMonth">บาท/เดือน</span></div>
+        <div class="pricing-desc" data-i18n="planUnlimitedDesc">ดูได้ไม่จำกัด ทุกหมวด</div>
+        <ul class="pricing-features"><li data-i18n="featUnlimited">ไม่จำกัดครั้ง ทุกหมวด</li><li data-i18n="featOracleSoon">ไพ่ออราเคิล (เร็วๆ นี้)</li><li data-i18n="featBestValue">คุ้มสุดสำหรับสายมูตัวจริง</li></ul>
+        <button class="pricing-btn pricing-btn-outline" data-i18n="subscribeUnlimitedBtn" onclick="openPayment('unlimited',299,999)">สมัคร Unlimited 299 บาท</button>
       </div>
     </div>
   </div>
@@ -492,7 +492,7 @@
   <div class="page" id="page-daily">
     <div class="inner-header">
       <button class="back-btn" onclick="goTo('page-home')">←</button>
-      <div class="inner-title" id="daily-header-title"><i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ดวงรายวัน</div>
+      <div class="inner-title" id="daily-header-title"><i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="m_daily_t">ดวงรายวัน</span></div>
     </div>
 
     <!-- STEP 1: กรอกข้อมูลเกิด -->
@@ -508,25 +508,25 @@
 
       <!-- Title -->
       <div style="text-align:center; padding:10px 20px 14px;">
-        <div style="font-family:'Noto Sans Thai',sans-serif; font-size:22px; font-weight:700; color:var(--brown-dark); line-height:2; padding-top:2px;">สร้างดวงรายวันเฉพาะคุณ</div>
-        <div style="font-size:13px; color:var(--text-light); margin-top:2px; line-height:1.8; font-family:'Noto Sans Thai',sans-serif;">กรอกข้อมูลเพื่อให้เราสร้างคำแนะนำ<br>ที่แม่นยำและเป็นคุณมากที่สุด</div>
+        <div data-i18n="dailyCreateTitle" style="font-family:'Noto Sans Thai',sans-serif; font-size:22px; font-weight:700; color:var(--brown-dark); line-height:2; padding-top:2px;">สร้างดวงรายวันเฉพาะคุณ</div>
+        <div data-i18n="dailyCreateSub" style="font-size:13px; color:var(--text-light); margin-top:2px; line-height:1.8; font-family:'Noto Sans Thai',sans-serif;">กรอกข้อมูลเพื่อให้เราสร้างคำแนะนำ<br>ที่แม่นยำและเป็นคุณมากที่สุด</div>
       </div>
 
       <!-- Step indicator -->
       <div style="display:flex;align-items:center;justify-content:center;gap:0;margin:0 20px 24px;padding:0 24px;">
         <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
           <div style="width:32px;height:32px;border-radius:50%;background:var(--brown-dark);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;">1</div>
-          <div style="font-size:11px;color:var(--brown-dark);font-weight:600;">ข้อมูลเกิด</div>
+          <div data-i18n="stepBirthInfo" style="font-size:11px;color:var(--brown-dark);font-weight:600;">ข้อมูลเกิด</div>
         </div>
         <div style="flex:1;height:2px;background:rgba(180,160,130,0.25);margin:0 8px;margin-bottom:16px;"></div>
         <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
           <div style="width:32px;height:32px;border-radius:50%;background:rgba(180,160,130,0.2);color:var(--text-light);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;">2</div>
-          <div style="font-size:11px;color:var(--text-light);">ข้อมูลส่วนตัว</div>
+          <div data-i18n="stepPersonalInfo" style="font-size:11px;color:var(--text-light);">ข้อมูลส่วนตัว</div>
         </div>
         <div style="flex:1;height:2px;background:rgba(180,160,130,0.25);margin:0 8px;margin-bottom:16px;"></div>
         <div style="display:flex;flex-direction:column;align-items:center;gap:4px;">
           <div style="width:32px;height:32px;border-radius:50%;background:rgba(180,160,130,0.2);color:var(--text-light);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;">3</div>
-          <div style="font-size:11px;color:var(--text-light);">ผลลัพธ์</div>
+          <div data-i18n="stepResult" style="font-size:11px;color:var(--text-light);">ผลลัพธ์</div>
         </div>
       </div>
 
@@ -537,20 +537,20 @@
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
             <div style="width:36px;height:36px;border-radius:50%;background:rgba(180,140,120,0.12);display:flex;align-items:center;justify-content:center;font-size:18px;"><i data-lucide="map-pin" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i></div>
             <div>
-              <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);">สถานที่เกิด <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
+              <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);"><span data-i18n="birthplaceLabel">สถานที่เกิด</span> <span data-i18n="requiredLabel" style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
             <select id="daily-country-birth" class="dob-select" onchange="updateDailyProvinces('birth')">
-              <option value="">ประเทศ</option>
-              <option value="TH">🇹🇭 ไทย</option>
-              <option value="OTHER"><i data-lucide="circle-check" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> อื่นๆ</option>
+              <option value="" data-i18n="countryOpt">ประเทศ</option>
+              <option value="TH" data-i18n="thailandOpt">🇹🇭 ไทย</option>
+              <option value="OTHER"><i data-lucide="circle-check" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="genderOther">อื่นๆ</span></option>
             </select>
             <select id="daily-province-birth" class="dob-select">
-              <option value="">จังหวัด</option>
+              <option value="" data-i18n="provinceOpt">จังหวัด</option>
             </select>
           </div>
-          <input id="daily-province-birth-other" placeholder="ระบุเมืองที่เกิด" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
+          <input id="daily-province-birth-other" data-i18n-ph="specifyBirthCityPh" placeholder="ระบุเมืองที่เกิด" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
         </div>
 
         <!-- ที่อยู่ปัจจุบัน -->
@@ -558,25 +558,25 @@
           <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
             <div style="width:36px;height:36px;border-radius:50%;background:rgba(180,140,120,0.12);display:flex;align-items:center;justify-content:center;font-size:18px;"><i data-lucide="home" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i></div>
             <div>
-              <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);">ที่อยู่ปัจจุบัน <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
+              <div style="font-family:'Noto Serif Thai',serif;font-size:15px;font-weight:700;color:var(--brown-dark);"><span data-i18n="currentAddrLabel">ที่อยู่ปัจจุบัน</span> <span data-i18n="requiredLabel" style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
             </div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
             <select id="daily-country-now" class="dob-select" onchange="updateDailyProvinces('now')">
-              <option value="">ประเทศ</option>
-              <option value="TH">🇹🇭 ไทย</option>
-              <option value="OTHER"><i data-lucide="circle-check" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> อื่นๆ</option>
+              <option value="" data-i18n="countryOpt">ประเทศ</option>
+              <option value="TH" data-i18n="thailandOpt">🇹🇭 ไทย</option>
+              <option value="OTHER"><i data-lucide="circle-check" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="genderOther">อื่นๆ</span></option>
             </select>
             <select id="daily-province-now" class="dob-select">
-              <option value="">จังหวัด</option>
+              <option value="" data-i18n="provinceOpt">จังหวัด</option>
             </select>
           </div>
-          <input id="daily-province-now-other" placeholder="ระบุเมืองที่อยู่ปัจจุบัน" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
+          <input id="daily-province-now-other" data-i18n-ph="specifyCurrentCityPh" placeholder="ระบุเมืองที่อยู่ปัจจุบัน" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
         </div>
 
         <!-- ปุ่ม -->
-        <button onclick="dailyStep1Next()" style="width:100%;padding:16px;background:linear-gradient(135deg,#6b4c3b,#8b5e4a);color:#fff;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:0.3px;box-shadow:0 4px 16px rgba(107,76,59,0.35);"><i data-lucide="sparkles" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> สร้างดวงกำเนิดของฉัน</button>
-        <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--text-light);"><i data-lucide="lock" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ข้อมูลของคุณปลอดภัย 100%</div>
+        <button onclick="dailyStep1Next()" style="width:100%;padding:16px;background:linear-gradient(135deg,#6b4c3b,#8b5e4a);color:#fff;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;cursor:pointer;letter-spacing:0.3px;box-shadow:0 4px 16px rgba(107,76,59,0.35);"><i data-lucide="sparkles" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="createMyChartBtn">สร้างดวงกำเนิดของฉัน</span></button>
+        <div style="text-align:center;margin-top:12px;font-size:12px;color:var(--text-light);"><i data-lucide="lock" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="dataSecureNote">ข้อมูลของคุณปลอดภัย 100%</span></div>
 
       </div>
     </div>
@@ -610,7 +610,7 @@
     <!-- STEP 1.6: Context ตาม topic -->
     <div id="daily-step16" style="display:none; padding:20px 16px 40px;">
       <div id="daily-ctx-content"></div>
-      <button class="cta-btn" onclick="checkAndGenerateDaily()" style="margin-top:8px;"><i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เปิดดวงรายวันของฉัน</button>
+      <button class="cta-btn" onclick="checkAndGenerateDaily()" style="margin-top:8px;"><i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="openMyDailyBtn">เปิดดวงรายวันของฉัน</span></button>
     </div>
 
     <!-- STEP 1.7: แตะคริสตัลบอล / กำลังวิเคราะห์ -->
@@ -623,21 +623,21 @@
 
       <!-- tap label overlay (only on still state) — วางใกล้ฐานลูกแก้ว ไม่ทับดาว/เมฆ -->
       <div id="daily-tap-prompt-wrap" onclick="tapCrystalBall()" style="position:fixed;top:73%;left:0;right:0;z-index:2;display:flex;justify-content:center;cursor:pointer;">
-        <div id="daily-tap-prompt" style="font-family:'Noto Sans Thai',sans-serif;font-size:16px;font-weight:600;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.5), 0 0 16px rgba(0,0,0,0.3);animation:pulseTap 1.6s infinite;">แตะที่คริสตัลบอล 1 ครั้ง</div>
+        <div id="daily-tap-prompt" data-i18n="tapCrystalBall" style="font-family:'Noto Sans Thai',sans-serif;font-size:16px;font-weight:600;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.5), 0 0 16px rgba(0,0,0,0.3);animation:pulseTap 1.6s infinite;">แตะที่คริสตัลบอล 1 ครั้ง</div>
       </div>
 
       <!-- progress bar (เฉพาะตอนเล่น video) — วางตำแหน่งเดียวกัน ขยับลงเล็กน้อยให้พ้นลูกแก้วช่วง video เคลื่อนไหว -->
       <div id="daily-progress-wrap" style="display:none;position:fixed;top:73%;left:0;right:0;z-index:2;padding:0 40px;">
         <div style="max-width:280px;margin:0 auto;">
-          <div style="text-align:center;margin-bottom:8px;font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:600;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.5);">กำลังอ่านพลังงานของคุณ...</div>
+          <div style="text-align:center;margin-bottom:8px;font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:600;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.5);" data-i18n="readingEnergyNote">กำลังอ่านพลังงานของคุณ...</div>
           <div style="height:7px;background:rgba(255,255,255,0.3);border-radius:4px;overflow:hidden;">
             <div id="daily-progress-bar" style="height:100%;width:0%;background:linear-gradient(90deg,#e8a8bc,#f5c4d3);border-radius:4px;transition:width 8s linear;"></div>
           </div>
           <div style="text-align:center;margin-top:6px;font-family:'Noto Sans Thai',sans-serif;font-size:13px;font-weight:600;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,0.5);" id="daily-progress-pct">0%</div>
           <div style="margin-top:14px;display:flex;flex-direction:column;gap:8px;">
-            <div class="daily-loading-step" id="daily-loading-step-1" style="opacity:0;transition:opacity 0.5s;display:flex;align-items:center;gap:6px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.5);">✦ วิเคราะห์ตำแหน่งดวงดาว</div>
-            <div class="daily-loading-step" id="daily-loading-step-2" style="opacity:0;transition:opacity 0.5s;display:flex;align-items:center;gap:6px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.5);">✦ เชื่อมโยงพลังงานประจำวัน</div>
-            <div class="daily-loading-step" id="daily-loading-step-3" style="opacity:0;transition:opacity 0.5s;display:flex;align-items:center;gap:6px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.5);">✦ สรุปคำทำนายเฉพาะคุณ</div>
+            <div class="daily-loading-step" id="daily-loading-step-1" data-i18n="loadStep1" style="opacity:0;transition:opacity 0.5s;display:flex;align-items:center;gap:6px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.5);">✦ วิเคราะห์ตำแหน่งดวงดาว</div>
+            <div class="daily-loading-step" id="daily-loading-step-2" data-i18n="loadStep2" style="opacity:0;transition:opacity 0.5s;display:flex;align-items:center;gap:6px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.5);">✦ เชื่อมโยงพลังงานประจำวัน</div>
+            <div class="daily-loading-step" id="daily-loading-step-3" data-i18n="loadStep3" style="opacity:0;transition:opacity 0.5s;display:flex;align-items:center;gap:6px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.5);">✦ สรุปคำทำนายเฉพาะคุณ</div>
           </div>
         </div>
       </div>
@@ -650,37 +650,37 @@
     <!-- STEP 2: ผลลัพธ์ -->
     <div id="daily-step2" style="display:none; padding:20px 16px 90px;">
       <div style="background:linear-gradient(135deg,rgba(201,168,76,0.12),rgba(180,140,130,0.08)); border:1px solid rgba(201,168,76,0.25); border-radius:20px; padding:24px; margin-bottom:16px; text-align:center;">
-        <div style="font-size:13px; color:var(--gold); letter-spacing:2px; margin-bottom:6px; font-family:'Noto Sans Thai',sans-serif;">พลังงานหลักของวันนี้</div>
+        <div data-i18n="mainEnergyToday" style="font-size:13px; color:var(--gold); letter-spacing:2px; margin-bottom:6px; font-family:'Noto Sans Thai',sans-serif;">พลังงานหลักของวันนี้</div>
         <div style="font-family:'Noto Serif Thai',serif; font-size:22px; font-weight:700; color:var(--brown-dark); margin-bottom:8px;" id="daily-theme-title"></div>
         <div style="font-size:14px; color:var(--text-mid); line-height:1.8;" id="daily-theme-desc"></div>
         <div style="margin-top:12px; display:flex; flex-wrap:wrap; gap:8px; justify-content:center;" id="daily-theme-tags"></div>
       </div>
       <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:16px; padding:18px; margin-bottom:14px;">
-        <div style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:16px;">พลังงานวันนี้</div>
+        <div data-i18n="todayEnergy" style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark); margin-bottom:16px;">พลังงานวันนี้</div>
         <div id="daily-scores"></div>
       </div>
       <div id="daily-readings"></div>
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px;">
         <div style="background:rgba(201,168,76,0.06); border:1px solid rgba(201,168,76,0.2); border-radius:14px; padding:14px;">
-          <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:600; color:var(--gold); margin-bottom:10px;"><i data-lucide="circle-check" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ควรทำ</div>
+          <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:600; color:var(--gold); margin-bottom:10px;"><i data-lucide="circle-check" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="doList">ควรทำ</span></div>
           <div id="daily-do" style="font-size:12px; color:var(--text-mid); line-height:2;"></div>
         </div>
         <div style="background:rgba(180,100,100,0.05); border:1px solid rgba(180,100,100,0.15); border-radius:14px; padding:14px;">
-          <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:600; color:#a06060; margin-bottom:10px;"><i data-lucide="triangle-alert" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ควรระวัง</div>
+          <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:600; color:#a06060; margin-bottom:10px;"><i data-lucide="triangle-alert" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="avoidList">ควรระวัง</span></div>
           <div id="daily-avoid" style="font-size:12px; color:var(--text-mid); line-height:2;"></div>
         </div>
       </div>
       <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:14px;">
         <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:14px; padding:12px; text-align:center;">
-          <div style="font-size:10px; color:var(--text-light); margin-bottom:4px;"><i data-lucide="palette" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> สีส่งเสริม</div>
+          <div style="font-size:10px; color:var(--text-light); margin-bottom:4px;"><i data-lucide="palette" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="luckyColorLabel">สีส่งเสริม</span></div>
           <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:600; color:var(--brown-dark);" id="daily-color"></div>
         </div>
         <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:14px; padding:12px; text-align:center;">
-          <div style="font-size:10px; color:var(--text-light); margin-bottom:4px;">⏰ เวลาดี</div>
+          <div data-i18n="goodTimeLabel" style="font-size:10px; color:var(--text-light); margin-bottom:4px;">⏰ เวลาดี</div>
           <div style="font-family:'Noto Serif Thai',serif; font-size:12px; font-weight:600; color:var(--brown-dark);" id="daily-time"></div>
         </div>
         <div style="background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:14px; padding:12px; text-align:center;">
-          <div style="font-size:10px; color:var(--text-light); margin-bottom:4px;"><i data-lucide="hash" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เลขมงคล</div>
+          <div style="font-size:10px; color:var(--text-light); margin-bottom:4px;"><i data-lucide="hash" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="luckyNumberLabel">เลขมงคล</span></div>
           <div style="font-family:'Noto Serif Thai',serif; font-size:13px; font-weight:600; color:var(--brown-dark);" id="daily-number"></div>
         </div>
       </div>
@@ -689,7 +689,7 @@
         <div style="font-family:'Noto Serif Thai',serif; font-size:15px; color:var(--brown-dark); font-style:italic; line-height:1.8;" id="daily-affirmation"></div>
       </div>
       <div style="font-size:11px; color:var(--text-light); text-align:center; margin-bottom:20px;" id="daily-sign-info"></div>
-      <button class="reset-btn" onclick="dailyBackToTopics()">← ดูเรื่องอื่น</button>
+      <button class="reset-btn" data-i18n="viewOtherTopicsBtn" onclick="dailyBackToTopics()">← ดูเรื่องอื่น</button>
     </div>
   </div>
 
@@ -1641,12 +1641,12 @@
     <div class="modal-subtitle" id="modal-subtitle"></div>
     <div class="modal-price" id="modal-price">29 บาท</div>
     <div class="modal-methods">
-      <button class="method-btn" id="pay-promptpay-btn" onclick="selectPaymentMethod('promptpay')"><span class="method-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></span> พร้อมเพย์</button>
-      <button class="method-btn" id="pay-card-btn" onclick="selectPaymentMethod('card')"><span class="method-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></span> บัตรเครดิต/เดบิต</button>
-      <button class="method-btn" id="pay-truemoney-btn" onclick="selectPaymentMethod('truemoney')"><span class="method-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></span> ทรูมันนี่ วอลเล็ท</button>
+      <button class="method-btn" id="pay-promptpay-btn" onclick="selectPaymentMethod('promptpay')"><span class="method-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></span> <span data-i18n="payPromptpay">พร้อมเพย์</span></button>
+      <button class="method-btn" id="pay-card-btn" onclick="selectPaymentMethod('card')"><span class="method-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M20 4H4c-1.11 0-2 .89-2 2v12c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z"/></svg></span> <span data-i18n="payCard">บัตรเครดิต/เดบิต</span></button>
+      <button class="method-btn" id="pay-truemoney-btn" onclick="selectPaymentMethod('truemoney')"><span class="method-icon"><svg width="1em" height="1em" viewBox="0 0 24 24" fill="currentColor" style="display:inline-block;vertical-align:-0.15em;flex-shrink:0"><path d="M17 1.01L7 1c-1.1 0-2 .9-2 2v18c0 1.1.9 2 2 2h10c1.1 0 2-.9 2-2V3c0-1.1-.9-1.99-2-1.99zM17 19H7V5h10v14z"/></svg></span> <span data-i18n="payTruemoney">ทรูมันนี่ วอลเล็ท</span></button>
     </div>
-    <div class="modal-note" id="payment-modal-note">* เลือกช่องทางที่สะดวก</div>
-    <button class="modal-close" onclick="closePayment()">ยกเลิก</button>
+    <div class="modal-note" id="payment-modal-note" data-i18n="chooseMethodNote">* เลือกช่องทางที่สะดวก</div>
+    <button class="modal-close" data-i18n="cancelBtn" onclick="closePayment()">ยกเลิก</button>
   </div>
 </div>
 
@@ -2467,7 +2467,7 @@ function showDailyTopicSelect() {
  document.getElementById('daily-step17').style.display = 'none';
  document.body.style.overflow = '';
  document.getElementById('daily-step2').style.display = 'none';
- document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เลือกหัวข้อ';
+ document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ' + I18N[curLang()].chooseTopicHeader;
  liRefresh(document.getElementById('daily-header-title'));
  window.scrollTo(0,0);
 }
@@ -2534,7 +2534,7 @@ function showDailyCtxForm(topic) {
  document.getElementById('daily-step17').style.display = 'none';
  document.body.style.overflow = '';
  document.getElementById('daily-step2').style.display = 'none';
- document.getElementById('daily-header-title').innerHTML = '<i data-lucide="sparkles" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> บอกเราเพิ่มเติม';
+ document.getElementById('daily-header-title').innerHTML = '<i data-lucide="sparkles" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ' + I18N[curLang()].tellUsMoreHeader;
  window.scrollTo(0,0);
 }
 
@@ -2716,7 +2716,7 @@ function tapCrystalBall() {
  document.body.style.overflow = '';
  document.getElementById('daily-step2').style.display = 'block';
  setDailyHeader(true);
- document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ดวงของคุณวันนี้';
+ document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ' + I18N[curLang()].yourDailyHeader;
  showBottomNavOverride();
  window.scrollTo(0,0);
  }, remain);
@@ -2780,7 +2780,7 @@ function generateDaily(dob, topic, deferDisplay) {
 
  document.getElementById('daily-step16').style.display = 'none';
  document.getElementById('daily-step2').style.display = 'block';
- document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ดวงของคุณวันนี้';
+ document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ' + I18N[curLang()].yourDailyHeader;
  showBottomNavOverride();
  window.scrollTo(0,0);
 }
@@ -2801,7 +2801,7 @@ function resetDaily() {
  document.body.style.overflow = '';
  document.getElementById('daily-step2').style.display = 'none';
  hideBottomNavOverride();
- document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ดวงรายวัน';
+ document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ' + I18N[curLang()].m_daily_t;
  // clear saved profile
  localStorage.removeItem('pc_daily_profile');
 }
@@ -2816,7 +2816,7 @@ function dailyEditProfile() {
  document.getElementById('daily-step16').style.display = 'none';
  document.getElementById('daily-step17').style.display = 'none';
  document.body.style.overflow = '';
- document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ดวงรายวัน';
+ document.getElementById('daily-header-title').innerHTML = '<i data-lucide="star" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ' + I18N[curLang()].m_daily_t;
  window.scrollTo(0, 0);
  if (!profile) return;
  // pre-fill สถานที่เกิด
@@ -3017,6 +3017,46 @@ const I18N = {
     doneToday: '✓ ดูแล้ววันนี้',
     dailyTopicHeadline: 'วันนี้อยากดูเรื่องอะไร?', dailyTopicSub: 'เลือกได้ 1 เรื่องต่อวัน · เรื่องที่ดูแล้วจะเปิดใหม่ไม่ได้',
     dailyEditProfileBtn: 'แก้ไขข้อมูลวันเกิด / สถานที่',
+    checkinTitle: 'เช็คอินประจำวัน', todayReward: 'รางวัลวันนี้', coinsCurrentLabel: 'เหรียญสะสมปัจจุบัน:',
+    claimNowBtn: 'รับเลย', coinsBarLabel: 'เหรียญสะสม', monthHistory: 'ประวัติเดือนนี้', noBackdate: 'พลาดแล้วรับย้อนหลังไม่ได้',
+    daySun: 'อา', dayMon: 'จ', dayTue: 'อ', dayWed: 'พ', dayThu: 'พฤ', dayFri: 'ศ', daySat: 'ส',
+    profileTitle: 'โปรไฟล์ของฉัน', profileSub: 'ข้อมูลนี้ช่วยให้คำทำนายแม่นยำยิ่งขึ้นค่ะ', skipBtn: 'ข้าม',
+    nicknameLabel: 'ชื่อที่เรียก', nicknamePh: 'เช่น พลอย, ตูน, Alex...',
+    genderLabel: 'เพศ', requiredLabel: '*จำเป็น',
+    genderFemale: 'หญิง', genderMale: 'ชาย', genderNonbinary: 'นอนไบนารี', genderOther: 'อื่นๆ',
+    specifyGenderPh: 'ระบุเพศ...',
+    dobLabel: 'วันเกิด', dayOpt: 'วัน', monthOpt: 'เดือน', yearOpt: 'ปี (พ.ศ.)',
+    birthplaceLabel: 'สถานที่เกิด', countryOpt: 'ประเทศ', thailandOpt: '🇹🇭 ไทย', provinceOpt: 'จังหวัด',
+    specifyBirthCityPh: 'ระบุเมืองที่เกิด',
+    currentAddrLabel: 'ที่อยู่ปัจจุบัน', specifyCurrentCityPh: 'ระบุเมืองที่อยู่ปัจจุบัน',
+    saveProfileBtn: 'บันทึกโปรไฟล์',
+    choosePlanTitle: 'เลือกแพ็กเกจ',
+    planSingle: 'รายครั้ง', perUse: 'บาท/ครั้ง', perMonth: 'บาท/เดือน',
+    planSingleDesc: 'ไม่ต้องสมัครสมาชิก จ่ายแล้วใช้ได้เลย',
+    featAllCategories: 'เลือกได้ทุกหมวด', featInstant: 'ใช้งานได้ทันที',
+    paySingleBtn: 'จ่ายรายครั้ง 29 บาท',
+    planBasicDesc: 'ดูได้ 5 ครั้ง ทุกหมวด', featBasic: '5 ครั้ง/เดือน ใช้ได้ทุกหมวด', saveBasic: 'ประหยัดกว่ารายครั้ง 32%',
+    subscribeBasicBtn: 'สมัคร Basic 99 บาท',
+    popularBadge: 'ยอดนิยม',
+    planProDesc: 'ดูได้ 12 ครั้ง ทุกหมวด', featPro: '12 ครั้ง/เดือน ใช้ได้ทุกหมวด', savePro: 'ประหยัดกว่ารายครั้ง 43%',
+    subscribeProBtn: 'สมัคร Pro 199 บาท',
+    planUnlimitedDesc: 'ดูได้ไม่จำกัด ทุกหมวด', featUnlimited: 'ไม่จำกัดครั้ง ทุกหมวด',
+    featOracleSoon: 'ไพ่ออราเคิล (เร็วๆ นี้)', featBestValue: 'คุ้มสุดสำหรับสายมูตัวจริง',
+    subscribeUnlimitedBtn: 'สมัคร Unlimited 299 บาท',
+    payPromptpay: 'พร้อมเพย์', payCard: 'บัตรเครดิต/เดบิต', payTruemoney: 'ทรูมันนี่ วอลเล็ท',
+    chooseMethodNote: '* เลือกช่องทางที่สะดวก', cancelBtn: 'ยกเลิก',
+    dailyCreateTitle: 'สร้างดวงรายวันเฉพาะคุณ',
+    dailyCreateSub: 'กรอกข้อมูลเพื่อให้เราสร้างคำแนะนำ<br>ที่แม่นยำและเป็นคุณมากที่สุด',
+    stepBirthInfo: 'ข้อมูลเกิด', stepPersonalInfo: 'ข้อมูลส่วนตัว', stepResult: 'ผลลัพธ์',
+    createMyChartBtn: 'สร้างดวงกำเนิดของฉัน', dataSecureNote: 'ข้อมูลของคุณปลอดภัย 100%',
+    tapCrystalBall: 'แตะที่คริสตัลบอล 1 ครั้ง', readingEnergyNote: 'กำลังอ่านพลังงานของคุณ...',
+    loadStep1: '✦ วิเคราะห์ตำแหน่งดวงดาว', loadStep2: '✦ เชื่อมโยงพลังงานประจำวัน', loadStep3: '✦ สรุปคำทำนายเฉพาะคุณ',
+    openMyDailyBtn: 'เปิดดวงรายวันของฉัน',
+    mainEnergyToday: 'พลังงานหลักของวันนี้', todayEnergy: 'พลังงานวันนี้',
+    doList: 'ควรทำ', avoidList: 'ควรระวัง',
+    luckyColorLabel: 'สีส่งเสริม', goodTimeLabel: '⏰ เวลาดี', luckyNumberLabel: 'เลขมงคล',
+    viewOtherTopicsBtn: '← ดูเรื่องอื่น',
+    chooseTopicHeader: 'เลือกหัวข้อ', tellUsMoreHeader: 'บอกเราเพิ่มเติม', yourDailyHeader: 'ดวงของคุณวันนี้',
   },
   en: {
     chooseService: '✦ Choose a Service ✦',
@@ -3065,6 +3105,46 @@ const I18N = {
     doneToday: '✓ Viewed today',
     dailyTopicHeadline: 'What would you like to look into today?', dailyTopicSub: 'Choose 1 topic per day \u00b7 once viewed, it can\u2019t be reopened',
     dailyEditProfileBtn: 'Edit birth date / birthplace',
+    checkinTitle: 'Daily Check-in', todayReward: "Today's Reward", coinsCurrentLabel: 'Coins collected:',
+    claimNowBtn: 'Claim', coinsBarLabel: 'Coins', monthHistory: 'This Month', noBackdate: "Can't be claimed retroactively if missed",
+    daySun: 'Su', dayMon: 'Mo', dayTue: 'Tu', dayWed: 'We', dayThu: 'Th', dayFri: 'Fr', daySat: 'Sa',
+    profileTitle: 'My Profile', profileSub: 'This helps make your readings more accurate.', skipBtn: 'Skip',
+    nicknameLabel: 'Nickname', nicknamePh: 'e.g. Ploy, Toon, Alex...',
+    genderLabel: 'Gender', requiredLabel: '*Required',
+    genderFemale: 'Female', genderMale: 'Male', genderNonbinary: 'Non-binary', genderOther: 'Other',
+    specifyGenderPh: 'Specify gender...',
+    dobLabel: 'Date of Birth', dayOpt: 'Day', monthOpt: 'Month', yearOpt: 'Year',
+    birthplaceLabel: 'Birthplace', countryOpt: 'Country', thailandOpt: '🇹🇭 Thailand', provinceOpt: 'Province',
+    specifyBirthCityPh: 'Specify birth city',
+    currentAddrLabel: 'Current Address', specifyCurrentCityPh: 'Specify current city',
+    saveProfileBtn: 'Save Profile',
+    choosePlanTitle: 'Choose a Plan',
+    planSingle: 'Pay Per Use', perUse: 'THB / use', perMonth: 'THB / month',
+    planSingleDesc: 'No membership needed — pay and use right away',
+    featAllCategories: 'Access to all categories', featInstant: 'Use it instantly',
+    paySingleBtn: 'Pay 29 THB',
+    planBasicDesc: '5 readings, all categories', featBasic: '5 uses/month, all categories', saveBasic: 'Save 32% vs. pay-per-use',
+    subscribeBasicBtn: 'Get Basic — 99 THB',
+    popularBadge: 'Most Popular',
+    planProDesc: '12 readings, all categories', featPro: '12 uses/month, all categories', savePro: 'Save 43% vs. pay-per-use',
+    subscribeProBtn: 'Get Pro — 199 THB',
+    planUnlimitedDesc: 'Unlimited readings, all categories', featUnlimited: 'Unlimited uses, all categories',
+    featOracleSoon: 'Oracle cards (coming soon)', featBestValue: 'Best value for true believers',
+    subscribeUnlimitedBtn: 'Get Unlimited — 299 THB',
+    payPromptpay: 'PromptPay', payCard: 'Credit/Debit Card', payTruemoney: 'TrueMoney Wallet',
+    chooseMethodNote: '* Choose a payment method', cancelBtn: 'Cancel',
+    dailyCreateTitle: 'Create Your Personal Daily Reading',
+    dailyCreateSub: 'Fill in your info so we can create<br>the most accurate reading for you',
+    stepBirthInfo: 'Birth Info', stepPersonalInfo: 'Personal Info', stepResult: 'Result',
+    createMyChartBtn: 'Create My Chart', dataSecureNote: 'Your data is 100% secure',
+    tapCrystalBall: 'Tap the crystal ball once', readingEnergyNote: 'Reading your energy...',
+    loadStep1: '✦ Analyzing star positions', loadStep2: '✦ Connecting daily energy', loadStep3: '✦ Summarizing your reading',
+    openMyDailyBtn: 'Reveal My Daily Reading',
+    mainEnergyToday: "Today's Main Energy", todayEnergy: "Today's Energy",
+    doList: 'Do', avoidList: 'Avoid',
+    luckyColorLabel: 'Lucky Color', goodTimeLabel: '⏰ Good Time', luckyNumberLabel: 'Lucky Number',
+    viewOtherTopicsBtn: '← View Other Topics',
+    chooseTopicHeader: 'Choose a Topic', tellUsMoreHeader: 'Tell Us More', yourDailyHeader: 'Your Reading Today',
   },
 };
 const FAQ_DATA_EN = [
@@ -3092,6 +3172,10 @@ function applyI18n(lang) {
   const dailyStep15 = document.getElementById('daily-step15');
   if (dailyStep15 && dailyStep15.style.display === 'block' && typeof refreshDailyTopicLabels === 'function') {
     refreshDailyTopicLabels();
+  }
+  const checkinOverlay = document.getElementById('checkin-overlay');
+  if (checkinOverlay && checkinOverlay.style.display !== 'none' && typeof renderCheckin === 'function') {
+    renderCheckin();
   }
 }
 
@@ -3213,7 +3297,7 @@ function useCredit(){if(userState.credits<999){userState.credits--;saveState();u
 function resetPage(type){document.getElementById(type+'-result').classList.remove('show');document.getElementById(type+'-lock').classList.remove('show');if(type==='tarot'){selectedTopic=null;document.querySelectorAll('.topic-btn').forEach(b=>b.classList.remove('selected'));document.getElementById('tarot-btn').disabled=true;}showCreditsBar(type);}
 let pendingPayment={};
 function openPayment(type,price,credits){
- pendingPayment={type,price,credits};const titles={single:'จ่ายรายครั้ง',basic:'แพ็กเกจ Basic',pro:'แพ็กเกจ Pro',unlimited:'แพ็กเกจ Unlimited'};const subs={single:'ใช้ได้ 1 ครั้ง',basic:'5 ครั้ง/เดือน',pro:'12 ครั้ง/เดือน',unlimited:'ไม่จำกัด/เดือน'};document.getElementById('modal-title').textContent=titles[type];document.getElementById('modal-subtitle').textContent=subs[type];document.getElementById('modal-price').textContent=price+' บาท';document.getElementById('payment-modal').classList.add('show');
+ pendingPayment={type,price,credits};const L=curLang();const titles=L==='en'?{single:'Pay Per Use',basic:'Basic Plan',pro:'Pro Plan',unlimited:'Unlimited Plan'}:{single:'จ่ายรายครั้ง',basic:'แพ็กเกจ Basic',pro:'แพ็กเกจ Pro',unlimited:'แพ็กเกจ Unlimited'};const subs=L==='en'?{single:'1 use',basic:'5 uses/month',pro:'12 uses/month',unlimited:'Unlimited/month'}:{single:'ใช้ได้ 1 ครั้ง',basic:'5 ครั้ง/เดือน',pro:'12 ครั้ง/เดือน',unlimited:'ไม่จำกัด/เดือน'};document.getElementById('modal-title').textContent=titles[type];document.getElementById('modal-subtitle').textContent=subs[type];document.getElementById('modal-price').textContent=price+(L==='en'?' THB':' บาท');document.getElementById('payment-modal').classList.add('show');
 }
 // เลือกวิธีจ่ายเงิน — ⚠️ ยังไม่เชื่อมช่องทางจ่ายเงินจริง (รอจดทะเบียนบริษัท + เชื่อมธนาคาร) แสดง UI ไว้ก่อน กดแล้วยังจ่ายจริงไม่ได้
 function selectPaymentMethod(method){
@@ -6463,27 +6547,37 @@ function renderCheckin() {
 
  // month label
  const now = new Date();
+ const L = curLang();
  const thMonths = ['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
- document.getElementById('checkin-month-label').textContent = thMonths[now.getMonth()] + ' ' + (now.getFullYear() + 543);
- document.getElementById('checkin-streak-label').textContent = ' ' + state.streak + ' วัน';
- document.getElementById('checkin-today-reward').textContent = '+' + todayReward + ' เหรียญ';
+ const enMonths = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+ if (L === 'en') {
+   document.getElementById('checkin-month-label').textContent = enMonths[now.getMonth()] + ' ' + now.getFullYear();
+   document.getElementById('checkin-streak-label').textContent = ' ' + state.streak + (state.streak === 1 ? ' day' : ' days');
+   document.getElementById('checkin-today-reward').textContent = '+' + todayReward + ' coins';
+ } else {
+   document.getElementById('checkin-month-label').textContent = thMonths[now.getMonth()] + ' ' + (now.getFullYear() + 543);
+   document.getElementById('checkin-streak-label').textContent = ' ' + state.streak + ' วัน';
+   document.getElementById('checkin-today-reward').textContent = '+' + todayReward + ' เหรียญ';
+ }
  document.getElementById('checkin-coins-total').textContent = coins;
  document.getElementById('checkin-bar-label').textContent = coins + ' / 99';
  document.getElementById('checkin-coins-bar').style.width = coins + '%';
 
- const hint = coins >= 99 ? 'เหรียญเต็ม 99 แล้ว! ใช้ได้เลยค่ะ' : 'สะสมครบ 99 เหรียญ = 1 ครั้งฟรี';
+ const hint = L === 'en'
+   ? (coins >= 99 ? '99 coins reached! Ready to use.' : 'Collect 99 coins = 1 free reading')
+   : (coins >= 99 ? 'เหรียญเต็ม 99 แล้ว! ใช้ได้เลยค่ะ' : 'สะสมครบ 99 เหรียญ = 1 ครั้งฟรี');
  const hintEl = document.getElementById('checkin-coins-hint');
  if (hintEl) hintEl.innerHTML = `<img src="images/icons/gift.png" style="width:14px;height:14px;object-fit:contain;opacity:0.6;vertical-align:middle;margin-right:4px;">${hint}`;
 
  // main button removed — ใช้ปุ่ม "รับเลย" ใน card แทน
  const claimBtn = document.getElementById('checkin-claim-btn');
  if (alreadyClaimed) {
- claimBtn.textContent = '✓ รับแล้ว';
+ claimBtn.textContent = L === 'en' ? '✓ Claimed' : '✓ รับแล้ว';
  claimBtn.style.background = 'rgba(180,160,130,0.2)';
  claimBtn.style.color = 'var(--text-light)';
  claimBtn.disabled = true;
  } else {
- claimBtn.textContent = 'รับเลย';
+ claimBtn.textContent = L === 'en' ? 'Claim' : 'รับเลย';
  claimBtn.style.background = 'linear-gradient(135deg,#c4a4a4,#d4b8b8)';
  claimBtn.style.color = '#5a3a3a';
  claimBtn.disabled = false;
@@ -7349,71 +7443,71 @@ window.addEventListener('load', () => {
     <!-- Header -->
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
       <div>
-        <div style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--brown-dark);">โปรไฟล์ของฉัน</div>
-        <div style="font-size:12px;color:var(--text-light);margin-top:3px;">ข้อมูลนี้ช่วยให้คำทำนายแม่นยำยิ่งขึ้นค่ะ</div>
+        <div data-i18n="profileTitle" style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--brown-dark);">โปรไฟล์ของฉัน</div>
+        <div data-i18n="profileSub" style="font-size:12px;color:var(--text-light);margin-top:3px;">ข้อมูลนี้ช่วยให้คำทำนายแม่นยำยิ่งขึ้นค่ะ</div>
       </div>
-      <button id="profile-skip-btn" onclick="closeProfilePopup()" style="background:transparent;border:1px solid rgba(180,160,130,0.4);color:var(--text-mid);padding:6px 16px;border-radius:20px;cursor:pointer;font-family:'Noto Sans Thai',sans-serif;font-size:13px;">ข้าม</button>
+      <button id="profile-skip-btn" data-i18n="skipBtn" onclick="closeProfilePopup()" style="background:transparent;border:1px solid rgba(180,160,130,0.4);color:var(--text-mid);padding:6px 16px;border-radius:20px;cursor:pointer;font-family:'Noto Sans Thai',sans-serif;font-size:13px;">ข้าม</button>
     </div>
     <div style="height:1px;background:rgba(180,160,130,0.2);margin:16px 0 20px;"></div>
 
     <!-- ชื่อที่เรียก -->
     <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
-      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;">ชื่อที่เรียก</div>
-      <input id="profile-nickname" autocomplete="off" type="text" placeholder="เช่น พลอย, ตูน, Alex..." autocomplete="off" style="width:100%;padding:10px 14px;border-radius:12px;border:1px solid rgba(180,160,130,0.4);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:15px;box-sizing:border-box;outline:none;">
+      <div data-i18n="nicknameLabel" style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;">ชื่อที่เรียก</div>
+      <input id="profile-nickname" autocomplete="off" type="text" data-i18n-ph="nicknamePh" placeholder="เช่น พลอย, ตูน, Alex..." autocomplete="off" style="width:100%;padding:10px 14px;border-radius:12px;border:1px solid rgba(180,160,130,0.4);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:15px;box-sizing:border-box;outline:none;">
     </div>
 
     <!-- เพศ -->
     <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
-      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:12px;">เพศ <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:12px;"><span data-i18n="genderLabel">เพศ</span> <span data-i18n="requiredLabel" style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" id="profile-gender-btns">
-        <button class="profile-gender-btn" data-val="female" onclick="selectProfileGender(this)" style="padding:10px;border-radius:12px;border:1px solid rgba(180,160,130,0.35);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">หญิง</button>
-        <button class="profile-gender-btn" data-val="male" onclick="selectProfileGender(this)" style="padding:10px;border-radius:12px;border:1px solid rgba(180,160,130,0.35);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">ชาย</button>
-        <button class="profile-gender-btn" data-val="nonbinary" onclick="selectProfileGender(this)" style="padding:10px;border-radius:12px;border:1px solid rgba(180,160,130,0.35);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">นอนไบนารี</button>
-        <button class="profile-gender-btn" data-val="other" onclick="selectProfileGender(this)" style="padding:10px;border-radius:12px;border:1px solid rgba(180,160,130,0.35);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">อื่นๆ</button>
+        <button class="profile-gender-btn" data-val="female" data-i18n="genderFemale" onclick="selectProfileGender(this)" style="padding:10px;border-radius:12px;border:1px solid rgba(180,160,130,0.35);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">หญิง</button>
+        <button class="profile-gender-btn" data-val="male" data-i18n="genderMale" onclick="selectProfileGender(this)" style="padding:10px;border-radius:12px;border:1px solid rgba(180,160,130,0.35);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">ชาย</button>
+        <button class="profile-gender-btn" data-val="nonbinary" data-i18n="genderNonbinary" onclick="selectProfileGender(this)" style="padding:10px;border-radius:12px;border:1px solid rgba(180,160,130,0.35);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">นอนไบนารี</button>
+        <button class="profile-gender-btn" data-val="other" data-i18n="genderOther" onclick="selectProfileGender(this)" style="padding:10px;border-radius:12px;border:1px solid rgba(180,160,130,0.35);background:var(--cream);color:var(--text);font-family:'Noto Sans Thai',sans-serif;font-size:13px;cursor:pointer;">อื่นๆ</button>
       </div>
-      <input id="profile-gender-other" autocomplete="off" type="text" placeholder="ระบุเพศ..." style="display:none;width:100%;margin-top:10px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
+      <input id="profile-gender-other" autocomplete="off" type="text" data-i18n-ph="specifyGenderPh" placeholder="ระบุเพศ..." style="display:none;width:100%;margin-top:10px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
     </div>
 
     <!-- วันเกิด -->
     <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
-      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;">วันเกิด <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;"><span data-i18n="dobLabel">วันเกิด</span> <span data-i18n="requiredLabel" style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
       <div style="display:grid;grid-template-columns:1fr 2fr 2fr;gap:8px;">
-        <select id="profile-dob-d" autocomplete="off" class="dob-select"><option value="">วัน</option></select>
-        <select id="profile-dob-m" autocomplete="off" class="dob-select"><option value="">เดือน</option></select>
-        <select id="profile-dob-y" autocomplete="off" class="dob-select"><option value="">ปี (พ.ศ.)</option></select>
+        <select id="profile-dob-d" autocomplete="off" class="dob-select"><option value="" data-i18n="dayOpt">วัน</option></select>
+        <select id="profile-dob-m" autocomplete="off" class="dob-select"><option value="" data-i18n="monthOpt">เดือน</option></select>
+        <select id="profile-dob-y" autocomplete="off" class="dob-select"><option value="" data-i18n="yearOpt">ปี (พ.ศ.)</option></select>
       </div>
     </div>
 
         <!-- สถานที่เกิด -->
     <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:14px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
-      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;">สถานที่เกิด <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;"><span data-i18n="birthplaceLabel">สถานที่เกิด</span> <span data-i18n="requiredLabel" style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
         <select id="profile-country-birth" autocomplete="off" class="dob-select" onchange="updateProfileProvinces('birth')">
-          <option value="">ประเทศ</option>
-          <option value="TH">🇹🇭 ไทย</option>
-          <option value="OTHER">อื่นๆ</option>
+          <option value="" data-i18n="countryOpt">ประเทศ</option>
+          <option value="TH" data-i18n="thailandOpt">🇹🇭 ไทย</option>
+          <option value="OTHER" data-i18n="genderOther">อื่นๆ</option>
         </select>
-        <select id="profile-province-birth" autocomplete="off" class="dob-select"><option value="">จังหวัด</option></select>
+        <select id="profile-province-birth" autocomplete="off" class="dob-select"><option value="" data-i18n="provinceOpt">จังหวัด</option></select>
       </div>
-      <input id="profile-province-birth-other" autocomplete="off" placeholder="ระบุเมืองที่เกิด" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
+      <input id="profile-province-birth-other" autocomplete="off" data-i18n-ph="specifyBirthCityPh" placeholder="ระบุเมืองที่เกิด" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
     </div>
 
     <!-- ที่อยู่ปัจจุบัน -->
     <div style="background:var(--white);border-radius:20px;padding:18px;margin-bottom:24px;box-shadow:0 2px 12px rgba(180,140,120,0.08);">
-      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;">ที่อยู่ปัจจุบัน <span style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
+      <div style="font-family:'Noto Serif Thai',serif;font-size:14px;font-weight:700;color:var(--brown-dark);margin-bottom:10px;"><span data-i18n="currentAddrLabel">ที่อยู่ปัจจุบัน</span> <span data-i18n="requiredLabel" style="color:#c06060;font-size:12px;font-weight:400;">*จำเป็น</span></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
         <select id="profile-country-now" autocomplete="off" class="dob-select" onchange="updateProfileProvinces('now')">
-          <option value="">ประเทศ</option>
-          <option value="TH">🇹🇭 ไทย</option>
-          <option value="OTHER">อื่นๆ</option>
+          <option value="" data-i18n="countryOpt">ประเทศ</option>
+          <option value="TH" data-i18n="thailandOpt">🇹🇭 ไทย</option>
+          <option value="OTHER" data-i18n="genderOther">อื่นๆ</option>
         </select>
-        <select id="profile-province-now" autocomplete="off" class="dob-select"><option value="">จังหวัด</option></select>
+        <select id="profile-province-now" autocomplete="off" class="dob-select"><option value="" data-i18n="provinceOpt">จังหวัด</option></select>
       </div>
-      <input id="profile-province-now-other" autocomplete="off" placeholder="ระบุเมืองที่อยู่ปัจจุบัน" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
+      <input id="profile-province-now-other" autocomplete="off" data-i18n-ph="specifyCurrentCityPh" placeholder="ระบุเมืองที่อยู่ปัจจุบัน" style="display:none;width:100%;margin-top:8px;padding:10px 14px;border-radius:10px;border:1px solid rgba(180,160,130,0.3);background:var(--cream);font-family:'Noto Sans Thai',sans-serif;font-size:13px;color:var(--text);box-sizing:border-box;outline:none;">
     </div>
 
     <!-- ปุ่มบันทึก -->
-    <button onclick="submitUserProfile()" style="width:100%;padding:16px;background:#4A3F30;color:#fff;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(74,63,48,0.35);">บันทึกโปรไฟล์</button>
+    <button onclick="submitUserProfile()" data-i18n="saveProfileBtn" style="width:100%;padding:16px;background:#4A3F30;color:#fff;border:none;border-radius:16px;font-family:'Noto Serif Thai',serif;font-size:17px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(74,63,48,0.35);">บันทึกโปรไฟล์</button>
     <div id="profile-save-msg" style="text-align:center;margin-top:12px;font-size:13px;color:var(--gold);font-family:'Noto Sans Thai',sans-serif;"></div>
   </div>
 </div>
