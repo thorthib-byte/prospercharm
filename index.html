@@ -4664,6 +4664,7 @@ function floatNagaSealNumbers() {
 function showEnergyFinalResult() {
  useCredit();
  energyNextStep(6);
+ showBottomNavOverride();
  const n = energyCeremonyData.mainNum;
  document.getElementById('energy-main-num').textContent = n;
  document.getElementById('energy-main-desc').textContent = energyMeanings[n] || '';
