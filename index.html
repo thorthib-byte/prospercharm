@@ -286,23 +286,23 @@
   <div id="bottom-nav" style="display:none;position:fixed;left:0;right:0;bottom:0;z-index:500;background:rgba(253,250,246,0.7);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid rgba(180,160,130,0.25);padding:8px 6px max(8px,env(safe-area-inset-bottom,8px));justify-content:space-around;align-items:center;">
     <div class="bnav-item" data-nav="home" onclick="goTo('page-home')" style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;cursor:pointer;padding:4px 0;">
       <i data-lucide="home" class="li" style="width:20px;height:20px;"></i>
-      <span style="font-size:10px;font-family:'Noto Sans Thai',sans-serif;">หน้าแรก</span>
+      <span data-i18n="nav_home" style="font-size:10px;font-family:'Noto Sans Thai',sans-serif;">หน้าแรก</span>
     </div>
     <div class="bnav-item" data-nav="shop" onclick="window.open('https://shopee.co.th/prospercharm','_blank')" style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;cursor:pointer;padding:4px 0;">
       <i data-lucide="shopping-bag" class="li" style="width:20px;height:20px;"></i>
-      <span style="font-size:10px;font-family:'Noto Sans Thai',sans-serif;">ร้านค้า</span>
+      <span data-i18n="nav_shop" style="font-size:10px;font-family:'Noto Sans Thai',sans-serif;">ร้านค้า</span>
     </div>
     <div class="bnav-item" data-nav="checkin" onclick="openCheckin()" style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;cursor:pointer;padding:4px 0;">
       <i data-lucide="calendar-check" class="li" style="width:20px;height:20px;"></i>
-      <span style="font-size:10px;font-family:'Noto Sans Thai',sans-serif;">เช็คอิน</span>
+      <span data-i18n="nav_checkin" style="font-size:10px;font-family:'Noto Sans Thai',sans-serif;">เช็คอิน</span>
     </div>
     <div class="bnav-item" data-nav="pricing" onclick="goTo('page-pricing')" style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;cursor:pointer;padding:4px 0;">
       <i data-lucide="gem" class="li" style="width:20px;height:20px;"></i>
-      <span style="font-size:10px;font-family:'Noto Sans Thai',sans-serif;">แพ็กเกจ</span>
+      <span data-i18n="nav_pricing" style="font-size:10px;font-family:'Noto Sans Thai',sans-serif;">แพ็กเกจ</span>
     </div>
     <div class="bnav-item" data-nav="profile" onclick="showProfilePopup(true)" style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1;cursor:pointer;padding:4px 0;">
       <i data-lucide="user" class="li" style="width:20px;height:20px;"></i>
-      <span style="font-size:10px;font-family:'Noto Sans Thai',sans-serif;">โปรไฟล์</span>
+      <span data-i18n="nav_profile" style="font-size:10px;font-family:'Noto Sans Thai',sans-serif;">โปรไฟล์</span>
     </div>
   </div>
 
@@ -311,13 +311,19 @@
     <div class="header">
       <img src="images/Logo.png" alt="Prosper Charm" class="header-logo">
       <div class="header-title">PROSPERCHARM</div>
+      <div id="lang-switcher" style="position:absolute;right:14px;top:50%;transform:translateY(-50%);">
+        <select id="lang-select" onchange="setLanguage(this.value)" style="appearance:none;-webkit-appearance:none;background:var(--cream,#F5EFE6);border:1px solid rgba(180,160,130,0.35);border-radius:14px;padding:5px 24px 5px 10px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;color:var(--text-mid,#7A6B5D);cursor:pointer;background-image:url('data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%2210%22 height=%2210%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%237A6B5D%22 stroke-width=%223%22><polyline points=%226 9 12 15 18 9%22/></svg>');background-repeat:no-repeat;background-position:right 8px center;background-size:10px;">
+          <option value="th">🇹🇭 ไทย</option>
+          <option value="en">🇬🇧 English</option>
+        </select>
+      </div>
     </div>
     <div class="status-bar">
       <div class="status-plan"><span id="plan-icon"><i data-lucide="moon" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i></span><span id="plan-name">ยังไม่ได้สมัคร</span></div>
       <div style="display:flex;align-items:center;gap:10px;">
         <span class="status-credits" id="credits-display"></span>
-        <button id="checkin-btn" onclick="openCheckin()" style="background:rgba(180,140,140,0.15);border:1px solid rgba(180,140,140,0.35);border-radius:20px;padding:5px 12px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;font-weight:500;color:var(--text-mid);cursor:pointer;">เช็คอิน</button>
-        <button class="upgrade-link" onclick="goTo('page-pricing')">สมัครแพ็กเกจ →</button>
+        <button id="checkin-btn" data-i18n="nav_checkin" onclick="openCheckin()" style="background:rgba(180,140,140,0.15);border:1px solid rgba(180,140,140,0.35);border-radius:20px;padding:5px 12px;font-family:'Noto Sans Thai',sans-serif;font-size:12px;font-weight:500;color:var(--text-mid);cursor:pointer;">เช็คอิน</button>
+        <button class="upgrade-link" data-i18n="upgradeLink" onclick="goTo('page-pricing')">สมัครแพ็กเกจ →</button>
       </div>
     </div>
 
@@ -377,57 +383,57 @@
       <!-- ปิดด้วยการปัดลง -->
       </div>
   </div>
-    <div style="text-align:center;padding:12px 0 4px;font-family:'Noto Serif Thai',serif;font-size:13px;color:var(--text-light);">✦ เลือกบริการที่ต้องการ ✦</div>
+    <div data-i18n="chooseService" style="text-align:center;padding:12px 0 4px;font-family:'Noto Serif Thai',serif;font-size:13px;color:var(--text-light);">✦ เลือกบริการที่ต้องการ ✦</div>
     <div class="menu-grid">
-      <div class="menu-card" onclick="goTo('page-daily');onDailyPageOpen();"><img class="menu-icon" src="images/icons/daily.png"><span class="menu-title">ดวงรายวัน</span><span class="menu-desc">ชวนคิด ทบทวนวันนี้</span><span class="menu-price">29 บาท/ครั้ง</span></div>
-      <div class="menu-card" onclick="goTo('page-tarot')"><img class="menu-icon" src="images/icons/tarot.png"><span class="menu-title">ไพ่ทาโรต์</span><span class="menu-desc">สำรวจมุมมองผ่านไพ่</span><span class="menu-price">29 บาท/ครั้ง</span></div>
-      <div class="menu-card" onclick="goTo('page-soulmate')"><img class="menu-icon" src="images/icons/soulmate.png"><span class="menu-title">ดูดวงสมพงษ์</span><span class="menu-desc">สำรวจความเข้ากันในความสัมพันธ์</span><span class="menu-price">29 บาท/ครั้ง</span></div>
-      <div class="menu-card" onclick="goTo('page-siam')"><img class="menu-icon" src="images/icons/siemsi.png"><span class="menu-title">เซียมซี</span><span class="menu-desc">สนุกกับความเชื่อแบบไทยๆ</span><span class="menu-price">29 บาท/ครั้ง</span></div>
-      <div class="menu-card" onclick="goTo('page-energy');startEnergyWelcome();"><img class="menu-icon" src="images/icons/energy.png"><span class="menu-title">เลขพลังงาน</span><span class="menu-desc">หาแรงบันดาลใจประจำวัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
-      <div class="menu-card" id="dream-card" onclick="goTo('page-dream')"><img class="menu-icon" src="images/icons/dream.png"><span class="menu-title">ทำนายฝัน</span><span class="menu-desc">มุมมองเชิงสร้างสรรค์ต่อฝัน</span><span class="menu-price">29 บาท/ครั้ง</span></div>
-      <div class="menu-card menu-card-locked" id="healing-card" style="display:none;" onclick="handleLockedCard()"><span class="menu-lock-badge"><i data-lucide="lock" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เร็วๆ นี้</span><img class="menu-icon" src="images/icons/healing.png"><span class="menu-title">ล้างพลังงาน</span><span class="menu-desc">ผ่อนคลายความคิดลบ</span><span class="menu-price">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" onclick="goTo('page-daily');onDailyPageOpen();"><img class="menu-icon" src="images/icons/daily.png"><span class="menu-title" data-i18n="m_daily_t">ดวงรายวัน</span><span class="menu-desc" data-i18n="m_daily_d">ชวนคิด ทบทวนวันนี้</span><span class="menu-price" data-i18n="pricePerUse">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" onclick="goTo('page-tarot')"><img class="menu-icon" src="images/icons/tarot.png"><span class="menu-title" data-i18n="m_tarot_t">ไพ่ทาโรต์</span><span class="menu-desc" data-i18n="m_tarot_d">สำรวจมุมมองผ่านไพ่</span><span class="menu-price" data-i18n="pricePerUse">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" onclick="goTo('page-soulmate')"><img class="menu-icon" src="images/icons/soulmate.png"><span class="menu-title" data-i18n="m_soul_t">ดูดวงสมพงษ์</span><span class="menu-desc" data-i18n="m_soul_d">สำรวจความเข้ากันในความสัมพันธ์</span><span class="menu-price" data-i18n="pricePerUse">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" onclick="goTo('page-siam')"><img class="menu-icon" src="images/icons/siemsi.png"><span class="menu-title" data-i18n="m_siam_t">เซียมซี</span><span class="menu-desc" data-i18n="m_siam_d">สนุกกับความเชื่อแบบไทยๆ</span><span class="menu-price" data-i18n="pricePerUse">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" onclick="goTo('page-energy');startEnergyWelcome();"><img class="menu-icon" src="images/icons/energy.png"><span class="menu-title" data-i18n="m_energy_t">เลขพลังงาน</span><span class="menu-desc" data-i18n="m_energy_d">หาแรงบันดาลใจประจำวัน</span><span class="menu-price" data-i18n="pricePerUse">29 บาท/ครั้ง</span></div>
+      <div class="menu-card" id="dream-card" onclick="goTo('page-dream')"><img class="menu-icon" src="images/icons/dream.png"><span class="menu-title" data-i18n="m_dream_t">ทำนายฝัน</span><span class="menu-desc" data-i18n="m_dream_d">มุมมองเชิงสร้างสรรค์ต่อฝัน</span><span class="menu-price" data-i18n="pricePerUse">29 บาท/ครั้ง</span></div>
+      <div class="menu-card menu-card-locked" id="healing-card" style="display:none;" onclick="handleLockedCard()"><span class="menu-lock-badge"><i data-lucide="lock" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="comingSoon">เร็วๆ นี้</span></span><img class="menu-icon" src="images/icons/healing.png"><span class="menu-title" data-i18n="m_heal_t">ล้างพลังงาน</span><span class="menu-desc" data-i18n="m_heal_d">ผ่อนคลายความคิดลบ</span><span class="menu-price" data-i18n="pricePerUse">29 บาท/ครั้ง</span></div>
     </div>
     <div class="promo-banner" onclick="goTo('page-pricing')">
-      <div class="promo-title">✦ สมัครแพ็กเกจรายเดือน ✦</div>
-      <div class="promo-desc">เริ่มต้น 99 บาท/เดือน ประหยัดกว่าจ่ายรายครั้ง</div>
-      <div class="promo-cta">ดูแพ็กเกจทั้งหมด →</div>
+      <div class="promo-title" data-i18n="promoTitle">✦ สมัครแพ็กเกจรายเดือน ✦</div>
+      <div class="promo-desc" data-i18n="promoDesc">เริ่มต้น 99 บาท/เดือน ประหยัดกว่าจ่ายรายครั้ง</div>
+      <div class="promo-cta" data-i18n="promoCta">ดูแพ็กเกจทั้งหมด →</div>
     </div>
     <div class="footer">
       <div style="display:flex; justify-content:center; gap:6px; flex-wrap:wrap; font-size:12px; margin-bottom:10px;">
-        <a href="#" onclick="goTo('page-about'); return false;" style="color:var(--text-mid); text-decoration:none;">เกี่ยวกับเรา</a>
+        <a href="#" data-i18n="footAbout" onclick="goTo('page-about'); return false;" style="color:var(--text-mid); text-decoration:none;">เกี่ยวกับเรา</a>
         <span style="color:rgba(180,160,130,0.5);">·</span>
-        <a href="#" onclick="window.open('https://lin.ee/UjFfjtP','_blank'); return false;" style="color:var(--text-mid); text-decoration:none;">ติดต่อเรา</a>
+        <a href="#" data-i18n="footContact" onclick="window.open('https://lin.ee/UjFfjtP','_blank'); return false;" style="color:var(--text-mid); text-decoration:none;">ติดต่อเรา</a>
         <span style="color:rgba(180,160,130,0.5);">·</span>
-        <a href="#" onclick="goTo('page-faq'); return false;" style="color:var(--text-mid); text-decoration:none;">คำถามที่พบบ่อย</a>
+        <a href="#" data-i18n="footFaq" onclick="goTo('page-faq'); return false;" style="color:var(--text-mid); text-decoration:none;">คำถามที่พบบ่อย</a>
         <span style="color:rgba(180,160,130,0.5);">·</span>
-        <a href="#" onclick="goTo('page-social'); return false;" style="color:var(--text-mid); text-decoration:none;">ช่องทางการติดตาม</a>
+        <a href="#" data-i18n="footSocial" onclick="goTo('page-social'); return false;" style="color:var(--text-mid); text-decoration:none;">ช่องทางการติดตาม</a>
       </div>
-      prospercharmth.com © 2025 · เนื้อหาเพื่อความเพลิดเพลินและการสำรวจตัวเอง ไม่ใช่คำพยากรณ์ทางวิชาการ
+      <span data-i18n="footCopyright">prospercharmth.com © 2025 · เนื้อหาเพื่อความเพลิดเพลินและการสำรวจตัวเอง ไม่ใช่คำพยากรณ์ทางวิชาการ</span>
     </div>
     <div style="padding-bottom:64px;"></div>
   </div>
 
   <!-- ABOUT US -->
   <div class="page" id="page-about">
-    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><i data-lucide="info" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เกี่ยวกับเรา</div></div>
+    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><i data-lucide="info" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="footAbout">เกี่ยวกับเรา</span></div></div>
     <div style="padding:24px 20px; font-family:'Noto Sans Thai',sans-serif; font-size:14px; line-height:2; color:var(--text-mid);">
-      <div style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:600; color:var(--brown-dark); margin-bottom:16px; text-align:center;">เกี่ยวกับ ProsperCharm</div>
-      <p>ProsperCharm คือแอปเพื่อความบันเทิงและการสำรวจตัวเอง ที่ได้แรงบันดาลใจจากวัฒนธรรมไทยและเอเชีย เนื้อหาทั้งหมดในแอปถูกสร้างขึ้นโดยระบบที่ทีมงานพัฒนาและดูแลเอง เพื่อความสนุกสนานและแง่คิดในชีวิตประจำวัน</p>
-      <p>ไม่มีนักพยากรณ์หรือที่ปรึกษาจริงในระบบ เนื้อหาทั้งหมดจัดทำขึ้นเพื่อความบันเทิงและการพัฒนาตนเองเท่านั้น ไม่ใช่คำแนะนำทางการแพทย์ กฎหมาย หรือการเงิน</p>
+      <div data-i18n="aboutTitle" style="font-family:'Noto Serif Thai',serif; font-size:18px; font-weight:600; color:var(--brown-dark); margin-bottom:16px; text-align:center;">เกี่ยวกับ ProsperCharm</div>
+      <p data-i18n="aboutP1">ProsperCharm คือแอปเพื่อความบันเทิงและการสำรวจตัวเอง ที่ได้แรงบันดาลใจจากวัฒนธรรมไทยและเอเชีย เนื้อหาทั้งหมดในแอปถูกสร้างขึ้นโดยระบบที่ทีมงานพัฒนาและดูแลเอง เพื่อความสนุกสนานและแง่คิดในชีวิตประจำวัน</p>
+      <p data-i18n="aboutP2">ไม่มีนักพยากรณ์หรือที่ปรึกษาจริงในระบบ เนื้อหาทั้งหมดจัดทำขึ้นเพื่อความบันเทิงและการพัฒนาตนเองเท่านั้น ไม่ใช่คำแนะนำทางการแพทย์ กฎหมาย หรือการเงิน</p>
     </div>
     <div style="padding-bottom:64px;"></div>
   </div>
 
   <!-- FAQ -->
   <div class="page" id="page-faq">
-    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><i data-lucide="help-circle" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> คำถามที่พบบ่อย</div></div>
+    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><i data-lucide="help-circle" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="footFaq">คำถามที่พบบ่อย</span></div></div>
     <div id="faq-list" style="padding:20px;"></div>
     <div style="padding-bottom:64px;"></div>
   </div>
 
   <!-- SOCIAL / ช่องทางการติดตาม -->
   <div class="page" id="page-social">
-    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><i data-lucide="share-2" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> ช่องทางการติดตาม</div></div>
+    <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><i data-lucide="share-2" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> <span data-i18n="footSocial">ช่องทางการติดตาม</span></div></div>
     <div style="padding:20px;">
       <a href="https://www.facebook.com/prospercharm" target="_blank" style="display:flex; align-items:center; justify-content:space-between; padding:16px; background:var(--white); border:1px solid rgba(180,160,130,0.25); border-radius:14px; margin-bottom:12px; text-decoration:none; box-shadow:0 2px 12px rgba(100,80,50,0.06);">
         <span style="font-family:'Noto Serif Thai',serif; font-size:15px; font-weight:600; color:var(--brown-dark);">Facebook</span>
@@ -452,8 +458,8 @@
   <!-- PRICING -->
   <div class="page" id="page-pricing">
     <div class="inner-header"><button class="back-btn" onclick="goTo('page-home')">←</button><div class="inner-title"><i data-lucide="gem" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> เลือกแพ็กเกจ</div></div>
-    <div class="pricing-header"><h2>ดูดวงไม่จำกัด ราคาคุ้มค่า</h2><p>เลือกแพ็กเกจที่เหมาะกับคุณ</p></div>
-    <div style="margin:0 20px 16px; padding:14px 16px; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.35); border-radius:12px; text-align:center; font-family:'Noto Sans Thai',sans-serif; font-size:13px; color:var(--brown-dark);">🙏 ระบบชำระเงินปิดปรับปรุงชั่วคราว กรุณาติดตามข่าวสารเร็วๆ นี้</div>
+    <div class="pricing-header"><h2 data-i18n="pricingTitle">ดูดวงไม่จำกัด ราคาคุ้มค่า</h2><p data-i18n="pricingSub">เลือกแพ็กเกจที่เหมาะกับคุณ</p></div>
+    <div style="margin:0 20px 16px; padding:14px 16px; background:rgba(201,168,76,0.12); border:1px solid rgba(201,168,76,0.35); border-radius:12px; text-align:center; font-family:'Noto Sans Thai',sans-serif; font-size:13px; color:var(--brown-dark);" data-i18n="paymentNotice">🙏 ระบบชำระเงินปิดปรับปรุงชั่วคราว กรุณาติดตามข่าวสารเร็วๆ นี้</div>
     <div class="pricing-cards">
       <div class="pricing-card">
         <div class="pricing-name"><i data-lucide="sparkles" class="li" style="width:18px;height:18px;vertical-align:-3px;"></i> รายครั้ง</div>
@@ -2961,6 +2967,93 @@ function goTo(pageId){
  if(['siam','tarot','energy','soulmate','dream'].includes(type)) showCreditsBar(type);
  if(pageId === 'page-daily') onEnterDailyPage();
 }
+// ===== LANGUAGE / i18n =====
+const I18N = {
+  th: {
+    chooseService: '✦ เลือกบริการที่ต้องการ ✦',
+    m_daily_t: 'ดวงรายวัน', m_daily_d: 'ชวนคิด ทบทวนวันนี้',
+    m_tarot_t: 'ไพ่ทาโรต์', m_tarot_d: 'สำรวจมุมมองผ่านไพ่',
+    m_soul_t: 'ดูดวงสมพงษ์', m_soul_d: 'สำรวจความเข้ากันในความสัมพันธ์',
+    m_siam_t: 'เซียมซี', m_siam_d: 'สนุกกับความเชื่อแบบไทยๆ',
+    m_energy_t: 'เลขพลังงาน', m_energy_d: 'หาแรงบันดาลใจประจำวัน',
+    m_dream_t: 'ทำนายฝัน', m_dream_d: 'มุมมองเชิงสร้างสรรค์ต่อฝัน',
+    m_heal_t: 'ล้างพลังงาน', m_heal_d: 'ผ่อนคลายความคิดลบ',
+    pricePerUse: '29 บาท/ครั้ง',
+    comingSoon: 'เร็วๆ นี้',
+    promoTitle: '✦ สมัครแพ็กเกจรายเดือน ✦',
+    promoDesc: 'เริ่มต้น 99 บาท/เดือน ประหยัดกว่าจ่ายรายครั้ง',
+    promoCta: 'ดูแพ็กเกจทั้งหมด →',
+    nav_home: 'หน้าแรก', nav_shop: 'ร้านค้า', nav_checkin: 'เช็คอิน', nav_pricing: 'แพ็กเกจ', nav_profile: 'โปรไฟล์',
+    upgradeLink: 'สมัครแพ็กเกจ →',
+    footAbout: 'เกี่ยวกับเรา', footContact: 'ติดต่อเรา', footFaq: 'คำถามที่พบบ่อย', footSocial: 'ช่องทางการติดตาม',
+    footCopyright: 'prospercharmth.com © 2025 · เนื้อหาเพื่อความเพลิดเพลินและการสำรวจตัวเอง ไม่ใช่คำพยากรณ์ทางวิชาการ',
+    aboutTitle: 'เกี่ยวกับ ProsperCharm',
+    aboutP1: 'ProsperCharm คือแอปเพื่อความบันเทิงและการสำรวจตัวเอง ที่ได้แรงบันดาลใจจากวัฒนธรรมไทยและเอเชีย เนื้อหาทั้งหมดในแอปถูกสร้างขึ้นโดยระบบที่ทีมงานพัฒนาและดูแลเอง เพื่อความสนุกสนานและแง่คิดในชีวิตประจำวัน',
+    aboutP2: 'ไม่มีนักพยากรณ์หรือที่ปรึกษาจริงในระบบ เนื้อหาทั้งหมดจัดทำขึ้นเพื่อความบันเทิงและการพัฒนาตนเองเท่านั้น ไม่ใช่คำแนะนำทางการแพทย์ กฎหมาย หรือการเงิน',
+    pricingTitle: 'ดูดวงไม่จำกัด ราคาคุ้มค่า', pricingSub: 'เลือกแพ็กเกจที่เหมาะกับคุณ',
+    paymentNotice: '🙏 ระบบชำระเงินปิดปรับปรุงชั่วคราว กรุณาติดตามข่าวสารเร็วๆ นี้',
+  },
+  en: {
+    chooseService: '✦ Choose a Service ✦',
+    m_daily_t: 'Daily Horoscope', m_daily_d: 'A little reflection for today',
+    m_tarot_t: 'Tarot Reading', m_tarot_d: 'Explore new perspectives through cards',
+    m_soul_t: 'Compatibility', m_soul_d: 'Explore your relationship compatibility',
+    m_siam_t: 'Fortune Sticks', m_siam_d: 'A fun Thai fortune-telling tradition',
+    m_energy_t: 'Lucky Numbers', m_energy_d: 'Find daily inspiration',
+    m_dream_t: 'Dream Reading', m_dream_d: 'A creative take on your dreams',
+    m_heal_t: 'Energy Cleanse', m_heal_d: 'Ease your negative thoughts',
+    pricePerUse: '29 THB / use',
+    comingSoon: 'Coming soon',
+    promoTitle: '✦ Get a Monthly Plan ✦',
+    promoDesc: 'From 99 THB/month — cheaper than paying per use',
+    promoCta: 'See all plans →',
+    nav_home: 'Home', nav_shop: 'Shop', nav_checkin: 'Check-in', nav_pricing: 'Plans', nav_profile: 'Profile',
+    upgradeLink: 'Get a plan →',
+    footAbout: 'About Us', footContact: 'Contact Us', footFaq: 'FAQ', footSocial: 'Follow Us',
+    footCopyright: 'prospercharmth.com © 2025 · Content is for entertainment and self-reflection, not academic prediction.',
+    aboutTitle: 'About ProsperCharm',
+    aboutP1: 'ProsperCharm is an entertainment and self-reflection app inspired by Thai and Asian culture. All content is created by a system our team builds and maintains, meant for everyday fun and a bit of reflection.',
+    aboutP2: 'There are no real fortune-tellers or consultants behind the results. Everything is for entertainment and personal growth only — it is not medical, legal, or financial advice.',
+    pricingTitle: 'Unlimited Readings, Great Value', pricingSub: 'Choose the plan that fits you',
+    paymentNotice: '🙏 Payments are temporarily unavailable. Stay tuned for updates.',
+  },
+};
+const FAQ_DATA_EN = [
+  { q:'What is ProsperCharm?', a:'ProsperCharm is an entertainment and self-reflection app inspired by Thai and Asian culture. All content is created and maintained by our own team — it is not a real astrologer\u2019s prediction.' },
+  { q:'What are credits and how do they work?', a:'Credits let you use each service once (Daily Horoscope, Tarot, Fortune Sticks, Lucky Numbers, Compatibility, Dream Reading). Pay 29 THB per use, or subscribe to a monthly plan for unlimited use.' },
+  { q:'Can I cancel my plan?', a:'You can cancel anytime from the membership page. A plan you already paid for stays active until the end of the current billing cycle — no extra charge after cancelling.' },
+  { q:'What do I get from daily check-in?', a:'Check in every day to collect coins. Collect 99 coins and you instantly get 1 free reading. Coins reset and start counting again every month.' },
+  { q:'Does Dream Reading really use AI to analyze my dream?', a:'The system matches keywords in what you type against a set of pre-written interpretations our team prepared. It\u2019s for entertainment only, not psychological or medical analysis.' },
+  { q:'How is my birth date / dream info stored?', a:'Your info is stored only to calculate your personal results. It is never shared or sold to third parties.' },
+  { q:'Payment failed or credits didn\u2019t arrive — what do I do?', a:'Try refreshing the page first. If it still hasn\u2019t arrived, contact us via "Contact Us" with the time of your transaction, and our team will look into it as soon as possible.' },
+  { q:'How accurate are the results?', a:'All content is made for entertainment and self-reflection only. It is not medical, legal, or financial advice, nor an accurate prediction. Please use your own judgment.' },
+];
+
+function applyI18n(lang) {
+  const dict = I18N[lang] || I18N.th;
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    const key = el.getAttribute('data-i18n');
+    if (dict[key] !== undefined) el.textContent = dict[key];
+  });
+}
+
+function setLanguage(lang) {
+  if (lang !== 'th' && lang !== 'en') lang = 'th';
+  localStorage.setItem('pc_lang', lang);
+  document.documentElement.lang = lang;
+  applyI18n(lang);
+  const sel = document.getElementById('lang-select');
+  if (sel) sel.value = lang;
+  // FAQ ต้อง re-render ใหม่ทุกครั้งที่เปลี่ยนภาษา (ปกติ render ครั้งเดียวแล้วล็อกไว้)
+  const list = document.getElementById('faq-list');
+  if (list) { list.dataset.rendered = ''; renderFAQ(lang); }
+}
+
+function initLanguage() {
+  const saved = localStorage.getItem('pc_lang') || 'th';
+  setLanguage(saved);
+}
+
 function updateBottomNav(pageId) {
  const nav = document.getElementById('bottom-nav');
  if (!nav) return;
@@ -2984,11 +3077,12 @@ const FAQ_DATA = [
   { q:'จ่ายเงินไม่สำเร็จ หรือเครดิตไม่เข้า ทำยังไง?', a:'ลองรีเฟรชหน้าเว็บก่อน ถ้ายังไม่เข้าให้ติดต่อทีมงานผ่านช่องทาง "ติดต่อเรา" พร้อมแจ้งเวลาที่ทำรายการ ทีมงานจะตรวจสอบและแก้ไขให้โดยเร็วที่สุด' },
   { q:'ผลลัพธ์ที่ได้แม่นยำแค่ไหน?', a:'เนื้อหาทั้งหมดจัดทำขึ้นเพื่อความเพลิดเพลินและการสำรวจตัวเอง (entertainment & self-reflection) เท่านั้น ไม่ใช่คำแนะนำทางการแพทย์ กฎหมาย การเงิน หรือคำพยากรณ์ที่แม่นยำ โปรดใช้วิจารณญาณของตัวเองในการตัดสินใจ' },
 ];
-function renderFAQ() {
+function renderFAQ(lang) {
   const list = document.getElementById('faq-list');
   if (!list || list.dataset.rendered) return;
   list.dataset.rendered = '1';
-  list.innerHTML = FAQ_DATA.map((item, i) => `
+  const data = (lang === 'en') ? FAQ_DATA_EN : FAQ_DATA;
+  list.innerHTML = data.map((item, i) => `
     <div style="border-bottom:1px solid rgba(180,160,130,0.2); padding:14px 0;">
       <div onclick="toggleFAQ(${i})" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-family:'Noto Serif Thai',serif; font-size:14px; font-weight:600; color:var(--brown-dark);">
         <span>${item.q}</span>
@@ -6771,7 +6865,7 @@ window.addEventListener('load', () => {
  initCheckinBtn();
  // Init bottom nav (เริ่มที่หน้าแรก)
  updateBottomNav('page-home');
- renderFAQ();
+ initLanguage();
  // Handle URL hash
  handleHash();
  // Handle ?dev=true param — ต้องทำก่อน syncCoinsFromServer เพื่อกัน server data ทับ
